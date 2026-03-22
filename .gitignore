@@ -1,0 +1,22 @@
+# Secrets — never commit these
+.env
+config/config.toml
+*.pem
+*.key
+
+# NullClaw runtime files
+.nullclaw/
+memory.db
+
+# Knowledge files auto-synced from nisha repo (regenerated)
+knowledge/nisha-platform.md
+knowledge/services/cloudprovision.md
+knowledge/services/gold-saas.md
+knowledge/services/syncledger.md
+knowledge/services/agi.md
+knowledge/services/cloudprovision-checkpoint.md
+
+# OS
+.DS_Store
+*.log
+node_modules/

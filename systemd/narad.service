@@ -1,0 +1,34 @@
+[Unit]
+Description=Narad — Nisha Platform R&D Intelligence Brain
+Documentation=https://github.com/sdachary/narad
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=USER_PLACEHOLDER
+WorkingDirectory=HOME_PLACEHOLDER/.nullclaw
+
+# Load all env vars from .env file
+EnvironmentFile=NARAD_DIR_PLACEHOLDER/.env
+
+# NullClaw binary with config
+ExecStart=/usr/local/bin/nullclaw --config HOME_PLACEHOLDER/.nullclaw/config.toml
+
+# Restart on failure with backoff
+Restart=on-failure
+RestartSec=10s
+StartLimitIntervalSec=60s
+StartLimitBurst=3
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=narad
+
+# Resource limits (keep it light alongside Nextcloud + Pi-hole)
+MemoryLimit=256M
+CPUQuota=30%
+
+[Install]
+WantedBy=multi-user.target
