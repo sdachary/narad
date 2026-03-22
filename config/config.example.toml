@@ -1,0 +1,16 @@
+# Narad Configuration Template
+[narad]
+environment = "production"
+log_level = "INFO"
+
+[server]
+host = "127.0.0.1"
+port = 7860
+
+[ai_models]
+primary = "groq"
+fallback = "openrouter"
+
+[rate_limiting]
+enabled = true
+requests_per_minute = 30

@@ -1,0 +1,44 @@
+[Unit]
+Description=Narad - Nisha Platform Intelligence Brain
+Documentation=https://github.com/sdachary/narad
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# ── User & Permissions ────────────────────────────
+Type=simple
+User=USER_PLACEHOLDER
+WorkingDirectory=NARAD_DIR_PLACEHOLDER
+
+# ── Environment ────────────────────────────────────
+EnvironmentFile=NARAD_DIR_PLACEHOLDER/.env
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
+# ── Startup ────────────────────────────────────────
+ExecStartPre=NARAD_DIR_PLACEHOLDER/scripts/validate-env.sh
+ExecStart=/usr/local/bin/nullclaw
+
+# ── Restart Policy ────────────────────────────────
+Restart=on-failure
+RestartSec=30
+StartLimitInterval=600
+StartLimitBurst=5
+
+# ── Resource Limits ────────────────────────────────
+MemoryLimit=2G
+CPUQuota=80%
+
+# ── Logging ────────────────────────────────────────
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=narad
+
+# ── Hardening ────────────────────────────────────
+NoNewPrivileges=true
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=NARAD_DIR_PLACEHOLDER
+
+[Install]
+WantedBy=multi-user.target
