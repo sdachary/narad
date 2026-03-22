@@ -7,16 +7,16 @@ Wants=network-online.target
 [Service]
 # ── User & Permissions ────────────────────────────
 Type=simple
-User=USER_PLACEHOLDER
-WorkingDirectory=NARAD_DIR_PLACEHOLDER
+User=deepak
+WorkingDirectory=/home/deepak/Work/narad
 
 # ── Environment ────────────────────────────────────
-EnvironmentFile=NARAD_DIR_PLACEHOLDER/.env
+EnvironmentFile=/home/deepak/Work/narad/.env
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
 
 # ── Startup ────────────────────────────────────────
-ExecStartPre=NARAD_DIR_PLACEHOLDER/scripts/validate-env.sh
-ExecStart=/usr/local/bin/nullclaw
+ExecStartPre=/home/deepak/Work/narad/scripts/validate-env.sh
+ExecStart=/usr/bin/node /home/deepak/Work/narad/src/main.js
 
 # ── Restart Policy ────────────────────────────────
 Restart=on-failure
@@ -38,7 +38,7 @@ NoNewPrivileges=true
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=yes
-ReadWritePaths=NARAD_DIR_PLACEHOLDER
+ReadWritePaths=/home/deepak/Work/narad
 
 [Install]
 WantedBy=multi-user.target

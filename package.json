@@ -1,0 +1,33 @@
+{
+  "name": "narad",
+  "version": "2.0.0",
+  "description": "Narad — Private R&D intelligence brain and Telegram bot interface for the Nisha platform",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "dev": "node --watch src/main.js",
+    "test": "node --test src/**/*.test.js",
+    "lint": "eslint src/"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  },
+  "keywords": [
+    "telegram-bot",
+    "ai-agent",
+    "nisha-platform",
+    "clean-architecture"
+  ],
+  "author": "sdachary",
+  "license": "UNLICENSED",
+  "private": true
+}

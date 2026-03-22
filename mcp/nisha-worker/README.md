@@ -1,21 +1,43 @@
 # MCP — Nisha Worker Bridge
 
-> Future: expose the CloudProvision worker's `/api/clients` and `/api/provision`
-> as MCP tools that Narad can call directly.
+Exposes the CloudProvision worker's API as MCP tools that Narad can call directly.
+
+## Status: Planned (Phase 2)
+
+## Prerequisite
+
+Before implementing: add `ADMIN_SECRET_TOKEN` to the cloudprovision worker
+(security audit BUG-04). Without that, these tools would call an unauthenticated endpoint.
 
 ## Planned Tools
 
-| Tool | Description |
-|---|---|
-| `list_clients` | Get all provisioned client VMs and their status |
-| `get_client_logs` | Fetch deployment logs for a specific client |
-| `provision_client` | Trigger a new OCI VM provisioning |
-| `destroy_client` | Trigger teardown of a client VM |
-| `get_platform_health` | Overall health of Nisha platform |
+| Tool | HTTP method | Endpoint |
+|---|---|---|
+| `list_clients` | GET | `/api/clients` |
+| `get_client_logs` | GET | `/api/clients/:id/logs` |
+| `provision_client` | POST | `/api/provision` |
+| `destroy_client` | POST | `/api/clients/:id/destroy` |
+| `get_platform_health` | GET | `/api/health` |
 
-## Status
+## Implementation Plan
 
-Not implemented yet. First implement the `ADMIN_SECRET_TOKEN` fix in the
-cloudprovision worker (security audit item) before exposing these as MCP tools.
+The MCP bridge will live at `src/infrastructure/mcp/NishaWorkerMcp.js`.
+It will implement a new port `IMcpToolProvider` and be injected into
+`HandleUserMessage` as an optional additional tool source.
 
-See: [Nisha Audit Report](https://github.com/sdachary/nisha) — BUG-04
+When a user sends `/nisha provision ...`, the use case will delegate
+to this MCP tool rather than the AGI worker.
+
+## Schema (for when implementation starts)
+
+```js
+// src/infrastructure/mcp/NishaWorkerMcp.js
+export class NishaWorkerMcp {
+  constructor({ workerUrl, adminToken, logger }) { ... }
+  async listClients() { ... }
+  async getClientLogs(clientId) { ... }
+  async provisionClient(payload) { ... }
+  async destroyClient(clientId) { ... }
+  async getHealth() { ... }
+}
+```

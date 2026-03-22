@@ -1,68 +1,59 @@
-# Narad 🔮
+# Narad v2 🔮
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-**Narad** is the private R&D intelligence brain and ops assistant for the [Nisha Platform](https://github.com/sdachary/nisha). It runs as a persistent process on your OCI VM, accessible via Telegram (mobile) and a web UI (laptop), powered entirely by free AI models.
-
----
-
-## What Narad Does
-
-| Capability | How |
-|---|---|
-| Capture R&D ideas instantly | Telegram message → stored in Qdrant |
-| Research any topic | Web search + AI summary sent to Telegram |
-| Draft architecture / code | Ask on Telegram or web UI |
-| Track experiments across Nisha services | Tagged memory per service |
-| Monitor VM health | Scheduled checks → Telegram alerts |
-| Share memory with Bhaina | Same Qdrant collection — knowledge flows both ways |
+**Narad** is the private R&D intelligence brain and Telegram bot interface for the [Nisha Platform](https://github.com/sdachary/nisha). Runs as a persistent Node.js process on your OCI VM. Built on Clean Architecture.
 
 ---
 
 ## Architecture
 
 ```
-You (Telegram / Mobile)
-        ↓
-    Narad (NullClaw binary)
-    running on OCI VM
-        ├── Groq API (Llama 3.3 70B) — primary model, free
-        ├── OpenRouter (Gemini Flash / DeepSeek) — fallback, free
-        ├── Qdrant Cloud — shared memory with Bhaina AGI
-        ├── MCP: filesystem, GitHub, web search
-        └── Web UI on port 7860 (Tailscale-protected)
-                ↓
-You (Browser / Laptop via Tailscale)
+You (Telegram)
+     ↓
+TelegramBot (long-polling)
+     ↓
+MessageRouter (security + parse)
+     ↓
+HandleUserMessage (use case)
+     ↓
+AgiWorkerClient ──HTTP──→ nisha-agi.pages.dev/api/chat
+     ↓                           ↓ Groq Llama 3.3 70B
+TelegramSender ←── AgentResponse ←──
+     ↓
+You (Telegram reply)
+
+Memory: SqliteMemoryStore (~/.narad/memory.db)
+Knowledge: FileKnowledgeLoader (~/narad/knowledge/)
+Scheduler: CronScheduler (morning digest, health check, weekly R&D)
 ```
 
----
-
-## Repo Structure
+### Layer Structure
 
 ```
-narad/
-├── config/
-│   ├── config.toml          ← your actual config (gitignored)
-│   └── config.example.toml  ← template (committed, no secrets)
-├── knowledge/
-│   ├── nisha-platform.md    ← core platform context for Narad
-│   ├── rnd-context.md       ← your R&D domain + active experiments
-│   └── services/
-│       ├── cloudprovision.md
-│       ├── gold-saas.md
-│       ├── syncledger.md
-│       └── agi.md
-├── scripts/
-│   ├── install.sh           ← one-command setup on OCI VM
-│   ├── sync-knowledge.sh    ← pull latest context from nisha repo
-│   └── update.sh            ← update NullClaw binary
-├── systemd/
-│   └── narad.service        ← copy to /etc/systemd/system/
-├── mcp/
-│   └── nisha-worker/        ← MCP bridge to cloudprovision worker
-├── .env.example             ← all required env vars
-├── .gitignore
-└── README.md
+src/
+├── domain/           ← Entities + Interfaces. Zero dependencies.
+│   ├── entities/     ← Message, AgentResponse, ConversationContext
+│   ├── interfaces/   ← IMessageSender, IAgiWorkerClient, IMemoryStore,
+│   │                    IKnowledgeLoader, ILogger
+│   └── services/     ← MessageParser (command extraction)
+│
+├── application/      ← Use cases. Depends only on domain interfaces.
+│   └── use_cases/    ← HandleUserMessage, HandleCronJob
+│
+├── infrastructure/   ← Concrete implementations of domain interfaces.
+│   ├── agi_worker/   ← AgiWorkerClient (HTTP to nisha-agi.pages.dev)
+│   ├── memory/       ← SqliteMemoryStore, FileKnowledgeLoader
+│   ├── telegram/     ← TelegramSender
+│   ├── scheduler/    ← CronScheduler (node-cron)
+│   └── ConsoleLogger.js
+│
+├── interface/        ← Entry points. Wires transport → router → use cases.
+│   ├── bot/          ← TelegramBot (long-polling)
+│   └── router/       ← MessageRouter (parse + security gate)
+│
+├── config.js         ← Reads env vars. Fails fast on missing keys.
+└── main.js           ← DI container. Wires everything together.
 ```
 
 ---
@@ -74,20 +65,17 @@ narad/
 git clone https://github.com/sdachary/narad.git ~/narad
 cd ~/narad
 
-# 2. Copy env template and fill in your keys
+# 2. Set up env
 cp .env.example .env
-nano .env
+nano .env   # fill in GROQ_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
 
-# 3. Run installer
+# 3. Install everything
 chmod +x scripts/install.sh
 ./scripts/install.sh
 
-# 4. Start Narad
-sudo systemctl enable narad
-sudo systemctl start narad
-
-# 5. Check it's running
+# 4. Verify
 sudo systemctl status narad
+# Send /status to your Telegram bot
 ```
 
 ---
@@ -96,34 +84,68 @@ sudo systemctl status narad
 
 | Command | What it does |
 |---|---|
-| `/idea <text>` | Capture an R&D idea, store in Qdrant |
-| `/recall <query>` | Search past ideas by topic |
+| `/start` | Welcome message + clears conversation context |
+| `/help` | Full command reference |
+| `/ask <query>` | Direct question to the AI brain |
+| `/status` | VM health: CPU, RAM, disk, uptime, running services |
+| `/idea <text>` | Capture and store an R&D idea |
+| `/recall <query>` | Search stored memory by topic |
 | `/research <topic>` | Web search + AI summary |
-| `/draft <request>` | Generate code / architecture draft |
-| `/status` | VM health: CPU, RAM, disk, containers |
-| `/nisha` | Current Nisha platform status |
-| `/digest` | Summary of recent ideas + connections |
+| `/draft <request>` | Generate docs, plans, or code |
+| `/nisha` | Status of all Nisha platform services |
+| `/digest` | Summary of recent R&D ideas |
+| `/experiment <n>` | Look up experiment status |
 
 ---
 
-## Shared Memory with Bhaina
+## Scheduled Jobs
 
-Narad and Bhaina (the Nisha AGI worker) share the same Qdrant instance but use **separate collections**:
-
-| Collection | Owner | Purpose |
+| Job | Schedule | Behavior |
 |---|---|---|
-| `agi_memory` | Bhaina | Customer conversations, provisioning context |
-| `narad_rnd` | Narad | Your R&D ideas, experiments, research |
-| `narad_shared` | Both | Cross-pollinated knowledge (Narad writes, Bhaina reads) |
-
-This means when you research ATXP on Telegram, Bhaina can recall that context when a customer asks about payment options.
+| Morning Digest | 8:00 AM IST daily | VM health + ideas since yesterday + today's priority |
+| VM Health Check | Every 30 minutes | Silent — only alerts if disk >85%, RAM <150MB, or service down |
+| Weekly R&D Summary | 9:00 AM IST Monday | Experiments, backlog, top 3 priorities |
 
 ---
 
-## Related Repos
+## Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `GROQ_API_KEY` | ✅ | Groq API key (console.groq.com) |
+| `TELEGRAM_BOT_TOKEN` | ✅ | Bot token from @BotFather |
+| `TELEGRAM_CHAT_ID` | ✅ | Your numeric Telegram user ID (from @userinfobot) |
+| `OPENROUTER_API_KEY` | Optional | Fallback models (Gemini, DeepSeek) |
+| `AGI_WORKER_URL` | Optional | Default: `https://nisha-agi.pages.dev` |
+| `LOG_LEVEL` | Optional | `debug\|info\|warn\|error` (default: `info`) |
+
+---
+
+## Operations
+
+```bash
+# View live logs
+sudo journalctl -u narad -f
+
+# Restart
+sudo systemctl restart narad
+
+# Update to latest code + NullClaw binary
+./scripts/update.sh
+
+# Sync knowledge base from nisha repo
+./scripts/sync-knowledge.sh
+
+# Check service status
+sudo systemctl status narad
+```
+
+---
+
+## Related
 
 - [sdachary/nisha](https://github.com/sdachary/nisha) — Main platform monorepo
-- Bhaina AGI: `services/agi/` in nisha repo
+- AGI worker: `services/agi/` in nisha repo
 - CloudProvision: `services/cloudprovision/` in nisha repo
 
 ---
