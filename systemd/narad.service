@@ -1,44 +1,53 @@
 [Unit]
-Description=Narad - Nisha Platform Intelligence Brain
+Description=Narad — Nisha Platform Intelligence Brain (Telegram Bot)
 Documentation=https://github.com/sdachary/narad
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-# ── User & Permissions ────────────────────────────
+# ── User & Paths ──────────────────────────────────
 Type=simple
-User=deepak
-WorkingDirectory=/home/deepak/Work/narad
+User=ubuntu
+WorkingDirectory=/home/ubuntu/narad
 
-# ── Environment ────────────────────────────────────
-EnvironmentFile=/home/deepak/Work/narad/.env
+# ── Environment ───────────────────────────────────
+EnvironmentFile=/home/ubuntu/narad/.env
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
 
-# ── Startup ────────────────────────────────────────
-ExecStartPre=/home/deepak/Work/narad/scripts/validate-env.sh
-ExecStart=/usr/bin/node /home/deepak/Work/narad/src/main.js
+# ── Startup ───────────────────────────────────────
+# validate-env.sh must source .env first — ExecStartPre runs in the service user context
+ExecStartPre=/bin/bash /home/ubuntu/narad/scripts/validate-env.sh
+ExecStart=/usr/bin/node /home/ubuntu/narad/src/main.js
 
 # ── Restart Policy ────────────────────────────────
 Restart=on-failure
-RestartSec=30
-StartLimitInterval=600
-StartLimitBurst=5
+RestartSec=10s
+StartLimitIntervalSec=60s
+StartLimitBurst=3
 
-# ── Resource Limits ────────────────────────────────
-MemoryLimit=2G
-CPUQuota=80%
+# ── Resource Limits ───────────────────────────────
+# OCI Always Free E2.1.Micro has 1GB RAM total.
+# Nextcloud + Pi-hole use ~600MB. Narad gets 256MB max.
+# MemoryLimit is DEPRECATED — use MemoryMax.
+# Setting MemoryLimit=2G on a 1GB VM = guaranteed OOM kill.
+MemoryMax=256M
+CPUQuota=30%
 
-# ── Logging ────────────────────────────────────────
+# ── Logging ───────────────────────────────────────
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=narad
 
-# ── Hardening ────────────────────────────────────
+# ── Security Hardening ────────────────────────────
 NoNewPrivileges=true
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=yes
-ReadWritePaths=/home/deepak/Work/narad
+# ProtectHome=yes makes all of $HOME read-only EXCEPT paths listed here.
+# ~/.narad/      = SQLite memory database (SqliteMemoryStore)
+# ~/.nullclaw/   = NullClaw config + its own memory.db
+# /tmp           = node-cron and other temp files
+ReadWritePaths=/home/ubuntu/narad /home/ubuntu/.narad /home/ubuntu/.nullclaw /tmp
 
 [Install]
 WantedBy=multi-user.target

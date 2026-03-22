@@ -3,7 +3,7 @@
 
 set -e
 
-BACKUP_DIR="/home/deepak/Work/narad/backups"
+BACKUP_DIR="$NARAD_DIR/backups"
 QDRANT_URL="${QDRANT_URL}"
 QDRANT_API_KEY="${QDRANT_API_KEY}"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)

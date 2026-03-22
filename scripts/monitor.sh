@@ -3,7 +3,7 @@
 
 set -e
 
-NARAD_DIR="/home/deepak/Work/narad"
+NARAD_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 LOG_FILE="${NARAD_DIR}/narad.log"
 
 echo "Starting Narad monitoring..."

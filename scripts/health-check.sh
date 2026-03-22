@@ -1,78 +1,96 @@
 #!/bin/bash
-# Health check for Narad service
+# ══════════════════════════════════════════════════════════════════════
+# health-check.sh — Verify all Narad dependencies are reachable
+# Bug fixes:
+#   - Removed Qdrant check (Narad v2 uses SQLite, not Qdrant)
+#   - Replaced hardcoded /home/deepak/Work/narad with dynamic path
+#   - Added .env auto-load
+#   - Added AGI worker check
+#   - Added Node version check
+# ══════════════════════════════════════════════════════════════════════
 
-set -e
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+if [ -f "$SCRIPT_DIR/.env" ]; then
+  set -a; source "$SCRIPT_DIR/.env"; set +a
+fi
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m'
-
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 HEALTH_STATUS=0
 
-echo "Running Narad health checks..."
+ok()   { echo -e "  ${GREEN}✓${NC} $1"; }
+fail() { echo -e "  ${RED}✗${NC} $1"; HEALTH_STATUS=1; }
+warn() { echo -e "  ${YELLOW}⚠${NC}  $1"; }
 
-# ── Check Telegram connection ──────────────────
-echo -n "Telegram bot: "
-if curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" | grep -q "ok"; then
-  echo -e "${GREEN}✓${NC}"
+echo "Narad health check — $(date)"
+echo "─────────────────────────────────────────"
+
+# Telegram bot
+echo -n "  Telegram bot: "
+TGME=$(curl -sf "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" 2>/dev/null)
+if echo "$TGME" | grep -q '"ok":true'; then
+  ok "connected"
 else
-  echo -e "${RED}✗${NC}"
-  HEALTH_STATUS=1
+  fail "Bot API unreachable or token invalid"
 fi
 
-# ── Check Qdrant connection ────────────────────
-echo -n "Qdrant: "
-if curl -s "${QDRANT_URL}/health" | grep -q "ok"; then
-  echo -e "${GREEN}✓${NC}"
+# Groq API
+echo -n "  Groq API: "
+GROQ=$(curl -sf "https://api.groq.com/openai/v1/models" \
+  -H "Authorization: Bearer $GROQ_API_KEY" 2>/dev/null)
+if echo "$GROQ" | grep -q '"object"'; then
+  ok "reachable"
 else
-  echo -e "${RED}✗${NC}"
-  HEALTH_STATUS=1
+  fail "Groq API unreachable or key invalid"
 fi
 
-# ── Check Groq API ─────────────────────────────
-echo -n "Groq API: "
-if curl -s "https://api.groq.com/openai/v1/models" \
-  -H "Authorization: Bearer $GROQ_API_KEY" | grep -q "models"; then
-  echo -e "${GREEN}✓${NC}"
+# AGI Worker
+AGI_URL="${AGI_WORKER_URL:-https://nisha-agi.pages.dev}"
+echo -n "  AGI worker: "
+AGI=$(curl -sf "${AGI_URL}/api/health" --max-time 5 2>/dev/null)
+if echo "$AGI" | grep -q '"status"'; then
+  ok "$AGI_URL"
 else
-  echo -e "${RED}✗${NC}"
-  HEALTH_STATUS=1
+  warn "$AGI_URL not responding (bot starts but /ask will fail)"
 fi
 
-# ── Check OpenRouter fallback ──────────────────
-echo -n "OpenRouter fallback: "
-if curl -s "https://openrouter.ai/api/v1/models" \
-  -H "Authorization: Bearer $OPENROUTER_API_KEY" | grep -q "data"; then
-  echo -e "${GREEN}✓${NC}"
-else
-  echo -e "${RED}✗${NC}"
-  HEALTH_STATUS=1
+# OpenRouter (optional)
+if [ -n "${OPENROUTER_API_KEY:-}" ]; then
+  echo -n "  OpenRouter: "
+  OR=$(curl -sf "https://openrouter.ai/api/v1/models" \
+    -H "Authorization: Bearer $OPENROUTER_API_KEY" 2>/dev/null)
+  if echo "$OR" | grep -q '"data"'; then ok "reachable"; else warn "unreachable"; fi
 fi
 
-# ── Check disk space ───────────────────────────
-echo -n "Disk space: "
-DISK_USAGE=$(df /home/deepak/Work/narad | awk 'NR==2 {print $5}' | sed 's/%//')
-if [ "$DISK_USAGE" -lt 85 ]; then
-  echo -e "${GREEN}✓ ${DISK_USAGE}%${NC}"
+# Disk
+echo -n "  Disk: "
+DISK_USAGE=$(df "$SCRIPT_DIR" | awk 'NR==2 {print $5}' | sed 's/%//')
+if [ "$DISK_USAGE" -lt 85 ]; then ok "${DISK_USAGE}% used"
+else fail "${DISK_USAGE}% used — critical"; fi
+
+# RAM
+echo -n "  Memory: "
+MEM_FREE=$(free -m | awk 'NR==2 {print $7}')
+if [ "$MEM_FREE" -gt 150 ]; then ok "${MEM_FREE}MB free"
+else fail "${MEM_FREE}MB free — critically low"; fi
+
+# DB directory
+echo -n "  ~/.narad dir: "
+if [ -d "$HOME/.narad" ] && [ -w "$HOME/.narad" ]; then
+  ok "writable"
 else
-  echo -e "${RED}✗ ${DISK_USAGE}% (critical)${NC}"
-  HEALTH_STATUS=1
+  warn "missing — will be created on first start"
 fi
 
-# ── Check memory usage ─────────────────────────
-echo -n "Memory: "
-MEM_USAGE=$(free | awk 'NR==2 {printf "%.0f", $3/$2 * 100}')
-if [ "$MEM_USAGE" -lt 80 ]; then
-  echo -e "${GREEN}✓ ${MEM_USAGE}%${NC}"
-else
-  echo -e "${RED}✗ ${MEM_USAGE}% (critical)${NC}"
-  HEALTH_STATUS=1
-fi
+# Node version
+echo -n "  Node.js: "
+NODE_VER=$(node --version 2>/dev/null || echo "missing")
+if node --version 2>/dev/null | grep -qE "v2[0-9]\."; then ok "$NODE_VER"
+else fail "$NODE_VER (need v20+)"; fi
 
+echo "─────────────────────────────────────────"
 if [ $HEALTH_STATUS -eq 0 ]; then
-  echo -e "\n${GREEN}✓ All health checks passed${NC}"
+  echo -e "${GREEN}✓ All checks passed${NC}"
 else
-  echo -e "\n${RED}✗ Some health checks failed${NC}"
+  echo -e "${RED}✗ Some checks failed${NC}"
 fi
-
 exit $HEALTH_STATUS
