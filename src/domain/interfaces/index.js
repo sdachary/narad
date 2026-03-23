@@ -98,3 +98,19 @@ export class ILogger {
   error(msg, meta = {}) { throw new Error('ILogger.error() must be implemented'); } // eslint-disable-line no-unused-vars
   debug(msg, meta = {}) { throw new Error('ILogger.debug() must be implemented'); } // eslint-disable-line no-unused-vars
 }
+
+// ---------------------------------------------------------------------------
+// IFileDownloader
+// Downloads a file from a remote source (e.g. Telegram) to a local path.
+// ---------------------------------------------------------------------------
+export class IFileDownloader {
+  /**
+   * @param {string} fileId      - ID of the file to download (platform-specific)
+   * @param {string} filePath    - Platform-specific relative path to the file (if available)
+   * @param {string} destination - Local file path where to save the content
+   * @returns {Promise<void>}
+   */
+  async download(fileId, filePath, destination) { // eslint-disable-line no-unused-vars
+    throw new Error('IFileDownloader.download() must be implemented');
+  }
+}

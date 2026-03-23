@@ -23,6 +23,7 @@ import { AgiWorkerClient }      from './infrastructure/agi_worker/AgiWorkerClien
 import { SqliteMemoryStore }    from './infrastructure/memory/SqliteMemoryStore.js';
 import { FileKnowledgeLoader }  from './infrastructure/memory/FileKnowledgeLoader.js';
 import { TelegramSender }       from './infrastructure/telegram/TelegramSender.js';
+import { TelegramDownloader }   from './infrastructure/telegram/TelegramDownloader.js';
 import { CronScheduler }        from './infrastructure/scheduler/CronScheduler.js';
 
 // Application
@@ -78,12 +79,18 @@ async function main() {
     logger,
   });
 
+  const downloader = new TelegramDownloader({
+    botToken: config.telegram.botToken,
+    logger,
+  });
+
   // ── 3. Use Cases ──────────────────────────────────────────────────
   const handleUserMessage = new HandleUserMessage({
     agiWorker,
     memoryStore,
     messageSender,
     knowledgeLoader,
+    downloader,
     logger,
   });
 

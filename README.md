@@ -95,6 +95,7 @@ sudo systemctl status narad
 | `/nisha` | Status of all Nisha platform services |
 | `/digest` | Summary of recent R&D ideas |
 | `/experiment <n>` | Look up experiment status |
+| `[file upload]` | Upload .md to refresh knowledge base |
 
 ---
 
@@ -133,11 +134,13 @@ sudo systemctl restart narad
 # Update to latest code + NullClaw binary
 ./scripts/update.sh
 
-# Sync knowledge base from nisha repo
+# Sync knowledge base from nisha repo (git pull)
 ./scripts/sync-knowledge.sh
 
-# Check service status
-sudo systemctl status narad
+# Knowledge Upload (Telegram)
+Attach any .md file and send to the bot.
+README.md -> nisha-platform.md
+Other .md -> services/<filename>.md
 ```
 
 ---

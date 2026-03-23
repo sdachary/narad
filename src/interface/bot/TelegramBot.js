@@ -67,7 +67,8 @@ export class TelegramBot {
 
   async _poll() {
     try {
-      const url = `${this.baseUrl}/getUpdates?timeout=${POLL_TIMEOUT_SEC}&offset=${this._offset}&allowed_updates=${encodeURIComponent(JSON.stringify(['message']))}`;
+      const allowedUpdates = JSON.stringify(['message']);
+      const url = `${this.baseUrl}/getUpdates?timeout=${POLL_TIMEOUT_SEC}&offset=${this._offset}&allowed_updates=${allowedUpdates}`;
 
       const res  = await fetch(url, { signal: AbortSignal.timeout((POLL_TIMEOUT_SEC + 10) * 1000) });
       const data = await res.json();
@@ -86,13 +87,33 @@ export class TelegramBot {
         if (!update.message) continue;
 
         const msg = update.message;
+        let document = null;
+
+        if (msg.document) {
+          const fileId   = msg.document.file_id;
+          const fileName = msg.document.file_name;
+          const mimeType = msg.document.mime_type;
+          
+          // Fetch file_path from Telegram to allow downloader to work
+          const fileInfo = await this._getFile(fileId);
+          if (fileInfo) {
+            document = {
+              fileId,
+              fileName,
+              mimeType,
+              filePath: fileInfo.file_path,
+            };
+          }
+        }
+
         const raw = {
           messageId: msg.message_id,
           userId:    msg.from?.id,
           chatId:    msg.chat?.id,
-          text:      msg.text || '',
+          text:      msg.text || msg.caption || '',
           date:      new Date(msg.date * 1000),
           source:    'telegram',
+          document,
         };
 
         // Fire-and-forget per message — don't block the poll loop
@@ -108,6 +129,17 @@ export class TelegramBot {
       }
       this.logger.error('TelegramBot: poll error', { error: err.message });
       await this._backoff();
+    }
+  }
+
+  async _getFile(fileId) {
+    try {
+      const res = await fetch(`${this.baseUrl}/getFile?file_id=${fileId}`);
+      const data = await res.json();
+      return data.ok ? data.result : null;
+    } catch (err) {
+      this.logger.error('TelegramBot: getFile failed', { fileId, error: err.message });
+      return null;
     }
   }
 

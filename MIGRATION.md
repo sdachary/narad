@@ -12,6 +12,11 @@
 - Enhanced configuration validation
 - Same Telegram interface, improved internals
 
+## Update: 2026-03-24
+- ✓ Fix: Node.js 20 deprecation in GitHub Actions (opted into Node 24)
+- ✓ Fix: Private repository auth in Terraform `remote-exec`
+- ✓ Feat: Knowledge upload via Telegram (manual `.md` upload)
+
 ## Data Preserved
 - ✓ .env configuration
 - ✓ Memory database (~/.narad/memory.db)

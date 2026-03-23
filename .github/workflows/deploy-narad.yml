@@ -13,6 +13,9 @@ jobs:
     name: Terraform Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # Opt-in to Node.js 24 for all actions to avoid deprecation warnings
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout code

@@ -15,8 +15,9 @@ export class Message {
    * @param {string} params.args       - Everything after the command, or full text if no command
    * @param {Date}   params.receivedAt - When the message arrived
    * @param {string} params.source     - 'telegram' | 'web' | 'cron'
+   * @param {object} [params.document] - Optional document metadata { fileId, fileName, mimeType, filePath }
    */
-  constructor({ id, userId, chatId, text, command, args, receivedAt, source }) {
+  constructor({ id, userId, chatId, text, command, args, receivedAt, source, document }) {
     if (!id)       throw new Error('Message.id is required');
     if (!userId)   throw new Error('Message.userId is required');
     if (!chatId)   throw new Error('Message.chatId is required');
@@ -30,6 +31,7 @@ export class Message {
     this.args       = args || '';
     this.receivedAt = receivedAt instanceof Date ? receivedAt : new Date(receivedAt);
     this.source     = source || 'telegram';
+    this.document   = document || null;
   }
 
   isCommand() {
@@ -38,6 +40,10 @@ export class Message {
 
   hasArgs() {
     return this.args.trim().length > 0;
+  }
+
+  isDocument() {
+    return this.document !== null;
   }
 
   toString() {

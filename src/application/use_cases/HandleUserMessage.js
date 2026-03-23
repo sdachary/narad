@@ -19,13 +19,15 @@ export class HandleUserMessage {
    * @param {import('../../domain/interfaces/index.js').IMemoryStore}     deps.memoryStore
    * @param {import('../../domain/interfaces/index.js').IMessageSender}   deps.messageSender
    * @param {import('../../domain/interfaces/index.js').IKnowledgeLoader} deps.knowledgeLoader
+   * @param {import('../../domain/interfaces/index.js').IFileDownloader}   deps.downloader
    * @param {import('../../domain/interfaces/index.js').ILogger}          deps.logger
    */
-  constructor({ agiWorker, memoryStore, messageSender, knowledgeLoader, logger }) {
+  constructor({ agiWorker, memoryStore, messageSender, knowledgeLoader, downloader, logger }) {
     this.agiWorker      = agiWorker;
     this.memoryStore    = memoryStore;
     this.messageSender  = messageSender;
     this.knowledgeLoader = knowledgeLoader;
+    this.downloader     = downloader;
     this.logger         = logger;
   }
 
@@ -142,8 +144,57 @@ export class HandleUserMessage {
         );
         return true;
 
+      case 'upload':
+        return await this._handleUpload(message);
+
       default:
         return false;
+    }
+  }
+
+  /**
+   * Process knowledge file upload.
+   * @param {import('../../domain/entities/Message.js').Message} message
+   */
+  async _handleUpload(message) {
+    if (!message.isDocument()) {
+      await this.messageSender.send(message.chatId, '❌ No file detected. Please attach a Markdown file.');
+      return true;
+    }
+
+    const doc = message.document;
+    
+    // Only allow Markdown files for knowledge base
+    if (!doc.fileName.toLowerCase().endsWith('.md')) {
+      await this.messageSender.send(message.chatId, `❌ Sorry, I only accept .md files for knowledge updates. (Got: ${doc.fileName})`);
+      return true;
+    }
+
+    // Determine destination path
+    // Default: ~/narad/knowledge/services/
+    // Special: README.md -> ~/narad/knowledge/nisha-platform.md
+    let destination;
+    const knowledgeDir = process.env.KNOWLEDGE_DIR || '/home/ubuntu/narad/knowledge';
+    
+    if (doc.fileName.toLowerCase() === 'readme.md') {
+      destination = `${knowledgeDir}/nisha-platform.md`;
+    } else {
+      destination = `${knowledgeDir}/services/${doc.fileName}`;
+    }
+
+    try {
+      await this.messageSender.send(message.chatId, `⏳ Processing \`${doc.fileName}\`...`);
+      
+      await this.downloader.download(doc.fileId, doc.filePath, destination);
+      
+      this.logger.info('HandleUserMessage: knowledge updated', { file: doc.fileName, destination });
+      await this.messageSender.send(message.chatId, `✅ *Knowledge updated!* \`${doc.fileName}\` is now part of my brain.`);
+      
+      return true;
+    } catch (err) {
+      this.logger.error('HandleUserMessage: upload failed', { error: err.message, file: doc.fileName });
+      await this.messageSender.send(message.chatId, `❌ Failed to download \`${doc.fileName}\`. Check logs for details.`);
+      return true;
     }
   }
 }

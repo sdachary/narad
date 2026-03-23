@@ -21,6 +21,7 @@ export const KNOWN_COMMANDS = new Set([
   'nisha',
   'digest',
   'experiment',
+  'upload',
 ]);
 
 export class MessageParser {
@@ -46,15 +47,20 @@ export class MessageParser {
 
     const { command, args } = this._extractCommand(text, source);
 
+    // If it's a document and no command was explicitly given, force 'upload' command
+    const finalCommand = (command === null && raw.document) ? 'upload' : command;
+    const finalArgs    = (finalCommand === 'upload' && raw.document) ? raw.document.fileName : args;
+
     return new Message({
       id,
       userId,
       chatId,
       text,
-      command,
-      args,
+      command: finalCommand,
+      args:    finalArgs,
       receivedAt: date,
       source,
+      document: raw.document || null,
     });
   }
 

@@ -68,7 +68,8 @@ variable "github_token" {
 
 locals {
   # If github_token is provided and repo is HTTPS, inject token into URL for auth
-  auth_repo_url = (var.github_token != "" && startswith(var.narad_repo, "https://")) ? replace(var.narad_repo, "https://", "https://${var.github_token}@") : var.narad_repo
+  auth_repo_url  = (var.github_token != "" && startswith(var.narad_repo, "https://")) ? replace(var.narad_repo, "https://", "https://${var.github_token}@") : var.narad_repo
+  auth_nisha_url = replace(local.auth_repo_url, "narad.git", "nisha.git")
 }
 
 # ── Deploy Narad onto the existing OCI VM ─────────────────────────────────────
@@ -124,11 +125,11 @@ resource "null_resource" "narad_deploy" {
       "set -e",
       "if [ -d ~/nisha/.git ]; then",
       "  echo 'Nisha repo exists — pulling latest...'",
-      "  git -C ~/nisha remote set-url origin \"https://github.com/sdachary/nisha.git\"",
+      "  git -C ~/nisha remote set-url origin \"${local.auth_nisha_url}\"",
       "  git -C ~/nisha pull origin main",
       "else",
       "  echo 'Cloning nisha repo...'",
-      "  git clone \"https://github.com/sdachary/nisha.git\" ~/nisha",
+      "  git clone \"${local.auth_nisha_url}\" ~/nisha",
       "fi",
       "echo 'Nisha repo ready'"
     ]

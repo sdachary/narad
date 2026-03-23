@@ -11,6 +11,10 @@ node_modules/
 *.db-shm
 *.db-wal
 
+# ── Terraform ────────────────────────────────────────────────────────
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+
 # ── NullClaw runtime (if colocated) ──────────────────────────────────
 .nullclaw/
 memory.db
