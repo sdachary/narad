@@ -5,7 +5,7 @@
  * Level controlled by LOG_LEVEL env var (default: 'info').
  */
 
-import { ILogger } from '../../domain/interfaces/index.js';
+import { ILogger } from '../domain/interfaces/index.js';
 
 const LEVELS = { debug: 0, info: 1, warn: 2, error: 3 };
 
