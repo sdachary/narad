@@ -22,12 +22,13 @@ export class HandleUserMessage {
    * @param {import('../../domain/interfaces/index.js').IFileDownloader}   deps.downloader
    * @param {import('../../domain/interfaces/index.js').ILogger}          deps.logger
    */
-  constructor({ agiWorker, memoryStore, messageSender, knowledgeLoader, downloader, logger }) {
+  constructor({ agiWorker, memoryStore, messageSender, knowledgeLoader, downloader, systemStats, logger }) {
     this.agiWorker      = agiWorker;
     this.memoryStore    = memoryStore;
     this.messageSender  = messageSender;
     this.knowledgeLoader = knowledgeLoader;
     this.downloader     = downloader;
+    this.systemStats    = systemStats;
     this.logger         = logger;
   }
 
@@ -144,12 +145,66 @@ export class HandleUserMessage {
         );
         return true;
 
+      case 'status':
+        return await this._handleStatus(message);
+
+      case 'nisha':
+        return await this._handleNisha(message);
+
       case 'upload':
         return await this._handleUpload(message);
 
       default:
         return false;
     }
+  }
+
+  /**
+   * Status handler: returns VM health metrics.
+   * @param {import('../../domain/entities/Message.js').Message} message
+   */
+  async _handleStatus(message) {
+    try {
+      const stats = await this.systemStats.getStats();
+      const text = [
+        '📊 *VM Health Report*',
+        '──────────────────',
+        `⏱ *Uptime:*   ${stats.uptime}`,
+        `🧠 *Memory:*   ${stats.memory}`,
+        `⚡ *CPU:*      ${stats.cpu}`,
+        `💾 *Disk:*     ${stats.disk}`,
+        '──────────────────',
+        '💬 _Send /nisha for service status_',
+      ].join('\n');
+
+      await this.messageSender.send(message.chatId, text);
+    } catch (err) {
+      this.logger.error('HandleUserMessage._handleStatus failed', { error: err.message });
+      await this.messageSender.send(message.chatId, '❌ Failed to retrieve system stats.');
+    }
+    return true;
+  }
+
+  /**
+   * Nisha status handler: returns status of platform services.
+   * @param {import('../../domain/entities/Message.js').Message} message
+   */
+  async _handleNisha(message) {
+    try {
+      const { services } = await this.systemStats.getNishaStatus();
+      const text = [
+        '🌐 *Nisha Platform Status*',
+        '──────────────────',
+        ...services.map(s => `${s.status}  *${s.name}*`),
+        '──────────────────',
+      ].join('\n');
+
+      await this.messageSender.send(message.chatId, text);
+    } catch (err) {
+      this.logger.error('HandleUserMessage._handleNisha failed', { error: err.message });
+      await this.messageSender.send(message.chatId, '❌ Failed to retrieve platform status.');
+    }
+    return true;
   }
 
   /**

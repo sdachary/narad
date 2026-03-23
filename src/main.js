@@ -25,6 +25,7 @@ import { FileKnowledgeLoader }  from './infrastructure/memory/FileKnowledgeLoade
 import { TelegramSender }       from './infrastructure/telegram/TelegramSender.js';
 import { TelegramDownloader }   from './infrastructure/telegram/TelegramDownloader.js';
 import { CronScheduler }        from './infrastructure/scheduler/CronScheduler.js';
+import { SystemStats }          from './infrastructure/system/SystemStats.js';
 
 // Application
 import { HandleUserMessage }    from './application/use_cases/HandleUserMessage.js';
@@ -84,6 +85,8 @@ async function main() {
     logger,
   });
 
+  const systemStats = new SystemStats({ logger });
+
   // ── 3. Use Cases ──────────────────────────────────────────────────
   const handleUserMessage = new HandleUserMessage({
     agiWorker,
@@ -91,6 +94,7 @@ async function main() {
     messageSender,
     knowledgeLoader,
     downloader,
+    systemStats,
     logger,
   });
 

@@ -114,3 +114,22 @@ export class IFileDownloader {
     throw new Error('IFileDownloader.download() must be implemented');
   }
 }
+// ---------------------------------------------------------------------------
+// ISystemStats
+// Retrieves host system metrics (CPU, RAM, Disk, Uptime).
+// ---------------------------------------------------------------------------
+export class ISystemStats {
+  /**
+   * @returns {Promise<object>} - { cpu, ram, disk, uptime, services }
+   */
+  async getStats() {
+    throw new Error('ISystemStats.getStats() must be implemented');
+  }
+
+  /**
+   * @returns {Promise<object>} - Status of related platform services
+   */
+  async getNishaStatus() {
+    throw new Error('ISystemStats.getNishaStatus() must be implemented');
+  }
+}
