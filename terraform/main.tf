@@ -118,6 +118,22 @@ resource "null_resource" "narad_deploy" {
     ]
   }
 
+  # ── Step 2.5: Clone nisha repo for knowledge sync ──────────────────
+  provisioner "remote-exec" {
+    inline = [
+      "set -e",
+      "if [ -d ~/nisha/.git ]; then",
+      "  echo 'Nisha repo exists — pulling latest...'",
+      "  git -C ~/nisha remote set-url origin \"https://github.com/sdachary/nisha.git\"",
+      "  git -C ~/nisha pull origin main",
+      "else",
+      "  echo 'Cloning nisha repo...'",
+      "  git clone \"https://github.com/sdachary/nisha.git\" ~/nisha",
+      "fi",
+      "echo 'Nisha repo ready'"
+    ]
+  }
+
   # ── Step 3: Write .env file ────────────────────────────────────────
   # Uses heredoc so multi-line values and special characters are safe.
   # chmod 600 ensures only the ubuntu user can read it.
@@ -200,6 +216,15 @@ resource "null_resource" "narad_deploy" {
       "CRON_JOB='0 6 * * * /home/ubuntu/narad/scripts/sync-knowledge.sh >> /tmp/narad-sync.log 2>&1'",
       "(crontab -l 2>/dev/null | grep -v sync-knowledge; echo \"$CRON_JOB\") | crontab -",
       "echo 'Cron job installed: daily knowledge sync at 6am'"
+    ]
+  }
+
+  # ── Step 9: Initial knowledge sync ────────────────────────────────
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Running initial knowledge sync...'",
+      "bash ~/narad/scripts/sync-knowledge.sh",
+      "echo 'Initial sync complete'"
     ]
   }
 }

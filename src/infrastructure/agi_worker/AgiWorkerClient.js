@@ -52,6 +52,7 @@ export class AgiWorkerClient extends IAgiWorkerClient {
       history:    payload.history || [],
       context:    payload.context || '',
       command:    payload.command || null,
+      persona:    'Narad',
     });
 
     const controller = new AbortController();
