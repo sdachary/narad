@@ -1,0 +1,247 @@
+:root {
+    --bg-color: #09090b;
+    --card-bg: rgba(24, 24, 27, 0.85);
+    --gold: #f0c040;
+    --gold-glow: rgba(240, 192, 64, 0.3);
+    --text-primary: #f4f4f5;
+    --text-secondary: #a1a1aa;
+    --border: rgba(39, 39, 42, 0.5);
+    --accent: #18181b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(240, 192, 64, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 900px;
+    height: 90vh;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.app-header {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+}
+
+.logo-container {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.app-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.header-text h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.header-text p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.status-badge {
+    margin-left: auto;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    padding: 6px 12px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-icon {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.status-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #10b981;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    overflow: hidden;
+    position: relative;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.message {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message.user {
+    align-self: flex-end;
+}
+
+.message-content {
+    padding: 14px 20px;
+    border-radius: 18px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.message.assistant .message-content {
+    background: var(--accent);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+}
+
+.message.user .message-content {
+    background: var(--gold);
+    color: #000;
+    font-weight: 500;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 15px var(--gold-glow);
+}
+
+.chat-input-area {
+    margin-top: auto;
+    position: relative;
+}
+
+#chat-form {
+    display: flex;
+    gap: 12px;
+}
+
+#user-input {
+    flex: 1;
+    background: var(--accent);
+    border: 1px solid var(--border);
+    padding: 16px 24px;
+    border-radius: 16px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+#user-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px var(--gold-glow);
+}
+
+#send-btn {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 0 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#send-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--gold-glow);
+}
+
+#send-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+}

@@ -17,7 +17,7 @@ MessageRouter (security + parse)
      ↓
 HandleUserMessage (use case)
      ↓
-AgiWorkerClient ──HTTP──→ nisha-agi.pages.dev/api/chat
+AgiWorkerClient ──HTTP──→ narad.pages.dev/api/chat
      ↓                           ↓ Groq Llama 3.3 70B
 TelegramSender ←── AgentResponse ←──
      ↓
@@ -42,7 +42,7 @@ src/
 │   └── use_cases/    ← HandleUserMessage, HandleCronJob
 │
 ├── infrastructure/   ← Concrete implementations of domain interfaces.
-│   ├── agi_worker/   ← AgiWorkerClient (HTTP to nisha-agi.pages.dev)
+│   ├── agi_worker/   ← AgiWorkerClient (HTTP to narad.pages.dev)
 │   ├── memory/       ← SqliteMemoryStore, FileKnowledgeLoader
 │   ├── telegram/     ← TelegramSender
 │   ├── scheduler/    ← CronScheduler (node-cron)
@@ -117,7 +117,7 @@ sudo systemctl status narad
 | `TELEGRAM_BOT_TOKEN` | ✅ | Bot token from @BotFather |
 | `TELEGRAM_CHAT_ID` | ✅ | Your numeric Telegram user ID (from @userinfobot) |
 | `OPENROUTER_API_KEY` | Optional | Fallback models (Gemini, DeepSeek) |
-| `AGI_WORKER_URL` | Optional | Default: `https://nisha-agi.pages.dev` |
+| `AGI_WORKER_URL` | Optional | Default: `https://narad.pages.dev` |
 | `LOG_LEVEL` | Optional | `debug\|info\|warn\|error` (default: `info`) |
 
 ---

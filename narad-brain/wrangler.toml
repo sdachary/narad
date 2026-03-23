@@ -1,0 +1,7 @@
+name = "narad"
+compatibility_date = "2024-11-05"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+PRIMARY_MODEL = "llama-3.3-70b-versatile"
