@@ -66,6 +66,11 @@ variable "github_token" {
   description = "GitHub PAT with repo scope for cloning private narad/nisha repos"
 }
 
+locals {
+  # If github_token is provided and repo is HTTPS, inject token into URL for auth
+  auth_repo_url = (var.github_token != "" && startswith(var.narad_repo, "https://")) ? replace(var.narad_repo, "https://", "https://${var.github_token}@") : var.narad_repo
+}
+
 # ── Deploy Narad onto the existing OCI VM ─────────────────────────────────────
 
 resource "null_resource" "narad_deploy" {
@@ -101,19 +106,13 @@ resource "null_resource" "narad_deploy" {
   provisioner "remote-exec" {
     inline = [
       "set -e",
-      "REPO_URL=\"${var.narad_repo}\"",
-      "# If token provided and URL is HTTPS, inject token for auth",
-      "if [ -n \"${var.github_token}\" ] && [[ \"$REPO_URL\" == https://* ]]; then",
-      "  REPO_URL=\"${replace(var.narad_repo, "https://", "https://${var.github_token}@")}\"",
-      "fi",
-      "",
       "if [ -d ~/narad/.git ]; then",
       "  echo 'Repo exists — pulling latest...'",
-      "  git -C ~/narad remote set-url origin \"$REPO_URL\"",
+      "  git -C ~/narad remote set-url origin \"${local.auth_repo_url}\"",
       "  git -C ~/narad pull origin main",
       "else",
       "  echo 'Cloning narad repo...'",
-      "  git clone \"$REPO_URL\" ~/narad",
+      "  git clone \"${local.auth_repo_url}\" ~/narad",
       "fi",
       "echo 'Repo ready'"
     ]
