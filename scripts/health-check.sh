@@ -44,7 +44,7 @@ else
 fi
 
 # AGI Worker
-AGI_URL="${AGI_WORKER_URL:-https://nisha-agi.pages.dev}"
+AGI_URL="${AGI_WORKER_URL:-https://nisha-ops.pages.dev}"
 echo -n "  AGI worker: "
 AGI=$(curl -sf "${AGI_URL}/api/health" --max-time 5 2>/dev/null)
 if echo "$AGI" | grep -q '"status"'; then
