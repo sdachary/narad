@@ -59,6 +59,13 @@ variable "narad_repo" {
   description = "Git URL of the narad repo"
 }
 
+variable "github_token" {
+  type        = string
+  sensitive   = true
+  default     = ""
+  description = "GitHub PAT with repo scope for cloning private narad/nisha repos"
+}
+
 # ── Deploy Narad onto the existing OCI VM ─────────────────────────────────────
 
 resource "null_resource" "narad_deploy" {
@@ -94,12 +101,19 @@ resource "null_resource" "narad_deploy" {
   provisioner "remote-exec" {
     inline = [
       "set -e",
+      "REPO_URL=\"${var.narad_repo}\"",
+      "# If token provided and URL is HTTPS, inject token for auth",
+      "if [ -n \"${var.github_token}\" ] && [[ \"$REPO_URL\" == https://* ]]; then",
+      "  REPO_URL=\"${replace(var.narad_repo, "https://", "https://${var.github_token}@")}\"",
+      "fi",
+      "",
       "if [ -d ~/narad/.git ]; then",
       "  echo 'Repo exists — pulling latest...'",
+      "  git -C ~/narad remote set-url origin \"$REPO_URL\"",
       "  git -C ~/narad pull origin main",
       "else",
       "  echo 'Cloning narad repo...'",
-      "  git clone ${var.narad_repo} ~/narad",
+      "  git clone \"$REPO_URL\" ~/narad",
       "fi",
       "echo 'Repo ready'"
     ]
@@ -116,6 +130,7 @@ resource "null_resource" "narad_deploy" {
       "TELEGRAM_BOT_TOKEN=${var.telegram_bot_token}",
       "TELEGRAM_CHAT_ID=${var.telegram_chat_id}",
       "OPENROUTER_API_KEY=${var.openrouter_api_key}",
+      "GITHUB_PAT=${var.github_token}",
       "NARAD_DIR=/home/ubuntu/narad",
       "MEMORY_DB=/home/ubuntu/.narad/memory.db",
       "KNOWLEDGE_DIR=/home/ubuntu/narad/knowledge",
