@@ -26,10 +26,21 @@ If you wish to use Cloudflare's built-in models as a fallback, add an **AI Bindi
 To use `https://narad.pages.dev` or a custom domain:
 - Go to **Custom domains** → **Set up a custom domain**.
 
-## 4. Deployment Instructions
+## 4. Dashboard Deployment Settings (Recommended)
+
+If deploying via the Cloudflare Dashboard (Git integration):
+
+- **Root directory**: `narad-brain`
+- **Build command**: `npm run build`
+- **Build output directory**: `pages`
+- **Compatibility date**: `2024-11-05`
+- **Compatibility flags**: `nodejs_compat`
+
+## 5. CLI Deployment Alternative
 
 From the root of the `narad` repository:
 ```bash
 cd narad-brain
+npm install
 npx wrangler pages deploy pages --project-name narad
 ```
