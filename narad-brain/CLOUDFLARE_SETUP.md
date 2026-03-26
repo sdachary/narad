@@ -22,9 +22,10 @@ Go to **Settings** → **Functions** → **Environment variables**.
 If you wish to use Cloudflare's built-in models as a fallback, add an **AI Binding**:
 - **Binding name**: `AI`
 
-## 3. Custom Domain
-To use `https://narad.pages.dev` or a custom domain:
-- Go to **Custom domains** → **Set up a custom domain**.
+## 3. Custom Domain & URL
+After deployment, Cloudflare will assign a URL like `https://narad-7hc.pages.dev`.
+- Go to **Custom domains** to see your assigned URL.
+- **IMPORTANT**: Copy this URL into your bot's `.env` file as `AGI_WORKER_URL`.
 
 ## 4. Dashboard Deployment Settings (Recommended)
 
