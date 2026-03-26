@@ -15,12 +15,14 @@ export class MessageRouter {
   /**
    * @param {object} deps
    * @param {import('../../application/use_cases/HandleUserMessage.js').HandleUserMessage} deps.handleUserMessage
+   * @param {import('../../application/use_cases/HandleMASRequest.js').HandleMASRequest} deps.handleMASRequest
    * @param {import('../../domain/interfaces/index.js').IMessageSender}  deps.messageSender
    * @param {import('../../domain/interfaces/index.js').ILogger}         deps.logger
    * @param {string|number} deps.allowedChatId - Only process messages from this chat ID (security)
    */
-  constructor({ handleUserMessage, messageSender, logger, allowedChatId }) {
+  constructor({ handleUserMessage, handleMASRequest, messageSender, logger, allowedChatId }) {
     this.handleUserMessage = handleUserMessage;
+    this.handleMASRequest = handleMASRequest;
     this.messageSender     = messageSender;
     this.logger            = logger;
     this.allowedChatId     = String(allowedChatId);
@@ -55,6 +57,16 @@ export class MessageRouter {
     }
 
     this.logger.debug('MessageRouter.route', { id: message.id, command: message.command, source: message.source });
-    await this.handleUserMessage.execute(message);
+    
+    // Route to MAS handler for /build command, otherwise to regular handler
+    if (message.command === 'build') {
+      await this.handleMASRequest.execute({
+        userId: message.userId,
+        chatId: message.chatId,
+        description: message.args
+      });
+    } else {
+      await this.handleUserMessage.execute(message);
+    }
   }
 }

@@ -133,3 +133,194 @@ export class ISystemStats {
     throw new Error('ISystemStats.getNishaStatus() must be implemented');
   }
 }
+
+// ---------------------------------------------------------------------------
+// ITaskManager
+// Manages tasks and subtasks for the Multi-Agent System
+// ---------------------------------------------------------------------------
+export class ITaskManager {
+  /**
+   * Create a new task from user request
+   * @param {object} params
+   * @param {string} params.userId
+   * @param {string} params.chatId
+   * @param {string} params.description
+   * @returns {Promise<import('../entities/Task.js').Task>}
+   */
+  async createTask(params) { // eslint-disable-line no-unused-vars
+    throw new Error('ITaskManager.createTask() must be implemented');
+  }
+
+  /**
+   * Get task by ID
+   * @param {string} taskId
+   * @returns {Promise<import('../entities/Task.js').Task|null>}
+   */
+  async getTask(taskId) { // eslint-disable-line no-unused-vars
+    throw new Error('ITaskManager.getTask() must be implemented');
+  }
+
+  /**
+   * Update task status
+   * @param {import('../entities/Task.js').Task} task
+   * @returns {Promise<void>}
+   */
+  async updateTask(task) { // eslint-disable-line no-unused-vars
+    throw new Error('ITaskManager.updateTask() must be implemented');
+  }
+
+  /**
+   * Get pending tasks
+   * @returns {Promise<Array<import('../entities/Task.js').Task>>}
+   */
+  async getPendingTasks() { // eslint-disable-line no-unused-vars
+    throw new Error('ITaskManager.getPendingTasks() must be implemented');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// ISubtaskManager
+// Manages subtasks execution and assignment to agents
+// ---------------------------------------------------------------------------
+export class ISubtaskManager {
+  /**
+   * Decompose task into subtasks
+   * @param {import('../entities/Task.js').Task} task
+   * @returns {Promise<Array<import('../entities/Subtask.js').Subtask>>}
+   */
+  async decomposeTask(task) { // eslint-disable-line no-unused-vars
+    throw new Error('ISubtaskManager.decomposeTask() must be implemented');
+  }
+
+  /**
+   * Assign subtask to best available agent
+   * @param {import('../entities/Subtask.js').Subtask} subtask
+   * @param {Array<import('../entities/Agent.js').Agent>} availableAgents
+   * @returns {Promise<{subtask: import('../entities/Subtask.js').Subtask, agent: import('../entities/Agent.js').Agent}|null>}
+   */
+  async assignSubtask(subtask, availableAgents) { // eslint-disable-line no-unused-vars
+    throw new Error('ISubtaskManager.assignSubtask() must be implemented');
+  }
+
+  /**
+   * Execute subtask with assigned agent
+   * @param {import('../entities/Subtask.js').Subtask} subtask
+   * @param {import('../entities/Agent.js').Agent} agent
+   * @returns {Promise<import('../entities/Subtask.js').Subtask>}
+   */
+  async executeSubtask(subtask, agent) { // eslint-disable-line no-unused-vars
+    throw new Error('ISubtaskManager.executeSubtask() must be implemented');
+  }
+
+  /**
+   * Save subtask checkpoint for recovery
+   * @param {import('../entities/Subtask.js').Subtask} subtask
+   * @param {import('../entities/Checkpoint.js').Checkpoint} checkpoint
+   * @returns {Promise<void>}
+   */
+  async saveCheckpoint(subtask, checkpoint) { // eslint-disable-line no-unused-vars
+    throw new Error('ISubtaskManager.saveCheckpoint() must be implemented');
+  }
+
+  /**
+   * Load latest checkpoint for subtask
+   * @param {import('../entities/Subtask.js').Subtask} subtask
+   * @returns {Promise<import('../entities/Checkpoint.js').Checkpoint|null>}
+   */
+  async loadCheckpoint(subtask) { // eslint-disable-line no-unused-vars
+    throw new Error('ISubtaskManager.loadCheckpoint() must be implemented');
+  }
+}
+
+// -------------------------------------------------------------------------//
+export class IAgentManager {
+  /**
+   * Register a new agent
+   * @param {import('../entities/Agent.js').Agent} agent
+   * @returns {Promise<void>}
+   */
+  async registerAgent(agent) { // eslint-disable-line no-unused-vars
+    throw new Error('IAgentManager.registerAgent() must be implemented');
+  }
+
+  /**
+   * Get agent by ID
+   * @param {string} agentId
+   * @returns {Promise<import('../entities/Agent.js').Agent|null>}
+   */
+  async getAgent(agentId) { // eslint-disable-line no-unused-vars
+    throw new Error('IAgentManager.getAgent() must be implemented');
+  }
+
+  /**
+   * Get available agents by type
+   * @param {string} agentType
+   * @returns {Promise<Array<import('../entities/Agent.js').Agent>>}
+   */
+  async getAvailableAgents(agentType) { // eslint-disable-line no-unused-vars
+    throw new Error('IAgentManager.getAvailableAgents() must be implemented');
+  }
+
+  /**
+   * Update agent usage and availability
+   * @param {import('../entities/Agent.js').Agent} agent
+   * @returns {Promise<void>}
+   */
+  async updateAgent(agent) { // eslint-disable-line no-unused-vars
+    throw new Error('IAgentManager.updateAgent() must be implemented');
+  }
+
+  /**
+   * Reset agent daily counters (called at midnight)
+   * @returns {Promise<void>}
+   */
+  async resetDailyCounters() { // eslint-disable-line no-unused-vars
+    throw new Error('IAgentManager.resetDailyCounters() must be implemented');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// IGitWorkflowManager
+// Manages git operations for feature branches and PRs
+// ---------------------------------------------------------------------------
+export class IGitWorkflowManager {
+  /**
+   * Create feature branch for task
+   * @param {import('../entities/Task.js').Task} task
+   * @returns {Promise<string>} Branch name
+   */
+  async createFeatureBranch(task) { // eslint-disable-line no-unused-vars
+    throw new Error('IGitWorkflowManager.createFeatureBranch() must be implemented');
+  }
+
+  /**
+   * Commit changes to feature branch
+   * @param {string} branchName
+   * @param {string} commitMessage
+   * @param {Array<string>} files
+   * @returns {Promise<void>}
+   */
+  async commitChanges(branchName, commitMessage, files) { // eslint-disable-line no-unused-vars
+    throw new Error('IGitWorkflowManager.commitChanges() must be implemented');
+  }
+
+  /**
+   * Create pull request from feature branch
+   * @param {import('../entities/Task.js').Task} task
+   * @param {string} sourceBranch
+   * @param {string} targetBranch
+   * @returns {Promise<string>} PR URL
+   */
+  async createPullRequest(task, sourceBranch, targetBranch) { // eslint-disable-line no-unused-vars
+    throw new Error('IGitWorkflowManager.createPullRequest() must be implemented');
+  }
+
+  /**
+   * Merge pull request
+   * @param {string} prUrl
+   * @returns {Promise<boolean>}
+   */
+  async mergePullRequest(prUrl) { // eslint-disable-line no-unused-vars
+    throw new Error('IGitWorkflowManager.mergePullRequest() must be implemented');
+  }
+}

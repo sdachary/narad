@@ -27,9 +27,16 @@ import { TelegramDownloader }   from './infrastructure/telegram/TelegramDownload
 import { CronScheduler }        from './infrastructure/scheduler/CronScheduler.js';
 import { SystemStats }          from './infrastructure/system/SystemStats.js';
 
+// MAS Infrastructure
+import { TaskManager }          from './infrastructure/mas/TaskManager.js';
+import { SubtaskManager }       from './infrastructure/mas/SubtaskManager.js';
+import { AgentManager }         from './infrastructure/mas/AgentManager.js';
+import { GitWorkflowManager }   from './infrastructure/mas/GitWorkflowManager.js';
+
 // Application
 import { HandleUserMessage }    from './application/use_cases/HandleUserMessage.js';
 import { HandleCronJob }        from './application/use_cases/HandleCronJob.js';
+import { HandleMASRequest }     from './application/use_cases/HandleMASRequest.js';
 
 // Interface
 import { MessageRouter }        from './interface/router/MessageRouter.js';
@@ -87,24 +94,55 @@ async function main() {
 
   const systemStats = new SystemStats({ logger });
 
-  // ── 3. Use Cases ──────────────────────────────────────────────────
-  const handleUserMessage = new HandleUserMessage({
-    agiWorker,
-    memoryStore,
-    messageSender,
-    knowledgeLoader,
-    downloader,
-    systemStats,
-    logger,
-  });
+   // ── 3. Infrastructure for MAS ───────────────────────────────────────
+   const taskManager = new TaskManager({
+     logger,
+     memoryStore, // Reusing existing memory store
+   });
 
-  const handleCronJob = new HandleCronJob({
-    agiWorker,
-    messageSender,
-    knowledgeLoader,
-    logger,
-    operatorChatId: config.cron.operatorChatId,
-  });
+   const agentManager = new AgentManager({
+     logger,
+   });
+
+   const gitWorkflowManager = new GitWorkflowManager({
+     logger,
+     workDir: process.cwd(),
+   });
+
+   const subtaskManager = new SubtaskManager({
+     logger,
+     agiWorker,
+     agentManager,
+     gitManager: gitWorkflowManager,
+   });
+
+   // ── 4. Use Cases ──────────────────────────────────────────────────
+   const handleUserMessage = new HandleUserMessage({
+     agiWorker,
+     memoryStore,
+     messageSender,
+     knowledgeLoader,
+     downloader,
+     systemStats,
+     logger,
+   });
+
+   const handleMASRequest = new HandleMASRequest({
+     taskManager,
+     subtaskManager,
+     agentManager,
+     gitManager: gitWorkflowManager,
+     messageSender,
+     logger,
+   });
+
+   const handleCronJob = new HandleCronJob({
+     agiWorker,
+     messageSender,
+     knowledgeLoader,
+     logger,
+     operatorChatId: config.cron.operatorChatId,
+   });
 
   // ── 4. Interface ──────────────────────────────────────────────────
   const router = new MessageRouter({
