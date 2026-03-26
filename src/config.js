@@ -42,9 +42,9 @@ export function loadConfig() {
   const KNOWLEDGE_DIR = optional('KNOWLEDGE_DIR', path.join(NARAD_DIR, 'knowledge'));
 
   // ── AGI Worker URL ────────────────────────────────────────────────
-  // The AGI worker lives at nisha-agi.pages.dev — this is the Cloudflare Worker
-  // that handles Groq inference, memory, and acts as the brain.
-  const AGI_WORKER_URL = optional('AGI_WORKER_URL', 'https://nisha-agi.pages.dev');
+  // The AGI worker lives at narad-7hc.pages.dev — Cloudflare Pages project
+  // that handles Groq inference and acts as the brain.
+  const AGI_WORKER_URL = optional('AGI_WORKER_URL', 'https://narad-7hc.pages.dev');
 
   // ── Load cron jobs from nullclaw config file (optional) ───────────
   // We read cron definitions from config.example.json as a source of truth.

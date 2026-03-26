@@ -22,6 +22,10 @@ app.post('/api/chat', async (c) => {
       return c.json({ error: 'GROQ_API_KEY not configured in worker secrets' }, 500);
     }
 
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+      return c.json({ error: 'Message is required and must be a non-empty string' }, 400);
+    }
+
     const systemPrompt = [
       'You are Narad, the omniscient messenger of the Nisha Platform.',
       '',
@@ -40,39 +44,77 @@ app.post('/api/chat', async (c) => {
 
     const model = c.env.PRIMARY_MODEL || 'llama-3.3-70b-versatile';
 
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature: 0.7,
-        max_tokens: 2048
-      })
-    });
+    // Retry Groq API up to 2 times on transient failures
+    let lastErr = null;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${GROQ_API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            temperature: 0.7,
+            max_tokens: 2048
+          })
+        });
 
-    if (!res.ok) {
-      const err = await res.text();
-      return c.json({ 
-        error: `Groq API error: ${res.status}`, 
-        details: err.slice(0, 200) 
-      }, 502);
+        if (res.status === 429) {
+          // Rate limited — wait and retry
+          lastErr = 'Groq API rate limited (429). Please wait a moment and try again.';
+          await new Promise(r => setTimeout(r, 1000));
+          continue;
+        }
+
+        if (res.status >= 500) {
+          // Groq server error — retry
+          const errText = await res.text().catch(() => 'unknown');
+          lastErr = `Groq API server error (${res.status}): ${errText.slice(0, 200)}`;
+          await new Promise(r => setTimeout(r, 500));
+          continue;
+        }
+
+        if (!res.ok) {
+          const err = await res.text();
+          return c.json({ 
+            error: `Groq API error: ${res.status}`, 
+            details: err.slice(0, 200) 
+          }, 502);
+        }
+
+        const data = await res.json();
+        const reply = data.choices?.[0]?.message?.content;
+
+        if (!reply) {
+          return c.json({
+            error: 'Groq returned an empty response. The model may be overloaded.',
+          }, 502);
+        }
+
+        return c.json({ 
+          reply, 
+          session_id,
+          metadata: {
+            model,
+            tokens: data.usage?.total_tokens
+          }
+        });
+      } catch (fetchErr) {
+        lastErr = fetchErr.message;
+        if (attempt < 1) {
+          await new Promise(r => setTimeout(r, 500));
+        }
+      }
     }
 
-    const data = await res.json();
-    const reply = data.choices?.[0]?.message?.content;
-
+    // All retries failed
     return c.json({ 
-      reply, 
-      session_id,
-      metadata: {
-        model,
-        tokens: data.usage?.total_tokens
-      }
-    });
+      error: 'Failed to reach Groq API after retries', 
+      details: lastErr 
+    }, 502);
 
   } catch (err) {
     return c.json({ error: 'Internal Worker Error', message: err.message }, 500);
