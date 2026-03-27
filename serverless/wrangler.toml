@@ -3,11 +3,7 @@ main = "src/index.js"
 compatibility_date = "2024-11-05"
 
 [env.production]
-# Production-specific vars if needed
-
-[vars]
 # These can be set via wrangler secret put or in the dashboard
-# We document them here but actual values are set as secrets
 # Required services
 CONVEX_DEPLOYMENT_URL = ""
 CONVEX_ACCESS_KEY = ""
@@ -17,17 +13,11 @@ QDRANT_COLLECTION_NAME = "narad_memory"
 GROQ_API_KEY = ""
 TELEGRAM_BOT_TOKEN = ""
 TELEGRAM_CHAT_ID = ""
-
-# Optional
 OPENAI_API_KEY = ""
 LOG_LEVEL = "info"
 AGI_WORKER_URL = "https://narad-7hc.pages.dev"
-
 # Optional: if you want to set a webhook secret for Telegram
 # TELEGRAM_WEBHOOK_SECRET = ""
-
-# For local development, you can use a .env file (not uploaded)
-# but in production, set these as secrets in the Cloudflare dashboard.
 
 [triggers]
 # Define cron triggers for scheduled jobs
