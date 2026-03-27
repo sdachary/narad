@@ -5,8 +5,8 @@
  * by interacting with the AGI worker and sending responses back to Telegram.
  */
 
-import { ConsoleLogger } from '../../../src/infrastructure/ConsoleLogger.js';
-import { AgiWorkerClient } from '../../../src/infrastructure/agi_worker/AgiWorkerClient.js';
+import { ConsoleLogger } from '../../infrastructure/ConsoleLogger.js';
+import { AgiWorkerClient } from '../../infrastructure/agi_worker/AgiWorkerClient.js';
 
 export async function telegramWebhookHandler(request, env) {
   const logger = new ConsoleLogger({ level: env.LOG_LEVEL || 'info' });
