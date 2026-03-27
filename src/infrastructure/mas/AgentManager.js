@@ -2,8 +2,8 @@
  * Infrastructure: AgentManager
  * Implements IAgentManager for managing AI agents and their capacities
  */
-import { IAgentManager } from '../../../domain/interfaces/index.js';
-import { Agent } from '../../../domain/entities/Agent.js';
+import { IAgentManager } from '../../domain/interfaces/index.js';
+import { Agent } from '../../domain/entities/Agent.js';
 
 export class AgentManager extends IAgentManager {
   /**

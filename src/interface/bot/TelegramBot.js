@@ -65,6 +65,50 @@ export class TelegramBot {
     }
   }
 
+  /**
+   * Process a single Telegram update (used by both polling and webhook).
+   * @param {object} update - The Telegram update object
+   * @returns {Promise<void>}
+   */
+  async _processUpdate(update) {
+    if (!update.message) return;
+
+    const msg = update.message;
+    let document = null;
+
+    if (msg.document) {
+      const fileId   = msg.document.file_id;
+      const fileName = msg.document.file_name;
+      const mimeType = msg.document.mime_type;
+      
+      // Fetch file_path from Telegram to allow downloader to work
+      const fileInfo = await this._getFile(fileId);
+      if (fileInfo) {
+        document = {
+          fileId,
+          fileName,
+          mimeType,
+          filePath: fileInfo.file_path,
+        };
+      }
+    }
+
+    const raw = {
+      messageId: msg.message_id,
+      userId:    msg.from?.id,
+      chatId:    msg.chat?.id,
+      text:      msg.text || msg.caption || '',
+      date:      new Date(msg.date * 1000),
+      source:    'telegram',
+      document,
+    };
+
+    // Fire-and-forget per message — don't block the caller
+    this.router.route(raw).catch(err => {
+      this.logger.error('TelegramBot: router.route threw', { error: err.message, chatId: raw.chatId });
+    });
+  }
+
   async _poll() {
     try {
       const allowedUpdates = JSON.stringify(['message']);
@@ -83,45 +127,8 @@ export class TelegramBot {
 
       for (const update of data.result) {
         this._offset = update.update_id + 1;
-
-        if (!update.message) continue;
-
-        const msg = update.message;
-        let document = null;
-
-        if (msg.document) {
-          const fileId   = msg.document.file_id;
-          const fileName = msg.document.file_name;
-          const mimeType = msg.document.mime_type;
-          
-          // Fetch file_path from Telegram to allow downloader to work
-          const fileInfo = await this._getFile(fileId);
-          if (fileInfo) {
-            document = {
-              fileId,
-              fileName,
-              mimeType,
-              filePath: fileInfo.file_path,
-            };
-          }
-        }
-
-        const raw = {
-          messageId: msg.message_id,
-          userId:    msg.from?.id,
-          chatId:    msg.chat?.id,
-          text:      msg.text || msg.caption || '',
-          date:      new Date(msg.date * 1000),
-          source:    'telegram',
-          document,
-        };
-
-        // Fire-and-forget per message — don't block the poll loop
-        this.router.route(raw).catch(err => {
-          this.logger.error('TelegramBot: router.route threw', { error: err.message, chatId: raw.chatId });
-        });
+        await this._processUpdate(update);
       }
-
     } catch (err) {
       if (err.name === 'TimeoutError' || err.name === 'AbortError') {
         // Normal — long-poll timeout, just loop again

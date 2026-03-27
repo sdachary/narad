@@ -2,8 +2,8 @@
  * Infrastructure: GitWorkflowManager
  * Implements IGitWorkflowManager for git operations and PR management
  */
-import { IGitWorkflowManager } from '../../../domain/interfaces/index.js';
-import { Task } from '../../../domain/entities/Task.js';
+import { IGitWorkflowManager } from '../../domain/interfaces/index.js';
+import { Task } from '../../domain/entities/Task.js';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 

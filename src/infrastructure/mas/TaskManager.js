@@ -2,10 +2,10 @@
  * Infrastructure: TaskManager
  * Implements ITaskManager for persisting tasks and subtasks
  */
-import { ITaskManager } from '../../../domain/interfaces/index.js';
-import { Task } from '../../../domain/entities/Task.js';
-import { Subtask } from '../../../domain/entities/Subtask.js';
-import { Checkpoint } from '../../../domain/entities/Checkpoint.js';
+import { ITaskManager } from '../../domain/interfaces/index.js';
+import { Task } from '../../domain/entities/Task.js';
+import { Subtask } from '../../domain/entities/Subtask.js';
+import { Checkpoint } from '../../domain/entities/Checkpoint.js';
 
 export class TaskManager extends ITaskManager {
   /**

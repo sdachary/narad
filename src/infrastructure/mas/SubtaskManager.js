@@ -2,10 +2,10 @@
  * Infrastructure: SubtaskManager
  * Implements ISubtaskManager for managing subtasks execution and agent assignment
  */
-import { ISubtaskManager } from '../../../domain/interfaces/index.js';
-import { Subtask } from '../../../domain/entities/Subtask.js';
-import { Agent } from '../../../domain/entities/Agent.js';
-import { Checkpoint } from '../../../domain/entities/Checkpoint.js';
+import { ISubtaskManager } from '../../domain/interfaces/index.js';
+import { Subtask } from '../../domain/entities/Subtask.js';
+import { Agent } from '../../domain/entities/Agent.js';
+import { Checkpoint } from '../../domain/entities/Checkpoint.js';
 
 export class SubtaskManager extends ISubtaskManager {
   /**
