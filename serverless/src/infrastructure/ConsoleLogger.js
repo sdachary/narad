@@ -1,13 +1,11 @@
 /**
  * Infrastructure: ConsoleLogger
  *
- * Implements ILogger. Structured JSON output for systemd journal.
+ * Implements ILogger. Structured logging for Cloudflare Workers.
  * Level controlled by LOG_LEVEL env var (default: 'info').
  */
 
 import { ILogger } from '../domain/interfaces/index.js';
-
-const LEVELS = { debug: 0, info: 1, warn: 2, error: 3 };
 
 export class ConsoleLogger extends ILogger {
   /**
@@ -17,6 +15,7 @@ export class ConsoleLogger extends ILogger {
    */
   constructor({ level = 'info', service = 'narad' } = {}) {
     super();
+    const LEVELS = { debug: 0, info: 1, warn: 2, error: 3 };
     this.minLevel = LEVELS[level] ?? LEVELS.info;
     this.service  = service;
   }
@@ -27,6 +26,7 @@ export class ConsoleLogger extends ILogger {
   debug(msg, meta = {}) { this._log('debug', msg, meta); }
 
   _log(level, msg, meta) {
+    const LEVELS = { debug: 0, info: 1, warn: 2, error: 3 };
     if ((LEVELS[level] ?? 0) < this.minLevel) return;
 
     const entry = {
@@ -37,12 +37,9 @@ export class ConsoleLogger extends ILogger {
       ...meta,
     };
 
+    // In Cloudflare Workers, we can use console.log with JSON.stringify
+    // or just return the entry for testing
     const line = JSON.stringify(entry);
-
-    if (level === 'error' || level === 'warn') {
-      process.stderr.write(line + '\n');
-    } else {
-      process.stdout.write(line + '\n');
-    }
+    console.log(line);
   }
 }

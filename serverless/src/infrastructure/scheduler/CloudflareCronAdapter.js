@@ -5,7 +5,7 @@
  * in the specific job handlers, but we provide a basic structure.
  */
 
-import { ConsoleLogger } from '../../../src/infrastructure/ConsoleLogger.js';
+import { ConsoleLogger } from '../ConsoleLogger.js';
 
 export async function cronJobHandler(request, env, ctx) {
   const logger = new ConsoleLogger({ level: env.LOG_LEVEL || 'info' });
