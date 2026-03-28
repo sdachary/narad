@@ -16,9 +16,9 @@ const rateLimitStore = new Map();
 
 // Rate limit configuration
 const RATE_LIMIT = {
-  maxRequests: 10,
+  maxRequests: 60,
   windowMs: 60000, // 1 minute
-  burstLimit: 3
+  burstLimit: 10
 };
 
 // Input validation schemas (Zod-like validation)
