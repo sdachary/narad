@@ -12,7 +12,7 @@
 - **XSS Prevention**: DOMPurify + safe DOM APIs
 - **CSRF Protection**: Token-based validation
 - **Input Validation**: Strict schema validation
-- **Rate Limiting**: 10 requests/minute
+- **Rate Limiting**: 60 requests/minute with burst allowance
 - **Security Headers**: CSP, X-Frame-Options, Referrer-Policy
 
 ### Premium UI 🎨
@@ -30,10 +30,17 @@
 
 ## Architecture
 
+### Diagram 1: Cloudflare Pages (Serverless)
+
 ```
-                           ┌─────────────────────┐
-                           │     You (Web)       │
-                           └──────────┬──────────┘
+                            ┌─────────────────────┐
+                            │     You (Web)       │
+                            └──────────┬──────────┘
+                                       │
+                            ┌──────────▼──────────┐
+                            │  Cloudflare Worker  │
+                            │ (narad-brain)       │
+                            └──────────┬──────────┘
                                       │
                            ┌──────────▼──────────┐
                            │  Cloudflare Worker  │
@@ -73,47 +80,107 @@
                                            │ (Groq, OpenRouter, etc.)  │
                                            └───────────────────────────┘
 ```
-                            ┌─────────────────────┐
-                            │     You (Web)       │
-                            └──────────┬──────────┘
-                                       │
-                            ┌──────────▼──────────┐
-                            │  Cloudflare Worker  │
-                            │ (narad-brain)       │
-                            └──────────┬──────────┘
-                                       │
-                    ┌──────────────────▼───────────────────┐
-                    │        Command Dispatcher              │
-                    ├───────────────┬──────────────────────┤
-                    │               │                      │
-            ┌───────▼───────┐  ┌────▼─────┐        ┌───────▼──────┐
-            │ HandleUserMessage │  │ HandleCronJob │  │ HandleMASRequest │
-            └───────────────┘  └─────────┘        └───────┬──────┘
-                                                          │
-                                            ┌─────────────▼─────────────┐
-                                            │   Multi-Agent System Core │
-                                            │                           │
-                                            │  ┌─────────────────────┐  │
-                                            │  │    TaskManager      │  │
-                                            │  └──────────┬─────────┘  │
-                                            │             │          │
-                                            │  ┌──────────▼─────────┐  │
-                                            │  │  SubtaskManager   │  │
-                                            │  └──────────┬─────────┘  │
-                                            │             │          │
-                                            │  ┌──────────▼─────────┐  │
-                                            │  │   AgentManager    │  │
-                                            │  └──────────┬─────────┘  │
-                                            │             │          │
-                                            │  ┌──────────▼─────────┐  │
-                                            │  │ GitWorkflowMgr    │  │
-                                            │  └──────────────────┘  │
-                                            └─────────────┬─────────┘
-                                                          │
-                                            ┌─────────────▼─────────────┐
-                                            │   Free AI Providers Pool  │
-                                            │ (Groq, OpenRouter, etc.)  │
-                                            └───────────────────────────┘
+
+### Diagram 2: Local Development (Telegram Bot + Cron Jobs)
+
+```
+                           ┌─────────────────────┐
+                           │    You (Telegram)   │
+                           └──────────┬──────────┘
+                                      │
+                           ┌──────────▼──────────┐
+                           │  TelegramBot (long-│
+                           │    polling)        │
+                           └──────────┬──────────┘
+                                      │
+                           ┌──────────▼──────────┐
+                           │   MessageRouter    │
+                           │ (security + parse) │
+                           └──────────┬──────────┘
+                                      │
+                   ┌──────────────────▼───────────────────┐
+                   │        Command Dispatcher              │
+                   ├───────────────┬──────────────────────┤
+                   │               │                      │
+           ┌───────▼───────┐  ┌────▼─────┐        ┌───────▼──────┐
+           │HandleUserMessage│  │HandleCronJob│       │HandleMASRequest│
+           └───────────────┘  └─────────┘        └───────┬──────┘
+                                                         │
+                                           ┌─────────────▼─────────────┐
+                                           │   Multi-Agent System     │
+                                           │  ┌───────────────────┐   │
+                                           │  │   TaskManager     │   │
+                                           │  └────────┬────────┘   │
+                                           │           │            │
+                                           │  ┌────────▼────────┐    │
+                                           │  │ SubtaskManager │    │
+                                           │  └────────┬────────┘   │
+                                           │           │            │
+                                           │  ┌────────▼────────┐    │
+                                           │  │  AgentManager  │    │
+                                           │  └────────┬────────┘   │
+                                           │           │            │
+                                           │  ┌────────▼────────┐    │
+                                           │  │GitWorkflowMgr  │    │
+                                           │  └────────────────┘    │
+                                           └─────────────┬─────────┘
+                                                         │
+                                           ┌─────────────▼─────────────┐
+                                           │   Free AI Providers       │
+                                           │ (Groq, OpenRouter, etc.)  │
+                                           └───────────────────────────┘
+
+Memory: SqliteMemoryStore (~/.narad/memory.db)
+Knowledge: FileKnowledgeLoader (~/narad/knowledge/)
+Scheduler: CronScheduler (morning digest, health check, weekly R&D)
+```
+
+### Diagram 3: Data Flow Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           USER INTERFACES                               │
+│  ┌─────────────────┐              ┌─────────────────┐                  │
+│  │   Web UI        │              │  Telegram Bot   │                  │
+│  │ (narad.pages.dev)│              │  (long-polling) │                  │
+│  └────────┬────────┘              └────────┬────────┘                  │
+└───────────┼──────────────────────────────┼─────────────────────────────┘
+            │                              │
+            ▼                              ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│                        CLOUDFLARE WORKER (Serverless)                    │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │                     API Endpoints                                  │   │
+│  │  /api/chat  │  /api/health  │  /api/metrics  │  /api/feedback     │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+│                                    │                                     │
+│  ┌─────────────────────────────────▼────────────────────────────────┐   │
+│  │                    Business Logic Layer                          │   │
+│  │  HandleUserMessage  │  HandleCronJob  │  HandleMASRequest         │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                    │                                     │
+│  ┌─────────────────────────────────▼────────────────────────────────┐   │
+│  │                  Multi-Agent System (MAS) Core                  │   │
+│  │                                                                   │   │
+│  │    TaskManager ──► SubtaskManager ──► AgentManager               │   │
+│  │         │                                       │                │   │
+│  │         └──────────────► GitWorkflowManager ◄──┘                │   │
+│  │                                                                   │   │
+│  └───────────────────────────────────────────────────────────────────┘   │
+│                                    │                                     │
+│  ┌─────────────────────────────────▼────────────────────────────────┐   │
+│  │                    AI Providers Pool (Fallback)                 │   │
+│  │   Groq → OpenRouter → Mistral → Gemini → OpenAI → Anthropic    │   │
+│  └───────────────────────────────────────────────────────────────────┘   │
+│                                    │                                     │
+│  ┌─────────────────────────────────▼────────────────────────────────┐   │
+│  │                      Storage Layer                              │   │
+│  │   KV Namespace (Cloudflare) │ In-Memory Fallback               │   │
+│  │   - Chat History            │ - Rate Limiting                  │   │
+│  │   - Usage Stats             │ - Pattern Tracking               │   │
+│  │   - Error Logs              │ - Metrics                        │   │
+│  └───────────────────────────────────────────────────────────────────┘   │
+└───────────────────────────────────────────────────────────────────────────┘
 ```
                            ┌─────────────────────┐
                            │     You (Web)       │
