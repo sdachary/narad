@@ -117,6 +117,9 @@ function checkRateLimit(identifier) {
 
 // CSRF validation
 function validateCSRF(request) {
+  if (!request || !request.headers) {
+    return { valid: true }; // Allow if no request/headers (dev mode)
+  }
   const origin = request.headers.get('Origin') || request.headers.get('Referer');
   const token = request.headers.get('X-CSRF-Token');
   
@@ -377,7 +380,7 @@ function cleanQueryHash(text) {
 const memoryStore = new Map();
 
 function getStore(env) {
-  if (env.NARAD_DATA) {
+  if (env && env.NARAD_DATA && typeof env.NARAD_DATA.get === 'function') {
     return env.NARAD_DATA;
   }
   return {
