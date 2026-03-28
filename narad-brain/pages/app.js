@@ -127,6 +127,9 @@ async function sendToApi(message) {
                     msgEl.classList.remove('streaming');
                     isStreaming = false;
                     
+                    // Update usage ring after response
+                    updateUsageRing();
+                    
                     // Show metadata
                     if (data.metadata) {
                         const meta = document.createElement('div');
