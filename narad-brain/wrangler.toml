@@ -4,7 +4,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "NARAD_DATA"
-id = "YOUR_KV_NAMESPACE_ID"
+id = "ca98881c7005404c8a0d00330759b80e"
 
 [vars]
 ENVIRONMENT = "production"
