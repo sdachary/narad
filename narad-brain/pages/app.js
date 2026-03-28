@@ -5,6 +5,9 @@ const statusText = document.querySelector('.status-text');
 const statusIcon = document.querySelector('.status-icon');
 const agentIndicator = document.getElementById('agent-indicator');
 
+// Storage key for chat history
+const STORAGE_KEY = 'narad-chat-history';
+
 // Check Health
 async function checkHealth() {
     try {
@@ -27,6 +30,73 @@ async function checkHealth() {
 
 checkHealth();
 setInterval(checkHealth, 30000);
+
+// Load chat history from localStorage
+function loadChatHistory() {
+    try {
+        const history = localStorage.getItem(STORAGE_KEY);
+        if (history) {
+            const messages = JSON.parse(history);
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.role} slide-up`;
+                
+                let agentBadge = '';
+                if (msg.agentType && msg.role === 'assistant') {
+                    const agentColors = {
+                        'coding': '#3b82f6',
+                        'testing': '#10b981', 
+                        'architecture': '#8b5cf6',
+                        'security': '#ef4444',
+                        'deployment': '#f59e0b',
+                        'general': '#6b7280'
+                    };
+                    const color = agentColors[msg.agentType] || '#6b7280';
+                    agentBadge = `<span class="agent-badge" style="background-color: ${color};">${msg.agentType}</span> `;
+                }
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        ${agentBadge}${msg.text}
+                    </div>
+                `;
+                chatMessages.appendChild(messageDiv);
+            });
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    } catch (error) {
+        console.warn('Failed to load chat history:', error);
+    }
+}
+
+// Save chat history to localStorage
+function saveChatHistory() {
+    try {
+        const messages = [];
+        document.querySelectorAll('.message').forEach(msgDiv => {
+            const role = msgDiv.classList.contains('message-user') ? 'user' : 'assistant';
+            const textElement = msgDiv.querySelector('.message-content');
+            const text = textElement ? textElement.textContent.trim() : '';
+            
+            // Extract agent type if present
+            let agentType = null;
+            const agentBadge = msgDiv.querySelector('.agent-badge');
+            if (agentBadge) {
+                agentType = agentBadge.textContent.trim();
+            }
+            
+            if (text) {
+                messages.push({ role, text, agentType });
+            }
+        });
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    } catch (error) {
+        console.warn('Failed to save chat history:', error);
+    }
+}
 
 function addMessage(text, role, agentType = null) {
     const messageDiv = document.createElement('div');
@@ -53,6 +123,10 @@ function addMessage(text, role, agentType = null) {
     `;
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Save to history
+    saveChatHistory();
+    
     return messageDiv;
 }
 
@@ -188,6 +262,9 @@ chatForm.addEventListener('submit', async (e) => {
     await sendMessage(message);
 });
 
+// Load chat history when the page loads
+loadChatHistory();
+
 // Add some visual flair - periodically update agent indicator to show activity
 setInterval(() => {
     if (agentIndicator) {
@@ -197,3 +274,18 @@ setInterval(() => {
         agentIndicator.textContent = dots[nextIndex];
     }
 }, 800);
+
+// Clear history button (for debugging/privacy)
+window.clearChatHistory = function() {
+    if (confirm('Are you sure you want to clear all chat history?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        // Keep only the initial message
+        chatMessages.innerHTML = `
+            <div class="message assistant slide-up">
+                <div class="message-content">
+                    👋 Greetings. I am Narad, your multi-agent AI assistant. I coordinate specialized agents to tackle complex tasks. How may I assist you today?
+                </div>
+            </div>
+        `;
+    }
+};
