@@ -373,19 +373,11 @@ function cleanQueryHash(text) {
   return cleaned;
 }
 
-function getEnvKV(env) {
-  if (!env.NARAD_DATA) {
-    throw new Error('NARAD_DATA KV namespace not bound. Please configure KV namespace in Cloudflare Pages settings.');
-  }
-  return env.NARAD_DATA;
-}
-
 // Get usage for agent type from KV, initializing if needed
 async function getUsage(env, agentType) {
-  const kv = getEnvKV(env);
   const today = getToday();
   const usageKey = `usage:${agentType}`;
-  const usageData = await kv.get(usageKey);
+  const usageData = await env.NARAD_DATA.get(usageKey);
   
   if (usageData) {
     const parsed = JSON.parse(usageData);
@@ -1041,22 +1033,11 @@ app.delete('/api/chat/history/:session_id', async (c) => {
   }
 });
 
-function getEnvKV(env, throwError = true) {
-  if (!env.NARAD_DATA) {
-    const msg = 'NARAD_DATA KV namespace not bound. Please configure KV namespace in Cloudflare Pages settings.';
-    if (throwError) throw new Error(msg);
-    return null;
-  }
-  return env.NARAD_DATA;
-}
-
 export default {
   async fetch(request, env, ctx) {
     // Check if KV is available
-    try {
-      getEnvKV(env, true);
-    } catch (e) {
-      return new Response(JSON.stringify({ error: e.message }), {
+    if (!env.NARAD_DATA) {
+      return new Response(JSON.stringify({ error: 'NARAD_DATA KV namespace not bound. Please configure KV namespace in Cloudflare Pages settings.' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
