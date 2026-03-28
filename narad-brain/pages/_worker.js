@@ -1,6 +1,5 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { randomUUID } from 'crypto';
 
 const app = new Hono();
 
@@ -233,7 +232,7 @@ app.post('/api/feedback', async (c) => {
     }
     
     // Store feedback linked to this specific message (optional: could store separately)
-    const feedbackKey = `feedback:${session_id}:${lastAssistant.textHash || randomUUID()}`;
+    const feedbackKey = `feedback:${session_id}:${lastAssistant.textHash || Date.now() + '-' + Math.random().toString(36).substr(2, 9)}`;
     await c.env.NARAD_DATA.put(feedbackKey, JSON.stringify({
       session_id,
       messageText: lastAssistant.text,
