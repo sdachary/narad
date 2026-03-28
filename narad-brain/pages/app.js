@@ -134,11 +134,14 @@ function handleKeyDown(e) {
     e.preventDefault();
     if (terminalInput.trim() === '') return;
     
+    // Store the original input before clearing
+    const originalInput = terminalInput;
+    
     // Add input line to output
-    addToOutput(terminalInput, 'input');
+    addToOutput(originalInput, 'input');
     
     // Add to history
-    commandHistory.push(terminalInput);
+    commandHistory.push(originalInput);
     historyIndex = -1; // Reset history index
     
     // Clear input
@@ -146,13 +149,13 @@ function handleKeyDown(e) {
     terminalInput = '';
     
     // Process command
-    const command = terminalInput.trim();
+    const command = originalInput.trim();
     if (command.startsWith('/')) {
       const response = handleCommand(command.substring(1));
       streamResponse(response);
     } else {
       // Mock AI response for non-command input
-      streamResponse(`You said: "${terminalInput}"\nAI: I'm a mock AI. I only respond to commands. Type /help for help.`);
+      streamResponse(`You said: "${originalInput}"\nAI: I'm a mock AI. I only respond to commands. Type /help for help.`);
     }
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
