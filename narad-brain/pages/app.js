@@ -1,26 +1,28 @@
 // Terminal-based interface for Narad
-// Replace the app-container with the terminal instead of inserting at body start
+const API_BASE = ''; // Empty for same-origin (Cloudflare Pages)
+let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
+localStorage.setItem('narad_session_id', sessionId);
+
+let chatHistory = [];
+let agentType = 'general';
+
 const appContainer = document.querySelector('.app-container');
 if (appContainer) {
   appContainer.innerHTML = '<div id="terminal-container"></div>';
 }
 const terminalContainer = document.getElementById('terminal-container');
 
-// State for the terminal
 let terminalOutput = [];
 let terminalInput = '';
 let commandHistory = [];
 let historyIndex = -1;
 let isStreaming = false;
 
-// DOM elements
 let terminalOutputEl;
 let terminalInputEl;
 let cursorEl;
 
-// Initialize the terminal
 function initTerminal() {
-  // Create terminal structure - simplified single page design without logo
   terminalContainer.innerHTML = `
     <div class="terminal">
       <div class="terminal-header">
@@ -29,43 +31,67 @@ function initTerminal() {
         </div>
         <div class="terminal-status">
           <div class="status-item">
-            <div class="status-dot connected"></div>
-            <span>API Connected</span>
+            <div class="status-dot connected" id="api-status-dot"></div>
+            <span id="api-status">Connecting...</span>
           </div>
           <div class="status-item">
-            <div class="status-dot"></div>
-            <span>Model: Claude 3</span>
+            <span>Agent:</span>
+            <select id="agent-select">
+              <option value="general">General</option>
+              <option value="coding">Coding</option>
+              <option value="research">Research</option>
+              <option value="debugging">Debugging</option>
+              <option value="testing">Testing</option>
+              <option value="deployment">Deployment</option>
+            </select>
           </div>
         </div>
       </div>
       
       <div class="terminal-body">
-        <div class="terminal-output" id="terminal-output">
-          <!-- Terminal output will be inserted here -->
-        </div>
+        <div class="terminal-output" id="terminal-output"></div>
         <div class="terminal-input">
           <span class="prompt">></span>
-          <input type="text" id="terminal-input" autocomplete="off" placeholder="Type a command...">
+          <input type="text" id="terminal-input" autocomplete="off" placeholder="Type a message...">
           <span class="cursor" id="cursor">█</span>
         </div>
       </div>
     </div>
   `;
   
-  // Get references to elements
   terminalOutputEl = document.getElementById('terminal-output');
   terminalInputEl = document.getElementById('terminal-input');
   cursorEl = document.getElementById('cursor');
   
-  // Add initial welcome message
-  addToOutput('👋 Welcome to Narad AI Terminal. Type /help for available commands.');
+  const agentSelect = document.getElementById('agent-select');
+  agentSelect.addEventListener('change', (e) => {
+    agentType = e.target.value;
+  });
+
+  addToOutput('👋 Welcome to Narad AI Terminal');
+  addToOutput('I am your multi-agent AI assistant. Select an agent type above and send me a message!');
+  addToOutput('---');
   
-  // Set up event listeners
+  checkApiHealth();
+  
   terminalInputEl.addEventListener('keydown', handleKeyDown);
   terminalInputEl.addEventListener('input', handleInput);
   
-  // Start cursor blink animation
   startCursorBlink();
+}
+
+async function checkApiHealth() {
+  try {
+    const res = await fetch(`${API_BASE}/api/health`);
+    if (res.ok) {
+      document.getElementById('api-status').textContent = 'API Connected';
+      document.getElementById('api-status-dot').classList.add('connected');
+    } else {
+      document.getElementById('api-status').textContent = 'API Error';
+    }
+  } catch (e) {
+    document.getElementById('api-status').textContent = 'API Offline';
+  }
 }
 
 // Add a line to the terminal output
@@ -109,36 +135,24 @@ function handleInput(e) {
 }
 
 // Handle key down events
-function handleKeyDown(e) {
-  if (isStreaming) return; // Ignore input during streaming
+async function handleKeyDown(e) {
+  if (isStreaming) return;
   
   if (e.key === 'Enter') {
     e.preventDefault();
     if (terminalInput.trim() === '') return;
     
-    // Store the original input before clearing
     const originalInput = terminalInput;
-    
-    // Add input line to output
     addToOutput(originalInput, 'input');
     
-    // Add to history
     commandHistory.push(originalInput);
-    historyIndex = -1; // Reset history index
+    historyIndex = -1;
     
-    // Clear input
     terminalInputEl.value = '';
     terminalInput = '';
     
-    // Process command
-    const command = originalInput.trim();
-    if (command.startsWith('/')) {
-      const response = handleCommand(command.substring(1));
-      streamResponse(response);
-    } else {
-      // Mock AI response for non-command input
-      streamResponse(`You said: "${originalInput}"\nAI: I'm a mock AI. I only respond to commands. Type /help for help.`);
-    }
+    // Send to API
+    await sendToApi(originalInput);
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
     if (commandHistory.length === 0) return;
@@ -196,24 +210,63 @@ function streamResponse(fullResponse) {
   }, 20); // 20ms per character for typing effect
 }
 
-// Handle commands
-function handleCommand(command) {
-  const [cmd, ...args] = command.trim().split(' ');
-  const argString = args.join(' ');
+// Send message to API and stream response
+async function sendToApi(message) {
+  isStreaming = true;
   
-  switch (cmd) {
-    case 'help':
-      return `Available commands:
-  /help - Show this help message
-  /run <command> - Simulate running a command
-  /explain <topic> - Explain a topic
-  `;
-    case 'run':
-      return `Running: ${argString}\nResult: Success!`;
-    case 'explain':
-      return `Explanation of ${argString}:\nThis is a mock explanation. In a real app, this would be generated by the AI.`;
-    default:
-      return `Unknown command: ${cmd}. Type /help for available commands.`;
+  const streamingContentEl = addToOutput('', 'streaming');
+  
+  try {
+    const response = await fetch(`${API_BASE}/api/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message,
+        history: chatHistory,
+        session_id: sessionId,
+        agent_type: agentType
+      })
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      streamingContentEl.textContent = `Error: ${error.error || 'Failed to get response'}`;
+      isStreaming = false;
+      return;
+    }
+    
+    const data = await response.json();
+    
+    if (data.reply) {
+      // Update chat history
+      chatHistory.push({ role: 'user', text: message });
+      chatHistory.push({ role: 'assistant', text: data.reply });
+      
+      // Stream the response
+      let charIndex = 0;
+      const reply = data.reply;
+      
+      const interval = setInterval(() => {
+        if (charIndex < reply.length) {
+          streamingContentEl.textContent += reply[charIndex];
+          charIndex++;
+          terminalOutputEl.scrollTop = terminalOutputEl.scrollHeight;
+        } else {
+          clearInterval(interval);
+          isStreaming = false;
+          
+          // Show metadata
+          if (data.metadata) {
+            addToOutput(`--- (${data.metadata.tokens} tokens, ${data.metadata.agentType} agent)`, 'output');
+          }
+        }
+      }, 15);
+    }
+  } catch (error) {
+    streamingContentEl.textContent = `Error: ${error.message}`;
+    isStreaming = false;
   }
 }
 
@@ -240,12 +293,9 @@ if (document.readyState === 'loading') {
 // Keep the existing usage panel update function for compatibility
 async function updateUsagePanel() {
   try {
-    const res = await fetch('/api/usage');
+    const res = await fetch(`${API_BASE}/api/usage`);
     if (res.ok) {
       const usageData = await res.json();
-      
-      // Update terminal status based on usage
-      // For now, just log to console
       console.log('Usage data:', usageData);
     }
   } catch (error) {

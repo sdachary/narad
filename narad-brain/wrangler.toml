@@ -2,6 +2,13 @@ name = "narad"
 compatibility_date = "2024-11-05"
 compatibility_flags = ["nodejs_compat"]
 
+[[kv_namespaces]]
+binding = "NARAD_DATA"
+id = "YOUR_KV_NAMESPACE_ID"
+
 [vars]
 ENVIRONMENT = "production"
 PRIMARY_MODEL = "llama-3.3-70b-versatile"
+
+# Uncomment and set these in your secrets:
+# GROQ_API_KEY = ""
