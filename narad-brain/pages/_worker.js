@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { randomUUID } from 'crypto';
 
 const app = new Hono();
 
@@ -21,6 +22,29 @@ const DAILY_LIMITS = {
 // Helper to get today's date string
 function getToday() {
   return new Date().toISOString().split('T')[0];
+}
+
+// Simple string hash (djb2) returning a non-negative integer
+function simpleHash(str) {
+  let hash = 5381;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) + hash) + char; // hash * 33 + char
+    hash = hash & 0xFFFFFFFF; // convert to 32-bit integer
+  }
+  return Math.abs(hash);
+}
+
+// Clean text for hashing: lowercase, remove punctuation, collapse whitespace
+function cleanQueryHash(text) {
+  if (!text) return '';
+  // Lowercase
+  let cleaned = text.toLowerCase();
+  // Remove punctuation and special chars, keep alphanumeric and whitespace
+  cleaned = cleaned.replace(/[^a-z0-9\s]/g, '');
+  // Collapse multiple whitespace
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  return cleaned;
 }
 
 // Get usage for agent type from KV, initializing if needed
@@ -77,6 +101,67 @@ async function saveChatHistory(env, sessionId, messages) {
   await env.NARAD_DATA.put(key, JSON.stringify(messages));
 }
 
+// Get the last assistant message for a session
+async function getLastAssistantMessage(env, sessionId) {
+  const history = await getChatHistory(env, sessionId);
+  // Find the last assistant message
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].role === 'assistant') {
+      return history[i];
+    }
+  }
+  return null;
+}
+
+// Get pattern stats for a query hash
+async function getPattern(env, queryHash) {
+  if (!queryHash) return null;
+  const key = `pattern:${queryHash}`;
+  const data = await env.NARAD_DATA.get(key);
+  if (data) {
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
+}
+
+// Update pattern stats with a new score (-1,0,1)
+async function updatePattern(env, queryHash, score) {
+  if (!queryHash) return;
+  const key = `pattern:${queryHash}`;
+  const existing = await getPattern(env, queryHash);
+  let count = (existing && existing.count) || 0;
+  let totalScore = (existing && existing.totalScore) || 0;
+  count += 1;
+  totalScore += score;
+  const avgScore = totalScore / count;
+  const patternData = {
+    count,
+    totalScore,
+    avgScore,
+    lastUpdated: new Date().toISOString()
+  };
+  await env.NARAD_DATA.put(key, JSON.stringify(patternData));
+  return patternData;
+}
+
+// Generate a hint string based on pattern performance (optional)
+function getPatternHint(patternData) {
+  if (!patternData) return '';
+  const { avgScore, count } = patternData;
+  if (count >= 3) {
+    if (avgScore >= 0.8) {
+      return 'Note: Similar queries have received highly positive feedback.';
+    } else if (avgScore <= -0.5) {
+      return 'Caution: Similar queries have received negative feedback; consider clarifying or adjusting approach.';
+    }
+  }
+  return '';
+}
+
 // Clear all usage stats (optional admin endpoint)
 async function resetUsage(env) {
   const today = getToday();
@@ -88,6 +173,55 @@ async function resetUsage(env) {
 // Clear chat history for a session_id (optional)
 async function clearChatHistory(env, sessionId) {
   await env.NARAD_DATA.delete(`chat:${sessionId}`);
+}
+
+// Get pattern stats for a query hash
+async function getPattern(env, queryHash) {
+  if (!queryHash) return null;
+  const key = `pattern:${queryHash}`;
+  const data = await env.NARAD_DATA.get(key);
+  if (data) {
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
+}
+
+// Update pattern stats with a new score (-1,0,1)
+async function updatePattern(env, queryHash, score) {
+  if (!queryHash) return;
+  const key = `pattern:${queryHash}`;
+  const existing = await getPattern(env, queryHash);
+  let count = (existing && existing.count) || 0;
+  let totalScore = (existing && existing.totalScore) || 0;
+  count += 1;
+  totalScore += score;
+  const avgScore = totalScore / count;
+  const patternData = {
+    count,
+    totalScore,
+    avgScore,
+    lastUpdated: new Date().toISOString()
+  };
+  await env.NARAD_DATA.put(key, JSON.stringify(patternData));
+  return patternData;
+}
+
+// Generate a hint string based on pattern performance (optional)
+function getPatternHint(patternData) {
+  if (!patternData) return '';
+  const { avgScore, count } = patternData;
+  if (count >= 3) {
+    if (avgScore >= 0.8) {
+      return 'Note: Similar queries have received highly positive feedback.';
+    } else if (avgScore <= -0.5) {
+      return 'Caution: Similar queries have received negative feedback; consider clarifying or adjusting approach.';
+    }
+  }
+  return '';
 }
 
 app.use('*', cors());
@@ -129,6 +263,44 @@ app.post('/api/reset-usage', async (c) => {
 });
 
 // Core AGI Chat Endpoint
+// Feedback endpoint: receive user feedback on the last assistant message
+app.post('/api/feedback', async (c) => {
+  try {
+    const { session_id, score } = await c.req.json(); // score: -1, 0, or 1
+    if (typeof session_id !== 'string' || session_id.trim() === '') {
+      return c.json({ error: 'Valid session_id is required' }, 400);
+    }
+    if (typeof score !== 'number' || ![ -1, 0, 1 ].includes(score)) {
+      return c.json({ error: 'Score must be -1, 0, or 1' }, 400);
+    }
+    
+    // Get the last assistant message for this session to associate feedback
+    const lastAssistant = await getLastAssistantMessage(c.env, session_id);
+    if (!lastAssistant) {
+      return c.json({ error: 'No assistant message found for this session' }, 404);
+    }
+    
+    // Store feedback linked to this specific message (optional: could store separately)
+    const feedbackKey = `feedback:${session_id}:${lastAssistant.textHash || randomUUID()}`;
+    await c.env.NARAD_DATA.put(feedbackKey, JSON.stringify({
+      session_id,
+      messageText: lastAssistant.text,
+      score,
+      timestamp: new Date().toISOString()
+    }));
+    
+    // Update pattern stats if we have a queryHash stored with the message
+    if (lastAssistant.queryHash) {
+      await updatePattern(c.env, lastAssistant.queryHash, score);
+    }
+    
+    return c.json({ success: true });
+  } catch (error) {
+    return c.json({ error: 'Failed to process feedback' }, 500);
+  }
+});
+
+// Core AGI Chat Endpoint
 app.post('/api/chat', async (c) => {
   try {
     const { message, history, context, session_id, agent_type } = await c.req.json();
@@ -153,7 +325,16 @@ app.post('/api/chat', async (c) => {
       }, 429); // Too Many Requests
     }
 
-    const systemPrompt = [
+    // Compute query hash for pattern-based feedback
+    const cleaned = cleanQueryHash(message);
+    const queryHash = simpleHash(cleaned).toString();
+
+    // Retrieve pattern stats for hinting
+    const patternData = await getPattern(c.env, queryHash);
+    const patternHint = getPatternHint(patternData);
+
+    // Build system prompt with optional hint
+    const systemPromptParts = [
       'You are Narad, the omniscient messenger of the Nisha Platform.',
       '',
       'MISSION:',
@@ -164,12 +345,18 @@ app.post('/api/chat', async (c) => {
       '',
       'AGENT TYPE:',
       agentType === 'general' ? 'General purpose' : `Specialized in ${agentType} tasks`
-    ].join('\n');
+    ];
+    if (patternHint) {
+      systemPromptParts.push('');
+      systemPromptParts.push('FEEDBACK HINT:');
+      systemPromptParts.push(patternHint);
+    }
+    const systemPrompt = systemPromptParts.join('\n');
 
     const messages = [
       { role: 'system', content: systemPrompt },
       ...(history || []),
-      { role: 'user', content: message }
+      { role: 'user', text: message, queryHash: queryHash } // store for feedback
     ];
 
     const model = c.env.PRIMARY_MODEL || 'llama-3.3-70b-versatile';
@@ -191,6 +378,80 @@ app.post('/api/chat', async (c) => {
             max_tokens: 2048
           })
         });
+
+        if (res.status === 429) {
+          // Rate limited — wait and retry
+          lastErr = 'Groq API rate limited (429). Please wait a moment and try again.';
+          await new Promise(r => setTimeout(r, 1000));
+          continue;
+        }
+
+        if (res.status >= 500) {
+          // Groq server error — retry
+          const errText = await res.text().catch(() => 'unknown');
+          lastErr = `Groq API server error (${res.status}): ${errText.slice(0, 200)}`;
+          await new Promise(r => setTimeout(r, 500));
+          continue;
+        }
+
+        if (!res.ok) {
+          const err = await res.text();
+          return c.json({ 
+            error: `Groq API error: ${res.status}`, 
+            details: err.slice(0, 200) 
+          }, 502);
+        }
+
+        const data = await res.json();
+        const reply = data.choices?.[0]?.message?.content;
+        const usage = data.usage;
+
+        if (!reply) {
+          return c.json({
+            error: 'Groq returned an empty response. The model may be overloaded.',
+          }, 502);
+        }
+
+        // Track token usage
+        const totalTokens = usage?.total_tokens || 0;
+        await addUsage(c.env, agentType, totalTokens);
+
+        // Save chat history (store queryHash with both user and assistant msgs)
+        const chatHistory = await getChatHistory(c.env, session_id);
+        const newHistory = [
+          ...chatHistory,
+          { role: 'user', text: message, agentType: agentType, queryHash: queryHash },
+          { role: 'assistant', text: reply, agentType: agentType, queryHash: queryHash }
+        ];
+        await saveChatHistory(c.env, session_id, newHistory);
+
+        return c.json({ 
+          reply, 
+          session_id,
+          metadata: {
+            model,
+            tokens: totalTokens,
+            agentType: agentType,
+            remainingTokens: await getRemaining(c.env, agentType)
+          }
+        });
+      } catch (fetchErr) {
+        lastErr = fetchErr.message;
+        if (attempt < 1) {
+          await new Promise(r => setTimeout(r, 500));
+        }
+      }
+    }
+
+    // All retries failed
+    return c.json({ 
+      error: 'Failed to reach Groq API after retries', 
+      details: lastErr 
+    }, 502);
+  } catch (err) {
+    return c.json({ error: 'Internal Worker Error', message: err.message }, 500);
+  }
+});
 
         if (res.status === 429) {
           // Rate limited — wait and retry
