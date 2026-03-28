@@ -117,6 +117,7 @@ export async function telegramWebhookHandler(request, env) {
     }
   } catch (err) {
     logger.error('TelegramWebhookHandler: unhandled error', { error: err.message });
-    return new Response('Internal Server Error', { status: 500 });
+    // Still return 200 to prevent Telegram from retrying indefinitely
+    return new Response('OK', { status: 200 });
   }
 }

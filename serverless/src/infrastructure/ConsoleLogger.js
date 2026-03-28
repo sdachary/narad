@@ -38,7 +38,6 @@ export class ConsoleLogger extends ILogger {
     };
 
     // In Cloudflare Workers, we can use console.log with JSON.stringify
-    // or just return the entry for testing
     const line = JSON.stringify(entry);
     console.log(line);
   }
