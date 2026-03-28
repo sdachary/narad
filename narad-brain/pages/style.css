@@ -19,8 +19,6 @@
     --terminal-prompt: #60a5fa;
     --terminal-status-connected: #10b981;
     --terminal-status-disconnected: #ef4444;
-    --terminal-sidebar-bg: rgba(10, 10, 15, 0.9);
-    --terminal-sidebar-border: rgba(30, 30, 40, 0.5);
     --terminal-accent: #60a5fa;
     --terminal-accent-dark: #3b82f6;
 }
@@ -28,6 +26,7 @@
 /* Terminal Styles */
 .terminal {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     width: 100vw;
     background: var(--terminal-bg);
@@ -45,18 +44,10 @@
     border-bottom: 1px solid var(--terminal-border);
 }
 
-.terminal-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.logo-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--terminal-accent);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--terminal-accent);
+.terminal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--terminal-accent);
 }
 
 .terminal-status {
@@ -81,65 +72,6 @@
 .status-dot.connected {
     background: var(--terminal-status-connected);
     box-shadow: 0 0 8px var(--terminal-status-connected);
-}
-
-.terminal-toggle {
-    background: transparent;
-    border: none;
-    color: var(--terminal-text);
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.terminal-toggle:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.terminal-sidebar {
-    width: 280px;
-    background: var(--terminal-sidebar-bg);
-    border-right: 1px solid var(--terminal-sidebar-border);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar-header {
-    padding: 1rem;
-    border-bottom: 1px solid var(--terminal-sidebar-border);
-    background: var(--terminal-panel-bg);
-}
-
-.sidebar-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--terminal-accent);
-}
-
-.sidebar-content {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-}
-
-.history-item {
-    padding: 0.5rem;
-    margin-bottom: 0.25rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
-}
-
-.history-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.history-item.active {
-    background: rgba(96, 165, 250, 0.2);
 }
 
 .terminal-body {
@@ -187,7 +119,7 @@
     display: flex;
     align-items: center;
     padding: 1rem 1.5rem;
-    background: var-terminal-input-bg;
+    background: var(--terminal-input-bg);
     border-top: 1px solid var(--terminal-border);
     gap: 0.75rem;
 }
@@ -228,24 +160,20 @@
 }
 
 /* Scrollbar styles for terminal */
-.terminal-output::-webkit-scrollbar,
-.sidebar-content::-webkit-scrollbar {
+.terminal-output::-webkit-scrollbar {
     width: 8px;
 }
 
-.terminal-output::-webkit-scrollbar-track,
-.sidebar-content::-webkit-scrollbar-track {
+.terminal-output::-webkit-scrollbar-track {
     background: var(--terminal-bg);
 }
 
-.terminal-output::-webkit-scrollbar-thumb,
-.sidebar-content::-webkit-scrollbar-thumb {
+.terminal-output::-webkit-scrollbar-thumb {
     background-color: var(--terminal-border);
     border-radius: 4px;
 }
 
-.terminal-output::-webkit-scrollbar-thumb:hover,
-.sidebar-content::-webkit-scrollbar-thumb:hover {
+.terminal-output::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -254,23 +182,4 @@
 .chat-input-area,
 .usage-panel {
     display: none !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .terminal-sidebar {
-        width: 200px;
-    }
-    
-    .terminal-header {
-        padding: 0.75rem 1rem;
-    }
-    
-    .terminal-input {
-        padding: 0.75rem 1rem;
-    }
-    
-    .terminal-output {
-        padding: 1rem;
-    }
 }
