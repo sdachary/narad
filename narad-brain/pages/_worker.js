@@ -8,7 +8,9 @@ const app = new Hono();
 // We'll store:
 // - chat history: key `chat:${session_id}` -> JSON string of messages array
 // - usage stats: key `usage:${agentType}` -> JSON string of { tokensUsed: number, lastReset: string (YYYY-MM-DD) }
-// - We'll also store a global reset token? No, we'll compute today each time.
+// - pattern stats: key `pattern:${queryHash}` -> JSON string of { count, totalScore, avgScore, lastUpdated }
+// - feedback: key `feedback:${session_id}:${random}` -> { session_id, messageText, score, timestamp }
+// We'll also store a global reset token? No, we'll compute today each time.
 
 const DAILY_LIMITS = {
   coding: 200000,
@@ -175,55 +177,6 @@ async function clearChatHistory(env, sessionId) {
   await env.NARAD_DATA.delete(`chat:${sessionId}`);
 }
 
-// Get pattern stats for a query hash
-async function getPattern(env, queryHash) {
-  if (!queryHash) return null;
-  const key = `pattern:${queryHash}`;
-  const data = await env.NARAD_DATA.get(key);
-  if (data) {
-    try {
-      return JSON.parse(data);
-    } catch (e) {
-      return null;
-    }
-  }
-  return null;
-}
-
-// Update pattern stats with a new score (-1,0,1)
-async function updatePattern(env, queryHash, score) {
-  if (!queryHash) return;
-  const key = `pattern:${queryHash}`;
-  const existing = await getPattern(env, queryHash);
-  let count = (existing && existing.count) || 0;
-  let totalScore = (existing && existing.totalScore) || 0;
-  count += 1;
-  totalScore += score;
-  const avgScore = totalScore / count;
-  const patternData = {
-    count,
-    totalScore,
-    avgScore,
-    lastUpdated: new Date().toISOString()
-  };
-  await env.NARAD_DATA.put(key, JSON.stringify(patternData));
-  return patternData;
-}
-
-// Generate a hint string based on pattern performance (optional)
-function getPatternHint(patternData) {
-  if (!patternData) return '';
-  const { avgScore, count } = patternData;
-  if (count >= 3) {
-    if (avgScore >= 0.8) {
-      return 'Note: Similar queries have received highly positive feedback.';
-    } else if (avgScore <= -0.5) {
-      return 'Caution: Similar queries have received negative feedback; consider clarifying or adjusting approach.';
-    }
-  }
-  return '';
-}
-
 app.use('*', cors());
 
 // Health check
@@ -262,7 +215,6 @@ app.post('/api/reset-usage', async (c) => {
   }
 });
 
-// Core AGI Chat Endpoint
 // Feedback endpoint: receive user feedback on the last assistant message
 app.post('/api/feedback', async (c) => {
   try {
@@ -448,81 +400,6 @@ app.post('/api/chat', async (c) => {
       error: 'Failed to reach Groq API after retries', 
       details: lastErr 
     }, 502);
-  } catch (err) {
-    return c.json({ error: 'Internal Worker Error', message: err.message }, 500);
-  }
-});
-
-        if (res.status === 429) {
-          // Rate limited — wait and retry
-          lastErr = 'Groq API rate limited (429). Please wait a moment and try again.';
-          await new Promise(r => setTimeout(r, 1000));
-          continue;
-        }
-
-        if (res.status >= 500) {
-          // Groq server error — retry
-          const errText = await res.text().catch(() => 'unknown');
-          lastErr = `Groq API server error (${res.status}): ${errText.slice(0, 200)}`;
-          await new Promise(r => setTimeout(r, 500));
-          continue;
-        }
-
-        if (!res.ok) {
-          const err = await res.text();
-          return c.json({ 
-            error: `Groq API error: ${res.status}`, 
-            details: err.slice(0, 200) 
-          }, 502);
-        }
-
-        const data = await res.json();
-        const reply = data.choices?.[0]?.message?.content;
-        const usage = data.usage;
-
-        if (!reply) {
-          return c.json({
-            error: 'Groq returned an empty response. The model may be overloaded.',
-          }, 502);
-        }
-
-        // Track token usage
-        const totalTokens = usage?.total_tokens || 0;
-        await addUsage(c.env, agentType, totalTokens);
-
-        // Save chat history
-        const chatHistory = await getChatHistory(c.env, session_id);
-        const newHistory = [
-          ...chatHistory,
-          { role: 'user', text: message, agentType: agentType },
-          { role: 'assistant', text: reply, agentType: agentType }
-        ];
-        await saveChatHistory(c.env, session_id, newHistory);
-
-        return c.json({ 
-          reply, 
-          session_id,
-          metadata: {
-            model,
-            tokens: totalTokens,
-            agentType: agentType,
-            remainingTokens: await getRemaining(c.env, agentType)
-          }
-        });
-      } catch (fetchErr) {
-        lastErr = fetchErr.message;
-        if (attempt < 1) {
-          await new Promise(r => setTimeout(r, 500));
-        }
-      }
-    }
-
-    // All retries failed
-    return c.json({ 
-      error: 'Failed to reach Groq API after retries', 
-      details: lastErr 
-    }, 502);
-
   } catch (err) {
     return c.json({ error: 'Internal Worker Error', message: err.message }, 500);
   }
