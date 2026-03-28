@@ -1,8 +1,8 @@
 /**
  * Domain Service: MessageParser
  *
- * Parses raw Telegram update text into structured Message entities.
- * Pure domain logic — no Telegram SDK types, no side effects.
+ * Parses raw update text from any source into structured Message entities.
+ * Pure domain logic — no SDK types, no side effects.
  */
 
 import { Message } from '../entities/Message.js';
@@ -22,6 +22,7 @@ export const KNOWN_COMMANDS = new Set([
   'digest',
   'experiment',
   'upload',
+  'build',
 ]);
 
 export class MessageParser {
@@ -34,12 +35,12 @@ export class MessageParser {
    * @param {string|number} raw.chatId     - Chat/channel ID
    * @param {string}        raw.text       - Full message text
    * @param {Date|string}   raw.date       - Message timestamp
-   * @param {string}        raw.source     - 'telegram'|'web'|'cron'
+   * @param {string}        raw.source     - 'web'|'cron'
    * @returns {Message}
    */
   parse(raw) {
     const text    = (raw.text || '').trim();
-    const source  = raw.source || 'telegram';
+     const source  = raw.source || 'web';
     const id      = String(raw.messageId || randomUUID());
     const userId  = String(raw.userId);
     const chatId  = String(raw.chatId);

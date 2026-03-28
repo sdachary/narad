@@ -30,7 +30,7 @@ export class Message {
     this.command    = command || null;
     this.args       = args || '';
     this.receivedAt = receivedAt instanceof Date ? receivedAt : new Date(receivedAt);
-    this.source     = source || 'telegram';
+    this.source     = source || 'web';
     this.document   = document || null;
   }
 

@@ -6,12 +6,12 @@
  *
  * Pattern: Dependency Inversion Principle.
  *   High-level policy (use cases) ← depends on → these interfaces
- *   Low-level detail (Telegram, Groq HTTP) → implements these interfaces
+ *   Low-level detail (Groq HTTP) → implements these interfaces
  */
 
 // ---------------------------------------------------------------------------
 // IMessageSender
-// Sends a reply back to the user, regardless of transport (Telegram, HTTP, etc.)
+// Sends a reply back to the user via HTTP
 // ---------------------------------------------------------------------------
 export class IMessageSender {
   /**
@@ -101,7 +101,7 @@ export class ILogger {
 
 // ---------------------------------------------------------------------------
 // IFileDownloader
-// Downloads a file from a remote source (e.g. Telegram) to a local path.
+// Downloads a file from a remote source to a local path.
 // ---------------------------------------------------------------------------
 export class IFileDownloader {
   /**
