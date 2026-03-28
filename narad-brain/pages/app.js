@@ -162,15 +162,23 @@ async function updateUsageRing() {
 
 // Render usage text in header
 function renderUsageRing(usageData) {
+    if (!usageData || typeof usageData !== 'object') {
+        usageRing.innerHTML = '<span class="tokens">-- tokens</span><span class="percent">--% used</span>';
+        return;
+    }
+    
     let totalUsed = 0;
     let totalLimit = 0;
     
     for (const agent in usageData) {
-        totalUsed += usageData[agent].tokensUsed || 0;
-        totalLimit += usageData[agent].limit || 200000;
+        if (usageData[agent]) {
+            totalUsed += usageData[agent].tokensUsed || 0;
+            totalLimit += usageData[agent].limit || 200000;
+        }
     }
     
-    const percent = Math.min(100, (totalUsed / totalLimit) * 100);
+    const percent = totalLimit > 0 ? Math.min(100, (totalUsed / totalLimit) * 100) : 0;
+    const percentStr = percent < 1 && percent > 0 ? '<1%' : percent.toFixed(0) + '%';
     
     let colorClass = '';
     if (percent >= 90) colorClass = 'danger';
@@ -178,7 +186,7 @@ function renderUsageRing(usageData) {
     
     usageRing.innerHTML = `
         <span class="tokens">${formatNumber(totalUsed)} tokens</span>
-        <span class="percent ${colorClass}">${percent.toFixed(0)}% used</span>
+        <span class="percent ${colorClass}">${percentStr} used</span>
     `;
 }
 
