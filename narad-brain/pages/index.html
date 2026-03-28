@@ -13,24 +13,16 @@
     <div class="background-overlay"></div>
     <main class="app-container">
         <header class="app-header">
-            <div class="logo-container">
-                <img src="narad_logo.png" alt="Narad Logo" class="app-logo">
-            </div>
             <div class="header-text">
                 <h1>Narad</h1>
-                <p>Multi-Agent AI Assistant</p>
+                <p>AI Assistant</p>
             </div>
             <div class="header-controls">
                 <div class="status-badge" id="service-status">
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
                 </div>
-                <button class="usage-btn" id="usage-btn" title="View Usage">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v6l4 2"></path>
-                    </svg>
-                </button>
+                <div class="usage-ring" id="usage-ring"></div>
             </div>
         </header>
 
@@ -55,19 +47,6 @@
             </section>
         </div>
     </main>
-
-    <!-- Usage Panel (Overlay) -->
-    <div class="usage-overlay" id="usage-overlay">
-        <div class="usage-modal">
-            <div class="usage-header">
-                <h2>📊 Agent Usage</h2>
-                <button class="close-btn" id="close-usage">✕</button>
-            </div>
-            <div class="usage-grid" id="usage-grid">
-                <!-- Ring charts will be inserted here -->
-            </div>
-        </div>
-    </div>
     <script src="app.js"></script>
 </body>
 </html>
