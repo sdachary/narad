@@ -54,40 +54,100 @@ const AI_PROVIDERS = {
       strong: 'claude-3-opus-20240229'
     },
     defaultModel: 'claude-3-haiku-20240307'
+  },
+  openrouter: {
+    name: 'OpenRouter',
+    apiKey: 'OPENROUTER_API_KEY',
+    endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+    models: {
+      fast: 'google/gemma-2-9b-it:free',
+      balanced: 'meta-llama/llama-3.1-70b-instruct',
+      strong: 'deepseek/deepseek-chat'
+    },
+    defaultModel: 'google/gemma-2-9b-it:free',
+    requiresModelInBody: true
+  },
+  gemini: {
+    name: 'Gemini',
+    apiKey: 'GEMINI_API_KEY',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models',
+    models: {
+      fast: 'gemini-1.5-flash',
+      balanced: 'gemini-1.5-pro',
+      strong: 'gemini-1.5-pro'
+    },
+    defaultModel: 'gemini-1.5-flash',
+    isGemini: true
+  },
+  mistral: {
+    name: 'Mistral',
+    apiKey: 'MISTRAL_API_KEY',
+    endpoint: 'https://api.mistral.ai/v1/chat/completions',
+    models: {
+      fast: 'mistral-small-latest',
+      balanced: 'mistral-medium-latest',
+      strong: 'mistral-large-latest'
+    },
+    defaultModel: 'mistral-small-latest'
   }
 };
 
-// Analyze query and select best provider/model
-function selectProviderAndModel(agentType, message) {
+// Provider order for fallback (tries in order until one works)
+const PROVIDER_FALLBACK_ORDER = ['groq', 'openrouter', 'mistral', 'gemini', 'openai', 'anthropic'];
+
+// Analyze query and select best provider/model based on task type
+function selectProviderAndModel(agentType, message, availableProviders) {
   const lowerMessage = message.toLowerCase();
   
-  // Coding tasks - prefer Groq for speed
+  // Filter available providers
+  const available = availableProviders || PROVIDER_FALLBACK_ORDER;
+  
+  // Coding tasks - prefer fast providers
   if (agentType === 'coding' || lowerMessage.includes('code') || lowerMessage.includes('function') || lowerMessage.includes('implement')) {
-    return { provider: 'groq', model: AI_PROVIDERS.groq.models.balanced };
+    const provider = available.find(p => ['groq', 'mistral', 'openrouter'].includes(p));
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced };
   }
   
   // Debugging - need detailed analysis
   if (agentType === 'debugging' || lowerMessage.includes('debug') || lowerMessage.includes('error') || lowerMessage.includes('fix')) {
-    return { provider: 'openai', model: AI_PROVIDERS.openai.models.balanced };
+    const provider = available.find(p => ['openai', 'anthropic', 'gemini'].includes(p));
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced };
   }
   
-  // Research - prefer Claude for reasoning
+  // Research - prefer reasoning models
   if (agentType === 'research' || lowerMessage.includes('research') || lowerMessage.includes('explain') || lowerMessage.includes('analysis')) {
-    return { provider: 'anthropic', model: AI_PROVIDERS.anthropic.models.balanced };
+    const provider = available.find(p => ['anthropic', 'gemini', 'openai'].includes(p));
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced };
   }
   
-  // Testing - balanced approach
+  // Testing - strong models
   if (agentType === 'testing' || lowerMessage.includes('test') || lowerMessage.includes('spec')) {
-    return { provider: 'groq', model: AI_PROVIDERS.groq.models.strong };
+    const provider = available.find(p => ['anthropic', 'openai', 'mistral'].includes(p));
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.strong };
   }
   
-  // Deployment - quick responses
+  // Deployment - fast responses
   if (agentType === 'deployment' || lowerMessage.includes('deploy') || lowerMessage.includes('docker') || lowerMessage.includes('kubernetes')) {
-    return { provider: 'openai', model: AI_PROVIDERS.openai.models.fast };
+    const provider = available.find(p => ['groq', 'mistral', 'openrouter', 'gemini'].includes(p));
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.fast };
   }
   
-  // Default: use Groq for general tasks (fast and free tier friendly)
-  return { provider: 'groq', model: AI_PROVIDERS.groq.models.balanced };
+  // Default: use first available provider
+  if (available.length > 0) {
+    const provider = available[0];
+    return { provider, model: AI_PROVIDERS[provider].defaultModel };
+  }
+  
+  // Fallback to Groq
+  return { provider: 'groq', model: AI_PROVIDERS.groq.defaultModel };
+}
+
+// Get available providers based on configured API keys
+function getAvailableProviders(env) {
+  return PROVIDER_FALLBACK_ORDER.filter(p => {
+    const provider = AI_PROVIDERS[p];
+    return env[provider.apiKey];
+  });
 }
 
 // Get provider config
@@ -260,11 +320,15 @@ async function clearChatHistory(env, sessionId) {
 app.use('*', cors());
 
 // Health check
-app.get('/api/health', (c) => c.json({ 
-  status: 'ok', 
-  service: 'narad-brain',
-  timestamp: new Date().toISOString()
-}));
+app.get('/api/health', (c) => {
+  const availableProviders = getAvailableProviders(c.env);
+  return c.json({ 
+    status: 'ok', 
+    service: 'narad-brain',
+    providers: availableProviders,
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Get usage stats for all agent types
 app.get('/api/usage', async (c) => {
@@ -352,22 +416,30 @@ app.post('/api/chat', async (c) => {
       }, 429); // Too Many Requests
     }
 
+    // Get available providers
+    const availableProviders = getAvailableProviders(c.env);
+    
+    if (availableProviders.length === 0) {
+      return c.json({ error: 'No AI provider configured. Please set at least one API key (GROQ_API_KEY, OPENROUTER_API_KEY, MISTRAL_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY)' }, 500);
+    }
+
     // Select provider and model (automatic routing or forced)
     let providerConfig;
+    let selectedProvider;
     if (force_provider && AI_PROVIDERS[force_provider]) {
       providerConfig = getProviderConfig(c.env, force_provider);
       if (!providerConfig) {
         return c.json({ error: `Provider '${force_provider}' not configured` }, 400);
       }
+      selectedProvider = force_provider;
     } else {
-      const selection = selectProviderAndModel(agentType, message);
+      const selection = selectProviderAndModel(agentType, message, availableProviders);
+      selectedProvider = selection.provider;
       providerConfig = getProviderConfig(c.env, selection.provider);
       if (!providerConfig) {
-        // Fallback to Groq if selected provider not available
-        providerConfig = getProviderConfig(c.env, 'groq');
-        if (!providerConfig) {
-          return c.json({ error: 'No AI provider configured. Please set GROQ_API_KEY or another provider key.' }, 500);
-        }
+        // Fallback to first available
+        selectedProvider = availableProviders[0];
+        providerConfig = getProviderConfig(c.env, selectedProvider);
       }
     }
 
@@ -407,76 +479,95 @@ app.post('/api/chat', async (c) => {
 
     const model = providerConfig.defaultModel;
     const isAnthropic = providerConfig.name === 'Anthropic';
+    const isGemini = providerConfig.name === 'Gemini';
+    const isOpenRouter = providerConfig.name === 'OpenRouter';
 
-    // Retry API up to 2 times on transient failures
+    // Try each available provider in order until one works
     let lastErr = null;
-    for (let attempt = 0; attempt < 2; attempt++) {
+    for (let i = 0; i < availableProviders.length; i++) {
+      const currentProvider = availableProviders[i];
+      const currentConfig = getProviderConfig(c.env, currentProvider);
+      if (!currentConfig) continue;
+      
+      const currentModel = currentConfig.defaultModel;
+      const isCurrentAnthropic = currentConfig.name === 'Anthropic';
+      const isCurrentGemini = currentConfig.name === 'Gemini';
+      
       try {
         let res;
-        if (isAnthropic) {
-          // Anthropic uses different API format
-          res = await fetch(providerConfig.endpoint, {
+        if (isCurrentAnthropic) {
+          res = await fetch(currentConfig.endpoint, {
             method: 'POST',
             headers: {
-              'x-api-key': providerConfig.apiKey,
+              'x-api-key': currentConfig.apiKey,
               'anthropic-version': '2023-06-01',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              model,
+              model: currentModel,
               messages,
               max_tokens: 2048
+            })
+          });
+        } else if (isCurrentGemini) {
+          // Gemini API format
+          const geminiEndpoint = `${currentConfig.endpoint}/${currentModel}:generateContent?key=${currentConfig.apiKey}`;
+          res = await fetch(geminiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: messages.map(m => ({ role: m.role === 'system' ? 'user' : m.role, parts: [{ text: m.content }] })),
+              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
             })
           });
         } else {
-          // OpenAI/Groq format
-          res = await fetch(providerConfig.endpoint, {
+          // OpenAI/Groq/Mistral/OpenRouter format
+          const body = {
+            model: currentModel,
+            messages,
+            temperature: 0.7,
+            max_tokens: 2048
+          };
+          
+          const headers = {
+            'Authorization': `Bearer ${currentConfig.apiKey}`,
+            'Content-Type': 'application/json'
+          };
+          
+          // OpenRouter requires extra headers
+          if (isOpenRouter || currentConfig.name === 'OpenRouter') {
+            headers['HTTP-Referer'] = 'https://narad-7hc.pages.dev';
+            headers['X-Title'] = 'Narad AI';
+          }
+          
+          res = await fetch(currentConfig.endpoint, {
             method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${providerConfig.apiKey}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              model,
-              messages,
-              temperature: 0.7,
-              max_tokens: 2048
-            })
+            headers,
+            body: JSON.stringify(body)
           });
         }
 
-        if (res.status === 429) {
-          lastErr = `${providerConfig.name} API rate limited (429). Trying fallback...`;
-          // Try fallback provider
-          const fallback = providerConfig.name === 'Groq' ? 'openai' : 'groq';
-          providerConfig = getProviderConfig(c.env, fallback);
-          if (providerConfig) {
-            continue;
-          }
-          await new Promise(r => setTimeout(r, 1000));
-          continue;
-        }
-
-        if (res.status >= 500) {
-          const errText = await res.text().catch(() => 'unknown');
-          lastErr = `${providerConfig.name} API server error (${res.status}): ${errText.slice(0, 200)}`;
+        if (res.status === 429 || res.status >= 500) {
+          lastErr = `${currentConfig.name} API rate limited (${res.status}). Trying next provider...`;
           await new Promise(r => setTimeout(r, 500));
           continue;
         }
 
         if (!res.ok) {
           const err = await res.text();
-          return c.json({ 
-            error: `${providerConfig.name} API error: ${res.status}`, 
-            details: err.slice(0, 200) 
-          }, 502);
+          lastErr = `${currentConfig.name} API error: ${res.status} - ${err.slice(0, 100)}`;
+          continue;
         }
 
         const data = await res.json();
         
         let reply;
         let usage;
-        if (isAnthropic) {
+        
+        if (isCurrentGemini) {
+          reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          usage = { total_tokens: data.usageMetadata?.totalTokenCount || 0 };
+        } else if (isCurrentAnthropic) {
           reply = data.content?.[0]?.text;
           usage = data.usage;
         } else {
@@ -485,10 +576,13 @@ app.post('/api/chat', async (c) => {
         }
 
         if (!reply) {
-          return c.json({
-            error: `${providerConfig.name} returned an empty response. The model may be overloaded.`,
-          }, 502);
+          lastErr = `${currentConfig.name} returned empty response.`;
+          continue;
         }
+
+        // Update selected provider and model for response
+        providerConfig = currentConfig;
+        selectedProvider = currentProvider;
 
         // Track token usage
         const totalTokens = usage?.total_tokens || 0;
@@ -507,7 +601,8 @@ app.post('/api/chat', async (c) => {
           reply, 
           session_id,
           metadata: {
-            model,
+            provider: selectedProvider,
+            model: providerConfig.defaultModel,
             tokens: totalTokens,
             agentType: agentType,
             remainingTokens: await getRemaining(c.env, agentType)
@@ -515,15 +610,12 @@ app.post('/api/chat', async (c) => {
         });
       } catch (fetchErr) {
         lastErr = fetchErr.message;
-        if (attempt < 1) {
-          await new Promise(r => setTimeout(r, 500));
-        }
       }
     }
 
-    // All retries failed
+    // All providers failed
     return c.json({ 
-      error: 'Failed to reach Groq API after retries', 
+      error: 'All AI providers failed', 
       details: lastErr 
     }, 502);
   } catch (err) {
