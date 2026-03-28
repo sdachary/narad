@@ -1,10 +1,10 @@
 // Terminal-based interface for Narad
-const terminalContainer = document.createElement('div');
-terminalContainer.id = 'terminal-container';
-document.body.insertBefore(terminalContainer, document.body.firstChild);
-
-// Import the terminal component as a module or define it inline
-// For simplicity, we'll define a simplified version here that matches the API
+// Replace the app-container with the terminal instead of inserting at body start
+const appContainer = document.querySelector('.app-container');
+if (appContainer) {
+  appContainer.innerHTML = '<div id="terminal-container"></div>';
+}
+const terminalContainer = document.getElementById('terminal-container');
 
 // State for the terminal
 let terminalOutput = [];
@@ -20,12 +20,11 @@ let cursorEl;
 
 // Initialize the terminal
 function initTerminal() {
-  // Create terminal structure
+  // Create terminal structure - simplified single page design without logo
   terminalContainer.innerHTML = `
     <div class="terminal">
       <div class="terminal-header">
-        <div class="terminal-logo">
-          <div class="logo-dot"></div>
+        <div class="terminal-title">
           <span>Narad AI Terminal</span>
         </div>
         <div class="terminal-status">
@@ -37,16 +36,6 @@ function initTerminal() {
             <div class="status-dot"></div>
             <span>Model: Claude 3</span>
           </div>
-        </div>
-        <button class="terminal-toggle" id="sidebar-toggle">☰</button>
-      </div>
-      
-      <div class="terminal-sidebar" id="terminal-sidebar">
-        <div class="sidebar-header">
-          <h3>Command History</h3>
-        </div>
-        <div class="sidebar-content" id="history-content">
-          <!-- History items will be inserted here -->
         </div>
       </div>
       
@@ -74,13 +63,6 @@ function initTerminal() {
   // Set up event listeners
   terminalInputEl.addEventListener('keydown', handleKeyDown);
   terminalInputEl.addEventListener('input', handleInput);
-  
-  // Sidebar toggle
-  const sidebarToggle = document.getElementById('sidebar-toggle');
-  const sidebar = document.getElementById('terminal-sidebar');
-  sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-  });
   
   // Start cursor blink animation
   startCursorBlink();
