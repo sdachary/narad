@@ -719,7 +719,7 @@ app.post('/api/feedback', async (c) => {
     
     // Store feedback linked to this specific message (optional: could store separately)
     const feedbackKey = `feedback:${session_id}:${lastAssistant.textHash || Date.now() + '-' + Math.random().toString(36).substr(2, 9)}`;
-    await c.getStore(env).put(feedbackKey, JSON.stringify({
+    await getStore(c.env).put(feedbackKey, JSON.stringify({
       session_id,
       messageText: lastAssistant.text,
       score,
