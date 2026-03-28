@@ -162,7 +162,7 @@ const ErrorTracker = {
     };
     
     try {
-      await env.NARAD_DATA.put(errorKey, JSON.stringify(errorData), { expirationTtl: 86400 });
+      await getStore(env).put(errorKey, JSON.stringify(errorData), { expirationTtl: 86400 });
     } catch (e) {
       console.error('Failed to store error:', e);
     }
@@ -173,11 +173,11 @@ const ErrorTracker = {
   
   async getRecentErrors(env, limit = 10) {
     const errors = [];
-    const list = await env.NARAD_DATA.list({ prefix: 'error:', limit: 50 });
+    const list = await getStore(env).list({ prefix: 'error:', limit: 50 });
     
     for (const key of list.keys.reverse()) {
       if (errors.length >= limit) break;
-      const data = await env.NARAD_DATA.get(key.name);
+      const data = await getStore(env).get(key.name);
       if (data) {
         errors.push(JSON.parse(data));
       }
@@ -373,11 +373,24 @@ function cleanQueryHash(text) {
   return cleaned;
 }
 
+// In-memory fallback store when KV is not available
+const memoryStore = new Map();
+
+function getStore(env) {
+  return getStore(env) || {
+    async get(key) { return memoryStore.get(key) || null; },
+    async put(key, value) { memoryStore.set(key, value); },
+    async delete(key) { memoryStore.delete(key); },
+    async list() { return { keys: Array.from(memoryStore.keys()).map(k => ({ name: k })) }; }
+  };
+}
+
 // Get usage for agent type from KV, initializing if needed
 async function getUsage(env, agentType) {
+  const store = getStore(env);
   const today = getToday();
   const usageKey = `usage:${agentType}`;
-  const usageData = await env.NARAD_DATA.get(usageKey);
+  const usageData = await store.get(usageKey);
   
   if (usageData) {
     const parsed = JSON.parse(usageData);
@@ -388,7 +401,7 @@ async function getUsage(env, agentType) {
   
   // Initialize or reset if new day
   const newUsage = { tokensUsed: 0, lastReset: today };
-  await env.NARAD_DATA.put(usageKey, JSON.stringify(newUsage));
+  await store.put(usageKey, JSON.stringify(newUsage));
   return newUsage;
 }
 
@@ -396,7 +409,7 @@ async function getUsage(env, agentType) {
 async function addUsage(env, agentType, tokens) {
   const usage = await getUsage(env, agentType);
   usage.tokensUsed += tokens;
-  await env.NARAD_DATA.put(`usage:${agentType}`, JSON.stringify(usage));
+  await getStore(env).put(`usage:${agentType}`, JSON.stringify(usage));
 }
 
 // Get remaining tokens for agent type
@@ -414,7 +427,7 @@ async function isWithinLimit(env, agentType, estimatedTokens = 0) {
 // Get chat history for a session_id
 async function getChatHistory(env, sessionId) {
   const key = `chat:${sessionId}`;
-  const historyData = await env.NARAD_DATA.get(key);
+  const historyData = await getStore(env).get(key);
   if (historyData) {
     return JSON.parse(historyData);
   }
@@ -424,7 +437,7 @@ async function getChatHistory(env, sessionId) {
 // Save chat history for a session_id
 async function saveChatHistory(env, sessionId, messages) {
   const key = `chat:${sessionId}`;
-  await env.NARAD_DATA.put(key, JSON.stringify(messages));
+  await getStore(env).put(key, JSON.stringify(messages));
 }
 
 // Get the last assistant message for a session
@@ -443,7 +456,7 @@ async function getLastAssistantMessage(env, sessionId) {
 async function getPattern(env, queryHash) {
   if (!queryHash) return null;
   const key = `pattern:${queryHash}`;
-  const data = await env.NARAD_DATA.get(key);
+  const data = await getStore(env).get(key);
   if (data) {
     try {
       return JSON.parse(data);
@@ -470,7 +483,7 @@ async function updatePattern(env, queryHash, score) {
     avgScore,
     lastUpdated: new Date().toISOString()
   };
-  await env.NARAD_DATA.put(key, JSON.stringify(patternData));
+  await getStore(env).put(key, JSON.stringify(patternData));
   return patternData;
 }
 
@@ -492,13 +505,13 @@ function getPatternHint(patternData) {
 async function resetUsage(env) {
   const today = getToday();
   for (const agentType of Object.keys(DAILY_LIMITS)) {
-    await env.NARAD_DATA.put(`usage:${agentType}`, JSON.stringify({ tokensUsed: 0, lastReset: today }));
+    await getStore(env).put(`usage:${agentType}`, JSON.stringify({ tokensUsed: 0, lastReset: today }));
   }
 }
 
 // Clear chat history for a session_id (optional)
 async function clearChatHistory(env, sessionId) {
-  await env.NARAD_DATA.delete(`chat:${sessionId}`);
+  await getStore(env).delete(`chat:${sessionId}`);
 }
 
 app.use('*', cors());
@@ -551,7 +564,7 @@ app.get('/api/health', async (c) => {
   // Check KV store
   const kvStart = Date.now();
   try {
-    await c.env.NARAD_DATA.get('health-check');
+    await c.getStore(env).get('health-check');
     checks.kv = { status: 'ok', latency: Date.now() - kvStart };
   } catch (error) {
     checks.kv = { status: 'error', error: error.message };
@@ -703,7 +716,7 @@ app.post('/api/feedback', async (c) => {
     
     // Store feedback linked to this specific message (optional: could store separately)
     const feedbackKey = `feedback:${session_id}:${lastAssistant.textHash || Date.now() + '-' + Math.random().toString(36).substr(2, 9)}`;
-    await c.env.NARAD_DATA.put(feedbackKey, JSON.stringify({
+    await c.getStore(env).put(feedbackKey, JSON.stringify({
       session_id,
       messageText: lastAssistant.text,
       score,
@@ -1035,14 +1048,6 @@ app.delete('/api/chat/history/:session_id', async (c) => {
 
 export default {
   async fetch(request, env, ctx) {
-    // Check if KV is available
-    if (!env.NARAD_DATA) {
-      return new Response(JSON.stringify({ error: 'NARAD_DATA KV namespace not bound. Please configure KV namespace in Cloudflare Pages settings.' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
     const url = new URL(request.url);
     
     // Add security headers to all responses
