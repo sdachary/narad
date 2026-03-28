@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Narad — Multi-Agent AI Assistant</title>
+    
+    <!-- Security Headers -->
+    <meta name="csrf-token" content="">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://narad-7hc.pages.dev https://*.workers.dev;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background-overlay"></div>
@@ -22,7 +30,14 @@
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
                 </div>
-                <div class="usage-ring" id="usage-ring"></div>
+                <div class="usage-ring" id="usage-ring">
+                    <svg viewBox="0 0 36 36">
+                        <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
+                        <circle class="ring-progress" cx="18" cy="18" r="15.5" stroke-dasharray="0, 100"></circle>
+                    </svg>
+                    <span class="tokens">--</span>
+                    <span class="percent">--%</span>
+                </div>
             </div>
         </header>
 
@@ -30,6 +45,7 @@
             <section class="chat-container">
                 <div id="chat-messages" class="chat-messages">
                     <div class="message assistant slide-up">
+                        <div class="avatar">⚡</div>
                         <div class="message-content">
                             👋 Greetings. I am Narad, your multi-agent AI assistant. I coordinate specialized agents to tackle complex tasks. How may I assist you today?
                         </div>
