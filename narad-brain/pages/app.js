@@ -12,15 +12,12 @@ const userInput = document.getElementById('user-input');
 const chatForm = document.getElementById('chat-form');
 const apiStatus = document.getElementById('api-status');
 const apiDot = document.getElementById('api-dot');
-const usageOverlay = document.getElementById('usage-overlay');
-const usageGrid = document.getElementById('usage-grid');
-const usageBtn = document.getElementById('usage-btn');
-const closeUsageBtn = document.getElementById('close-usage');
+const usageRing = document.getElementById('usage-ring');
 
 // Initialize
 function init() {
     checkApiHealth();
-    updateUsagePanel();
+    updateUsageRing();
     
     // Event listeners
     chatForm.addEventListener('submit', handleSubmit);
@@ -31,22 +28,8 @@ function init() {
         }
     });
     
-    usageBtn.addEventListener('click', () => {
-        usageOverlay.classList.add('active');
-    });
-    
-    closeUsageBtn.addEventListener('click', () => {
-        usageOverlay.classList.remove('active');
-    });
-    
-    usageOverlay.addEventListener('click', (e) => {
-        if (e.target === usageOverlay) {
-            usageOverlay.classList.remove('active');
-        }
-    });
-    
-    // Auto update usage panel every 30 seconds
-    setInterval(updateUsagePanel, 30000);
+    // Auto update usage ring every 30 seconds
+    setInterval(updateUsageRing, 30000);
 }
 
 // Handle form submit
@@ -161,22 +144,21 @@ async function sendToApi(message) {
     }
 }
 
-// Update Usage Panel with Ring Charts
-async function updateUsagePanel() {
+// Update Usage Ring in Header
+async function updateUsageRing() {
     try {
         const res = await fetch(`${API_BASE}/api/usage`);
         if (!res.ok) return;
         
         const data = await res.json();
-        renderRingCharts(data);
+        renderUsageRing(data);
     } catch (e) {
         console.warn('Failed to update usage:', e);
     }
 }
 
-// Render minimal ring chart - single overall usage
-function renderRingCharts(usageData) {
-    // Calculate total usage across all agents
+// Render minimal ring in header
+function renderUsageRing(usageData) {
     let totalUsed = 0;
     let totalLimit = 0;
     
@@ -186,9 +168,8 @@ function renderRingCharts(usageData) {
     }
     
     const percent = Math.min(100, (totalUsed / totalLimit) * 100);
-    const remaining = Math.max(0, totalLimit - totalUsed);
     
-    const radius = 18;
+    const radius = 14;
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (percent / 100) * circumference;
     
@@ -196,29 +177,17 @@ function renderRingCharts(usageData) {
     if (percent >= 90) colorClass = 'danger';
     else if (percent >= 70) colorClass = 'warning';
     
-    usageGrid.innerHTML = `
-        <div class="ring-card">
-            <div class="ring-chart">
-                <svg width="48" height="48">
-                    <circle class="ring-bg" cx="24" cy="24" r="${radius}"/>
-                    <circle class="ring-progress ${colorClass}" cx="24" cy="24" r="${radius}"
-                        stroke-dasharray="${circumference}"
-                        stroke-dashoffset="${offset}"/>
-                </svg>
-                <div class="ring-center">
-                    <span class="ring-percent">${percent.toFixed(0)}%</span>
-                </div>
-            </div>
-            <div class="ring-label">${formatNumber(remaining)} left</div>
+    usageRing.innerHTML = `
+        <svg width="36" height="36">
+            <circle class="ring-bg" cx="18" cy="18" r="${radius}"/>
+            <circle class="ring-progress ${colorClass}" cx="18" cy="18" r="${radius}"
+                stroke-dasharray="${circumference}"
+                stroke-dashoffset="${offset}"/>
+        </svg>
+        <div class="ring-center">
+            <span class="ring-percent">${percent.toFixed(0)}%</span>
         </div>
     `;
-}
-
-// Format number with K/M suffix
-function formatNumber(num) {
-    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
-    return num.toString();
 }
 
 // Initialize on load
