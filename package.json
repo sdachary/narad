@@ -8,6 +8,11 @@
     "start": "node src/main.js",
     "dev": "node --watch src/main.js",
     "test": "node --test src/**/*.test.js",
+    "test:unit": "node --test src/__tests__/unit/**/*.test.js",
+    "test:integration": "node --test src/__tests__/integration/**/*.test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
     "lint": "eslint src/"
   },
   "engines": {
@@ -19,7 +24,9 @@
     "node-cron": "^3.0.3"
   },
   "devDependencies": {
-    "eslint": "^8.57.0"
+    "@playwright/test": "^1.42.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
   },
   "keywords": [
     "telegram-bot",

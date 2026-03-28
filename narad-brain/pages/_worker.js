@@ -3,6 +3,190 @@ import { cors } from 'hono/cors';
 
 const app = new Hono();
 
+// Security configuration
+const CSRF_TRUSTED_ORIGINS = [
+  'https://narad-7hc.pages.dev',
+  'https://narad.io',
+  'http://localhost:8788',
+  'http://localhost:3000'
+];
+
+// Rate limiting storage (in-memory for single worker, use KV for distributed)
+const rateLimitStore = new Map();
+
+// Rate limit configuration
+const RATE_LIMIT = {
+  maxRequests: 10,
+  windowMs: 60000, // 1 minute
+  burstLimit: 3
+};
+
+// Input validation schemas (Zod-like validation)
+const ValidationSchemas = {
+  message: {
+    validate: (value) => {
+      if (!value || typeof value !== 'string') {
+        return { valid: false, error: 'Message is required and must be a string' };
+      }
+      if (value.trim().length === 0) {
+        return { valid: false, error: 'Message cannot be empty' };
+      }
+      if (value.length > 5000) {
+        return { valid: false, error: 'Message exceeds 5000 characters' };
+      }
+      // Check for suspicious patterns
+      if (/<script|javascript:|onerror=|onclick=/i.test(value)) {
+        return { valid: false, error: 'Invalid content detected' };
+      }
+      return { valid: true, value: value.trim() };
+    }
+  },
+  sessionId: {
+    pattern: /^[a-zA-Z0-9_-]{1,100}$/,
+    validate: (value) => {
+      if (!value || typeof value !== 'string') {
+        return { valid: false, error: 'Valid session_id is required' };
+      }
+      if (!ValidationSchemas.sessionId.pattern.test(value)) {
+        return { valid: false, error: 'Invalid session_id format' };
+      }
+      return { valid: true };
+    }
+  },
+  history: {
+    maxItems: 100,
+    maxMessageLength: 10000,
+    validate: (value) => {
+      if (!Array.isArray(value)) {
+        return { valid: false, error: 'History must be an array' };
+      }
+      if (value.length > ValidationSchemas.history.maxItems) {
+        return { valid: false, error: `History exceeds ${ValidationSchemas.history.maxItems} items` };
+      }
+      for (const msg of value) {
+        if (!msg.role || typeof msg.text !== 'string') {
+          return { valid: false, error: 'Invalid history message format' };
+        }
+        if (msg.text.length > ValidationSchemas.history.maxMessageLength) {
+          return { valid: false, error: 'History message too long' };
+        }
+        if (!['user', 'assistant', 'system'].includes(msg.role)) {
+          return { valid: false, error: 'Invalid message role in history' };
+        }
+      }
+      return { valid: true };
+    }
+  },
+  score: {
+    validate: (value) => {
+      if (typeof value !== 'number' || ![-1, 0, 1].includes(value)) {
+        return { valid: false, error: 'Score must be -1, 0, or 1' };
+      }
+      return { valid: true };
+    }
+  }
+};
+
+// Rate limiting functions
+function checkRateLimit(identifier) {
+  const now = Date.now();
+  const key = `ratelimit:${identifier}`;
+  
+  let record = rateLimitStore.get(key);
+  if (!record || now - record.windowStart > RATE_LIMIT.windowMs) {
+    record = { windowStart: now, count: 0, burstCount: 0 };
+  }
+  
+  // Check burst limit
+  if (record.burstCount >= RATE_LIMIT.burstLimit) {
+    const retryAfter = Math.ceil((record.windowStart + RATE_LIMIT.windowMs - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+  
+  if (record.count >= RATE_LIMIT.maxRequests) {
+    const retryAfter = Math.ceil((record.windowStart + RATE_LIMIT.windowMs - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+  
+  record.count++;
+  record.burstCount++;
+  rateLimitStore.set(key, record);
+  
+  return { allowed: true, remaining: RATE_LIMIT.maxRequests - record.count };
+}
+
+// CSRF validation
+function validateCSRF(request) {
+  const origin = request.headers.get('Origin') || request.headers.get('Referer');
+  const token = request.headers.get('X-CSRF-Token');
+  
+  // For now, we'll validate origin and optionally token
+  // In production, you'd validate the token against a stored one
+  if (origin) {
+    const isTrustedOrigin = CSRF_TRUSTED_ORIGINS.some(trusted => 
+      origin.startsWith(trusted) || origin === trusted
+    );
+    if (!isTrustedOrigin) {
+      return { valid: false, error: 'Untrusted origin' };
+    }
+  }
+  
+  return { valid: true };
+}
+
+// Security headers middleware
+function addSecurityHeaders(c, next) {
+  c.res.headers.set('X-Content-Type-Options', 'nosniff');
+  c.res.headers.set('X-XSS-Protection', '1; mode=block');
+  c.res.headers.set('X-Frame-Options', 'DENY');
+  c.res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  c.res.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  
+  return next();
+}
+
+// Error tracking (stored in KV for analysis)
+const ErrorTracker = {
+  async trackError(env, error, context = {}) {
+    const errorKey = `error:${Date.now()}:${Math.random().toString(36).substr(2, 9)}`;
+    const errorData = {
+      message: error.message || String(error),
+      stack: error.stack || '',
+      timestamp: new Date().toISOString(),
+      context: {
+        path: context.path || '',
+        method: context.method || '',
+        userAgent: context.userAgent || '',
+        ip: context.ip || ''
+      }
+    };
+    
+    try {
+      await env.NARAD_DATA.put(errorKey, JSON.stringify(errorData), { expirationTtl: 86400 });
+    } catch (e) {
+      console.error('Failed to store error:', e);
+    }
+    
+    // Also log to console (goes to Cloudflare logs)
+    console.error('[ERROR]', JSON.stringify(errorData));
+  },
+  
+  async getRecentErrors(env, limit = 10) {
+    const errors = [];
+    const list = await env.NARAD_DATA.list({ prefix: 'error:', limit: 50 });
+    
+    for (const key of list.keys.reverse()) {
+      if (errors.length >= limit) break;
+      const data = await env.NARAD_DATA.get(key.name);
+      if (data) {
+        errors.push(JSON.parse(data));
+      }
+    }
+    
+    return errors;
+  }
+};
+
 // KV binding name: NARAD_DATA
 // We'll store:
 // - chat history: key `chat:${session_id}` -> JSON string of messages array
@@ -318,16 +502,140 @@ async function clearChatHistory(env, sessionId) {
 }
 
 app.use('*', cors());
+app.use('*', addSecurityHeaders);
 
-// Health check
-app.get('/api/health', (c) => {
+// Request metrics middleware
+app.use('*', async (c, next) => {
+  const start = Date.now();
+  
+  // Process request
+  await next();
+  
+  // Track metrics
+  const duration = Date.now() - start;
+  metricsStore.requests.total++;
+  
+  if (c.res.status >= 200 && c.res.status < 400) {
+    metricsStore.requests.success++;
+  } else if (c.res.status >= 400) {
+    metricsStore.requests.errors++;
+  }
+  
+  // Keep only last 1000 response times
+  metricsStore.responseTimes.push(duration);
+  if (metricsStore.responseTimes.length > 1000) {
+    metricsStore.responseTimes.shift();
+  }
+  
+  // Add timing header
+  c.res.headers.set('X-Response-Time', `${duration}ms`);
+});
+
+// Metrics storage (in-memory for single worker)
+const metricsStore = {
+  requests: { total: 0, success: 0, errors: 0 },
+  responseTimes: [],
+  startTime: Date.now()
+};
+
+// Enhanced Health Check with detailed status
+app.get('/api/health', async (c) => {
+  const checks = {
+    kv: { status: 'unknown', latency: 0 },
+    providers: { status: 'unknown', count: 0 },
+    rateLimit: { status: 'unknown', available: 0 }
+  };
+  
+  let overallStatus = 'ok';
+  
+  // Check KV store
+  const kvStart = Date.now();
+  try {
+    await c.env.NARAD_DATA.get('health-check');
+    checks.kv = { status: 'ok', latency: Date.now() - kvStart };
+  } catch (error) {
+    checks.kv = { status: 'error', error: error.message };
+    overallStatus = 'degraded';
+  }
+  
+  // Check providers
   const availableProviders = getAvailableProviders(c.env);
-  return c.json({ 
-    status: 'ok', 
+  checks.providers = { 
+    status: availableProviders.length > 0 ? 'ok' : 'error',
+    count: availableProviders.length,
+    configured: Object.keys(AI_PROVIDERS).filter(p => c.env[AI_PROVIDERS[p].apiKey])
+  };
+  if (availableProviders.length === 0) {
+    overallStatus = 'degraded';
+  }
+  
+  // Check rate limiting
+  const clientIP = c.req.header('CF-Connecting-IP') || 'unknown';
+  const rateLimitResult = checkRateLimit(clientIP);
+  checks.rateLimit = {
+    status: rateLimitResult.allowed ? 'ok' : 'limited',
+    remaining: rateLimitResult.remaining || 0
+  };
+  
+  // Calculate uptime
+  const uptimeSeconds = Math.floor((Date.now() - metricsStore.startTime) / 1000);
+  const uptime = uptimeSeconds < 60 ? `${uptimeSeconds}s` 
+    : uptimeSeconds < 3600 ? `${Math.floor(uptimeSeconds/60)}m` 
+    : `${Math.floor(uptimeSeconds/3600)}h ${Math.floor((uptimeSeconds%3600)/60)}m`;
+  
+  return c.json({
+    status: overallStatus,
     service: 'narad-brain',
-    providers: availableProviders,
-    timestamp: new Date().toISOString()
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    uptime,
+    checks,
+    metrics: {
+      requests: metricsStore.requests.total,
+      successRate: metricsStore.requests.total > 0 
+        ? ((metricsStore.requests.success / metricsStore.requests.total) * 100).toFixed(1) + '%'
+        : 'N/A'
+    }
   });
+});
+
+// Detailed metrics endpoint
+app.get('/api/metrics', (c) => {
+  const avgResponseTime = metricsStore.responseTimes.length > 0
+    ? (metricsStore.responseTimes.reduce((a, b) => a + b, 0) / metricsStore.responseTimes.length).toFixed(0) + 'ms'
+    : 'N/A';
+  
+  const p95ResponseTime = metricsStore.responseTimes.length > 0
+    ? [...metricsStore.responseTimes].sort((a, b) => a - b)[Math.floor(metricsStore.responseTimes.length * 0.95)] + 'ms'
+    : 'N/A';
+  
+  return c.json({
+    requests: metricsStore.requests,
+    responseTime: {
+      average: avgResponseTime,
+      p95: p95ResponseTime,
+      samples: metricsStore.responseTimes.length
+    },
+    uptime: Math.floor((Date.now() - metricsStore.startTime) / 1000)
+  });
+});
+
+// Get recent errors
+app.get('/api/errors', async (c) => {
+  try {
+    const limit = parseInt(c.req.query('limit') || '10');
+    const errors = await ErrorTracker.getRecentErrors(c.env, Math.min(limit, 50));
+    return c.json({ errors });
+  } catch (error) {
+    return c.json({ error: 'Failed to fetch errors' }, 500);
+  }
+});
+
+// CSRF token endpoint
+app.get('/api/csrf-token', (c) => {
+  // Generate a simple CSRF token
+  const token = crypto.randomUUID();
+  return c.json({ token });
 });
 
 // Get usage stats for all agent types
@@ -351,6 +659,12 @@ app.get('/api/usage', async (c) => {
 
 // Reset usage stats (optional, for testing/admin)
 app.post('/api/reset-usage', async (c) => {
+  // CSRF validation for admin endpoints
+  const csrfResult = validateCSRF(c.req);
+  if (!csrfResult.valid) {
+    return c.json({ error: 'CSRF validation failed' }, 403);
+  }
+  
   try {
     await resetUsage(c.env);
     return c.json({ success: true });
@@ -362,12 +676,23 @@ app.post('/api/reset-usage', async (c) => {
 // Feedback endpoint: receive user feedback on the last assistant message
 app.post('/api/feedback', async (c) => {
   try {
-    const { session_id, score } = await c.req.json(); // score: -1, 0, or 1
-    if (typeof session_id !== 'string' || session_id.trim() === '') {
-      return c.json({ error: 'Valid session_id is required' }, 400);
+    // CSRF validation
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
     }
-    if (typeof score !== 'number' || ![ -1, 0, 1 ].includes(score)) {
-      return c.json({ error: 'Score must be -1, 0, or 1' }, 400);
+    
+    const { session_id, score } = await c.req.json(); // score: -1, 0, or 1
+    
+    // Input validation
+    const sessionValidation = ValidationSchemas.sessionId.validate(session_id);
+    if (!sessionValidation.valid) {
+      return c.json({ error: sessionValidation.error }, 400);
+    }
+    
+    const scoreValidation = ValidationSchemas.score.validate(score);
+    if (!scoreValidation.valid) {
+      return c.json({ error: scoreValidation.error }, 400);
     }
     
     // Get the last assistant message for this session to associate feedback
@@ -399,10 +724,46 @@ app.post('/api/feedback', async (c) => {
 // Core AGI Chat Endpoint
 app.post('/api/chat', async (c) => {
   try {
-    const { message, history, context, session_id, agent_type, force_provider } = await c.req.json();
+    // Rate limiting
+    const clientIP = c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || 'unknown';
+    const rateLimitResult = checkRateLimit(clientIP);
+    
+    if (!rateLimitResult.allowed) {
+      c.res.headers.set('Retry-After', rateLimitResult.retryAfter.toString());
+      return c.json({ 
+        error: 'Too many requests. Please try again later.',
+        retryAfter: rateLimitResult.retryAfter
+      }, 429);
+    }
+    
+    c.res.headers.set('X-RateLimit-Limit', RATE_LIMIT.maxRequests.toString());
+    c.res.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
+    
+    // CSRF validation
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const body = await c.req.json();
+    const { message, history, context, session_id, agent_type, force_provider } = body;
 
-    if (!message || typeof message !== 'string' || message.trim().length === 0) {
-      return c.json({ error: 'Message is required and must be a non-empty string' }, 400);
+    // Input validation using schemas
+    const messageValidation = ValidationSchemas.message.validate(message);
+    if (!messageValidation.valid) {
+      return c.json({ error: messageValidation.error }, 400);
+    }
+
+    const sessionValidation = ValidationSchemas.sessionId.validate(session_id);
+    if (!sessionValidation.valid) {
+      return c.json({ error: sessionValidation.error }, 400);
+    }
+
+    if (history) {
+      const historyValidation = ValidationSchemas.history.validate(history);
+      if (!historyValidation.valid) {
+        return c.json({ error: historyValidation.error }, 400);
+      }
     }
 
     // Determine agent type (default to general)
@@ -619,6 +980,13 @@ app.post('/api/chat', async (c) => {
       details: lastErr 
     }, 502);
   } catch (err) {
+    // Track error
+    await ErrorTracker.trackError(c.env, err, {
+      path: '/api/chat',
+      method: 'POST',
+      userAgent: c.req.header('User-Agent'),
+      ip: c.req.header('CF-Connecting-IP')
+    });
     return c.json({ error: 'Internal Worker Error', message: err.message }, 500);
   }
 });
@@ -627,6 +995,13 @@ app.post('/api/chat', async (c) => {
 app.get('/api/chat/history/:session_id', async (c) => {
   try {
     const { session_id } = c.req.param();
+    
+    // Validate session ID
+    const validation = ValidationSchemas.sessionId.validate(session_id);
+    if (!validation.valid) {
+      return c.json({ error: validation.error }, 400);
+    }
+    
     const history = await getChatHistory(c.env, session_id);
     return c.json({ history });
   } catch (error) {
@@ -637,7 +1012,20 @@ app.get('/api/chat/history/:session_id', async (c) => {
 // Optional: Clear chat history for a session_id
 app.delete('/api/chat/history/:session_id', async (c) => {
   try {
+    // CSRF validation
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
     const { session_id } = c.req.param();
+    
+    // Validate session ID
+    const validation = ValidationSchemas.sessionId.validate(session_id);
+    if (!validation.valid) {
+      return c.json({ error: validation.error }, 400);
+    }
+    
     await clearChatHistory(c.env, session_id);
     return c.json({ success: true });
   } catch (error) {
@@ -649,12 +1037,36 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     
+    // Add security headers to all responses
+    const securityHeaders = {
+      'X-Content-Type-Options': 'nosniff',
+      'X-XSS-Protection': '1; mode=block',
+      'X-Frame-Options': 'DENY',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
+    };
+    
     // Serve API routes via Hono
     if (url.pathname.startsWith('/api/')) {
-      return app.fetch(request, env, ctx);
+      const response = await app.fetch(request, env, ctx);
+      
+      // Add security headers to API responses
+      Object.entries(securityHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value);
+      });
+      
+      return response;
     }
     
     // Serve static assets via Cloudflare Pages asset server
-    return env.ASSETS.fetch(request);
+    const staticResponse = await env.ASSETS.fetch(request);
+    
+    // Add security headers to static responses
+    const newResponse = new Response(staticResponse.body, staticResponse);
+    Object.entries(securityHeaders).forEach(([key, value]) => {
+      newResponse.headers.set(key, value);
+    });
+    
+    return newResponse;
   }
 };
