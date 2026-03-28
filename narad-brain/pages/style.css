@@ -388,52 +388,33 @@ body {
     color: #000;
 }
 
-/* Inline Usage Ring in Header */
+/* Inline Usage in Header */
 .usage-ring {
-    width: 36px;
-    height: 36px;
-    position: relative;
-}
-
-.usage-ring svg {
-    transform: rotate(-90deg);
-}
-
-.usage-ring .ring-bg {
-    fill: none;
-    stroke: var(--border);
-    stroke-width: 3;
-}
-
-.usage-ring .ring-progress {
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 3;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s ease;
-}
-
-.usage-ring .ring-progress.warning {
-    stroke: #f59e0b;
-}
-
-.usage-ring .ring-progress.danger {
-    stroke: var(--terminal-status-disconnected);
-}
-
-.usage-ring .ring-center {
-    position: absolute;
-    inset: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
 }
 
-.usage-ring .ring-percent {
+.usage-ring .tokens {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
+    font-size: 0.75rem;
     font-weight: 600;
+    color: var(--text-primary);
+}
+
+.usage-ring .percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
     color: var(--text-secondary);
+}
+
+.usage-ring .percent.warning {
+    color: #f59e0b;
+}
+
+.usage-ring .percent.danger {
+    color: var(--terminal-status-disconnected);
 }
 
 /* Message metadata */

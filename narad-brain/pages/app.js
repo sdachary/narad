@@ -160,7 +160,7 @@ async function updateUsageRing() {
     }
 }
 
-// Render minimal ring in header
+// Render usage text in header
 function renderUsageRing(usageData) {
     let totalUsed = 0;
     let totalLimit = 0;
@@ -172,25 +172,21 @@ function renderUsageRing(usageData) {
     
     const percent = Math.min(100, (totalUsed / totalLimit) * 100);
     
-    const radius = 14;
-    const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (percent / 100) * circumference;
-    
     let colorClass = '';
     if (percent >= 90) colorClass = 'danger';
     else if (percent >= 70) colorClass = 'warning';
     
     usageRing.innerHTML = `
-        <svg width="36" height="36">
-            <circle class="ring-bg" cx="18" cy="18" r="${radius}"/>
-            <circle class="ring-progress ${colorClass}" cx="18" cy="18" r="${radius}"
-                stroke-dasharray="${circumference}"
-                stroke-dashoffset="${offset}"/>
-        </svg>
-        <div class="ring-center">
-            <span class="ring-percent">${percent.toFixed(0)}%</span>
-        </div>
+        <span class="tokens">${formatNumber(totalUsed)} tokens</span>
+        <span class="percent ${colorClass}">${percent.toFixed(0)}% used</span>
     `;
+}
+
+// Format number with K/M suffix
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
+    return num.toString();
 }
 
 // Initialize on load
