@@ -377,7 +377,10 @@ function cleanQueryHash(text) {
 const memoryStore = new Map();
 
 function getStore(env) {
-  return getStore(env) || {
+  if (env.NARAD_DATA) {
+    return env.NARAD_DATA;
+  }
+  return {
     async get(key) { return memoryStore.get(key) || null; },
     async put(key, value) { memoryStore.set(key, value); },
     async delete(key) { memoryStore.delete(key); },
@@ -564,7 +567,7 @@ app.get('/api/health', async (c) => {
   // Check KV store
   const kvStart = Date.now();
   try {
-    await c.getStore(env).get('health-check');
+    await getStore(c.env).get('health-check');
     checks.kv = { status: 'ok', latency: Date.now() - kvStart };
   } catch (error) {
     checks.kv = { status: 'error', error: error.message };
