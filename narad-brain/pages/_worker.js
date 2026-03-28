@@ -20,6 +20,87 @@ const DAILY_LIMITS = {
   general: 200000
 };
 
+// AI Providers configuration
+const AI_PROVIDERS = {
+  groq: {
+    name: 'Groq',
+    apiKey: 'GROQ_API_KEY',
+    endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+    models: {
+      fast: 'llama-3.1-8b-instant',
+      balanced: 'llama-3.3-70b-versatile',
+      strong: 'mixtral-8x7b-32768'
+    },
+    defaultModel: 'llama-3.3-70b-versatile'
+  },
+  openai: {
+    name: 'OpenAI',
+    apiKey: 'OPENAI_API_KEY',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    models: {
+      fast: 'gpt-4o-mini',
+      balanced: 'gpt-4o',
+      strong: 'gpt-4-turbo'
+    },
+    defaultModel: 'gpt-4o-mini'
+  },
+  anthropic: {
+    name: 'Anthropic',
+    apiKey: 'ANTHROPIC_API_KEY',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    models: {
+      fast: 'claude-3-haiku-20240307',
+      balanced: 'claude-3-sonnet-20240229',
+      strong: 'claude-3-opus-20240229'
+    },
+    defaultModel: 'claude-3-haiku-20240307'
+  }
+};
+
+// Analyze query and select best provider/model
+function selectProviderAndModel(agentType, message) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Coding tasks - prefer Groq for speed
+  if (agentType === 'coding' || lowerMessage.includes('code') || lowerMessage.includes('function') || lowerMessage.includes('implement')) {
+    return { provider: 'groq', model: AI_PROVIDERS.groq.models.balanced };
+  }
+  
+  // Debugging - need detailed analysis
+  if (agentType === 'debugging' || lowerMessage.includes('debug') || lowerMessage.includes('error') || lowerMessage.includes('fix')) {
+    return { provider: 'openai', model: AI_PROVIDERS.openai.models.balanced };
+  }
+  
+  // Research - prefer Claude for reasoning
+  if (agentType === 'research' || lowerMessage.includes('research') || lowerMessage.includes('explain') || lowerMessage.includes('analysis')) {
+    return { provider: 'anthropic', model: AI_PROVIDERS.anthropic.models.balanced };
+  }
+  
+  // Testing - balanced approach
+  if (agentType === 'testing' || lowerMessage.includes('test') || lowerMessage.includes('spec')) {
+    return { provider: 'groq', model: AI_PROVIDERS.groq.models.strong };
+  }
+  
+  // Deployment - quick responses
+  if (agentType === 'deployment' || lowerMessage.includes('deploy') || lowerMessage.includes('docker') || lowerMessage.includes('kubernetes')) {
+    return { provider: 'openai', model: AI_PROVIDERS.openai.models.fast };
+  }
+  
+  // Default: use Groq for general tasks (fast and free tier friendly)
+  return { provider: 'groq', model: AI_PROVIDERS.groq.models.balanced };
+}
+
+// Get provider config
+function getProviderConfig(env, providerName) {
+  const provider = AI_PROVIDERS[providerName];
+  if (!provider) return null;
+  
+  const apiKey = env[provider.apiKey];
+  if (!apiKey) return null;
+  
+  return { ...provider, apiKey };
+}
+
 // Helper to get today's date string
 function getToday() {
   return new Date().toISOString().split('T')[0];
@@ -254,12 +335,7 @@ app.post('/api/feedback', async (c) => {
 // Core AGI Chat Endpoint
 app.post('/api/chat', async (c) => {
   try {
-    const { message, history, context, session_id, agent_type } = await c.req.json();
-    const GROQ_API_KEY = c.env.GROQ_API_KEY;
-
-    if (!GROQ_API_KEY) {
-      return c.json({ error: 'GROQ_API_KEY not configured in worker secrets' }, 500);
-    }
+    const { message, history, context, session_id, agent_type, force_provider } = await c.req.json();
 
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return c.json({ error: 'Message is required and must be a non-empty string' }, 400);
@@ -274,6 +350,25 @@ app.post('/api/chat', async (c) => {
         error: `Agent '${agentType}' has exceeded its daily token limit. Please try again later or use a different agent.`,
         usage: await getUsage(c.env, agentType)
       }, 429); // Too Many Requests
+    }
+
+    // Select provider and model (automatic routing or forced)
+    let providerConfig;
+    if (force_provider && AI_PROVIDERS[force_provider]) {
+      providerConfig = getProviderConfig(c.env, force_provider);
+      if (!providerConfig) {
+        return c.json({ error: `Provider '${force_provider}' not configured` }, 400);
+      }
+    } else {
+      const selection = selectProviderAndModel(agentType, message);
+      providerConfig = getProviderConfig(c.env, selection.provider);
+      if (!providerConfig) {
+        // Fallback to Groq if selected provider not available
+        providerConfig = getProviderConfig(c.env, 'groq');
+        if (!providerConfig) {
+          return c.json({ error: 'No AI provider configured. Please set GROQ_API_KEY or another provider key.' }, 500);
+        }
+      }
     }
 
     // Compute query hash for pattern-based feedback
@@ -310,37 +405,61 @@ app.post('/api/chat', async (c) => {
       { role: 'user', content: message }
     ];
 
-    const model = c.env.PRIMARY_MODEL || 'llama-3.3-70b-versatile';
+    const model = providerConfig.defaultModel;
+    const isAnthropic = providerConfig.name === 'Anthropic';
 
-    // Retry Groq API up to 2 times on transient failures
+    // Retry API up to 2 times on transient failures
     let lastErr = null;
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${GROQ_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            model,
-            messages,
-            temperature: 0.7,
-            max_tokens: 2048
-          })
-        });
+        let res;
+        if (isAnthropic) {
+          // Anthropic uses different API format
+          res = await fetch(providerConfig.endpoint, {
+            method: 'POST',
+            headers: {
+              'x-api-key': providerConfig.apiKey,
+              'anthropic-version': '2023-06-01',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              model,
+              messages,
+              max_tokens: 2048
+            })
+          });
+        } else {
+          // OpenAI/Groq format
+          res = await fetch(providerConfig.endpoint, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${providerConfig.apiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              model,
+              messages,
+              temperature: 0.7,
+              max_tokens: 2048
+            })
+          });
+        }
 
         if (res.status === 429) {
-          // Rate limited — wait and retry
-          lastErr = 'Groq API rate limited (429). Please wait a moment and try again.';
+          lastErr = `${providerConfig.name} API rate limited (429). Trying fallback...`;
+          // Try fallback provider
+          const fallback = providerConfig.name === 'Groq' ? 'openai' : 'groq';
+          providerConfig = getProviderConfig(c.env, fallback);
+          if (providerConfig) {
+            continue;
+          }
           await new Promise(r => setTimeout(r, 1000));
           continue;
         }
 
         if (res.status >= 500) {
-          // Groq server error — retry
           const errText = await res.text().catch(() => 'unknown');
-          lastErr = `Groq API server error (${res.status}): ${errText.slice(0, 200)}`;
+          lastErr = `${providerConfig.name} API server error (${res.status}): ${errText.slice(0, 200)}`;
           await new Promise(r => setTimeout(r, 500));
           continue;
         }
@@ -348,18 +467,26 @@ app.post('/api/chat', async (c) => {
         if (!res.ok) {
           const err = await res.text();
           return c.json({ 
-            error: `Groq API error: ${res.status}`, 
+            error: `${providerConfig.name} API error: ${res.status}`, 
             details: err.slice(0, 200) 
           }, 502);
         }
 
         const data = await res.json();
-        const reply = data.choices?.[0]?.message?.content;
-        const usage = data.usage;
+        
+        let reply;
+        let usage;
+        if (isAnthropic) {
+          reply = data.content?.[0]?.text;
+          usage = data.usage;
+        } else {
+          reply = data.choices?.[0]?.message?.content;
+          usage = data.usage;
+        }
 
         if (!reply) {
           return c.json({
-            error: 'Groq returned an empty response. The model may be overloaded.',
+            error: `${providerConfig.name} returned an empty response. The model may be overloaded.`,
           }, 502);
         }
 
