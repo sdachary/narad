@@ -1,10 +1,9 @@
-// Narad AI Terminal - Original Theme with Ring Charts
+// Narad AI Terminal - Original Theme with Minimal Ring Charts
 const API_BASE = '';
 let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
 localStorage.setItem('narad_session_id', sessionId);
 
 let chatHistory = [];
-let agentType = 'general';
 let isStreaming = false;
 
 // DOM Elements
@@ -13,7 +12,6 @@ const userInput = document.getElementById('user-input');
 const chatForm = document.getElementById('chat-form');
 const apiStatus = document.getElementById('api-status');
 const apiDot = document.getElementById('api-dot');
-const agentSelect = document.getElementById('agent-select');
 const usageOverlay = document.getElementById('usage-overlay');
 const usageGrid = document.getElementById('usage-grid');
 const usageBtn = document.getElementById('usage-btn');
@@ -31,10 +29,6 @@ function init() {
             e.preventDefault();
             handleSubmit(e);
         }
-    });
-    
-    agentSelect.addEventListener('change', (e) => {
-        agentType = e.target.value;
     });
     
     usageBtn.addEventListener('click', () => {
@@ -119,8 +113,7 @@ async function sendToApi(message) {
             body: JSON.stringify({
                 message,
                 history: chatHistory,
-                session_id: sessionId,
-                agent_type: agentType
+                session_id: sessionId
             })
         });
         
@@ -181,42 +174,44 @@ async function updateUsagePanel() {
     }
 }
 
-// Render ring charts
+// Render minimal ring chart - single overall usage
 function renderRingCharts(usageData) {
-    const agents = ['general', 'coding', 'research', 'debugging', 'testing', 'deployment'];
+    // Calculate total usage across all agents
+    let totalUsed = 0;
+    let totalLimit = 0;
     
-    usageGrid.innerHTML = agents.map(agent => {
-        const info = usageData[agent] || { tokensUsed: 0, limit: 200000 };
-        const percent = Math.min(100, (info.tokensUsed / info.limit) * 100);
-        const remaining = Math.max(0, info.limit - info.tokensUsed);
-        
-        // Calculate stroke dasharray for ring
-        const radius = 32;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (percent / 100) * circumference;
-        
-        let colorClass = '';
-        if (percent >= 90) colorClass = 'danger';
-        else if (percent >= 70) colorClass = 'warning';
-        
-        return `
-            <div class="ring-card">
-                <div class="ring-label">${agent}</div>
-                <div class="ring-chart">
-                    <svg width="90" height="90">
-                        <circle class="ring-bg" cx="45" cy="45" r="${radius}"/>
-                        <circle class="ring-progress ${colorClass}" cx="45" cy="45" r="${radius}"
-                            stroke-dasharray="${circumference}"
-                            stroke-dashoffset="${offset}"/>
-                    </svg>
-                    <div class="ring-center">
-                        <span class="ring-percent">${percent.toFixed(0)}%</span>
-                    </div>
+    for (const agent in usageData) {
+        totalUsed += usageData[agent].tokensUsed || 0;
+        totalLimit += usageData[agent].limit || 200000;
+    }
+    
+    const percent = Math.min(100, (totalUsed / totalLimit) * 100);
+    const remaining = Math.max(0, totalLimit - totalUsed);
+    
+    const radius = 18;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (percent / 100) * circumference;
+    
+    let colorClass = '';
+    if (percent >= 90) colorClass = 'danger';
+    else if (percent >= 70) colorClass = 'warning';
+    
+    usageGrid.innerHTML = `
+        <div class="ring-card">
+            <div class="ring-chart">
+                <svg width="48" height="48">
+                    <circle class="ring-bg" cx="24" cy="24" r="${radius}"/>
+                    <circle class="ring-progress ${colorClass}" cx="24" cy="24" r="${radius}"
+                        stroke-dasharray="${circumference}"
+                        stroke-dashoffset="${offset}"/>
+                </svg>
+                <div class="ring-center">
+                    <span class="ring-percent">${percent.toFixed(0)}%</span>
                 </div>
-                <div class="ring-tokens">${formatNumber(remaining)} left</div>
             </div>
-        `;
-    }).join('');
+            <div class="ring-label">${formatNumber(remaining)} left</div>
+        </div>
+    `;
 }
 
 // Format number with K/M suffix
