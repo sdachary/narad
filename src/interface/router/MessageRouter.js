@@ -7,6 +7,9 @@
  *
  * This layer's single responsibility: receive → parse → dispatch → done.
  * It does NOT handle business logic.
+ *
+ * Note: This now processes messages from the web interface (Cloudflare Worker) 
+ *       instead of Telegram updates.
  */
 
 import { MessageParser } from '../../domain/services/MessageParser.js';
@@ -29,12 +32,12 @@ export class MessageRouter {
     this.parser            = new MessageParser();
   }
 
-  /**
-   * Process a raw incoming update from Telegram.
-   * @param {object} raw - Raw update object from telegram-bot-api
-   * @returns {Promise<void>}
-   */
-  async route(raw) {
+   /**
+    * Process a raw incoming message from the web interface.
+    * @param {object} raw - Raw message object from web interface
+    * @returns {Promise<void>}
+    */
+   async route(raw) {
     let message;
     try {
       message = this.parser.parse(raw);

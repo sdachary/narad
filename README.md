@@ -2,12 +2,138 @@
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-**Narad** is the private R&D intelligence brain and Telegram bot interface for the [Nisha Platform](https://github.com/sdachary/nisha). Runs as a persistent Node.js process on your OCI VM. Built on Clean Architecture.
+**Narad** is the private R&D intelligence brain and web interface for the [Nisha Platform](https://github.com/sdachary/nisha). Deployed as a serverless Cloudflare Worker. Built on Clean Architecture.
 
 ---
 
 ## Architecture
 
+```
+                           ┌─────────────────────┐
+                           │     You (Web)       │
+                           └──────────┬──────────┘
+                                      │
+                           ┌──────────▼──────────┐
+                           │  Cloudflare Worker  │
+                           │ (narad-brain)       │
+                           └──────────┬──────────┘
+                                      │
+                   ┌──────────────────▼───────────────────┐
+                   │        Command Dispatcher              │
+                   ├───────────────┬──────────────────────┤
+                   │               │                      │
+           ┌───────▼───────┐  ┌────▼─────┐        ┌───────▼──────┐
+           │ HandleUserMessage │  │ HandleCronJob │  │ HandleMASRequest │
+           └───────────────┘  └─────────┘        └───────┬──────┘
+                                                         │
+                                           ┌─────────────▼─────────────┐
+                                           │   Multi-Agent System Core │
+                                           │                           │
+                                           │  ┌─────────────────────┐  │
+                                           │  │    TaskManager      │  │
+                                           │  └──────────┬─────────┘  │
+                                           │             │          │
+                                           │  ┌──────────▼─────────┐  │
+                                           │  │  SubtaskManager   │  │
+                                           │  └──────────┬─────────┘  │
+                                           │             │          │
+                                           │  ┌──────────▼─────────┐  │
+                                           │  │   AgentManager    │  │
+                                           │  └──────────┬─────────┘  │
+                                           │             │          │
+                                           │  ┌──────────▼─────────┐  │
+                                           │  │ GitWorkflowMgr    │  │
+                                           │  └──────────────────┘  │
+                                           └─────────────┬─────────┘
+                                                         │
+                                           ┌─────────────▼─────────────┐
+                                           │   Free AI Providers Pool  │
+                                           │ (Groq, OpenRouter, etc.)  │
+                                           └───────────────────────────┘
+```
+                            ┌─────────────────────┐
+                            │     You (Web)       │
+                            └──────────┬──────────┘
+                                       │
+                            ┌──────────▼──────────┐
+                            │  Cloudflare Worker  │
+                            │ (narad-brain)       │
+                            └──────────┬──────────┘
+                                       │
+                    ┌──────────────────▼───────────────────┐
+                    │        Command Dispatcher              │
+                    ├───────────────┬──────────────────────┤
+                    │               │                      │
+            ┌───────▼───────┐  ┌────▼─────┐        ┌───────▼──────┐
+            │ HandleUserMessage │  │ HandleCronJob │  │ HandleMASRequest │
+            └───────────────┘  └─────────┘        └───────┬──────┘
+                                                          │
+                                            ┌─────────────▼─────────────┐
+                                            │   Multi-Agent System Core │
+                                            │                           │
+                                            │  ┌─────────────────────┐  │
+                                            │  │    TaskManager      │  │
+                                            │  └──────────┬─────────┘  │
+                                            │             │          │
+                                            │  ┌──────────▼─────────┐  │
+                                            │  │  SubtaskManager   │  │
+                                            │  └──────────┬─────────┘  │
+                                            │             │          │
+                                            │  ┌──────────▼─────────┐  │
+                                            │  │   AgentManager    │  │
+                                            │  └──────────┬─────────┘  │
+                                            │             │          │
+                                            │  ┌──────────▼─────────┐  │
+                                            │  │ GitWorkflowMgr    │  │
+                                            │  └──────────────────┘  │
+                                            └─────────────┬─────────┘
+                                                          │
+                                            ┌─────────────▼─────────────┐
+                                            │   Free AI Providers Pool  │
+                                            │ (Groq, OpenRouter, etc.)  │
+                                            └───────────────────────────┘
+```
+                           ┌─────────────────────┐
+                           │     You (Web)       │
+                           └──────────┬──────────┘
+                                      │
+                           ┌──────────▼──────────┐
+                           │  Cloudflare Worker  │
+                           │ (narad-brain)       │
+                           └──────────┬──────────┘
+                                      │
+                   ┌──────────────────▼───────────────────┐
+                   │        Command Dispatcher              │
+                   ├───────────────┬──────────────────────┤
+                   │               │                      │
+           ┌───────▼───────┐  ┌────▼─────┐        ┌───────▼──────┐
+           │ HandleUserMessage │  │ HandleCronJob │  │ HandleMASRequest │
+           └───────────────┘  └─────────┘        └───────┬──────┘
+                                                         │
+                                           ┌─────────────▼─────────────┐
+                                           │   Multi-Agent System Core │
+                                           │                           │
+                                           │  ┌─────────────────────┐  │
+                                           │  │    TaskManager      │  │
+                                           │  └──────────┬─────────┘  │
+                                           │             │          │
+                                           │  ┌──────────▼─────────┐  │
+                                           │  │  SubtaskManager   │  │
+                                           │  └──────────┬─────────┘  │
+                                           │             │          │
+                                           │  ┌──────────▼─────────┐  │
+                                           │  │   AgentManager    │  │
+                                           │  └──────────┬─────────┘  │
+                                           │             │          │
+                                           │  ┌──────────▼─────────┐  │
+                                           │  │ GitWorkflowMgr    │  │
+                                           │  └──────────────────┘  │
+                                           └─────────────┬─────────┘
+                                                         │
+                                           ┌─────────────▼─────────────┐
+                                           │   Free AI Providers Pool  │
+                                           │ (Groq, OpenRouter, etc.)  │
+                                           └───────────────────────────┘
 ```
                           ┌─────────────────────┐
                           │    You (Telegram)   │
@@ -94,33 +220,39 @@ src/
 ## Quick Start
 
 ```bash
-# 1. Clone on your OCI VM
+# 1. Clone the repository
 git clone https://github.com/sdachary/narad.git ~/narad
 cd ~/narad
 
 # 2. Set up env
 cp .env.example .env
-nano .env   # fill in GROQ_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+nano .env   # fill in GROQ_API_KEY
 
 # 3. Install everything
 chmod +x scripts/install.sh
 ./scripts/install.sh
 
 # 4. Verify
-sudo systemctl status narad
-# Send /status to your Telegram bot
+# The Cloudflare Worker is deployed via wrangler
+# Access your worker at the URL provided after wrangler deploy
 ```
 
 ---
 
-## Telegram Commands
+## Web Interface Usage
+
+Narad is accessed through its web interface at the Cloudflare Worker URL. The interface provides:
+
+- **Chat Interface**: Ask questions, request research, generate code, and more
+- **Usage Panel**: Real-time tracking of token consumption by agent type
+- **Persistent Memory**: Chat history is saved and can be cleared as needed
+- **Message Management**: Ability to delete individual messages to remove clutter
+
+### Available Commands (via chat interface):
 
 | Command | What it does |
 |---|---|
-| `/start` | Welcome message + clears conversation context |
-| `/help` | Full command reference |
 | `/ask <query>` | Direct question to the AI brain |
-| `/status` | VM health: CPU, RAM, disk, uptime, running services |
 | `/idea <text>` | Capture and store an R&D idea |
 | `/recall <query>` | Search stored memory by topic |
 | `/research <topic>` | Web search + AI summary |
@@ -129,7 +261,7 @@ sudo systemctl status narad
 | `/digest` | Summary of recent R&D ideas |
 | `/experiment <n>` | Look up experiment status |
 | `/build <description>` | **NEW**: Activate Multi-Agent System to build apps/websites/solutions |
-| `[file upload]` | Upload .md to refresh knowledge base |
+| `[file upload]` | Upload .md file to refresh knowledge base |
 
 ---
 
@@ -137,7 +269,7 @@ sudo systemctl status narad
 
 | Job | Schedule | Behavior |
 |---|---|---|
-| Morning Digest | 8:00 AM IST daily | VM health + ideas since yesterday + today's priority |
+| Morning Digest | 8:00 AM IST daily | System health check + ideas summary |
 | VM Health Check | Every 30 minutes | Silent — only alerts if disk >85%, RAM <150MB, or service down |
 | Weekly R&D Summary | 9:00 AM IST Monday | Experiments, backlog, top 3 priorities |
 
@@ -186,29 +318,52 @@ Narad was originally designed to run on Oracle Cloud Infrastructure (OCI) Always
 1. Follow the Quick Start section above
 2. The bot will connect to Telegram via long-polling (no webhook setup needed)
 
-### Cloudflare Workers Deployment (Requires Modification)
-**Note**: The current implementation uses long-polling and is designed for persistent VMs. Deploying to Cloudflare Workers requires modifying the Telegram interface to handle webhooks instead of long-polling.
+### Cloudflare Workers Deployment (Native Support)
+**Note**: The current implementation now includes native Cloudflare Workers support with persistent storage via KV namespaces. The frontend has been enhanced with real-time usage tracking and persistent chat history.
 
-#### What Would Need to Change:
-1. Replace `TelegramBot` (long-polling) with a webhook handler in `src/interface/bot/`
-2. Update `MessageRouter` to accept HTTP requests instead of Telegram updates
-3. Ensure the AGI worker endpoints are accessible from Cloudflare
+#### Prerequisites:
+- Cloudflare account
+- wrangler CLI installed (`npm install -g wrangler`)
+- GitHub repository for your code
+- KV namespace named `NARAD_DATA` bound to your worker
 
-#### If You Wish to Proceed with Cloudflare:
-1. **Prerequisites**:
-   - Cloudflare account
-   - wrangler CLI installed (`npm install -g wrangler`)
-   - GitHub repository for your code
-   - Modified Telegram interface for webhook handling
+#### Steps:
+1. Fork or clone this repository
+2. Create a new Cloudflare Workers project: `wrangler init narad-cloudflare`
+3. Copy the contents of the `narad-brain/` directory to your Cloudflare Workers project
+4. Configure wrangler.toml with your settings:
+   ```toml
+   name = "narad"
+   main = "_worker.js"
+   compatibility_date = "2024-07-29"
 
-2. **Steps**:
-   - Fork or clone this repository
-   - Modify the Telegram interface to handle webhook requests (see Telegram Bot API docs for webhook format)
-   - Create a new Cloudflare Workers project: `wrangler init narad-cloudflare`
-   - Copy your modified Narad source code
-   - Configure wrangler.toml with your settings (see variables below)
-   - Deploy: `wrangler deploy`
-   - Set up Telegram webhook to point to `https://your-worker.your-subdomain.workers.dev`
+   [vaults]
+   binding = "VAULT"
+
+   [[kv_namespaces]]
+   binding = "NARAD_DATA"
+   id = "your_kv_namespace_id"
+
+   [vars]
+   GROQ_API_KEY = "your_groq_api_key_here"
+   TELEGRAM_BOT_TOKEN = "your_telegram_bot_token_here"
+   TELEGRAM_CHAT_ID = "your_telegram_chat_id_here"
+   OPENROUTER_API_KEY = "optional_openrouter_api_key"
+   AGI_WORKER_URL = "optional_custom_agi_worker_url"
+   LOG_LEVEL = "info"
+   PRIMARY_MODEL = "llama-3.3-70b-versatile"
+   ```
+5. Deploy: `wrangler deploy`
+6. Set up Telegram webhook to point to `https://your-worker.your-subdomain.workers.dev`
+   (The worker now handles webhook requests natively - no modification needed!)
+
+#### Features:
+- ✅ Native Cloudflare Workers support (no modifications needed)
+- ✅ Persistent chat history via KV storage
+- ✅ Real-time token usage tracking with limits
+- ✅ Multi-agent system with specialized agents
+- ✅ Zero-cost deployment on Cloudflare Workers free tier
+- ✅ Enhanced UI with usage panel and message deletion capabilities
 
 ### Variables & Secrets Reference
 

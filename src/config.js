@@ -27,8 +27,6 @@ function optional(key, defaultValue = '') {
 export function loadConfig() {
   // ── Required ──────────────────────────────────────────────────────
   const GROQ_API_KEY        = required('GROQ_API_KEY');
-  const TELEGRAM_BOT_TOKEN  = required('TELEGRAM_BOT_TOKEN');
-  const TELEGRAM_CHAT_ID    = required('TELEGRAM_CHAT_ID');
 
   // ── Optional ──────────────────────────────────────────────────────
   const OPENROUTER_API_KEY  = optional('OPENROUTER_API_KEY');
@@ -61,10 +59,6 @@ export function loadConfig() {
   }
 
   return Object.freeze({
-    telegram: {
-      botToken:      TELEGRAM_BOT_TOKEN,
-      allowedChatId: TELEGRAM_CHAT_ID,
-    },
     agi: {
       workerUrl:  AGI_WORKER_URL,
       timeoutMs:  45_000,
@@ -78,7 +72,8 @@ export function loadConfig() {
     },
     cron: {
       jobs:          cronJobs,
-      operatorChatId: TELEGRAM_CHAT_ID,
+      // No longer using Telegram chat ID for cron since Telegram integration removed
+      operatorChatId: 'web-interface', // Default value for web interface
     },
     // Passed to AGI worker for model selection
     models: {

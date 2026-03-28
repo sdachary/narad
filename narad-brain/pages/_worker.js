@@ -3,12 +3,14 @@ import { cors } from 'hono/cors';
 
 const app = new Hono();
 
-// In-memory usage tracking (resets on worker restart)
-// In production, use KV for persistence across restarts
-const usageMap = new Map();
-// Structure: { agentType: { tokensUsed: number, lastReset: string (date) } }
+// KV binding name: NARAD_DATA
+// We'll store:
+// - chat history: key `chat:${session_id}` -> JSON string of messages array
+// - usage stats: key `usage:${agentType}` -> JSON string of { tokensUsed: number, lastReset: string (YYYY-MM-DD) }
+// - We'll also store a global reset token? No, we'll compute today each time.
+
 const DAILY_LIMITS = {
-  coding: 200000,   // example: 200k tokens per day
+  coding: 200000,
   research: 200000,
   debugging: 200000,
   testing: 200000,
@@ -16,40 +18,76 @@ const DAILY_LIMITS = {
   general: 200000
 };
 
-// Get today's date string in YYYY-MM-DD
+// Helper to get today's date string
 function getToday() {
   return new Date().toISOString().split('T')[0];
 }
 
-// Get usage for agent type, initializing if needed
-function getUsage(agentType) {
+// Get usage for agent type from KV, initializing if needed
+async function getUsage(env, agentType) {
   const today = getToday();
-  const entry = usageMap.get(agentType);
-  if (!entry || entry.lastReset !== today) {
-    const newEntry = { tokensUsed: 0, lastReset: today };
-    usageMap.set(agentType, newEntry);
-    return newEntry;
+  const usageKey = `usage:${agentType}`;
+  const usageData = await env.NARAD_DATA.get(usageKey);
+  
+  if (usageData) {
+    const parsed = JSON.parse(usageData);
+    if (parsed.lastReset === today) {
+      return parsed;
+    }
   }
-  return entry;
+  
+  // Initialize or reset if new day
+  const newUsage = { tokensUsed: 0, lastReset: today };
+  await env.NARAD_DATA.put(usageKey, JSON.stringify(newUsage));
+  return newUsage;
 }
 
 // Add tokens used for agent type
-function addUsage(agentType, tokens) {
-  const usage = getUsage(agentType);
+async function addUsage(env, agentType, tokens) {
+  const usage = await getUsage(env, agentType);
   usage.tokensUsed += tokens;
-  usageMap.set(agentType, usage);
+  await env.NARAD_DATA.put(`usage:${agentType}`, JSON.stringify(usage));
 }
 
 // Get remaining tokens for agent type
-function getRemaining(agentType) {
-  const usage = getUsage(agentType);
+async function getRemaining(env, agentType) {
+  const usage = await getUsage(env, agentType);
   return Math.max(0, DAILY_LIMITS[agentType] - usage.tokensUsed);
 }
 
-// Check if agent type is within limits
-function isWithinLimit(agentType, estimatedTokens = 0) {
-  const usage = getUsage(agentType);
+// Check if agent type is within limits (with estimated tokens)
+async function isWithinLimit(env, agentType, estimatedTokens = 0) {
+  const usage = await getUsage(env, agentType);
   return usage.tokensUsed + estimatedTokens <= DAILY_LIMITS[agentType];
+}
+
+// Get chat history for a session_id
+async function getChatHistory(env, sessionId) {
+  const key = `chat:${sessionId}`;
+  const historyData = await env.NARAD_DATA.get(key);
+  if (historyData) {
+    return JSON.parse(historyData);
+  }
+  return []; // empty array if no history
+}
+
+// Save chat history for a session_id
+async function saveChatHistory(env, sessionId, messages) {
+  const key = `chat:${sessionId}`;
+  await env.NARAD_DATA.put(key, JSON.stringify(messages));
+}
+
+// Clear all usage stats (optional admin endpoint)
+async function resetUsage(env) {
+  const today = getToday();
+  for (const agentType of Object.keys(DAILY_LIMITS)) {
+    await env.NARAD_DATA.put(`usage:${agentType}`, JSON.stringify({ tokensUsed: 0, lastReset: today }));
+  }
+}
+
+// Clear chat history for a session_id (optional)
+async function clearChatHistory(env, sessionId) {
+  await env.NARAD_DATA.delete(`chat:${sessionId}`);
 }
 
 app.use('*', cors());
@@ -62,18 +100,32 @@ app.get('/api/health', (c) => c.json({
 }));
 
 // Get usage stats for all agent types
-app.get('/api/usage', (c) => {
-  const result = {};
-  for (const [agentType, limit] of Object.entries(DAILY_LIMITS)) {
-    const usage = getUsage(agentType);
-    result[agentType] = {
-      tokensUsed: usage.tokensUsed,
-      limit: limit,
-      remaining: usage.limit - usage.tokensUsed,
-      percentUsed: limit > 0 ? (usage.tokensUsed / limit) * 100 : 0
-    };
+app.get('/api/usage', async (c) => {
+  try {
+    const result = {};
+    for (const [agentType, limit] of Object.entries(DAILY_LIMITS)) {
+      const usage = await getUsage(c.env, agentType);
+      result[agentType] = {
+        tokensUsed: usage.tokensUsed,
+        limit: limit,
+        remaining: usage.limit - usage.tokensUsed,
+        percentUsed: limit > 0 ? (usage.tokensUsed / limit) * 100 : 0
+      };
+    }
+    return c.json(result);
+  } catch (error) {
+    return c.json({ error: 'Failed to fetch usage stats' }, 500);
   }
-  return c.json(result);
+});
+
+// Reset usage stats (optional, for testing/admin)
+app.post('/api/reset-usage', async (c) => {
+  try {
+    await resetUsage(c.env);
+    return c.json({ success: true });
+  } catch (error) {
+    return c.json({ error: 'Failed to reset usage' }, 500);
+  }
 });
 
 // Core AGI Chat Endpoint
@@ -94,10 +146,10 @@ app.post('/api/chat', async (c) => {
     const agentType = agent_type && DAILY_LIMITS.hasOwnProperty(agent_type) ? agent_type : 'general';
 
     // Check if we have enough quota for this request (estimate 1000 tokens for safety)
-    if (!isWithinLimit(agentType, 1000)) {
+    if (!(await isWithinLimit(c.env, agentType, 1000))) {
       return c.json({ 
         error: `Agent '${agentType}' has exceeded its daily token limit. Please try again later or use a different agent.`,
-        usage: getUsage(agentType)
+        usage: await getUsage(c.env, agentType)
       }, 429); // Too Many Requests
     }
 
@@ -175,7 +227,16 @@ app.post('/api/chat', async (c) => {
 
         // Track token usage
         const totalTokens = usage?.total_tokens || 0;
-        addUsage(agentType, totalTokens);
+        await addUsage(c.env, agentType, totalTokens);
+
+        // Save chat history
+        const chatHistory = await getChatHistory(c.env, session_id);
+        const newHistory = [
+          ...chatHistory,
+          { role: 'user', text: message, agentType: agentType },
+          { role: 'assistant', text: reply, agentType: agentType }
+        ];
+        await saveChatHistory(c.env, session_id, newHistory);
 
         return c.json({ 
           reply, 
@@ -184,7 +245,7 @@ app.post('/api/chat', async (c) => {
             model,
             tokens: totalTokens,
             agentType: agentType,
-            remainingTokens: getRemaining(agentType)
+            remainingTokens: await getRemaining(c.env, agentType)
           }
         });
       } catch (fetchErr) {
@@ -203,6 +264,28 @@ app.post('/api/chat', async (c) => {
 
   } catch (err) {
     return c.json({ error: 'Internal Worker Error', message: err.message }, 500);
+  }
+});
+
+// Optional: Get chat history for a session_id
+app.get('/api/chat/history/:session_id', async (c) => {
+  try {
+    const { session_id } = c.req.param();
+    const history = await getChatHistory(c.env, session_id);
+    return c.json({ history });
+  } catch (error) {
+    return c.json({ error: 'Failed to fetch chat history' }, 500);
+  }
+});
+
+// Optional: Clear chat history for a session_id
+app.delete('/api/chat/history/:session_id', async (c) => {
+  try {
+    const { session_id } = c.req.param();
+    await clearChatHistory(c.env, session_id);
+    return c.json({ success: true });
+  } catch (error) {
+    return c.json({ error: 'Failed to clear chat history' }, 500);
   }
 });
 

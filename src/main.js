@@ -6,12 +6,10 @@
  *
  * Boot order:
  *   1. Load config (fail fast on missing env vars)
- *   2. Instantiate infrastructure (logger, memory, AGI client, sender)
+ *   2. Instantiate infrastructure (logger, memory, AGI client)
  *   3. Instantiate use cases (inject infrastructure)
- *   4. Instantiate interface (router + bot)
- *   5. Start scheduler
- *   6. Start bot (blocking poll loop)
- *   7. Handle shutdown signals
+ *   4. Start scheduler
+ *   5. Handle shutdown signals
  */
 
 import 'dotenv/config';
@@ -22,8 +20,6 @@ import { ConsoleLogger }        from './infrastructure/ConsoleLogger.js';
 import { AgiWorkerClient }      from './infrastructure/agi_worker/AgiWorkerClient.js';
 import { SqliteMemoryStore }    from './infrastructure/memory/SqliteMemoryStore.js';
 import { FileKnowledgeLoader }  from './infrastructure/memory/FileKnowledgeLoader.js';
-import { TelegramSender }       from './infrastructure/telegram/TelegramSender.js';
-import { TelegramDownloader }   from './infrastructure/telegram/TelegramDownloader.js';
 import { CronScheduler }        from './infrastructure/scheduler/CronScheduler.js';
 import { SystemStats }          from './infrastructure/system/SystemStats.js';
 
@@ -37,10 +33,6 @@ import { GitWorkflowManager }   from './infrastructure/mas/GitWorkflowManager.js
 import { HandleUserMessage }    from './application/use_cases/HandleUserMessage.js';
 import { HandleCronJob }        from './application/use_cases/HandleCronJob.js';
 import { HandleMASRequest }     from './application/use_cases/HandleMASRequest.js';
-
-// Interface
-import { MessageRouter }        from './interface/router/MessageRouter.js';
-import { TelegramBot }          from './interface/bot/TelegramBot.js';
 
 async function main() {
   // ── 1. Config ─────────────────────────────────────────────────────
@@ -76,21 +68,11 @@ async function main() {
     logger,
   });
 
-  const agiWorker = new AgiWorkerClient({
-    workerUrl: config.agi.workerUrl,
-    timeoutMs: config.agi.timeoutMs,
-    logger,
-  });
-
-  const messageSender = new TelegramSender({
-    botToken: config.telegram.botToken,
-    logger,
-  });
-
-  const downloader = new TelegramDownloader({
-    botToken: config.telegram.botToken,
-    logger,
-  });
+    const agiWorker = new AgiWorkerClient({
+      workerUrl: config.agi.workerUrl,
+      timeoutMs: config.agi.timeoutMs,
+      logger,
+    });
 
   const systemStats = new SystemStats({ logger });
 
@@ -116,47 +98,33 @@ async function main() {
      gitManager: gitWorkflowManager,
    });
 
-   // ── 4. Use Cases ──────────────────────────────────────────────────
-   const handleUserMessage = new HandleUserMessage({
-     agiWorker,
-     memoryStore,
-     messageSender,
-     knowledgeLoader,
-     downloader,
-     systemStats,
-     logger,
-   });
+    // ── 4. Use Cases ──────────────────────────────────────────────────
+    const handleUserMessage = new HandleUserMessage({
+      agiWorker,
+      memoryStore,
+      knowledgeLoader,
+      systemStats,
+      logger,
+    });
 
-   const handleMASRequest = new HandleMASRequest({
-     taskManager,
-     subtaskManager,
-     agentManager,
-     gitManager: gitWorkflowManager,
-     messageSender,
-     logger,
-   });
+    const handleMASRequest = new HandleMASRequest({
+      taskManager,
+      subtaskManager,
+      agentManager,
+      gitManager: gitWorkflowManager,
+      logger,
+    });
 
-   const handleCronJob = new HandleCronJob({
-     agiWorker,
-     messageSender,
-     knowledgeLoader,
-     logger,
-     operatorChatId: config.cron.operatorChatId,
-   });
+    const handleCronJob = new HandleCronJob({
+      agiWorker,
+      knowledgeLoader,
+      logger,
+      operatorChatId: config.cron.operatorChatId,
+    });
 
-  // ── 4. Interface ──────────────────────────────────────────────────
-  const router = new MessageRouter({
-    handleUserMessage,
-    messageSender,
-    logger,
-    allowedChatId: config.telegram.allowedChatId,
-  });
-
-  const bot = new TelegramBot({
-    botToken: config.telegram.botToken,
-    router,
-    logger,
-  });
+   // ── 4. Interface ──────────────────────────────────────────────────
+   // No longer needed as we are removing Telegram integration and using web interface only.
+   // The web interface (narad-brain) handles requests directly via Cloudflare Worker.
 
   // ── 5. Scheduler ──────────────────────────────────────────────────
   const scheduler = new CronScheduler({
@@ -172,32 +140,41 @@ async function main() {
   });
   scheduler.start();
 
-  // ── 6. Graceful shutdown ──────────────────────────────────────────
-  const shutdown = async (signal) => {
-    logger.info(`Received ${signal} — shutting down gracefully`);
-    scheduler.stop();
-    bot.stop();
-    memoryStore.close();
-    logger.info('Narad stopped cleanly');
-    process.exit(0);
-  };
+   // ── 6. Graceful shutdown ──────────────────────────────────────────
+   const shutdown = async (signal) => {
+     logger.info(`Received ${signal} — shutting down gracefully`);
+     scheduler.stop();
+     memoryStore.close();
+     logger.info('Narad stopped cleanly');
+     process.exit(0);
+   };
 
-  process.on('SIGTERM', () => shutdown('SIGTERM'));
-  process.on('SIGINT',  () => shutdown('SIGINT'));
+   process.on('SIGTERM', () => shutdown('SIGTERM'));
+   process.on('SIGINT',  () => shutdown('SIGINT'));
 
-  process.on('uncaughtException', (err) => {
-    logger.error('uncaughtException', { error: err.message, stack: err.stack });
-    process.exit(1);
-  });
+   process.on('uncaughtException', (err) => {
+     logger.error('uncaughtException', { error: err.message, stack: err.stack });
+     process.exit(1);
+   });
 
-  process.on('unhandledRejection', (reason) => {
-    logger.error('unhandledRejection', { reason: String(reason) });
-    // Don't exit — log and continue
-  });
+   process.on('unhandledRejection', (reason) => {
+     logger.error('unhandledRejection', { reason: String(reason) });
+     // Don't exit — log and continue
+   };
 
-  // ── 7. Start Bot (blocking) ───────────────────────────────────────
-  logger.info('Narad ready — starting Telegram poll loop');
-  await bot.start();
+   // Since we are using a web interface (Cloudflare Worker), the main.js is not used for long-running processes.
+   // The actual logic is in the Cloudflare Worker (narad-brain/_worker.js) and the web frontend.
+   // This Node.js backend is kept for potential local development or other uses, but the primary deployment is serverless.
+   // We do not start a bot or long-running process here in the serverless context.
+   // For local testing, one could start a server, but that is out of scope for this serverless deployment.
+   // Therefore, we do not call bot.start() or any equivalent.
+
+   // If you wish to run this as a local server for development, you would need to implement a web server
+   // and remove the Cloudflare Worker specific code. However, the current architecture is designed for
+   // serverless deployment via Cloudflare Workers.
+
+   // For now, we just indicate that the configuration is loaded and the system is ready.
+   logger.info('Narad configured — ready for deployment as a Cloudflare Worker');
 }
 
 main();
