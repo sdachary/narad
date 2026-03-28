@@ -306,8 +306,8 @@ app.post('/api/chat', async (c) => {
 
     const messages = [
       { role: 'system', content: systemPrompt },
-      ...(history || []),
-      { role: 'user', text: message, queryHash: queryHash } // store for feedback
+      ...(history || []).map(msg => ({ role: msg.role, content: msg.text || msg.content })),
+      { role: 'user', content: message }
     ];
 
     const model = c.env.PRIMARY_MODEL || 'llama-3.3-70b-versatile';
