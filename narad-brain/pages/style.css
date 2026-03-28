@@ -391,14 +391,17 @@ body {
 /* Inline Usage in Header */
 .usage-ring {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    line-height: 1.2;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.35rem 0.6rem;
 }
 
 .usage-ring .tokens {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -407,6 +410,8 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     color: var(--text-secondary);
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--border);
 }
 
 .usage-ring .percent.warning {
@@ -449,8 +454,17 @@ body {
     }
     
     .usage-ring {
-        width: 32px;
-        height: 32px;
+        padding: 0.25rem 0.4rem;
+        gap: 0.35rem;
+    }
+    
+    .usage-ring .tokens {
+        font-size: 0.6rem;
+    }
+    
+    .usage-ring .percent {
+        font-size: 0.55rem;
+        padding-left: 0.35rem;
     }
     
     .main-content {
