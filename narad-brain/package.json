@@ -6,7 +6,7 @@
     "build": "echo 'Build complete (bundling handled by Cloudflare)'"
   },
   "devDependencies": {
-    "wrangler": "^3.0.0"
+    "wrangler": "^3.114.17"
   },
   "dependencies": {
     "hono": "^4.6.0"
