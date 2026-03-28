@@ -1,4 +1,4 @@
-// Narad AI Terminal
+// Narad AI Terminal - Original Theme with Ring Charts
 const API_BASE = '';
 let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
 localStorage.setItem('narad_session_id', sessionId);
@@ -8,8 +8,9 @@ let agentType = 'general';
 let isStreaming = false;
 
 // DOM Elements
-const output = document.getElementById('output');
-const input = document.getElementById('input');
+const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const chatForm = document.getElementById('chat-form');
 const apiStatus = document.getElementById('api-status');
 const apiDot = document.getElementById('api-dot');
 const agentSelect = document.getElementById('agent-select');
@@ -20,14 +21,18 @@ const closeUsageBtn = document.getElementById('close-usage');
 
 // Initialize
 function init() {
-    addMessage('👋 Welcome to Narad AI Terminal', 'system');
-    addMessage('I am your multi-agent AI assistant. Select an agent type above and send me a message!', 'system');
-    
     checkApiHealth();
     updateUsagePanel();
     
     // Event listeners
-    input.addEventListener('keydown', handleKeyDown);
+    chatForm.addEventListener('submit', handleSubmit);
+    userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
+    });
+    
     agentSelect.addEventListener('change', (e) => {
         agentType = e.target.value;
     });
@@ -46,8 +51,20 @@ function init() {
         }
     });
     
-    // Auto update usage panel
+    // Auto update usage panel every 30 seconds
     setInterval(updateUsagePanel, 30000);
+}
+
+// Handle form submit
+function handleSubmit(e) {
+    e.preventDefault();
+    if (isStreaming || !userInput.value.trim()) return;
+    
+    const message = userInput.value.trim();
+    userInput.value = '';
+    
+    addMessage(message, 'user');
+    sendToApi(message);
 }
 
 // API Health Check
@@ -65,13 +82,20 @@ async function checkApiHealth() {
     }
 }
 
-// Add message to output
-function addMessage(text, type = 'system') {
+// Add message to chat
+function addMessage(text, type = 'assistant') {
     const div = document.createElement('div');
     div.className = `message ${type}`;
-    div.innerHTML = `<span class="prompt">${type === 'user' ? '∼' : '➜'}</span><div class="content">${escapeHtml(text)}</div>`;
-    output.appendChild(div);
-    output.scrollTop = output.scrollHeight;
+    
+    const avatar = type === 'user' ? '∼' : '⚡';
+    
+    div.innerHTML = `
+        <div class="avatar">${avatar}</div>
+        <div class="message-content">${escapeHtml(text)}</div>
+    `;
+    
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
     return div;
 }
 
@@ -81,25 +105,12 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-// Handle input
-function handleKeyDown(e) {
-    if (isStreaming) return;
-    
-    if (e.key === 'Enter' && input.value.trim()) {
-        const message = input.value.trim();
-        input.value = '';
-        
-        addMessage(message, 'user');
-        sendToApi(message);
-    }
-}
-
 // Send to API
 async function sendToApi(message) {
     isStreaming = true;
     const msgEl = addMessage('', 'assistant');
     msgEl.classList.add('streaming');
-    const contentEl = msgEl.querySelector('.content');
+    const contentEl = msgEl.querySelector('.message-content');
     
     try {
         const response = await fetch(`${API_BASE}/api/chat`, {
@@ -134,7 +145,7 @@ async function sendToApi(message) {
                 if (charIndex < reply.length) {
                     contentEl.textContent += reply[charIndex];
                     charIndex++;
-                    output.scrollTop = output.scrollHeight;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 } else {
                     clearInterval(interval);
                     msgEl.classList.remove('streaming');
@@ -143,9 +154,9 @@ async function sendToApi(message) {
                     // Show metadata
                     if (data.metadata) {
                         const meta = document.createElement('div');
-                        meta.style.cssText = 'font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;';
+                        meta.className = 'message-meta';
                         meta.textContent = `💚 ${data.metadata.tokens} tokens • ${data.metadata.agentType} agent`;
-                        contentEl.appendChild(meta);
+                        msgEl.appendChild(meta);
                     }
                 }
             }, 15);
@@ -180,7 +191,7 @@ function renderRingCharts(usageData) {
         const remaining = Math.max(0, info.limit - info.tokensUsed);
         
         // Calculate stroke dasharray for ring
-        const radius = 30;
+        const radius = 32;
         const circumference = 2 * Math.PI * radius;
         const offset = circumference - (percent / 100) * circumference;
         
@@ -192,9 +203,9 @@ function renderRingCharts(usageData) {
             <div class="ring-card">
                 <div class="ring-label">${agent}</div>
                 <div class="ring-chart">
-                    <svg width="80" height="80">
-                        <circle class="ring-bg" cx="40" cy="40" r="${radius}"/>
-                        <circle class="ring-progress ${colorClass}" cx="40" cy="40" r="${radius}"
+                    <svg width="90" height="90">
+                        <circle class="ring-bg" cx="45" cy="45" r="${radius}"/>
+                        <circle class="ring-progress ${colorClass}" cx="45" cy="45" r="${radius}"
                             stroke-dasharray="${circumference}"
                             stroke-dashoffset="${offset}"/>
                     </svg>
@@ -202,7 +213,7 @@ function renderRingCharts(usageData) {
                         <span class="ring-percent">${percent.toFixed(0)}%</span>
                     </div>
                 </div>
-                <div class="ring-tokens">${formatNumber(remaining)} / ${formatNumber(info.limit)}</div>
+                <div class="ring-tokens">${formatNumber(remaining)} left</div>
             </div>
         `;
     }).join('');
