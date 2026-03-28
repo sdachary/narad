@@ -4,6 +4,8 @@ const userInput = document.getElementById('user-input');
 const statusText = document.querySelector('.status-text');
 const statusIcon = document.querySelector('.status-icon');
 const agentIndicator = document.getElementById('agent-indicator');
+const usagePanel = document.getElementById('usage-panel');
+const usageTableBody = document.getElementById('usage-table-body');
 
 // Storage key for chat history
 const STORAGE_KEY = 'narad-chat-history';
@@ -157,6 +159,81 @@ function addRetryButton(originalMessage) {
     });
 }
 
+// Fetch usage stats from the worker
+async function updateUsagePanel() {
+    try {
+        const res = await fetch('/api/usage');
+        if (res.ok) {
+            const usageData = await res.json();
+            
+            // Clear table body
+            usageTableBody.innerHTML = '';
+            
+            // Add rows for each agent type
+            for (const [agentType, data] of Object.entries(usageData)) {
+                const row = document.createElement('tr');
+                
+                // Agent type cell
+                const typeCell = document.createElement('td');
+                typeCell.textContent = agentType.charAt(0).toUpperCase() + agentType.slice(1);
+                row.appendChild(typeCell);
+                
+                // Tokens used cell
+                const usedCell = document.createElement('td');
+                usedCell.textContent = data.tokensUsed.toLocaleString();
+                row.appendChild(usedCell);
+                
+                // Limit cell
+                const limitCell = document.createElement('td');
+                limitCell.textContent = data.limit.toLocaleString();
+                row.appendChild(limitCell);
+                
+                // Remaining cell
+                const remainingCell = document.createElement('td');
+                remainingCell.textContent = data.remaining.toLocaleString();
+                row.appendChild(remainingCell);
+                
+                // Percent used cell with progress bar
+                const percentCell = document.createElement('td');
+                const percent = data.percentUsed;
+                const progressBar = document.createElement('div');
+                progressBar.style.width = '100px';
+                progressBar.style.height = '10px';
+                progressBar.style.backgroundColor = '#e0e0e0';
+                progressBar.style.borderRadius = '5px';
+                progressBar.style.overflow = 'hidden';
+                
+                const progressFill = document.createElement('div');
+                progressFill.style.width = `${percent}%`;
+                progressFill.style.height = '100%';
+                
+                // Color based on usage level
+                if (percent < 50) {
+                    progressFill.style.backgroundColor = '#10b981'; // green
+                } else if (percent < 80) {
+                    progressFill.style.backgroundColor = '#f59e0b'; // yellow
+                } else {
+                    progressFill.style.backgroundColor = '#ef4444'; // red
+                }
+                
+                progressBar.appendChild(progressFill);
+                percentCell.appendChild(progressBar);
+                percentCell.innerHTML += ` <span>${percent.toFixed(1)}%</span>`;
+                row.appendChild(percentCell);
+                
+                usageTableBody.appendChild(row);
+            }
+        }
+    } catch (error) {
+        console.warn('Failed to update usage panel:', error);
+    }
+}
+
+// Update usage panel periodically
+setInterval(updateUsagePanel, 5000); // Update every 5 seconds
+// Initial load
+updateUsagePanel();
+
 async function sendMessage(message) {
     // Add loading indicator
     const loadingDiv = document.createElement('div');
@@ -287,5 +364,11 @@ window.clearChatHistory = function() {
                 </div>
             </div>
         `;
+        
+        // Also reset usage stats on the worker (optional)
+        // fetch('/api/reset-usage', { method: 'POST' });
     }
 };
+
+// Expose clearChatHistory to window for easy access from console
+window.clearChatHistory = window.clearChatHistory;
