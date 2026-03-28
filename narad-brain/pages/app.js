@@ -112,14 +112,106 @@ function addMessage(text, role, agentType = null) {
     `;
   }
   
+  // Build message content
+  let contentHTML = `<div class="message-text">${agentBadge}${text}</div>`;
+  
+  if (role === 'user' && deleteButton) {
+    contentHTML += `<div class="delete-btn" style="margin-top:0.25rem;">${deleteButton}</div>`;
+  }
+  
+  // Add feedback buttons for assistant messages
+  let feedbackHTML = '';
+  if (role === 'assistant') {
+    feedbackHTML = `
+      <div class="feedback-buttons" style="margin-top:0.5rem; display:flex; gap:0.5rem;">
+        <button class="feedback-btn" data-score="1" title="Good response">👍</button>
+        <button class="feedback-btn" data-score="-1" title="Poor response">👎</button>
+      </div>
+    `;
+  }
+  
+  messageDiv.innerHTML = `<div class="message-content">${contentHTML}${feedbackHTML}</div>`;
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  // Add event listener to delete button if present
+  if (role === 'user') {
+    const deleteBtn = messageDiv.querySelector('.delete-message-btn');
+    deleteBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this message?')) {
+        messageDiv.remove();
+        // Save updated chat history after deletion
+        saveChatHistory(getCurrentMessages());
+      }
+    });
+  }
+  
+  // Add feedback button listeners for assistant messages
+  if (role === 'assistant') {
+    const feedbackBtns = messageDiv.querySelectorAll('.feedback-btn');
+    feedbackBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const score = Number(btn.dataset.score);
+        const sessionId = getSessionId();
+        try {
+          const res = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: sessionId, score })
+          });
+          if (!res.ok) {
+            console.warn('Failed to send feedback');
+          } else {
+            // Disable buttons after feedback to prevent double submission
+            btn.disabled = true;
+            // Optionally style to show it's been submitted
+            const feedbackContainer = btn.parentElement;
+            if (feedbackContainer) {
+              feedbackContainer.querySelectorAll('.feedback-btn').forEach(b => {
+                b.disabled = true;
+                b.style.opacity = '0.6';
+              });
+            }
+          }
+        } catch (e) {
+          console.warn('Error sending feedback:', e);
+        }
+      });
+    });
+  }
+  
+  return messageDiv;
+}
+  
+  // Add delete button for user messages (clutter removal)
+  let deleteButton = '';
+  if (role === 'user') {
+    deleteButton = `
+      <button class="delete-message-btn" title="Delete this message">
+        ✕
+      </button>
+    `;
+  }
+  
   messageDiv.innerHTML = `
-      <div class="message-content" style="display: flex; justify-content: space-between; align-items: center;">
-          <div>${agentBadge}${text}</div>
-          ${deleteButton}
+      <div class="message-content">
+          <div class="message-text">${agentBadge}${text}</div>
+          ${deleteButton ? `<div class="delete-btn" style="margin-top:0.25rem;">${deleteButton}</div>` : ''}
       </div>
   `;
   chatMessages.appendChild(messageDiv);
   chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  // Add feedback buttons for assistant messages
+  if (role === 'assistant') {
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback-buttons';
+    feedbackDiv.innerHTML = `
+      <button class="feedback-btn" data-score="1" title="Good response">👍</button>
+      <button class="feedback-btn" data-score="-1" title="Poor response">👎</button>
+    `;
+    messageDiv.appendChild(feedbackDiv);
+  }
   
   // Add event listener to delete button if present
   if (role === 'user') {
