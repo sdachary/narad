@@ -6,6 +6,28 @@
 
 ---
 
+## ✨ What's New (March 2026)
+
+### Security Hardening 🔐
+- **XSS Prevention**: DOMPurify + safe DOM APIs
+- **CSRF Protection**: Token-based validation
+- **Input Validation**: Strict schema validation
+- **Rate Limiting**: 10 requests/minute
+- **Security Headers**: CSP, X-Frame-Options, Referrer-Policy
+
+### Premium UI 🎨
+- **Glassmorphism Design**: Modern 2025 color palette
+- **SVG Usage Ring**: Animated progress indicator
+- **Smooth Animations**: Message entrance, cursor blink
+- **Mobile-First**: Fully responsive (320px - 1920px+)
+
+### Monitoring & Observability 📊
+- **Enhanced Health**: `/api/health` with KV, providers, rate limit checks
+- **Metrics Endpoint**: `/api/metrics` with response times (avg, p95)
+- **Error Tracking**: `/api/errors` with 24hr KV storage
+
+---
+
 ## Architecture
 
 ```
@@ -265,6 +287,20 @@ Narad is accessed through its web interface at the Cloudflare Worker URL. The in
 
 ---
 
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/chat` | POST | Send a message to Narad |
+| `/api/health` | GET | Health status with detailed checks |
+| `/api/metrics` | GET | Request counts, response times |
+| `/api/usage` | GET | Token usage by agent type |
+| `/api/csrf-token` | GET | Get CSRF token |
+| `/api/feedback` | POST | Submit feedback on responses |
+| `/api/errors` | GET | Recent errors from KV store |
+
+---
+
 ## Scheduled Jobs
 
 | Job | Schedule | Behavior |
@@ -365,6 +401,32 @@ Narad was originally designed to run on Oracle Cloud Infrastructure (OCI) Always
 - ✅ Zero-cost deployment on Cloudflare Workers free tier
 - ✅ Enhanced UI with usage panel and message deletion capabilities
 
+---
+
+## Security
+
+### Implemented Protections
+
+| Protection | Status | Description |
+|------------|--------|-------------|
+| XSS Prevention | ✅ | DOMPurify + DOM APIs (no innerHTML) |
+| CSRF Protection | ✅ | Token validation on all mutating endpoints |
+| Input Validation | ✅ | Zod-like schemas for message, session, history |
+| Rate Limiting | ✅ | 10 req/min per IP, burst limit 3 |
+| Security Headers | ✅ | CSP, X-Frame-Options, Referrer-Policy |
+
+### Testing
+
+```bash
+# Run security tests
+npm run test:unit
+
+# Run all tests
+npm run test:all
+```
+
+---
+
 ### Variables & Secrets Reference
 
 #### Required Environment Variables:
@@ -418,6 +480,32 @@ jobs:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 ```
+
+---
+
+## Testing
+
+```bash
+# Install dependencies
+npm install
+
+# Run unit tests
+npm run test:unit
+
+# Run integration tests
+npm run test:integration
+
+# Run E2E tests (requires Playwright)
+npm run test:e2e
+
+# Run all tests
+npm run test:all
+```
+
+### Test Coverage
+- **Unit Tests**: XSS prevention, input validation, rate limiting
+- **Integration**: API schema validation, CSRF enforcement
+- **E2E**: Chat functionality, accessibility, responsive design
 
 ---
 
