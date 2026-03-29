@@ -6,6 +6,7 @@ localStorage.setItem('narad_session_id', sessionId);
 let chatHistory = [];
 let isStreaming = false;
 let csrfToken = null;
+let savedIdeas = JSON.parse(localStorage.getItem('narad_ideas') || '[]');
 
 // XSS Prevention: DOMPurify configuration
 const DOMPURIFY_CONFIG = {
@@ -162,6 +163,10 @@ const chatForm = document.getElementById('chat-form');
 const apiStatus = document.getElementById('api-status');
 const apiDot = document.getElementById('api-dot');
 const usageRing = document.getElementById('usage-ring');
+const imageInput = document.getElementById('image-input');
+const imageUploadBtn = document.getElementById('image-upload-btn');
+const imagePreview = document.getElementById('image-preview');
+let selectedImage = null;
 
 // Initialize
 async function init() {
@@ -182,17 +187,294 @@ async function init() {
     setInterval(updateUsageRing, 30000);
 }
 
-// Handle form submit
-function handleSubmit(e) {
-    e.preventDefault();
-    if (isStreaming || !userInput.value.trim()) return;
+// ============================================
+// IMAGE UPLOAD HANDLERS
+// ============================================
+
+if (imageUploadBtn && imageInput) {
+    imageUploadBtn.addEventListener('click', () => {
+        imageInput.click();
+    });
     
-    // Validate message input
-    const validation = InputValidator.validate('message', userInput.value);
-    if (!validation.valid) {
-      showError(validation.error);
-      return;
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        if (!file.type.startsWith('image/')) {
+            showToast('Please select an image file', 'error');
+            return;
+        }
+        
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Image must be under 5MB', 'error');
+            return;
+        }
+        
+        selectedImage = file;
+        showImagePreview(file);
+    });
+}
+
+function showImagePreview(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        imagePreview.innerHTML = `
+            <img src="${e.target.result}" alt="Preview">
+            <button type="button" class="remove-image" onclick="removeSelectedImage()">&times;</button>
+        `;
+        imagePreview.style.display = 'flex';
+        imageUploadBtn.classList.add('has-image');
+    };
+    reader.readAsDataURL(file);
+}
+
+window.removeSelectedImage = function() {
+    selectedImage = null;
+    imagePreview.style.display = 'none';
+    imagePreview.innerHTML = '';
+    imageInput.value = '';
+    imageUploadBtn.classList.remove('has-image');
+};
+
+async function analyzeImage(file) {
+    showToast('Analyzing image...', 'info');
+    
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        const token = CSRFManager.getToken();
+        const headers = {};
+        if (token) headers['X-CSRF-Token'] = token;
+        
+        const response = await fetch(`${API_BASE}/api/analyze-image`, {
+            method: 'POST',
+            headers,
+            body: formData
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to analyze image');
+        }
+        
+        const data = await response.json();
+        return data.description;
+    } catch (e) {
+        showToast('Failed to analyze image: ' + e.message, 'error');
+        return null;
     }
+}
+
+// ============================================
+// VOICE FEATURES (STT & TTS)
+// ============================================
+
+const voiceInputBtn = document.getElementById('voice-input-btn');
+const voiceOutputBtn = document.getElementById('voice-output-btn');
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+let currentSpeechUtterance = null;
+
+// Voice Input - Speech to Text
+if (voiceInputBtn) {
+    voiceInputBtn.addEventListener('click', toggleVoiceRecording);
+    voiceInputBtn.addEventListener('mousedown', startRecording);
+    voiceInputBtn.addEventListener('mouseup', stopRecording);
+    voiceInputBtn.addEventListener('mouseleave', stopRecording);
+    voiceInputBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); });
+    voiceInputBtn.addEventListener('touchend', stopRecording);
+}
+
+async function toggleVoiceRecording() {
+    if (isRecording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+}
+
+async function startRecording() {
+    if (isRecording || !navigator.mediaDevices?.getUserMedia) {
+        showToast('Microphone not available', 'error');
+        return;
+    }
+    
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        
+        mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) {
+                audioChunks.push(e.data);
+            }
+        };
+        
+        mediaRecorder.onstop = async () => {
+            stream.getTracks().forEach(track => track.stop());
+            await transcribeAudio();
+        };
+        
+        mediaRecorder.start();
+        isRecording = true;
+        voiceInputBtn.classList.add('recording');
+        showToast('Listening...', 'info');
+    } catch (err) {
+        console.error('Recording error:', err);
+        showToast('Microphone permission denied', 'error');
+    }
+}
+
+function stopRecording() {
+    if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        isRecording = false;
+        voiceInputBtn.classList.remove('recording');
+    }
+}
+
+async function transcribeAudio() {
+    if (audioChunks.length === 0) return;
+    
+    showToast('Transcribing...', 'info');
+    
+    try {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audio', audioBlob, 'recording.webm');
+        
+        const token = CSRFManager.getToken();
+        const headers = {};
+        if (token) headers['X-CSRF-Token'] = token;
+        
+        const response = await fetch(`${API_BASE}/api/speech-to-text`, {
+            method: 'POST',
+            headers,
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('Transcription failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data.text) {
+            userInput.value = data.text;
+            userInput.focus();
+            showToast('Voice transcribed!', 'success');
+        }
+    } catch (err) {
+        console.error('Transcription error:', err);
+        showToast('Failed to transcribe audio', 'error');
+    }
+}
+
+// Voice Output - Text to Speech
+if (voiceOutputBtn) {
+    voiceOutputBtn.addEventListener('click', readLastResponse);
+}
+
+async function readLastResponse() {
+    if (!voiceOutputBtn) return;
+    
+    // Find the last assistant message
+    const messages = document.querySelectorAll('.message.assistant');
+    if (messages.length === 0) {
+        showToast('No response to read', 'info');
+        return;
+    }
+    
+    const lastMessage = messages[messages.length - 1];
+    const text = lastMessage.textContent.trim();
+    
+    if (!text) {
+        showToast('No text to read', 'info');
+        return;
+    }
+    
+    // If already speaking, stop
+    if (window.speechSynthesis?.speaking) {
+        window.speechSynthesis.cancel();
+        voiceOutputBtn.classList.remove('speaking');
+        return;
+    }
+    
+    // Use Web Speech API (browser-native TTS)
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.1;
+        utterance.pitch = 1;
+        
+        utterance.onstart = () => {
+            voiceOutputBtn.classList.add('speaking');
+        };
+        
+        utterance.onend = () => {
+            voiceOutputBtn.classList.remove('speaking');
+        };
+        
+        utterance.onerror = () => {
+            voiceOutputBtn.classList.remove('speaking');
+        };
+        
+        window.speechSynthesis.speak(utterance);
+        showToast('Reading response...', 'info');
+    } else {
+        // Fallback to Workers AI TTS
+        await playTextToSpeech(text);
+    }
+}
+
+async function playTextToSpeech(text) {
+    try {
+        const token = CSRFManager.getToken();
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['X-CSRF-Token'] = token;
+        
+        const response = await fetch(`${API_BASE}/api/text-to-speech`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ text })
+        });
+        
+        if (!response.ok) {
+            throw new Error('TTS failed');
+        }
+        
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        voiceOutputBtn.classList.add('speaking');
+        
+        audio.onended = () => {
+            voiceOutputBtn.classList.remove('speaking');
+            URL.revokeObjectURL(audioUrl);
+        };
+        
+        audio.onerror = () => {
+            voiceOutputBtn.classList.remove('speaking');
+            URL.revokeObjectURL(audioUrl);
+        };
+        
+        await audio.play();
+    } catch (err) {
+        console.error('TTS error:', err);
+        showToast('Text-to-speech failed', 'error');
+        voiceOutputBtn.classList.remove('speaking');
+    }
+}
+
+// Auto-read responses if enabled
+let autoReadEnabled = localStorage.getItem('narad_auto_read') === 'true';
+
+// Handle form submit
+async function handleSubmit(e) {
+    e.preventDefault();
+    if (isStreaming || (!userInput.value.trim() && !selectedImage)) return;
     
     // Rate limiting check
     if (!rateLimiter.isAllowed()) {
@@ -201,11 +483,38 @@ function handleSubmit(e) {
       return;
     }
     
-    const message = validation.value;
+    let message = userInput.value.trim();
+    
+    // Analyze image if present
+    if (selectedImage) {
+        const imageDescription = await analyzeImage(selectedImage);
+        
+        if (imageDescription) {
+            // Include image analysis in the message
+            if (message) {
+                message = `Regarding this image: "${imageDescription}"\n\nUser question: ${message}`;
+            } else {
+                message = `Please describe and analyze this image: "${imageDescription}"`;
+            }
+        }
+        
+        // Clear image selection
+        removeSelectedImage();
+    }
+    
+    if (!message) return;
+    
+    // Validate message input
+    const validation = InputValidator.validate('message', message);
+    if (!validation.valid) {
+      showError(validation.error);
+      return;
+    }
+    
     userInput.value = '';
     
     addMessage(message, 'user');
-    sendToApi(message);
+    sendToApi(validation.value);
 }
 
 // Show error message to user
@@ -344,13 +653,18 @@ async function sendToApi(message) {
           headers['X-CSRF-Token'] = token;
         }
         
+        // Get selected agent type
+        const agentSelect = document.getElementById('agent-select');
+        const agent_type = agentSelect && agentSelect.value ? agentSelect.value : null;
+        
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
             headers,
             body: JSON.stringify({
                 message,
                 history: chatHistory,
-                session_id: sessionId
+                session_id: sessionId,
+                agent_type
             })
         });
         
@@ -401,6 +715,20 @@ async function sendToApi(message) {
                         meta.className = 'message-meta';
                         meta.textContent = `💚 ${data.metadata.tokens} tokens • ${data.metadata.agentType} agent`;
                         msgEl.appendChild(meta);
+                    }
+                    
+                    // Auto-save important responses to memory
+                    autoSaveToMemory(data.reply, message);
+                    
+                    // Auto-read response if enabled
+                    if (autoReadEnabled && 'speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(data.reply);
+                        utterance.rate = 1.1;
+                        window.speechSynthesis.speak(utterance);
+                        voiceOutputBtn?.classList.add('speaking');
+                        utterance.onend = () => {
+                            voiceOutputBtn?.classList.remove('speaking');
+                        };
                     }
                 }
             }, 15);
@@ -508,3 +836,530 @@ async function submitFeedback(score) {
         return false;
     }
 }
+
+// ============================================
+// MEMORY SIDEBAR FUNCTIONS
+// ============================================
+
+// DOM Elements
+const memorySidebar = document.getElementById('memory-sidebar');
+const memoryToggle = document.getElementById('memory-toggle');
+const closeSidebar = document.getElementById('close-sidebar');
+const memoryTabs = document.querySelectorAll('.memory-tab');
+const memoryPanels = document.querySelectorAll('.memory-panel');
+
+// Toggle sidebar
+function toggleSidebar(open) {
+    if (open === undefined) {
+        open = !memorySidebar.classList.contains('open');
+    }
+    memorySidebar.classList.toggle('open', open);
+}
+
+if (memoryToggle) {
+    memoryToggle.addEventListener('click', () => toggleSidebar());
+}
+
+if (closeSidebar) {
+    closeSidebar.addEventListener('click', () => toggleSidebar(false));
+}
+
+// Tab switching
+memoryTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        // Update active tab
+        memoryTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding panel
+        memoryPanels.forEach(panel => {
+            panel.classList.toggle('active', panel.id === `${tabName}-panel`);
+        });
+    });
+});
+
+// ============================================
+// IDEAS FUNCTIONS
+// ============================================
+
+const ideaInput = document.getElementById('idea-input');
+const ideaTags = document.getElementById('idea-tags');
+const saveIdeaBtn = document.getElementById('save-idea');
+const ideasList = document.getElementById('ideas-list');
+
+function renderIdeas() {
+    if (!ideasList) return;
+    
+    if (savedIdeas.length === 0) {
+        ideasList.innerHTML = '<div class="empty-state">No ideas saved yet. Start capturing!</div>';
+        return;
+    }
+    
+    ideasList.innerHTML = savedIdeas.map((idea, index) => `
+        <div class="idea-card" data-index="${index}">
+            <div class="idea-content">${escapeHtml(idea.text)}</div>
+            <div class="idea-meta">
+                <span class="idea-date">${formatDate(idea.createdAt)}</span>
+                ${idea.tags && idea.tags.length > 0 ? `
+                    <div class="idea-tags-list">
+                        ${idea.tags.map(tag => `<span class="idea-tag">${escapeHtml(tag)}</span>`).join('')}
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `).join('');
+    
+    // Add click handlers to idea cards
+    ideasList.querySelectorAll('.idea-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const index = parseInt(card.dataset.index);
+            const idea = savedIdeas[index];
+            
+            // Use idea in chat
+            userInput.value = `/idea ${idea.text}`;
+            toggleSidebar(false);
+            userInput.focus();
+        });
+    });
+}
+
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+async function saveIdea() {
+    if (!ideaInput || !ideaInput.value.trim()) {
+        showToast('Please enter an idea', 'error');
+        return;
+    }
+    
+    const text = ideaInput.value.trim();
+    const tags = ideaTags && ideaTags.value.trim() 
+        ? ideaTags.value.split(',').map(t => t.trim()).filter(t => t)
+        : [];
+    
+    const idea = {
+        text,
+        tags,
+        createdAt: new Date().toISOString()
+    };
+    
+    // Save locally
+    savedIdeas.unshift(idea);
+    localStorage.setItem('narad_ideas', JSON.stringify(savedIdeas));
+    
+    // Save to server
+    try {
+        const token = CSRFManager.getToken();
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['X-CSRF-Token'] = token;
+        
+        await fetch(`${API_BASE}/api/idea`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ text, tags })
+        });
+    } catch (e) {
+        console.warn('Failed to save idea to server:', e);
+    }
+    
+    // Clear form
+    ideaInput.value = '';
+    if (ideaTags) ideaTags.value = '';
+    
+    // Re-render
+    renderIdeas();
+    
+    showToast('Idea saved!', 'success');
+}
+
+if (saveIdeaBtn) {
+    saveIdeaBtn.addEventListener('click', saveIdea);
+}
+
+// ============================================
+// AUTO-SAVE IMPORTANT CHATS TO MEMORY
+// ============================================
+
+const autoSaveSettings = {
+    minCodeLength: 50,
+    minResponseLength: 500,
+    importantKeywords: ['solution', 'fix', 'architecture', 'implementation', 'algorithm', 'configuration', 'setup', 'guide', 'tutorial', 'best practice', 'pattern', 'optimization']
+};
+
+function shouldAutoSave(text) {
+    if (!text || typeof text !== 'string') return false;
+    
+    // Has substantial code
+    const codeMatch = text.match(/```[\s\S]*?```/g);
+    if (codeMatch) {
+        const codeLength = codeMatch.join('').length;
+        if (codeLength >= autoSaveSettings.minCodeLength) return true;
+    }
+    
+    // Has inline code
+    const inlineCode = text.match(/`[^`]+`/g);
+    if (inlineCode && inlineCode.join('').length >= autoSaveSettings.minCodeLength) return true;
+    
+    // Long response with important keywords
+    if (text.length >= autoSaveSettings.minResponseLength) {
+        const lowerText = text.toLowerCase();
+        for (const keyword of autoSaveSettings.importantKeywords) {
+            if (lowerText.includes(keyword)) return true;
+        }
+    }
+    
+    return false;
+}
+
+function extractSummary(text) {
+    // Extract first meaningful sentence or line
+    const lines = text.split('\n').filter(l => l.trim() && !l.startsWith('```'));
+    if (lines.length > 0) {
+        let summary = lines[0].trim();
+        if (summary.length > 150) {
+            summary = summary.substring(0, 147) + '...';
+        }
+        return summary;
+    }
+    return text.substring(0, 100) + '...';
+}
+
+function generateAutoTags(text) {
+    const tags = [];
+    
+    // Code-related tags
+    if (text.includes('```')) tags.push('code');
+    if (text.match(/function|const|let|var|=>|import|export|class /)) tags.push('javascript');
+    if (text.match(/def |import |from |class |async |await/)) tags.push('python');
+    if (text.match(/async |await |Promise|fetch\(|async function/)) tags.push('async');
+    
+    // Topic tags
+    const lowerText = text.toLowerCase();
+    if (lowerText.includes('api')) tags.push('api');
+    if (lowerText.includes('database') || lowerText.includes('sql')) tags.push('database');
+    if (lowerText.includes('error') || lowerText.includes('bug') || lowerText.includes('fix')) tags.push('debugging');
+    if (lowerText.includes('config')) tags.push('configuration');
+    if (lowerText.includes('test')) tags.push('testing');
+    if (lowerText.includes('deploy')) tags.push('deployment');
+    if (lowerText.includes('security') || lowerText.includes('auth')) tags.push('security');
+    
+    return tags.slice(0, 5);
+}
+
+async function autoSaveToMemory(text, query) {
+    if (!autoSaveEnabled || !shouldAutoSave(text)) return;
+    
+    const summary = extractSummary(text);
+    const tags = generateAutoTags(text);
+    tags.push('auto-saved');
+    
+    const memory = {
+        text: `Q: ${query}\n\nA: ${text}`,
+        summary,
+        tags,
+        createdAt: new Date().toISOString(),
+        type: 'chat'
+    };
+    
+    try {
+        const token = CSRFManager.getToken();
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['X-CSRF-Token'] = token;
+        
+        const response = await fetch(`${API_BASE}/api/memory/store`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(memory)
+        });
+        
+        if (response.ok) {
+            console.log('Auto-saved important chat to memory');
+        }
+    } catch (e) {
+        console.warn('Auto-save failed:', e);
+    }
+}
+
+// ============================================
+// MEMORY SEARCH FUNCTIONS
+// ============================================
+
+const memorySearchInput = document.getElementById('memory-search-input');
+const memorySearchBtn = document.getElementById('memory-search-btn');
+const searchResults = document.getElementById('search-results');
+const memoryBudget = document.getElementById('memory-budget');
+const budgetFill = document.getElementById('budget-fill');
+const budgetText = document.getElementById('budget-text');
+
+async function searchMemory() {
+    if (!memorySearchInput || !memorySearchInput.value.trim()) {
+        showToast('Please enter a search query', 'error');
+        return;
+    }
+    
+    const query = memorySearchInput.value.trim();
+    
+    if (!searchResults) return;
+    searchResults.innerHTML = '<div class="empty-state"><span class="loading-spinner"></span> Searching...</div>';
+    
+    try {
+        const token = CSRFManager.getToken();
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['X-CSRF-Token'] = token;
+        
+        const response = await fetch(`${API_BASE}/api/memory/search`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ query, topK: 10, threshold: 0.5 })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Search failed');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.results || data.results.length === 0) {
+            searchResults.innerHTML = '<div class="empty-state">No matching memories found</div>';
+            return;
+        }
+        
+        searchResults.innerHTML = data.results.map(result => `
+            <div class="search-result">
+                <div class="result-content">
+                    ${escapeHtml(result.content)}
+                    <span class="result-score">${(result.similarity * 100).toFixed(0)}% match</span>
+                </div>
+                <div class="result-meta">${formatDate(result.createdAt)}</div>
+            </div>
+        `).join('');
+        
+        // Update budget display
+        updateMemoryBudget();
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        searchResults.innerHTML = '<div class="empty-state">Search failed. Try again.</div>';
+    }
+}
+
+async function updateMemoryBudget() {
+    try {
+        const response = await fetch(`${API_BASE}/api/memory/status`);
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        
+        if (budgetFill && budgetText && data.budget) {
+            const used = data.budget.used;
+            const limit = data.budget.limit;
+            const percent = (used / limit) * 100;
+            
+            budgetFill.style.width = `${Math.min(percent, 100)}%`;
+            budgetText.textContent = `${used}/${limit}`;
+        }
+    } catch (e) {
+        console.warn('Failed to fetch memory status:', e);
+    }
+}
+
+if (memorySearchBtn) {
+    memorySearchBtn.addEventListener('click', searchMemory);
+}
+
+if (memorySearchInput) {
+    memorySearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchMemory();
+    });
+}
+
+// ============================================
+// EXPORT/IMPORT FUNCTIONS
+// ============================================
+
+const exportBtn = document.getElementById('export-ideas');
+const importBtn = document.getElementById('import-ideas');
+
+function exportIdeasAsMarkdown() {
+    if (savedIdeas.length === 0) {
+        showToast('No ideas to export', 'error');
+        return;
+    }
+    
+    let markdown = '# Narad Ideas Export\n\n';
+    markdown += `Exported: ${new Date().toISOString()}\n\n`;
+    
+    savedIdeas.forEach((idea, i) => {
+        markdown += `## Idea ${i + 1}\n`;
+        markdown += `${idea.text}\n\n`;
+        if (idea.tags && idea.tags.length > 0) {
+            markdown += `**Tags:** ${idea.tags.join(', ')}\n`;
+        }
+        markdown += `**Date:** ${idea.createdAt}\n`;
+        markdown += '---\n\n';
+    });
+    
+    // Download
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `narad-ideas-${new Date().toISOString().split('T')[0]}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    showToast('Ideas exported!', 'success');
+}
+
+function importIdeasFromMarkdown() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.md,.txt';
+    
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const content = event.target.result;
+                const ideas = parseMarkdownIdeas(content);
+                
+                if (ideas.length === 0) {
+                    showToast('No valid ideas found in file', 'error');
+                    return;
+                }
+                
+                // Merge with existing ideas (avoiding duplicates)
+                const existingTexts = new Set(savedIdeas.map(i => i.text));
+                const newIdeas = ideas.filter(i => !existingTexts.has(i.text));
+                
+                if (newIdeas.length === 0) {
+                    showToast('All ideas already exist', 'info');
+                    return;
+                }
+                
+                savedIdeas = [...newIdeas, ...savedIdeas];
+                localStorage.setItem('narad_ideas', JSON.stringify(savedIdeas));
+                renderIdeas();
+                
+                showToast(`Imported ${newIdeas.length} new ideas!`, 'success');
+            } catch (err) {
+                showToast('Failed to parse file', 'error');
+            }
+        };
+        reader.readAsText(file);
+    };
+    
+    input.click();
+}
+
+function parseMarkdownIdeas(content) {
+    const ideas = [];
+    const blocks = content.split(/^---+$/m);
+    
+    blocks.forEach(block => {
+        block = block.trim();
+        if (!block || block.startsWith('#')) return;
+        
+        // Extract text (everything not in markdown headers)
+        const lines = block.split('\n');
+        const textLines = [];
+        let inTags = false;
+        let tags = [];
+        
+        lines.forEach(line => {
+            if (line.startsWith('**Tags:**')) {
+                inTags = true;
+                const tagStr = line.replace('**Tags:**', '').trim();
+                tags = tagStr.split(',').map(t => t.trim()).filter(t => t);
+            } else if (line.startsWith('**Date:**')) {
+                inTags = false;
+            } else if (!line.startsWith('##') && !line.startsWith('**')) {
+                if (inTags) {
+                    tags = tags.concat(line.split(',').map(t => t.trim()).filter(t => t));
+                } else {
+                    textLines.push(line);
+                }
+            }
+        });
+        
+        const text = textLines.join(' ').trim();
+        if (text) {
+            ideas.push({
+                text,
+                tags,
+                createdAt: new Date().toISOString()
+            });
+        }
+    });
+    
+    return ideas;
+}
+
+if (exportBtn) exportBtn.addEventListener('click', exportIdeasAsMarkdown);
+if (importBtn) importBtn.addEventListener('click', importIdeasFromMarkdown);
+
+// ============================================
+// AUTO-SAVE TOGGLE
+// ============================================
+
+let autoSaveEnabled = localStorage.getItem('narad_auto_save') !== 'false';
+const autoSaveToggle = document.getElementById('auto-save-toggle');
+
+if (autoSaveToggle) {
+    autoSaveToggle.checked = autoSaveEnabled;
+    autoSaveToggle.addEventListener('change', (e) => {
+        autoSaveEnabled = e.target.checked;
+        localStorage.setItem('narad_auto_save', autoSaveEnabled);
+        showToast(autoSaveEnabled ? 'Auto-save enabled' : 'Auto-save disabled', 'info');
+    });
+}
+
+let autoReadEnabled = localStorage.getItem('narad_auto_read') === 'true';
+const autoReadToggle = document.getElementById('auto-read-toggle');
+
+if (autoReadToggle) {
+    autoReadToggle.checked = autoReadEnabled;
+    autoReadToggle.addEventListener('change', (e) => {
+        autoReadEnabled = e.target.checked;
+        localStorage.setItem('narad_auto_read', autoReadEnabled);
+        showToast(autoReadEnabled ? 'Auto-read enabled' : 'Auto-read disabled', 'info');
+    });
+}
+
+// ============================================
+// TOAST NOTIFICATIONS
+// ============================================
+
+function showToast(message, type = 'info') {
+    // Remove existing toast
+    const existingToast = document.querySelector('.toast');
+    if (existingToast) existingToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ============================================
+// INITIALIZE MEMORY FEATURES
+// ============================================
+
+function initMemoryFeatures() {
+    renderIdeas();
+    updateMemoryBudget();
+}
+
+// Run memory init after main init
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initMemoryFeatures, 100);
+});
