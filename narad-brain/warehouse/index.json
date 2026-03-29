@@ -82,6 +82,15 @@
       "skills": ["git", "markdown", "documentation", "cleanup"],
       "priority": "high",
       "daily_use": true
+    },
+    "dividend": {
+      "name": "Dividend Strategist",
+      "icon": "💰",
+      "description": "Dividend portfolio & income strategy",
+      "keywords": ["dividend", "income", "portfolio", "yield", "investment", "stocks", "passive", "DRIP", "payout", "dividend-growth"],
+      "skills": ["investing", "dividends", "portfolio-analysis", "tax-planning"],
+      "priority": "medium",
+      "daily_use": false
     }
   },
   "skills": {

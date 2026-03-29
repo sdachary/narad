@@ -31,6 +31,7 @@ warehouse/
 | infrastructure | DevOps | Docker, K8s, CI/CD |
 | security | Security | Auth, JWT, OAuth |
 | writer | Documentation | Markdown |
+| dividend | Dividend portfolio | investing, tax-planning |
 
 ## Usage
 
