@@ -73,6 +73,15 @@
       "skills": ["auth", "oauth", "jwt", "owasp"],
       "priority": "medium",
       "daily_use": false
+    },
+    "check": {
+      "name": "Git Checker",
+      "icon": "🔍",
+      "description": "Git operations & pre-push cleanup",
+      "keywords": ["git", "check", "status", "commit", "push", "fetch", "branch", "log", "diff", "stash", "clean", "md", "markdown", "docs"],
+      "skills": ["git", "markdown", "documentation", "cleanup"],
+      "priority": "high",
+      "daily_use": true
     }
   },
   "skills": {

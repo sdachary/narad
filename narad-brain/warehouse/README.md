@@ -23,6 +23,7 @@ warehouse/
 | Agent | Description | Skills |
 |-------|-------------|--------|
 | dev | Daily development | git, testing, npm |
+| check | Git operations & cleanup | git, markdown, cleanup |
 | reviewer | Code review | security, quality |
 | debugger | Debugging | logging, diagnostics |
 | api | API development | REST, GraphQL |
