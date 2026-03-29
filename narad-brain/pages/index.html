@@ -26,18 +26,30 @@
                 <p>AI Assistant</p>
             </div>
             <div class="header-controls">
-                <div class="status-badge" id="service-status">
+                <div class="status-badge" id="service-status" onclick="healthCheckRetries=0;checkApiHealth();" style="cursor:pointer;" title="Click to refresh">
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
                 </div>
                 <div class="agent-selector">
                     <select id="agent-select" title="Select AI Agent">
-                        <option value="">Auto</option>
-                        <option value="coder">💻 Coder</option>
-                        <option value="research">🔍 Research</option>
-                        <option value="writer">✍️ Writer</option>
-                        <option value="analyst">📊 Analyst</option>
-                        <option value="architect">🏗️ Architect</option>
+                        <option value="">🎯 Auto</option>
+                        <optgroup label="⚡ Daily Use">
+                            <option value="dev">⚡ Developer</option>
+                            <option value="reviewer">🔍 Reviewer</option>
+                            <option value="debugger">🔧 Debugger</option>
+                        </optgroup>
+                        <optgroup label="🔧 Specialized">
+                            <option value="api">🔌 API</option>
+                            <option value="database">🗄️ Database</option>
+                            <option value="security">🔒 Security</option>
+                            <option value="infrastructure">🚀 DevOps</option>
+                            <option value="writer">✍️ Writer</option>
+                        </optgroup>
+                        <optgroup label="🔬 Research">
+                            <option value="research">🔬 Research</option>
+                            <option value="analyst">📊 Analyst</option>
+                            <option value="architect">🏗️ Architect</option>
+                        </optgroup>
                     </select>
                     <button class="multi-agent-btn" id="multi-agent-btn" title="Multi-Agent Mode">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -49,11 +61,14 @@
                         <button class="close-multi" id="close-multi-agent">&times;</button>
                     </div>
                     <div class="multi-agent-options">
-                        <label><input type="checkbox" value="coder" class="agent-check"> 💻 Coder</label>
-                        <label><input type="checkbox" value="research" class="agent-check"> 🔍 Research</label>
+                        <label><input type="checkbox" value="dev" class="agent-check"> ⚡ Developer</label>
+                        <label><input type="checkbox" value="reviewer" class="agent-check"> 🔍 Reviewer</label>
+                        <label><input type="checkbox" value="debugger" class="agent-check"> 🔧 Debugger</label>
+                        <label><input type="checkbox" value="api" class="agent-check"> 🔌 API</label>
+                        <label><input type="checkbox" value="database" class="agent-check"> 🗄️ Database</label>
+                        <label><input type="checkbox" value="security" class="agent-check"> 🔒 Security</label>
+                        <label><input type="checkbox" value="infrastructure" class="agent-check"> 🚀 DevOps</label>
                         <label><input type="checkbox" value="writer" class="agent-check"> ✍️ Writer</label>
-                        <label><input type="checkbox" value="analyst" class="agent-check"> 📊 Analyst</label>
-                        <label><input type="checkbox" value="architect" class="agent-check"> 🏗️ Architect</label>
                     </div>
                     <div class="multi-agent-mode">
                         <label><input type="radio" name="multi-mode" value="parallel" checked> 🔀 Parallel</label>

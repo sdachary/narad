@@ -174,6 +174,9 @@ async function init() {
     checkApiHealth();
     updateUsageRing();
     
+    // Periodic health check every 60 seconds
+    setInterval(checkApiHealth, 60000);
+    
     // Event listeners
     chatForm.addEventListener('submit', handleSubmit);
     userInput.addEventListener('keydown', (e) => {
@@ -527,22 +530,34 @@ function showError(message) {
 }
 
 // API Health Check with detailed status
+let healthCheckRetries = 0;
+const MAX_HEALTH_RETRIES = 5;
+
 async function checkApiHealth() {
     try {
-        const res = await fetch(`${API_BASE}/api/health`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
+        const res = await fetch(`${API_BASE}/api/health`, { 
+            signal: controller.signal,
+            cache: 'no-cache'
+        });
+        clearTimeout(timeoutId);
+        
         if (res.ok) {
             const data = await res.json();
+            healthCheckRetries = 0;
             
             // Update status based on service health
             if (data.status === 'ok') {
-                apiStatus.textContent = 'Connected';
-                apiDot.classList.add('connected');
+                if (apiStatus) apiStatus.textContent = 'Connected';
+                if (apiDot) apiDot.classList.add('connected');
             } else if (data.status === 'degraded') {
-                apiStatus.textContent = 'Degraded';
-                apiDot.classList.remove('connected');
+                if (apiStatus) apiStatus.textContent = 'Degraded';
+                if (apiDot) apiDot.classList.remove('connected');
             } else {
-                apiStatus.textContent = 'Error';
-                apiDot.classList.remove('connected');
+                if (apiStatus) apiStatus.textContent = 'Error';
+                if (apiDot) apiDot.classList.remove('connected');
             }
             
             // Log detailed status to console for debugging
@@ -553,12 +568,23 @@ async function checkApiHealth() {
                 successRate: data.metrics?.successRate || 'N/A'
             });
         } else {
-            apiStatus.textContent = 'Error';
-            apiDot.classList.remove('connected');
+            handleHealthFailure(`HTTP ${res.status}`);
         }
     } catch (e) {
-        apiStatus.textContent = 'Offline';
-        apiDot.classList.remove('connected');
+        handleHealthFailure(e.message);
+    }
+}
+
+function handleHealthFailure(reason) {
+    healthCheckRetries++;
+    console.warn(`[Narad] Health check failed (${healthCheckRetries}/${MAX_HEALTH_RETRIES}):`, reason);
+    
+    if (healthCheckRetries >= MAX_HEALTH_RETRIES) {
+        if (apiStatus) apiStatus.textContent = 'Offline';
+        if (apiDot) apiDot.classList.remove('connected');
+    } else {
+        // Retry with exponential backoff
+        setTimeout(checkApiHealth, Math.min(2000 * Math.pow(2, healthCheckRetries), 10000));
     }
 }
 

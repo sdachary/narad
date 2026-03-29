@@ -1,16 +1,32 @@
-# Narad Brain — AGI Worker & Web UI
+# Narad Brain
 
-Standalone intelligence brain for the Nisha Platform, deployed as a Cloudflare Pages project.
+Standalone intelligence for the Nisha Platform. Cloudflare Worker + Pages.
 
-## Features
-- **AGI Brain**: High-performance inference via Groq/OpenRouter.
-- **Web UI**: Modern, premium chat interface with dark mode.
-- **Integrated**: Serves both API (`/api/chat`) and Static assets from one deployment.
-
-## Deployment
-See [CLOUDFLARE_SETUP.md](../CLOUDFLARE_SETUP.md) for secrets and binding instructions.
+## Quick Start
 
 ```bash
-# Deploy from narad-brain directory
+cd narad-brain
 npx wrangler pages deploy pages --project-name narad
 ```
+
+## Structure
+
+```
+narad-brain/
+├── pages/           # Worker + UI
+│   ├── _worker.js   # Main worker
+│   ├── app.js       # Frontend JS
+│   ├── index.html   # UI
+│   └── style.css    # Styles
+└── warehouse/       # Agent configs
+```
+
+## Configuration
+
+Set secrets in Cloudflare dashboard:
+- `GROQ_API_KEY`
+- `OPENROUTER_API_KEY`
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+
+See [CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md) for details.
