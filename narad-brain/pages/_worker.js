@@ -39,7 +39,6 @@ class CSRFTokenManager {
 }
 
 const csrfManager = new CSRFTokenManager();
-setInterval(() => csrfManager.cleanup(), 30 * 60 * 1000);
 
 // CORS Configuration
 const ALLOWED_ORIGINS = [
