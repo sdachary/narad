@@ -1,231 +1,108 @@
-# Narad Subagent Architecture Plan
+# Narad Multi-Agent System
 
 ## Overview
 
-The subagent system enables specialized AI agents that can be delegated specific tasks, improving response quality and allowing parallel processing of complex requests.
+The multi-agent system enables specialized AI agents for delegated tasks with parallel processing and chained execution.
 
-## Agent Types
+## Agent Warehouse
 
-### 1. Research Agent (`research`)
-**Purpose**: Web search, fact-checking, and information synthesis
+Optimized agents stored in `warehouse/` directory. Load on-demand when needed.
 
-**Capabilities**:
-- Search the web for current information
-- Synthesize findings from multiple sources
-- Fact-check claims
-- Generate research summaries
+### Daily Use Agents (High Priority)
 
-**Best for**:
-- "What's the latest on X?"
-- "Summarize the recent developments in Y"
-- "Is this claim accurate?"
+| Agent | Keywords | Description |
+|-------|----------|-------------|
+| dev | git, test, build, npm, code | Daily development |
+| reviewer | review, security, audit, bug | Code review |
+| debugger | debug, error, crash, fix | Troubleshooting |
 
-### 2. Coder Agent (`coder`)
-**Purpose**: Code generation, review, and debugging
+### Specialized Agents
 
-**Capabilities**:
-- Write code in multiple languages
-- Debug and fix issues
-- Code review and optimization
-- Explain code patterns
-- Generate tests
+| Agent | Keywords | Description |
+|-------|----------|-------------|
+| api | rest, graphql, endpoint, http | API development |
+| database | sql, query, postgres, migration | Database expert |
+| infrastructure | docker, k8s, ci/cd, deploy | DevOps |
+| security | auth, jwt, oauth, owasp | Security |
+| writer | docs, readme, markdown | Documentation |
 
-**Best for**:
-- "Write a function to do X"
-- "Debug this code"
-- "Review my implementation"
-- "Explain this code pattern"
+## Multi-Agent Coordination
 
-### 3. Writer Agent (`writer`)
-**Purpose**: Documentation, content creation, and editing
+### Parallel Execution
 
-**Capabilities**:
-- Write documentation
-- Create technical content
-- Edit and proofread
-- Generate marketing copy
-- Write emails and messages
-
-**Best for**:
-- "Write docs for this API"
-- "Help me draft an email"
-- "Improve this documentation"
-
-### 4. Analyst Agent (`analyst`)
-**Purpose**: Data analysis, insights, and reasoning
-
-**Capabilities**:
-- Analyze data patterns
-- Generate insights
-- Complex reasoning
-- Problem decomposition
-- Decision support
-
-**Best for**:
-- "Analyze this dataset"
-- "What does this data show?"
-- "Help me reason through this problem"
-
-### 5. Architect Agent (`architect`)
-**Purpose**: System design and technical decisions
-
-**Capabilities**:
-- System architecture design
-- Technology recommendations
-- Design pattern suggestions
-- Scalability planning
-- Security review
-
-**Best for**:
-- "Design a system for X"
-- "What's the best way to architect Y?"
-- "Compare these technologies"
-
-## Architecture
-
+Run multiple agents simultaneously:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Narad Router                            │
-│  (Intent detection, agent selection, task routing)        │
-└─────────────────┬───────────────────────────────────────────┘
-                  │
-      ┌───────────┼───────────┬───────────┬───────────┐
-      ▼           ▼           ▼           ▼           ▼
-┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
-│ Research │ │  Coder   │ │  Writer  │ │ Analyst  │ │Architect │
-│  Agent   │ │  Agent   │ │  Agent   │ │  Agent   │ │  Agent   │
-└────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘
-     │            │            │            │            │
-     └────────────┴────────────┼────────────┴────────────┘
-                              │
-                    ┌─────────▼─────────┐
-                    │  Response Synth   │
-                    │  (Combine results)│
-                    └───────────────────┘
+/dev+reviewer: implement feature X with code review
 ```
 
-## Routing Logic
+### Sequential Chain
 
-### Intent Detection Rules
+Pass output of one agent to another:
+```
+/chain:dev->writer->reviewer: build feature X with docs
+```
+
+### Intent Detection
+
+System auto-detects task type from keywords:
 
 ```javascript
 const AGENT_KEYWORDS = {
-  research: ['search', 'find', 'latest', 'recent', 'current', 'news', 'information', 'look up', 'google', 'web'],
-  coder: ['code', 'function', 'write', 'debug', 'fix', 'implement', 'programming', 'script', 'algorithm', 'api'],
-  writer: ['write', 'document', 'draft', 'email', 'copy', 'content', 'edit', 'proofread', 'blog', 'article'],
-  analyst: ['analyze', 'data', 'insights', 'pattern', 'trend', 'report', 'metrics', 'statistics', 'numbers'],
-  architect: ['design', 'architecture', 'system', 'scalability', 'infrastructure', 'technology', 'stack', 'framework']
+  dev: ['git', 'test', 'build', 'npm', 'code', 'commit', 'merge'],
+  reviewer: ['review', 'security', 'audit', 'bug', 'quality'],
+  debugger: ['debug', 'error', 'crash', 'fix', 'trace'],
+  api: ['rest', 'graphql', 'endpoint', 'http', 'api'],
+  database: ['sql', 'query', 'postgres', 'migration', 'db'],
+  infrastructure: ['docker', 'k8s', 'ci', 'deploy', 'kubernetes'],
+  security: ['auth', 'jwt', 'oauth', 'owasp', 'token'],
+  writer: ['docs', 'readme', 'markdown', 'document']
 };
 ```
 
-### Fallback Logic
-1. Match keywords to agent type
-2. Use general agent if no match
-3. Support multi-agent requests via `/agent:type` prefix
+## Warehouse Structure
 
-## Implementation
-
-### Agent Configuration
-
-```javascript
-const SUBAGENT_CONFIG = {
-  research: {
-    model: 'mixtral-8x7b',
-    temperature: 0.3,
-    maxTokens: 2000,
-    systemPrompt: 'You are a research assistant. Search for information and provide accurate, well-sourced answers.'
-  },
-  coder: {
-    model: 'mixtral-8x7b', 
-    temperature: 0.2,
-    maxTokens: 3000,
-    systemPrompt: 'You are an expert programmer. Write clean, efficient, well-documented code.'
-  },
-  writer: {
-    model: 'mixtral-8x7b',
-    temperature: 0.7,
-    maxTokens: 2500,
-    systemPrompt: 'You are a professional writer. Create clear, engaging content.'
-  },
-  analyst: {
-    model: 'mixtral-8x7b',
-    temperature: 0.4,
-    maxTokens: 2500,
-    systemPrompt: 'You are a data analyst. Provide deep insights and logical analysis.'
-  },
-  architect: {
-    model: 'mixtral-8x7b',
-    temperature: 0.3,
-    maxTokens: 3000,
-    systemPrompt: 'You are a software architect. Design robust, scalable systems.'
-  }
-};
 ```
-
-### API Changes
-
-**New endpoint**: `POST /api/agent`
-```json
-{
-  "message": "Write a function to sort an array",
-  "agentType": "coder",
-  "session_id": "session_xxx"
-}
+warehouse/
+├── index.json          # Agent registry (always loaded)
+└── agents/
+    ├── dev.json
+    ├── reviewer.json
+    ├── debugger.json
+    ├── api.json
+    ├── database.json
+    ├── infrastructure.json
+    ├── security.json
+    └── writer.json
 ```
-
-**Response**:
-```json
-{
-  "reply": "Here's a quicksort implementation...",
-  "metadata": {
-    "agentType": "coder",
-    "tokens": 450,
-    "model": "mixtral-8x7b"
-  }
-}
-```
-
-### Usage in UI
-
-Users can select agents from a dropdown or use prefixes:
-- `/research search for X`
-- `/code write a function to X`
-- `/write draft an email`
-- `/analyze look at this data`
-- `/architect design a system for X`
 
 ## Budget Controls
 
-Each agent type has its own budget allocation:
+Each agent has daily token limits:
 
-```javascript
-const DAILY_LIMITS = {
-  general: 200000,     // Default for undefined types
-  research: 150000,    // Token budget
-  coder: 250000,       // Higher - common use case
-  writer: 150000,
-  analyst: 150000,
-  architect: 200000    // Detailed responses
-};
-```
+| Agent | Daily Limit | Priority |
+|-------|-------------|----------|
+| general | 200,000 | Default |
+| dev | 250,000 | High |
+| reviewer | 200,000 | High |
+| debugger | 200,000 | High |
+| api | 180,000 | Medium |
+| database | 180,000 | Medium |
+| infrastructure | 200,000 | Medium |
+| security | 180,000 | Medium |
+| writer | 150,000 | Medium |
+
+## Migration Phases
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| 1 | ✅ Done | Budget controls per agent type |
+| 2 | ✅ Done | Agent selection UI |
+| 3 | ✅ Done | Subagent routing logic |
+| 4 | ✅ Done | Multi-agent coordination (parallel + chain) |
+| 5 | 🔄 Todo | Custom agents (user-defined prompts) |
 
 ## Future Enhancements
 
-1. **Parallel Execution**: Run multiple agents simultaneously for complex tasks
-2. **Agent Chaining**: Pass output of one agent to another
-3. **Memory Per Agent**: Each agent maintains its own context
-4. **Custom Agents**: User-defined agents with custom prompts
-5. **Learning**: Agents learn from user feedback and corrections
-
-## Completed Enhancements
-
-- ✅ **AFFiNe/LogSeq Export**: Export ideas in LogSeq and AFFiNe compatible Markdown formats with proper properties (title::, tags::, created_at::)
-- ✅ **Multi-Agent Coordination**: Parallel execution and chained agent workflows with UI panel for agent selection
-
-## Migration Path
-
-1. ✅ Phase 1: Budget controls per agent type (DONE)
-2. 🔄 Phase 2: Agent selection UI (TODO)
-3. 🔄 Phase 3: Subagent routing logic (TODO)
-4. 🔄 Phase 4: Multi-agent coordination (TODO)
-5. 🔄 Phase 5: Learning hooks (TODO)
+- Memory per agent (each agent maintains its own context)
+- Skill packs (modular skill bundles for frameworks)
+- Agent learning (from feedback and corrections)
