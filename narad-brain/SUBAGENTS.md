@@ -26,6 +26,7 @@ Optimized agents stored in `warehouse/` directory. Load on-demand when needed.
 | infrastructure | docker, k8s, ci/cd, deploy | DevOps |
 | security | auth, jwt, oauth, owasp | Security |
 | writer | docs, readme, markdown | Documentation |
+| dividend | dividend, income, yield, investment | Dividend portfolio strategy |
 
 ## Multi-Agent Coordination
 
