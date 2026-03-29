@@ -220,6 +220,7 @@ const DAILY_LIMITS = {
 ## Completed Enhancements
 
 - ✅ **AFFiNe/LogSeq Export**: Export ideas in LogSeq and AFFiNe compatible Markdown formats with proper properties (title::, tags::, created_at::)
+- ✅ **Multi-Agent Coordination**: Parallel execution and chained agent workflows with UI panel for agent selection
 
 ## Migration Path
 

@@ -626,6 +626,21 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
+// Check if message is a multi-agent request
+async function checkMultiAgent(message) {
+    try {
+        const response = await fetch(`${API_BASE}/api/detect-multi-agent`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+        return data;
+    } catch {
+        return { isMultiAgent: false };
+    }
+}
+
 // Send to API with CSRF protection
 async function sendToApi(message) {
     isStreaming = true;
@@ -634,6 +649,13 @@ async function sendToApi(message) {
     const contentEl = msgEl.querySelector('.message-content');
     
     try {
+        // Check for multi-agent request
+        const multiAgentCheck = await checkMultiAgent(message);
+        if (multiAgentCheck.isMultiAgent) {
+            await sendMultiAgentRequest(message, multiAgentCheck, msgEl, contentEl);
+            return;
+        }
+        
         // Validate session ID
         const sessionValidation = InputValidator.validate('sessionId', sessionId);
         if (!sessionValidation.valid) {
@@ -730,6 +752,77 @@ async function sendToApi(message) {
                             voiceOutputBtn?.classList.remove('speaking');
                         };
                     }
+                }
+            }, 15);
+        }
+    } catch (error) {
+        contentEl.textContent = `Error: ${error.message}`;
+        msgEl.classList.remove('streaming');
+        isStreaming = false;
+    }
+}
+
+// Send multi-agent request
+async function sendMultiAgentRequest(message, multiAgentInfo, msgEl, contentEl) {
+    try {
+        const headers = { 'Content-Type': 'application/json' };
+        const token = CSRFManager.getToken();
+        if (token) {
+            headers['X-CSRF-Token'] = token;
+        }
+        
+        const modeIcon = multiAgentInfo.mode === 'chain' ? '🔗' : '🔀';
+        contentEl.innerHTML = `<span class="streaming-text">${modeIcon} ${multiAgentInfo.mode.charAt(0).toUpperCase() + multiAgentInfo.mode.slice(1)} mode: ${multiAgentInfo.agents.join(' + ')}...</span>`;
+        
+        const response = await fetch(`${API_BASE}/api/multi-agent`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+                message,
+                context: chatHistory.slice(-10)
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            contentEl.textContent = `Error: ${error.error || 'Multi-agent request failed'}`;
+            msgEl.classList.remove('streaming');
+            isStreaming = false;
+            return;
+        }
+        
+        const data = await response.json();
+        
+        if (data.reply) {
+            chatHistory.push({ role: 'user', text: message });
+            chatHistory.push({ role: 'assistant', text: data.reply });
+            
+            // Show multi-agent metadata
+            const agentBadges = data.agents.map(a => {
+                const icons = { coder: '💻', research: '🔍', writer: '✍️', analyst: '📊', architect: '🏗️' };
+                return icons[a] || '';
+            }).join(' ');
+            
+            let charIndex = 0;
+            const reply = data.reply;
+            const interval = setInterval(() => {
+                if (charIndex < reply.length) {
+                    contentEl.textContent += reply[charIndex];
+                    charIndex++;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } else {
+                    clearInterval(interval);
+                    msgEl.classList.remove('streaming');
+                    isStreaming = false;
+                    
+                    updateUsageRing();
+                    
+                    const meta = document.createElement('div');
+                    meta.className = 'message-meta';
+                    meta.textContent = `${agentBadges} ${multiAgentInfo.mode} • ${data.metadata?.totalTokens || 0} tokens`;
+                    msgEl.appendChild(meta);
+                    
+                    autoSaveToMemory(data.reply, message);
                 }
             }, 15);
         }
@@ -1421,3 +1514,58 @@ function initMemoryFeatures() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(initMemoryFeatures, 100);
 });
+
+// ============================================
+// MULTI-AGENT COORDINATION
+// ============================================
+
+const multiAgentBtn = document.getElementById('multi-agent-btn');
+const multiAgentPanel = document.getElementById('multi-agent-panel');
+const closeMultiAgent = document.getElementById('close-multi-agent');
+const agentChecks = document.querySelectorAll('.agent-check');
+
+if (multiAgentBtn) {
+    multiAgentBtn.addEventListener('click', () => {
+        const isVisible = multiAgentPanel.style.display !== 'none';
+        multiAgentPanel.style.display = isVisible ? 'none' : 'block';
+        multiAgentBtn.classList.toggle('active', !isVisible);
+    });
+}
+
+if (closeMultiAgent) {
+    closeMultiAgent.addEventListener('click', () => {
+        multiAgentPanel.style.display = 'none';
+        multiAgentBtn?.classList.remove('active');
+    });
+}
+
+// Close panel when clicking outside
+document.addEventListener('click', (e) => {
+    if (multiAgentPanel && multiAgentPanel.style.display !== 'none') {
+        if (!multiAgentPanel.contains(e.target) && !multiAgentBtn?.contains(e.target)) {
+            multiAgentPanel.style.display = 'none';
+            multiAgentBtn?.classList.remove('active');
+        }
+    }
+});
+
+// Build multi-agent message from selected agents
+function buildMultiAgentMessage() {
+    const selectedAgents = Array.from(agentChecks)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+    
+    if (selectedAgents.length < 2) {
+        showToast('Select at least 2 agents for multi-agent mode', 'error');
+        return null;
+    }
+    
+    const modeRadio = document.querySelector('input[name="multi-mode"]:checked');
+    const mode = modeRadio ? modeRadio.value : 'parallel';
+    
+    if (mode === 'parallel') {
+        return `/${selectedAgents.join('+')}: `;
+    } else {
+        return `/chain:${selectedAgents.join('->')}: `;
+    }
+}
