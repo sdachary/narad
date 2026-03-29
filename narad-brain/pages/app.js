@@ -9,10 +9,10 @@ function getApiBase() {
   
   const hostname = window.location.hostname;
   if (hostname.includes('localhost') || hostname === '127.0.0.1') {
-    return 'http://localhost:8788/api';
+    return 'http://localhost:8788';
   }
   
-  return '/api';
+  return '';
 }
 
 function initApiBase() {
@@ -20,13 +20,13 @@ function initApiBase() {
   let apiBase;
   
   if (hostname.includes('localhost') || hostname === '127.0.0.1') {
-    apiBase = 'http://localhost:8788/api';
+    apiBase = 'http://localhost:8788';
   } else if (hostname.includes('pages.dev')) {
-    apiBase = 'https://narad-7hc.pages.dev/api';
+    apiBase = 'https://narad-7hc.pages.dev';
   } else if (hostname.includes('narad.io')) {
-    apiBase = 'https://narad.io/api';
+    apiBase = 'https://narad.io';
   } else {
-    apiBase = '/api';
+    apiBase = '';
   }
   
   const metaApiBase = document.querySelector('meta[name="api-base"]');
