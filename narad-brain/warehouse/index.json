@@ -84,11 +84,11 @@
       "daily_use": true
     },
     "dividend": {
-      "name": "Dividend Strategist",
+      "name": "Dividend Strategist (India)",
       "icon": "💰",
-      "description": "Dividend portfolio & income strategy",
-      "keywords": ["dividend", "income", "portfolio", "yield", "investment", "stocks", "passive", "DRIP", "payout", "dividend-growth"],
-      "skills": ["investing", "dividends", "portfolio-analysis", "tax-planning"],
+      "description": "Indian dividend portfolio - NSE/BSE, INR, Indian tax rules",
+      "keywords": ["dividend", "income", "portfolio", "yield", "NSE", "BSE", "Nifty", "India", "Indian", "Zerodha", "₹"],
+      "skills": ["investing", "dividends", "portfolio-analysis", "tax-planning", "india"],
       "priority": "medium",
       "daily_use": false
     }
