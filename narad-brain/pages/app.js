@@ -534,6 +534,17 @@ let healthCheckRetries = 0;
 const MAX_HEALTH_RETRIES = 5;
 
 async function checkApiHealth() {
+    console.log('[Narad] Health check starting...');
+    
+    // Ensure DOM elements exist
+    const statusEl = document.getElementById('api-status');
+    const dotEl = document.getElementById('api-dot');
+    
+    if (!statusEl || !dotEl) {
+        console.error('[Narad] Status elements not found in DOM');
+        return;
+    }
+    
     try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -544,20 +555,25 @@ async function checkApiHealth() {
         });
         clearTimeout(timeoutId);
         
+        console.log('[Narad] Health response:', res.status, res.statusText);
+        
         if (res.ok) {
             const data = await res.json();
             healthCheckRetries = 0;
             
+            console.log('[Narad] Health data:', data);
+            
             // Update status based on service health
             if (data.status === 'ok') {
-                if (apiStatus) apiStatus.textContent = 'Connected';
-                if (apiDot) apiDot.classList.add('connected');
+                statusEl.textContent = 'Connected';
+                dotEl.classList.add('connected');
+                console.log('[Narad] Status updated to Connected');
             } else if (data.status === 'degraded') {
-                if (apiStatus) apiStatus.textContent = 'Degraded';
-                if (apiDot) apiDot.classList.remove('connected');
+                statusEl.textContent = 'Degraded';
+                dotEl.classList.remove('connected');
             } else {
-                if (apiStatus) apiStatus.textContent = 'Error';
-                if (apiDot) apiDot.classList.remove('connected');
+                statusEl.textContent = 'Error';
+                dotEl.classList.remove('connected');
             }
             
             // Log detailed status to console for debugging
@@ -571,6 +587,7 @@ async function checkApiHealth() {
             handleHealthFailure(`HTTP ${res.status}`);
         }
     } catch (e) {
+        console.error('[Narad] Health check error:', e.message);
         handleHealthFailure(e.message);
     }
 }
@@ -874,8 +891,11 @@ async function updateUsageRing() {
 
 // Render usage ring in header with SVG
 function renderUsageRing(usageData) {
+    const ringEl = document.getElementById('usage-ring') || usageRing;
+    if (!ringEl) return;
+    
     if (!usageData || typeof usageData !== 'object') {
-        usageRing.innerHTML = `
+        ringEl.innerHTML = `
             <svg viewBox="0 0 36 36">
                 <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
                 <circle class="ring-progress" cx="18" cy="18" r="15.5" stroke-dasharray="0, 100"></circle>
@@ -904,7 +924,7 @@ function renderUsageRing(usageData) {
     if (percent >= 90) colorClass = 'danger';
     else if (percent >= 70) colorClass = 'warning';
     
-    usageRing.innerHTML = `
+    ringEl.innerHTML = `
         <svg viewBox="0 0 36 36">
             <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
             <circle class="ring-progress ${colorClass}" cx="18" cy="18" r="15.5" 
