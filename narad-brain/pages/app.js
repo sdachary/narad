@@ -1182,7 +1182,19 @@ if (memorySearchInput) {
 // ============================================
 
 const exportBtn = document.getElementById('export-ideas');
+const exportLogSeqBtn = document.getElementById('export-logseq');
+const exportAffineBtn = document.getElementById('export-affine');
 const importBtn = document.getElementById('import-ideas');
+
+function downloadFile(content, filename, type = 'text/markdown') {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
 
 function exportIdeasAsMarkdown() {
     if (savedIdeas.length === 0) {
@@ -1203,16 +1215,60 @@ function exportIdeasAsMarkdown() {
         markdown += '---\n\n';
     });
     
-    // Download
-    const blob = new Blob([markdown], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `narad-ideas-${new Date().toISOString().split('T')[0]}.md`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadFile(markdown, `narad-ideas-${new Date().toISOString().split('T')[0]}.md`);
+    showToast('Exported as Markdown!', 'success');
+}
+
+function exportIdeasAsLogSeq() {
+    if (savedIdeas.length === 0) {
+        showToast('No ideas to export', 'error');
+        return;
+    }
     
-    showToast('Ideas exported!', 'success');
+    let logseq = '';
+    const exportDate = new Date().toISOString().split('T')[0];
+    
+    savedIdeas.forEach((idea, i) => {
+        const title = idea.text.substring(0, 50).replace(/[<>:"/\\|?*]/g, '') || `Idea ${i + 1}`;
+        const createdAt = idea.createdAt ? idea.createdAt.split('T')[0] : exportDate;
+        
+        logseq += `title:: ${title}\n`;
+        logseq += `created_at:: ${createdAt}\n`;
+        if (idea.tags && idea.tags.length > 0) {
+            logseq += `tags:: ${idea.tags.map(t => `#${t}`).join(' ')}\n`;
+        }
+        logseq += `source:: [[Narad]]\n`;
+        logseq += `\n${idea.text}\n\n`;
+        logseq += '---\n\n';
+    });
+    
+    downloadFile(logseq, `narad-logseq-${exportDate}.md`);
+    showToast('Exported for LogSeq!', 'success');
+}
+
+function exportIdeasAsAffine() {
+    if (savedIdeas.length === 0) {
+        showToast('No ideas to export', 'error');
+        return;
+    }
+    
+    let affine = '';
+    const exportDate = new Date().toISOString().split('T')[0];
+    
+    savedIdeas.forEach((idea, i) => {
+        const title = idea.text.substring(0, 50).replace(/[<>:"/\\|?*]/g, '') || `Idea ${i + 1}`;
+        
+        affine += `> [!info] ${title}\n`;
+        if (idea.tags && idea.tags.length > 0) {
+            affine += `> **Tags:** ${idea.tags.map(t => `#${t}`).join(' ')}\n`;
+        }
+        affine += `> **Created:** ${idea.createdAt || exportDate}\n\n`;
+        affine += `${idea.text}\n\n`;
+        affine += '---\n\n';
+    });
+    
+    downloadFile(affine, `narad-affine-${exportDate}.md`);
+    showToast('Exported for AFFiNe!', 'success');
 }
 
 function importIdeasFromMarkdown() {
@@ -1303,6 +1359,8 @@ function parseMarkdownIdeas(content) {
 }
 
 if (exportBtn) exportBtn.addEventListener('click', exportIdeasAsMarkdown);
+if (exportLogSeqBtn) exportLogSeqBtn.addEventListener('click', exportIdeasAsLogSeq);
+if (exportAffineBtn) exportAffineBtn.addEventListener('click', exportIdeasAsAffine);
 if (importBtn) importBtn.addEventListener('click', importIdeasFromMarkdown);
 
 // ============================================

@@ -217,6 +217,10 @@ const DAILY_LIMITS = {
 4. **Custom Agents**: User-defined agents with custom prompts
 5. **Learning**: Agents learn from user feedback and corrections
 
+## Completed Enhancements
+
+- ✅ **AFFiNe/LogSeq Export**: Export ideas in LogSeq and AFFiNe compatible Markdown formats with proper properties (title::, tags::, created_at::)
+
 ## Migration Path
 
 1. ✅ Phase 1: Budget controls per agent type (DONE)
