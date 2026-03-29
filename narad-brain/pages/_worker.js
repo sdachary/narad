@@ -16,10 +16,21 @@ const SEMANTIC_MEMORY_CONFIG = {
 };
 
 // Workers AI Budget Controls (prevent billing surprises)
+// Workers AI free tier: 3000 req/min for embeddings - using 10000/day for safety
 const AI_BUDGET_CONFIG = {
-  maxDailyEmbeddings: 1000,      // Max embeddings per day (free tier safe limit)
+  maxDailyEmbeddings: 10000,     // Max embeddings per day (well under 3000/min limit)
   cacheEmbeddingTTL: 3600,        // Cache embeddings for 1 hour
   fallbackOnLimit: true           // Use TF-IDF fallback if limit reached
+};
+
+// Auto-save configuration
+const AUTO_SAVE_CONFIG = {
+  enabled: true,
+  keywords: ['important', 'remember', 'note', 'key', 'critical', 'learned', 'fix', 'bug', 'solution', 'architecture', 'design', 'decision'],
+  saveOnFeedback: true,           // Save responses with positive feedback
+  saveOnCode: true,              // Save responses containing code
+  saveOnLongResponse: true,      // Save responses > 500 chars
+  minLengthForAutoSave: 500
 };
 
 // In-memory cache for embeddings (resets on worker cold start)
@@ -247,12 +258,16 @@ const ErrorTracker = {
 // We'll also store a global reset token? No, we'll compute today each time.
 
 const DAILY_LIMITS = {
-  coding: 200000,
-  research: 200000,
+  general: 200000,
+  coding: 250000,
+  research: 150000,
   debugging: 200000,
   testing: 200000,
-  deployment: 200000,
-  general: 200000
+  deployment: 150000,
+  coder: 250000,
+  writer: 150000,
+  analyst: 150000,
+  architect: 200000
 };
 
 // AI Providers configuration
@@ -326,6 +341,74 @@ const AI_PROVIDERS = {
     defaultModel: 'mistral-small-latest'
   }
 };
+
+// Subagent Configuration
+const SUBAGENTS = {
+  research: {
+    name: 'Research Agent',
+    keywords: ['search', 'find', 'latest', 'recent', 'current', 'news', 'information', 'look up', 'web', 'research'],
+    systemPrompt: 'You are a research assistant. Search for accurate, well-sourced information and provide comprehensive answers. Format your responses with clear sections and cite sources when possible.'
+  },
+  coder: {
+    name: 'Coder Agent', 
+    keywords: ['code', 'function', 'write code', 'implement', 'programming', 'script', 'algorithm', 'api', 'debug', 'fix bug'],
+    systemPrompt: 'You are an expert programmer. Write clean, efficient, well-documented code. Include comments explaining complex logic. Provide working examples.'
+  },
+  writer: {
+    name: 'Writer Agent',
+    keywords: ['write', 'draft', 'email', 'copy', 'content', 'edit', 'proofread', 'blog', 'article', 'documentation'],
+    systemPrompt: 'You are a professional writer. Create clear, engaging, well-structured content. Adapt tone to the audience and purpose.'
+  },
+  analyst: {
+    name: 'Analyst Agent',
+    keywords: ['analyze', 'data', 'insights', 'pattern', 'trend', 'report', 'metrics', 'statistics', 'numbers', 'analysis'],
+    systemPrompt: 'You are a data analyst. Provide deep insights, identify patterns, and deliver logical analysis. Use concrete examples and evidence.'
+  },
+  architect: {
+    name: 'Architect Agent',
+    keywords: ['design', 'architecture', 'system', 'scalability', 'infrastructure', 'technology', 'stack', 'framework', 'system design'],
+    systemPrompt: 'You are a software architect. Design robust, scalable systems. Consider trade-offs, best practices, and long-term maintainability.'
+  }
+};
+
+// Detect agent type from message
+function detectAgentType(message) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Check for explicit agent prefix
+  const prefixMatch = lowerMessage.match(/^\/(research|coder|writer|analyst|architect)\s+/);
+  if (prefixMatch) {
+    return prefixMatch[1];
+  }
+  
+  // Score each agent type based on keyword matches
+  let bestAgent = 'general';
+  let bestScore = 0;
+  
+  for (const [agentType, config] of Object.entries(SUBAGENTS)) {
+    let score = 0;
+    for (const keyword of config.keywords) {
+      if (lowerMessage.includes(keyword)) {
+        score++;
+      }
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestAgent = agentType;
+    }
+  }
+  
+  // Only use subagent if we have strong keyword matches
+  return bestScore >= 2 ? bestAgent : 'general';
+}
+
+// Get system prompt for agent type
+function getSystemPrompt(agentType) {
+  if (SUBAGENTS[agentType]) {
+    return SUBAGENTS[agentType].systemPrompt;
+  }
+  return null; // Use default prompt from the request
+}
 
 // Provider order for fallback (tries in order until one works)
 const PROVIDER_FALLBACK_ORDER = ['groq', 'openrouter', 'mistral', 'gemini', 'openai', 'anthropic'];
@@ -1009,8 +1092,16 @@ app.post('/api/chat', async (c) => {
       }
     }
 
-    // Determine agent type (default to general)
-    const agentType = agent_type && DAILY_LIMITS.hasOwnProperty(agent_type) ? agent_type : 'general';
+    // Determine agent type (auto-detect if not specified)
+    let agentType = agent_type && DAILY_LIMITS.hasOwnProperty(agent_type) ? agent_type : 'general';
+    
+    // Auto-detect agent type from message if not explicitly specified
+    if (agentType === 'general' && message) {
+      const detectedType = detectAgentType(message);
+      if (detectedType !== 'general') {
+        agentType = detectedType;
+      }
+    }
 
     // Check if we have enough quota for this request (estimate 1000 tokens for safety)
     if (!(await isWithinLimit(c.env, agentType, 1000))) {
@@ -1055,7 +1146,7 @@ app.post('/api/chat', async (c) => {
     const patternData = await getPattern(c.env, queryHash);
     const patternHint = getPatternHint(patternData);
 
-    // Build system prompt with optional hint
+    // Build system prompt with optional hint and agent-specific guidance
     const systemPromptParts = [
       'You are Narad, the omniscient messenger of the Nisha Platform.',
       '',
@@ -1068,6 +1159,15 @@ app.post('/api/chat', async (c) => {
       'AGENT TYPE:',
       agentType === 'general' ? 'General purpose' : `Specialized in ${agentType} tasks`
     ];
+    
+    // Add agent-specific guidance
+    const agentPrompt = getSystemPrompt(agentType);
+    if (agentPrompt) {
+      systemPromptParts.push('');
+      systemPromptParts.push('AGENT GUIDANCE:');
+      systemPromptParts.push(agentPrompt);
+    }
+    
     if (patternHint) {
       systemPromptParts.push('');
       systemPromptParts.push('FEEDBACK HINT:');
@@ -1344,6 +1444,85 @@ app.post('/api/memory/search', async (c) => {
   }
 });
 
+// Speech-to-Text using Whisper (free tier)
+app.post('/api/speech-to-text', async (c) => {
+  try {
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const formData = await c.req.formData();
+    const audio = formData.get('audio');
+    
+    if (!audio) {
+      return c.json({ error: 'No audio provided' }, 400);
+    }
+    
+    if (!c.env.AI) {
+      return c.json({ error: 'Workers AI not configured' }, 500);
+    }
+    
+    const audioBuffer = await audio.arrayBuffer();
+    
+    // Use Whisper for speech recognition
+    const results = await c.env.AI.run('@cf/openai/whisper', {
+      audio: [...new Uint8Array(audioBuffer)]
+    });
+    
+    return c.json({
+      success: true,
+      text: results.text || results.description || results,
+      model: 'whisper'
+    });
+  } catch (error) {
+    console.error('Speech-to-text error:', error);
+    return c.json({ error: 'Failed to transcribe audio' }, 500);
+  }
+});
+
+// Text-to-Speech using MeloTTS (free tier)
+app.post('/api/text-to-speech', async (c) => {
+  try {
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const { text, voice } = await c.req.json();
+    
+    if (!text) {
+      return c.json({ error: 'No text provided' }, 400);
+    }
+    
+    if (!c.env.AI) {
+      return c.json({ error: 'Workers AI not configured' }, 500);
+    }
+    
+    // Use MeloTTS for text-to-speech
+    const results = await c.env.AI.run('@cf/myshell-ai/melotts', {
+      text: text.substring(0, 500), // Limit to 500 chars
+      voice: voice || 'male-qnq' // Options: male-qnq, female-qjs
+    });
+    
+    // MeloTTS returns audio as base64 or array
+    let audioData = results.audio;
+    if (Array.isArray(audioData)) {
+      audioData = Uint8Array.from(audioData);
+    }
+    
+    return new Response(audioData, {
+      headers: {
+        'Content-Type': 'audio/wav',
+        'Content-Disposition': 'inline; filename="speech.wav"'
+      }
+    });
+  } catch (error) {
+    console.error('Text-to-speech error:', error);
+    return c.json({ error: 'Failed to synthesize speech' }, 500);
+  }
+});
+
 // Get memory budget status
 app.get('/api/memory/status', async (c) => {
   const indexKey = 'sem:index';
@@ -1409,6 +1588,46 @@ app.post('/api/idea', async (c) => {
     });
   } catch (error) {
     return c.json({ error: 'Failed to store idea' }, 500);
+  }
+});
+
+// Image analysis using Workers AI (free tier)
+app.post('/api/analyze-image', async (c) => {
+  try {
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const formData = await c.req.formData();
+    const image = formData.get('image');
+    
+    if (!image) {
+      return c.json({ error: 'No image provided' }, 400);
+    }
+    
+    const imageBuffer = await image.arrayBuffer();
+    
+    // Check if AI binding is available
+    if (!c.env.AI) {
+      return c.json({ error: 'Workers AI not configured' }, 500);
+    }
+    
+    // Use multimodal model for image understanding
+    // @cf/unum/uform-gen2-qwen-7b supports image-to-text
+    const results = await c.env.AI.run('@cf/unum/uform-gen2-qwen-7b', {
+      image: [...new Uint8Array(imageBuffer)],
+      prompt: 'Describe this image in detail. Include any text, objects, people, or important visual elements.'
+    });
+    
+    return c.json({
+      success: true,
+      description: results.description || results.response || results,
+      model: 'uform-gen2-qwen-7b'
+    });
+  } catch (error) {
+    console.error('Image analysis error:', error);
+    return c.json({ error: 'Failed to analyze image' }, 500);
   }
 });
 
