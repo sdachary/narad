@@ -410,6 +410,228 @@ function getSystemPrompt(agentType) {
   return null; // Use default prompt from the request
 }
 
+// Parse multi-agent syntax
+// Supported formats:
+// - /coder+writer: task (parallel execution)
+// - /chain:coder->writer: task (sequential chaining)
+// - "Use coder and writer for this" (auto-detect)
+function parseMultiAgentRequest(message) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Check for explicit parallel syntax: /coder+writer+analyst:
+  const parallelMatch = lowerMessage.match(/^\/([a-z]+(?:\+[a-z]+)+):?\s*(.*)/);
+  if (parallelMatch) {
+    const agents = parallelMatch[1].split('+').filter(a => SUBAGENTS[a]);
+    const task = parallelMatch[2] || message;
+    if (agents.length > 1) {
+      return { mode: 'parallel', agents, task, originalMessage: message };
+    }
+  }
+  
+  // Check for chain syntax: /chain:coder->writer->analyst:
+  const chainMatch = lowerMessage.match(/^\/chain:([a-z]+(?:->[a-z]+)+):?\s*(.*)/);
+  if (chainMatch) {
+    const agents = chainMatch[1].split('->').filter(a => SUBAGENTS[a]);
+    const task = chainMatch[2] || message;
+    if (agents.length > 1) {
+      return { mode: 'chain', agents, task, originalMessage: message };
+    }
+  }
+  
+  // Check for "use X and Y" pattern (auto-detect multi-agent intent)
+  const conjunctionMatch = message.match(/(?:use|with|and|combine)\s+([a-z]+(?:\s+and\s+[a-z]+)+)/i);
+  if (conjunctionMatch) {
+    const mentionedAgents = conjunctionMatch[1]
+      .toLowerCase()
+      .split(/\s+and\s+/)
+      .filter(a => SUBAGENTS[a.trim()]);
+    if (mentionedAgents.length > 1) {
+      return { mode: 'parallel', agents: mentionedAgents, task: message, originalMessage: message };
+    }
+  }
+  
+  return null; // Single agent request
+}
+
+// Execute multiple agents in parallel
+async function executeParallelAgents(env, agents, task, context) {
+  const results = await Promise.all(
+    agents.map(async (agentType) => {
+      try {
+        const systemPrompt = getSystemPrompt(agentType);
+        const response = await callAIProvider(env, task, systemPrompt, context, agentType);
+        return {
+          agent: agentType,
+          success: true,
+          response
+        };
+      } catch (error) {
+        return {
+          agent: agentType,
+          success: false,
+          error: error.message
+        };
+      }
+    })
+  );
+  
+  // Synthesize results
+  let synthesizedResponse = '';
+  const successfulResults = results.filter(r => r.success);
+  
+  if (successfulResults.length === 0) {
+    throw new Error('All agents failed');
+  }
+  
+  if (successfulResults.length === 1) {
+    synthesizedResponse = successfulResults[0].response.reply;
+  } else {
+    synthesizedResponse = `## Multi-Agent Analysis (${successfulResults.length} agents)\n\n`;
+    for (const result of successfulResults) {
+      const agentConfig = SUBAGENTS[result.agent];
+      synthesizedResponse += `### ${agentConfig.name}\n${result.response.reply}\n\n---\n\n`;
+    }
+    synthesizedResponse = synthesizedResponse.trim();
+  }
+  
+  return {
+    reply: synthesizedResponse,
+    metadata: {
+      mode: 'parallel',
+      agents: results.map(r => ({ type: r.agent, success: r.success })),
+      totalTokens: successfulResults.reduce((sum, r) => sum + (r.response.metadata?.tokens || 0), 0)
+    }
+  };
+}
+
+// Execute agents in sequence (chain)
+async function executeChainAgents(env, agents, task, context) {
+  let accumulatedContext = task;
+  const chainLog = [];
+  
+  for (let i = 0; i < agents.length; i++) {
+    const agentType = agents[i];
+    const agentConfig = SUBAGENTS[agentType];
+    const isLast = i === agents.length - 1;
+    
+    // Build context for this agent
+    let agentTask = accumulatedContext;
+    if (i > 0) {
+      const previousResult = chainLog[i - 1].response.reply;
+      agentTask = `Previous agent (${SUBAGENTS[agents[i - 1]].name}) output:\n${previousResult}\n\nYour task: ${task}\n\nBuild upon the previous work and continue the task.`;
+    }
+    
+    try {
+      const systemPrompt = getSystemPrompt(agentType);
+      const response = await callAIProvider(env, agentType, agentTask, context);
+      
+      chainLog.push({
+        agent: agentType,
+        name: agentConfig.name,
+        response: response.reply,
+        tokens: response.metadata?.tokens || 0
+      });
+      
+      // Update accumulated context for next agent
+      accumulatedContext = response.reply;
+      
+    } catch (error) {
+      chainLog.push({
+        agent: agentType,
+        name: agentConfig.name,
+        error: error.message
+      });
+      
+      if (isLast) {
+        throw error;
+      }
+    }
+  }
+  
+  // Build final response showing chain
+  let synthesizedResponse = '';
+  if (chainLog.length === 1) {
+    synthesizedResponse = chainLog[0].response;
+  } else {
+    synthesizedResponse = `## Chain Execution (${chainLog.length} agents)\n\n`;
+    for (const step of chainLog) {
+      const status = step.error ? '❌' : '✅';
+      synthesizedResponse += `### ${status} ${step.name}\n`;
+      if (step.error) {
+        synthesizedResponse += `Error: ${step.error}\n\n`;
+      } else {
+        synthesizedResponse += `${step.response}\n\n---\n\n`;
+      }
+    }
+    synthesizedResponse = synthesizedResponse.trim();
+  }
+  
+  return {
+    reply: synthesizedResponse,
+    metadata: {
+      mode: 'chain',
+      agents: chainLog.map(s => ({ type: s.agent, name: s.name, tokens: s.tokens, error: s.error })),
+      totalTokens: chainLog.reduce((sum, s) => sum + s.tokens, 0)
+    }
+  };
+}
+
+// Simplified AI call wrapper for multi-agent
+async function callAIProvider(env, agentType, task, context, forcedAgentType) {
+  const availableProviders = getAvailableProviders(env);
+  if (availableProviders.length === 0) {
+    throw new Error('No AI provider configured');
+  }
+  
+  const selection = selectProviderAndModel(forcedAgentType || agentType, task, availableProviders);
+  const providerConfig = getProviderConfig(env, selection.provider);
+  
+  const systemPrompt = getSystemPrompt(agentType) || 'You are a helpful AI assistant.';
+  
+  // Build messages
+  const messages = [];
+  if (context && context.length > 0) {
+    messages.push(...context.slice(-10)); // Last 10 messages for context
+  }
+  messages.push({ role: 'user', content: task });
+  
+  const body = {
+    messages,
+    model: selection.model,
+    ...(providerConfig.defaultModel !== selection.model && { system: systemPrompt }),
+    stream: false,
+    max_tokens: 2000
+  };
+  
+  const response = await fetch(`${providerConfig.baseURL}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(providerConfig.apiKey && { 'Authorization': `Bearer ${providerConfig.apiKey}` })
+    },
+    body: JSON.stringify(body)
+  });
+  
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`AI request failed: ${response.status} - ${error}`);
+  }
+  
+  const data = await response.json();
+  const reply = data.choices?.[0]?.message?.content || '';
+  const tokens = data.usage?.total_tokens || 0;
+  
+  // Track usage
+  if (tokens > 0) {
+    await addUsage(env, agentType, tokens);
+  }
+  
+  return {
+    reply,
+    metadata: { tokens, agentType, model: selection.model }
+  };
+}
+
 // Provider order for fallback (tries in order until one works)
 const PROVIDER_FALLBACK_ORDER = ['groq', 'openrouter', 'mistral', 'gemini', 'openai', 'anthropic'];
 
@@ -1628,6 +1850,76 @@ app.post('/api/analyze-image', async (c) => {
   } catch (error) {
     console.error('Image analysis error:', error);
     return c.json({ error: 'Failed to analyze image' }, 500);
+  }
+});
+
+// Multi-agent coordination endpoint
+app.post('/api/multi-agent', async (c) => {
+  try {
+    const { message, context } = await c.req.json();
+    
+    if (!message) {
+      return c.json({ error: 'Message is required' }, 400);
+    }
+    
+    // Parse multi-agent request
+    const multiAgentRequest = parseMultiAgentRequest(message);
+    
+    if (!multiAgentRequest) {
+      return c.json({ error: 'No multi-agent pattern detected. Use /agent1+agent2: or /chain:agent1->agent2: syntax' }, 400);
+    }
+    
+    // Check budget for all agents
+    for (const agentType of multiAgentRequest.agents) {
+      if (!(await isWithinLimit(c.env, agentType, 500))) {
+        return c.json({
+          error: `Agent '${agentType}' has exceeded its daily token limit`,
+          agent: agentType
+        }, 429);
+      }
+    }
+    
+    // Execute based on mode
+    let result;
+    if (multiAgentRequest.mode === 'parallel') {
+      result = await executeParallelAgents(c.env, multiAgentRequest.agents, multiAgentRequest.task, context);
+    } else if (multiAgentRequest.mode === 'chain') {
+      result = await executeChainAgents(c.env, multiAgentRequest.agents, multiAgentRequest.task, context);
+    }
+    
+    return c.json({
+      success: true,
+      ...result,
+      mode: multiAgentRequest.mode,
+      agents: multiAgentRequest.agents
+    });
+    
+  } catch (error) {
+    console.error('Multi-agent error:', error);
+    return c.json({ error: error.message || 'Multi-agent execution failed' }, 500);
+  }
+});
+
+// Detect multi-agent pattern in chat message
+app.post('/api/detect-multi-agent', async (c) => {
+  try {
+    const { message } = await c.req.json();
+    
+    if (!message) {
+      return c.json({ isMultiAgent: false });
+    }
+    
+    const parsed = parseMultiAgentRequest(message);
+    
+    return c.json({
+      isMultiAgent: parsed !== null,
+      mode: parsed?.mode || null,
+      agents: parsed?.agents || [],
+      task: parsed?.task || message
+    });
+    
+  } catch (error) {
+    return c.json({ isMultiAgent: false });
   }
 });
 
