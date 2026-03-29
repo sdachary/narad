@@ -3,6 +3,54 @@ import { cors } from 'hono/cors';
 
 const app = new Hono();
 
+// Cloudflare Workers AI - Free embedding model
+// Uses @cf/baai/bge-base-en-v1.5 (free tier)
+const EMBEDDING_MODEL = '@cf/baai/bge-base-en-v1.5';
+const EMBEDDING_DIM = 768;
+
+// Semantic Memory Configuration
+const SEMANTIC_MEMORY_CONFIG = {
+  maxMemories: 1000,
+  similarityThreshold: 0.7,
+  topK: 5
+};
+
+// Workers AI Budget Controls (prevent billing surprises)
+const AI_BUDGET_CONFIG = {
+  maxDailyEmbeddings: 1000,      // Max embeddings per day (free tier safe limit)
+  cacheEmbeddingTTL: 3600,        // Cache embeddings for 1 hour
+  fallbackOnLimit: true           // Use TF-IDF fallback if limit reached
+};
+
+// In-memory cache for embeddings (resets on worker cold start)
+const embeddingCache = new Map();
+const embeddingBudget = { used: 0, resetAt: getTomorrowMidnight() };
+
+function getTomorrowMidnight() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
+  return tomorrow.getTime();
+}
+
+function canUseWorkersAI() {
+  const now = Date.now();
+  if (now > embeddingBudget.resetAt) {
+    embeddingBudget.used = 0;
+    embeddingBudget.resetAt = getTomorrowMidnight();
+  }
+  return embeddingBudget.used < AI_BUDGET_CONFIG.maxDailyEmbeddings;
+}
+
+function useWorkersAI() {
+  embeddingBudget.used++;
+}
+
+// Hash string for cache key
+function hashString(str) {
+  return simpleHash(str).toString(36);
+}
+
 // Security configuration
 const CSRF_TRUSTED_ORIGINS = [
   'https://narad-7hc.pages.dev',
@@ -518,6 +566,182 @@ async function resetUsage(env) {
 // Clear chat history for a session_id (optional)
 async function clearChatHistory(env, sessionId) {
   await getStore(env).delete(`chat:${sessionId}`);
+}
+
+// ============================================
+// SEMANTIC MEMORY SYSTEM (FREE - Workers AI)
+// ============================================
+
+// Generate embedding using Cloudflare Workers AI (free tier)
+async function generateEmbedding(env, text) {
+  const cacheKey = hashString(text);
+  
+  // Check cache first
+  if (embeddingCache.has(cacheKey)) {
+    return embeddingCache.get(cacheKey);
+  }
+  
+  // Check budget
+  if (!AI_BUDGET_CONFIG.fallbackOnLimit && !canUseWorkersAI()) {
+    console.warn('Workers AI daily limit reached, using TF-IDF fallback');
+    const fallback = generateTFIDFFallback(text);
+    embeddingCache.set(cacheKey, fallback);
+    return fallback;
+  }
+  
+  try {
+    // Check if AI binding is available
+    if (!env.AI) {
+      console.warn('Workers AI not configured, using TF-IDF fallback');
+      const fallback = generateTFIDFFallback(text);
+      embeddingCache.set(cacheKey, fallback);
+      return fallback;
+    }
+    
+    // Use Workers AI
+    const ai = new CloudflareAI({ runtime: env });
+    const result = await ai.run(EMBEDDING_MODEL, { text });
+    const embedding = result.data[0]; // Returns 768-dim embedding array
+    
+    // Track usage
+    useWorkersAI();
+    
+    // Cache the result
+    embeddingCache.set(cacheKey, embedding);
+    
+    return embedding;
+  } catch (error) {
+    console.error('Embedding generation failed:', error);
+    // Fallback to TF-IDF based similarity
+    const fallback = generateTFIDFFallback(text);
+    embeddingCache.set(cacheKey, fallback);
+    return fallback;
+  }
+}
+
+// Fallback TF-IDF style embedding (no external API needed)
+function generateTFIDFFallback(text) {
+  const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  const vocab = [...new Set(words)];
+  const vector = new Array(128).fill(0); // Smaller dimension for fallback
+  
+  vocab.forEach((word, i) => {
+    const hash = simpleHash(word);
+    const idx = hash % 128;
+    vector[idx] += 1;
+  });
+  
+  // Normalize
+  const norm = Math.sqrt(vector.reduce((sum, v) => sum + v * v, 0));
+  return norm > 0 ? vector.map(v => v / norm) : vector;
+}
+
+// Cosine similarity between two vectors
+function cosineSimilarity(vecA, vecB) {
+  if (!vecA || !vecB || vecA.length !== vecB.length) return 0;
+  
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  
+  const denominator = Math.sqrt(normA) * Math.sqrt(normB);
+  return denominator === 0 ? 0 : dotProduct / denominator;
+}
+
+// Store memory with embedding in KV
+async function storeSemanticMemory(env, key, content, metadata = {}) {
+  const embedding = await generateEmbedding(env, content);
+  const memoryData = {
+    key,
+    content,
+    embedding,
+    metadata,
+    createdAt: new Date().toISOString()
+  };
+  
+  // Store the memory
+  await getStore(env).put(`sem:${key}`, JSON.stringify(memoryData));
+  
+  // Add to index
+  const indexKey = 'sem:index';
+  const indexData = await getStore(env).get(indexKey);
+  const index = indexData ? JSON.parse(indexData) : [];
+  
+  // Limit memory count
+  if (index.length >= SEMANTIC_MEMORY_CONFIG.maxMemories) {
+    index.shift(); // Remove oldest
+  }
+  
+  index.push(key);
+  await getStore(env).put(indexKey, JSON.stringify(index));
+  
+  return memoryData;
+}
+
+// Search semantic memory using vector similarity
+async function searchSemanticMemory(env, query, topK = 5, threshold = 0.7) {
+  const queryEmbedding = await generateEmbedding(env, query);
+  
+  // Get all memory keys from index
+  const indexKey = 'sem:index';
+  const indexData = await getStore(env).get(indexKey);
+  const keys = indexData ? JSON.parse(indexData) : [];
+  
+  const results = [];
+  
+  for (const key of keys) {
+    const memoryData = await getStore(env).get(`sem:${key}`);
+    if (!memoryData) continue;
+    
+    try {
+      const memory = JSON.parse(memoryData);
+      const similarity = cosineSimilarity(queryEmbedding, memory.embedding);
+      
+      if (similarity >= threshold) {
+        results.push({
+          key: memory.key,
+          content: memory.content,
+          similarity,
+          metadata: memory.metadata,
+          createdAt: memory.createdAt
+        });
+      }
+    } catch (e) {
+      continue;
+    }
+  }
+  
+  // Sort by similarity and return top K
+  return results
+    .sort((a, b) => b.similarity - a.similarity)
+    .slice(0, topK);
+}
+
+// Store chat message in semantic memory
+async function storeChatSemanticMemory(env, sessionId, role, text, metadata = {}) {
+  const key = `chat:${sessionId}:${Date.now()}`;
+  const content = `[${role}] ${text}`;
+  return storeSemanticMemory(env, key, content, { sessionId, role, ...metadata });
+}
+
+// Clear semantic memory index
+async function clearSemanticMemory(env) {
+  const indexKey = 'sem:index';
+  const indexData = await getStore(env).get(indexKey);
+  const keys = indexData ? JSON.parse(indexData) : [];
+  
+  for (const key of keys) {
+    await getStore(env).delete(`sem:${key}`);
+  }
+  await getStore(env).delete(indexKey);
+  
+  return { cleared: keys.length };
 }
 
 app.use('*', cors());
@@ -1049,6 +1273,142 @@ app.delete('/api/chat/history/:session_id', async (c) => {
     return c.json({ success: true });
   } catch (error) {
     return c.json({ error: 'Failed to clear chat history' }, 500);
+  }
+});
+
+// ============================================
+// SEMANTIC MEMORY API ENDPOINTS
+// ============================================
+
+// Store a memory (for /idea command integration)
+app.post('/api/memory/store', async (c) => {
+  try {
+    // CSRF validation
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const { key, content, metadata } = await c.req.json();
+    
+    if (!key || !content) {
+      return c.json({ error: 'key and content are required' }, 400);
+    }
+    
+    const memory = await storeSemanticMemory(c.env, key, content, metadata || {});
+    
+    return c.json({ 
+      success: true, 
+      memory: {
+        key: memory.key,
+        createdAt: memory.createdAt
+      }
+    });
+  } catch (error) {
+    return c.json({ error: 'Failed to store memory' }, 500);
+  }
+});
+
+// Semantic search (for /recall command)
+app.post('/api/memory/search', async (c) => {
+  try {
+    // CSRF validation
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const { query, topK, threshold } = await c.req.json();
+    
+    if (!query) {
+      return c.json({ error: 'query is required' }, 400);
+    }
+    
+    const results = await searchSemanticMemory(
+      c.env, 
+      query, 
+      topK || SEMANTIC_MEMORY_CONFIG.topK,
+      threshold || SEMANTIC_MEMORY_CONFIG.similarityThreshold
+    );
+    
+    return c.json({ 
+      results,
+      meta: {
+        query,
+        count: results.length,
+        usingWorkersAI: canUseWorkersAI()
+      }
+    });
+  } catch (error) {
+    return c.json({ error: 'Failed to search memory' }, 500);
+  }
+});
+
+// Get memory budget status
+app.get('/api/memory/status', async (c) => {
+  const indexKey = 'sem:index';
+  const indexData = await getStore(c.env).get(indexKey);
+  const memoryCount = indexData ? JSON.parse(indexData).length : 0;
+  
+  return c.json({
+    budget: {
+      used: embeddingBudget.used,
+      limit: AI_BUDGET_CONFIG.maxDailyEmbeddings,
+      remaining: Math.max(0, AI_BUDGET_CONFIG.maxDailyEmbeddings - embeddingBudget.used),
+      resetAt: new Date(embeddingBudget.resetAt).toISOString()
+    },
+    memory: {
+      count: memoryCount,
+      maxMemories: SEMANTIC_MEMORY_CONFIG.maxMemories
+    },
+    cache: {
+      entries: embeddingCache.size
+    }
+  });
+});
+
+// Clear all semantic memory (admin)
+app.delete('/api/memory/clear', async (c) => {
+  try {
+    // CSRF validation
+    const csrfResult = validateCSRF(c.req);
+    if (!csrfResult.valid) {
+      return c.json({ error: 'CSRF validation failed' }, 403);
+    }
+    
+    const result = await clearSemanticMemory(c.env);
+    embeddingCache.clear();
+    
+    return c.json({ 
+      success: true,
+      cleared: result.cleared
+    });
+  } catch (error) {
+    return c.json({ error: 'Failed to clear memory' }, 500);
+  }
+});
+
+// Store idea from /idea command
+app.post('/api/idea', async (c) => {
+  try {
+    const { text, tags } = await c.req.json();
+    
+    if (!text) {
+      return c.json({ error: 'text is required' }, 400);
+    }
+    
+    const key = `idea:${Date.now()}`;
+    const metadata = { type: 'idea', tags: tags || [] };
+    
+    const memory = await storeSemanticMemory(c.env, key, text, metadata);
+    
+    return c.json({ 
+      success: true,
+      id: key,
+      createdAt: memory.createdAt
+    });
+  } catch (error) {
+    return c.json({ error: 'Failed to store idea' }, 500);
   }
 });
 

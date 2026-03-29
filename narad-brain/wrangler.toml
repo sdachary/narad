@@ -6,6 +6,13 @@ compatibility_flags = ["nodejs_compat"]
 binding = "NARAD_DATA"
 id = "ca98881c7005404c8a0d00330759b80e"
 
+# Workers AI binding for semantic embeddings (FREE tier)
+# Enable in Cloudflare Dashboard > Workers & Pages > your-worker > Settings > Bindings
+# Or run: wrangler types
+
+[ai]
+binding = "AI"
+
 [vars]
 ENVIRONMENT = "production"
 PRIMARY_MODEL = "llama-3.3-70b-versatile"
