@@ -13,6 +13,7 @@ Optimized agents stored in `warehouse/` directory. Load on-demand when needed.
 | Agent | Keywords | Description |
 |-------|----------|-------------|
 | dev | git, test, build, npm, code | Daily development |
+| check | git, check, status, push, commit, md | Git operations & pre-push cleanup |
 | reviewer | review, security, audit, bug | Code review |
 | debugger | debug, error, crash, fix | Troubleshooting |
 
