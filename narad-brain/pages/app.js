@@ -244,10 +244,10 @@ async function init() {
     await CSRFManager.init();
     checkApiHealth();
     updateUsageRing();
-    
+
     // Periodic health check every 60 seconds
     setInterval(checkApiHealth, 60000);
-    
+
     // Event listeners
     chatForm.addEventListener('submit', handleSubmit);
     userInput.addEventListener('keydown', (e) => {
@@ -256,9 +256,39 @@ async function init() {
             handleSubmit(e);
         }
     });
-    
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Clear chat button
+    const clearChatBtn = document.getElementById('clear-chat-btn');
+    if (clearChatBtn) {
+        clearChatBtn.addEventListener('click', clearChat);
+    }
+
     // Auto update usage ring every 30 seconds
     setInterval(updateUsageRing, 30000);
+}
+
+// Theme toggle
+function toggleTheme() {
+    document.documentElement.classList.toggle('light-theme');
+    const isLight = document.documentElement.classList.contains('light-theme');
+    localStorage.setItem('narad-theme', isLight ? 'light' : 'dark');
+    showToast(isLight ? 'Light theme enabled' : 'Dark theme enabled', 'info');
+}
+
+// Clear chat
+function clearChat() {
+    if (confirm('Are you sure you want to clear the chat?')) {
+        chatMessages.innerHTML = '';
+        // Add welcome message back
+        addMessage('Hello. I am Narad, your simplified AI assistant. How can I help you today?', 'assistant');
+        showToast('Chat cleared', 'info');
+    }
 }
 
 // ============================================
@@ -1032,8 +1062,22 @@ function formatNumber(num) {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', () => init());
-if (document.readyState !== 'loading') init();
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    // Initialize theme from localStorage
+    const savedTheme = localStorage.getItem('narad-theme');
+    if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+    }
+});
+if (document.readyState !== 'loading') {
+    init();
+    // Initialize theme from localStorage
+    const savedTheme = localStorage.getItem('narad-theme');
+    if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+    }
+}
 
 // Submit feedback with CSRF protection
 async function submitFeedback(score) {

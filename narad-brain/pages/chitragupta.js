@@ -62,13 +62,22 @@ navTabs.forEach(tab => {
 function switchTab(tabName) {
   navTabs.forEach(t => t.classList.remove('active'));
   document.querySelector(`.nav-tab[data-tab="${tabName}"]`)?.classList.add('active');
-  
+
   document.querySelectorAll('.tab-panel').forEach(panel => {
     panel.classList.remove('active');
   });
   document.getElementById(`tab-${tabName}`)?.classList.add('active');
-  
+
   chitraguptaNav.classList.remove('open');
+
+  // Load data for specific tabs when they become active
+  if (tabName === 'expenses') {
+    loadExpenseTracking();
+  } else if (tabName === 'insights') {
+    loadFinancialInsights();
+  } else if (tabName === 'settings') {
+    loadSettings();
+  }
 }
 
 // ============================================
@@ -151,7 +160,21 @@ function updateDashboardCards(data) {
   document.getElementById('investment-value').textContent = formatCurrency(data.investmentValue);
   document.getElementById('monthly-payout').textContent = formatCurrency(data.monthlyPayout);
   document.getElementById('upcoming-bills').textContent = formatCurrency(data.upcomingBills);
-  
+
+  // Holdings Overview (Pie Chart)
+  if (data.holdings && data.holdings.length > 0) {
+    updateHoldingsOverview(data.holdings);
+  } else {
+    document.getElementById('holdings-pie-chart').innerHTML = '<div class="empty-state">No holdings data</div>';
+  }
+
+  // Top Gainers/Losers
+  if (data.holdings && data.holdings.length > 0) {
+    updateTopGainersLosers(data.holdings);
+  } else {
+    document.getElementById('top-gainers-losers').innerHTML = '<div class="empty-state">No data</div>';
+  }
+
   // Commodities
   if (data.commodities && data.commodities.length > 0) {
     const commoditiesHtml = data.commodities.map(c => `
@@ -194,6 +217,139 @@ function updateHoldingsDisplay(holdings) {
   `).join('');
   
   document.getElementById('holdings-full').innerHTML = fullHtml || '<div class="empty-state">No holdings</div>';
+}
+
+// Holdings Overview (Pie Chart)
+function updateHoldingsOverview(holdings) {
+  const pieChartEl = document.getElementById('holdings-pie-chart');
+  if (!pieChartEl) return;
+
+  // Calculate total value for percentages
+  const totalValue = holdings.reduce((sum, h) => sum + (h.current_value || 0), 0);
+
+  if (totalValue === 0) {
+    pieChartEl.innerHTML = '<div class="empty-state">No holdings data</div>';
+    return;
+  }
+
+  // Sort by value descending and take top 6
+  const sortedHoldings = [...holdings]
+    .sort((a, b) => (b.current_value || 0) - (a.current_value || 0))
+    .slice(0, 6);
+
+  // Create pie chart using CSS/conic-gradient (simplified representation)
+  let html = '<div class="pie-chart-container">';
+
+  let startAngle = 0;
+  sortedHoldings.forEach((holding, index) => {
+    const value = holding.current_value || 0;
+    const percentage = (value / totalValue) * 100;
+    const sliceAngle = (percentage / 100) * 360;
+
+    html += `
+      <div class="pie-slice" style="--start-angle: ${startAngle}deg; --slice-angle: ${sliceAngle}deg;">
+        <div class="slice-label">
+          <span class="symbol">${holding.symbol}</span>
+          <span class="percentage">${percentage.toFixed(0)}%</span>
+        </div>
+      </div>
+    `;
+
+    startAngle += sliceAngle;
+  });
+
+  // Add remaining as "Others" if there are more than 6 holdings
+  if (holdings.length > 6) {
+    const othersValue = holdings.slice(6).reduce((sum, h) => sum + (h.current_value || 0), 0);
+    const othersPercentage = (othersValue / totalValue) * 100;
+
+    html += `
+      <div class="pie-slice" style="--start-angle: ${startAngle}deg; --slice-angle: ${(othersPercentage / 100) * 360}deg;">
+        <div class="slice-label">
+          <span class="symbol">Others</span>
+          <span class="percentage">${othersPercentage.toFixed(0)}%</span>
+        </div>
+      </div>
+    `;
+  }
+
+  html += '</div>';
+
+  // Add legend
+  html += '<div class="pie-chart-legend">';
+  sortedHoldings.forEach((holding, index) => {
+    const value = holding.current_value || 0;
+    const percentage = (value / totalValue) * 100;
+    html += `
+      <div class="legend-item">
+        <div class="legend-color" style="background: var(--finance-accent);"></div>
+        <span>${holding.symbol}: ${formatCurrency(value)} (${percentage.toFixed(1)}%)</span>
+      </div>
+    `;
+  });
+  if (holdings.length > 6) {
+    const othersValue = holdings.slice(6).reduce((sum, h) => sum + (h.current_value || 0), 0);
+    const othersPercentage = (othersValue / totalValue) * 100;
+    html += `
+      <div class="legend-item">
+        <div class="legend-color" style="background: var(--finance-secondary);"></div>
+        <span>Others: ${formatCurrency(othersValue)} (${othersPercentage.toFixed(1)}%)</span>
+      </div>
+    `;
+  }
+  html += '</div>';
+
+  pieChartEl.innerHTML = html;
+}
+
+// Top Gainers/Losers
+function updateTopGainersLosers(holdings) {
+  const container = document.getElementById('top-gainers-losers');
+  if (!container) return;
+
+  // Sort by net_chg_percent for gainers and losers
+  const sortedByChange = [...holdings]
+    .filter(h => h.net_chg_percent !== null && h.net_chg_percent !== undefined)
+    .sort((a, b) => b.net_chg_percent - a.net_chg_percent);
+
+  const topGainers = sortedByChange.slice(0, 3);
+  const topLosers = sortedByChange.slice(-3).reverse();
+
+  let html = '<div class="gainers-losers-grid">';
+
+  // Gainers section
+  html += `
+    <div class="section">
+      <h4>Top Gainers</h4>
+      <div class="list">
+        ${topGainers.length > 0 ? topGainers.map(h => `
+          <div class="item gain">
+            <span class="symbol">${h.symbol}</span>
+            <span class="change">+${h.net_chg_percent?.toFixed(2)}%</span>
+          </div>
+        `).join('') : '<div class="empty-state">No gainers</div>'}
+      </div>
+    </div>
+  `;
+
+  // Losers section
+  html += `
+    <div class="section">
+      <h4>Top Losers</h4>
+      <div class="list">
+        ${topLosers.length > 0 ? topLosers.map(h => `
+          <div class="item loss">
+            <span class="symbol">${h.symbol}</span>
+            <span class="change">${h.net_chg_percent?.toFixed(2)}%</span>
+          </div>
+        `).join('') : '<div class="empty-state">No losers</div>'}
+      </div>
+    </div>
+  `;
+
+  html += '</div>';
+
+  container.innerHTML = html;
 }
 
 function updateDividendsDisplay(dividends) {

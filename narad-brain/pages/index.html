@@ -38,29 +38,35 @@
                         💰
                     </a>
                     <select id="agent-select" title="Select AI Agent">
-                        <option value="">🎯 Auto</option>
+                        <option value="">🎯 Auto (General Assistant)</option>
                         <optgroup label="⚡ Daily Use">
-                            <option value="dev">⚡ Developer</option>
-                            <option value="check">🔍 Git Check</option>
-                            <option value="reviewer">🔍 Reviewer</option>
-                            <option value="debugger">🔧 Debugger</option>
+                            <option value="dev" title="Developer: Coding, debugging, Git operations">⚡ Developer</option>
+                            <option value="check" title="Git Check: Repository status, branch management">🔍 Git Check</option>
+                            <option value="reviewer" title="Reviewer: Code review, security analysis">🔍 Reviewer</option>
+                            <option value="debugger" title="Debugger: Troubleshooting, error resolution">🔧 Debugger</option>
                         </optgroup>
                         <optgroup label="🔧 Specialized">
-                            <option value="api">🔌 API</option>
-                            <option value="database">🗄️ Database</option>
-                            <option value="security">🔒 Security</option>
-                            <option value="infrastructure">🚀 DevOps</option>
-                            <option value="writer">✍️ Writer</option>
+                            <option value="api" title="API: REST/GraphQL design, testing, documentation">🔌 API</option>
+                            <option value="database" title="Database: SQL, migrations, data modeling">🗄️ Database</option>
+                            <option value="security" title="Security: Auth, JWT, OAuth, vulnerability scanning">🔒 Security</option>
+                            <option value="infrastructure" title="Infrastructure: Docker, Kubernetes, CI/CD pipelines">🚀 DevOps</option>
+                            <option value="writer" title="Writer: Documentation, technical writing, blog posts">✍️ Writer</option>
                         </optgroup>
                         <optgroup label="🔬 Research">
-                            <option value="research">🔬 Research</option>
-                            <option value="analyst">📊 Analyst</option>
-                            <option value="architect">🏗️ Architect</option>
-                            <option value="dividend">💰 Dividend</option>
+                            <option value="research" title="Research: Web search, data gathering, synthesis">🔬 Research</option>
+                            <option value="analyst" title="Analyst: Data analysis, visualization, reporting">📊 Analyst</option>
+                            <option value="architect" title="Architect: System design, architecture patterns, scalability">🏗️ Architect</option>
+                            <option value="dividend" title="Dividend: Stock analysis, dividend tracking, portfolio optimization">💰 Dividend</option>
                         </optgroup>
                     </select>
                     <button class="multi-agent-btn" id="multi-agent-btn" title="Multi-Agent Mode">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </button>
+                    <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                    <button class="clear-chat-btn" id="clear-chat-btn" title="Clear Chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><line x1="12" y1="19" x2="12" y2="5"/></svg>
                     </button>
                 </div>
                 <div class="multi-agent-panel" id="multi-agent-panel" style="display: none;">

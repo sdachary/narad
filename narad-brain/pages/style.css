@@ -13,50 +13,74 @@
   --success: #10B981;
   --warning: #F59E0B;
   --danger: #EF4444;
-  
+
   /* Zen Dark Backgrounds */
   --bg-main: #0A0A0A;
   --bg-surface: #141414;
   --bg-elevated: #1F1F1F;
   --bg-hover: #2A2A2A;
-  
+
   /* Minimalist Borders */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-hover: rgba(255, 255, 255, 0.1);
   --glass-bg: rgba(10, 10, 10, 0.95);
-  
+
   /* Text - High Legibility */
   --text-primary: #F5F5F5;
   --text-secondary: #A3A3A3;
   --text-muted: #666666;
   --text-inverse: #FFFFFF;
-  
+
   /* Natural Depth Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.6);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.7);
-  
+
   /* Standard Spacing */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
-  
+
   /* Refined Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-full: 9999px;
-  
+
   /* Zen Typography */
   --font-main: 'Inter', -apple-system, system-ui, sans-serif;
   --font-display: 'Outfit', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  
+
   /* Clean Transitions */
   --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Light Theme Variables */
+.light-theme {
+  --bg-main: #FFFFFF;
+  --bg-surface: #F8F9FA;
+  --bg-elevated: #FFFFFF;
+  --bg-hover: #F0F0F0;
+
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-muted: #6C757D;
+  --text-inverse: #212529;
+
+  --border-subtle: rgba(0, 0, 0, 0.1);
+  --border-hover: rgba(0, 0, 0, 0.15);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+
+  --glass-bg: rgba(255, 255, 255, 0.9);
+}
+
+/* Initialize theme from localStorage */
 
 /* Reset & Base */
 *, *::before, *::after {
@@ -1930,6 +1954,175 @@ body {
   text-align: center;
   padding: var(--space-2xl);
   color: var(--text-muted);
+}
+
+/* Pie Chart Styles */
+.pie-chart-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: var(--space-md) 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--finance-secondary);
+}
+
+.pie-slice {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  background: conic-gradient(
+    from var(--start-angle),
+    var(--finance-accent) 0% var(--slice-angle),
+    transparent var(--slice-angle) 100%
+  );
+  clip-path: polygon(50% 50%, 100% 0%, 100% 100%, 0% 100%, 0% 0%);
+}
+
+.pie-slice:nth-child(even) {
+  background: conic-gradient(
+    from var(--start-angle),
+    var(--finance-cyan) 0% var(--slice-angle),
+    transparent var(--slice-angle) 100%
+  );
+}
+
+.pie-slice:nth-child(3n) {
+  background: conic-gradient(
+    from var(--start-angle),
+    var(--finance-success) 0% var(--slice-angle),
+    transparent var(--slice-angle) 100%
+  );
+}
+
+.slice-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  pointer-events: none;
+}
+
+.slice-label .symbol {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.slice-label .percentage {
+  display: block;
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+
+.pie-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--glass-border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Gainers/Losers Styles */
+.gainers-losers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.section {
+  background: var(--finance-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.section h4 {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.section h4::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.section:nth-child(1) h4::before {
+  background: var(--finance-success);
+}
+
+.section:nth-child(2) h4::before {
+  background: var(--finance-danger);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-xs);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+}
+
+.item.gain {
+  border-left: 3px solid var(--finance-success);
+}
+
+.item.loss {
+  border-left: 3px solid var(--finance-danger);
+}
+
+.item .symbol {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.item .change {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.item.gain .change {
+  color: var(--finance-success);
+}
+
+.item.loss .change {
+  color: var(--finance-danger);
 }
 
 .add-btn {
