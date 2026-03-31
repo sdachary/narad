@@ -16,6 +16,7 @@
 | **Image Upload** | AI analysis with `@cf/unum/uform-gen2-qwen-7b` |
 | **Semantic Memory** | Workers AI embeddings with TF-IDF fallback |
 | **Security** | XSS prevention, CSRF tokens, rate limiting (60/min) |
+| **Chitragupta** | Premium Finance Dashboard with AI Insights and Expense Tracking |
 
 ---
 

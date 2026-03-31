@@ -139,8 +139,15 @@ CREATE TABLE commodities (
 - Holdings
 - Dividends
 - Recurring
-- Expenses
-- Settings
+- Expenses (New tracking system implemented)
+- Insights (AI-powered suggestions)
+- Settings (Cloud-synced preferences)
+
+### Celestial Ledger Design System (Stitch Suggestions)
+- **Typography**: Dual-tone voice using **Sora** for labels and **JetBrains Mono** for numbers.
+- **Surface Logic**: "No-Line" rule. Define sections via background shifts (Tonal Layering).
+- **Glassmorphism**: 20px blur with 60% opacity for floating elements and modals.
+- **Palette**: Deep Navy (#061423), Gold (#E0A458), and Ethereal Blue (#D6E4F9).
 
 ### Chat Integration
 - Floating button (bottom-right)
@@ -197,6 +204,10 @@ GET    /api/finance/dashboard/insights
 GET    /api/finance/analysis/portfolio
 GET    /api/finance/analysis/budget
 GET    /api/finance/analysis/suggestions
+
+// Settings endpoints
+GET    /api/finance/settings
+POST   /api/finance/settings
 ```
 
 ## Narad Integration
