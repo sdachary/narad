@@ -2685,3 +2685,130 @@ export default {
     return newResponse;
   }
 };
+
+// ============================================
+// LIVE PRICE FETCHER (NSE India API)
+// ============================================
+
+async function fetchLivePrice(symbol) {
+  try {
+    // NSE India API - free and reliable
+    const url = `https://www.nseindia.com/api/quote-equity?symbol=${symbol}`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json',
+        'Referer': 'https://www.nseindia.com/'
+      }
+    });
+    
+    if (!response.ok) {
+      // Fallback to Yahoo Finance
+      return fetchFromYahoo(symbol);
+    }
+    
+    const data = await response.json();
+    const price = data?.priceInfo?.lastPrice;
+    
+    if (price) return price;
+    return null;
+  } catch (e) {
+    console.error(`NSE failed for ${symbol}, trying Yahoo:`, e.message);
+    return fetchFromYahoo(symbol);
+  }
+}
+
+async function fetchFromYahoo(symbol) {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}.NS?interval=1d&range=1d`;
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0' }
+    });
+    
+    if (!response.ok) return null;
+    
+    const data = await response.json();
+    return data?.chart?.result?.[0]?.meta?.regularMarketPrice || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Get live prices for all holdings
+app.get('/api/finance/prices', async (c) => {
+  try {
+    const holdings = await c.env.CHITRAGUPTA_DB.prepare('SELECT symbol FROM holdings').all();
+    const symbols = holdings.results?.map(h => h.symbol) || [];
+    
+    const prices = {};
+    const errors = [];
+    
+    // Fetch in parallel (limit to 5 concurrent)
+    for (const symbol of symbols) {
+      const price = await fetchLivePrice(symbol);
+      if (price) {
+        prices[symbol] = price;
+      } else {
+        errors.push(symbol);
+      }
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 200));
+    }
+    
+    return c.json({ 
+      prices, 
+      errors: errors.length > 0 ? errors : null,
+      timestamp: Date.now()
+    });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+// Update holdings with live prices
+app.post('/api/finance/prices/update', async (c) => {
+  try {
+    const holdings = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM holdings').all();
+    const results = { updated: 0, failed: [] };
+    
+    for (const holding of holdings.results || []) {
+      const price = await fetchLivePrice(holding.symbol);
+      
+      if (price) {
+        const currentValue = price * holding.quantity;
+        const pnl = currentValue - holding.invested;
+        const netChg = holding.invested > 0 ? (pnl / holding.invested) * 100 : 0;
+        
+        await c.env.CHITRAGUPTA_DB.prepare(
+          `UPDATE holdings SET ltp = ?, current_value = ?, pnl = ?, net_chg_percent = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
+        ).bind(price, currentValue, pnl, netChg, holding.id).run();
+        
+        results.updated++;
+      } else {
+        results.failed.push(holding.symbol);
+      }
+      
+      await new Promise(r => setTimeout(r, 300));
+    }
+    
+    return c.json(results);
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+// Get single stock price
+app.get('/api/finance/price/:symbol', async (c) => {
+  try {
+    const symbol = c.req.param('symbol').toUpperCase();
+    const price = await fetchLivePrice(symbol);
+    
+    if (price) {
+      return c.json({ symbol, price, timestamp: Date.now() });
+    } else {
+      return c.json({ error: 'Price not found' }, 404);
+    }
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});

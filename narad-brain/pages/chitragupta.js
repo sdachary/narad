@@ -100,6 +100,9 @@ async function loadDashboard() {
     statusEl.textContent = 'Offline';
   }
   
+  // Update holdings with live prices from NSE
+  await fetchApi('/api/finance/prices/update');
+  
   // Load dashboard summary
   const summary = await fetchApi('/api/finance/dashboard/summary');
   if (summary) {
@@ -352,6 +355,15 @@ function formatCurrency(amount) {
 function refreshDashboard() {
   loadDashboard();
 }
+
+// Auto-refresh prices every 5 minutes
+setInterval(async () => {
+  await fetchApi('/api/finance/prices/update');
+  const holdings = await fetchApi('/api/finance/holdings');
+  if (holdings && holdings.holdings) {
+    updateHoldingsDisplay(holdings.holdings);
+  }
+}, 5 * 60 * 1000);
 
 // ============================================
 // INITIALIZE
