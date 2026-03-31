@@ -1,62 +1,80 @@
 /* ============================================
-   NARAD PREMIUM GLASSMORPHISM DESIGN SYSTEM
-   2025 Modern UI - Dark Theme
+   NARAD AI - 2026 DESIGN SYSTEM
+   Modern Glassmorphism with Neural Aesthetics
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Premium Color Palette (2025) */
-  --primary: #00D9FF;
-  --primary-glow: rgba(0, 217, 255, 0.3);
-  --secondary: #FF006E;
-  --secondary-glow: rgba(255, 0, 110, 0.3);
-  --success: #00D084;
-  --warning: #FFB31A;
-  --danger: #FF4757;
+  /* 2026 Neural Palette */
+  --primary: #6366F1;
+  --primary-glow: rgba(99, 102, 241, 0.4);
+  --primary-light: #818CF8;
+  --secondary: #EC4899;
+  --secondary-glow: rgba(236, 72, 153, 0.3);
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
   
-  /* Backgrounds */
-  --bg-deep: #0A0A14;
-  --bg-primary: #0F0F1E;
-  --bg-surface: #1A1A2E;
-  --bg-elevated: #252542;
-  --glass-bg: rgba(26, 26, 46, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* 2026 Deep Space Theme */
+  --bg-deep: #030712;
+  --bg-primary: #0A0A0F;
+  --bg-surface: #111118;
+  --bg-elevated: #18181F;
+  --bg-hover: #1F1F2A;
+  --glass-bg: rgba(17, 17, 24, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-border-hover: rgba(255, 255, 255, 0.12);
   
-  /* Text */
-  --text-primary: #F4F4F5;
+  /* Text - Refined contrast */
+  --text-primary: #F9FAFB;
   --text-secondary: #9CA3AF;
   --text-muted: #6B7280;
+  --text-link: #818CF8;
   
-  /* Accents */
-  --accent-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-  --gold: #F0C040;
-  --gold-glow: rgba(240, 192, 64, 0.3);
+  /* 2026 Accent Colors */
+  --accent-gradient: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);
+  --neural-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+  --gold: #FBBF24;
+  --gold-glow: rgba(251, 191, 36, 0.3);
+  --cyan: #22D3EE;
+  --cyan-glow: rgba(34, 211, 238, 0.3);
   
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px var(--primary-glow);
+  /* Advanced Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
+  --shadow-glow-lg: 0 0 60px rgba(99, 102, 241, 0.3);
   
-  /* Spacing */
+  /* Spacing - 2026 refined */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
   --space-2xl: 48px;
+  --space-3xl: 64px;
   
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  /* Border Radius - More organic */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
   --radius-xl: 20px;
+  --radius-2xl: 28px;
   --radius-full: 9999px;
   
   /* Typography */
-  --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Transitions - Smoother */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Reset & Base */
@@ -80,22 +98,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animated Background */
+/* Animated Background - 2026 Neural Theme */
 .background-overlay {
   position: fixed;
   inset: 0;
   background: 
-    radial-gradient(ellipse at 15% 15%, rgba(0, 217, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 85%, rgba(255, 0, 110, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(26, 26, 46, 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 40% 10%, rgba(34, 211, 238, 0.05) 0%, transparent 40%),
     linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 50%, var(--bg-deep) 100%);
   z-index: -1;
-  animation: bgShift 20s ease-in-out infinite;
+  animation: bgShift 25s ease-in-out infinite;
 }
 
 @keyframes bgShift {
-  0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%; }
-  50% { background-position: 50% 50%, 0% 50%, 50% 50%, 0% 0%; }
+  0%, 100% { 
+    background-position: 0% 0%, 100% 100%, 80% 90%, 40% 10%, 0% 0%; 
+  }
+  50% { 
+    background-position: 30% 30%, 70% 70%, 60% 80%, 20% 20%, 0% 0%; 
+  }
 }
 
 /* App Container */
@@ -1616,29 +1639,35 @@ body {
 }
 
 /* ============================================
-   CHITRAGUPTA FINANCE DASHBOARD
+   CHITRAGUPTA FINANCE DASHBOARD - 2026
    ============================================ */
 
 .chitragupta-theme {
-  --finance-primary: #0D1B2A;
-  --finance-secondary: #1B263B;
-  --finance-accent: #E0A458;
-  --finance-gold: #FFD700;
-  --finance-success: #2ECC71;
-  --finance-danger: #E74C3C;
-  --finance-bg: #0A1628;
+  --finance-primary: #0A0A0F;
+  --finance-secondary: #111118;
+  --finance-accent: #6366F1;
+  --finance-gold: #FBBF24;
+  --finance-cyan: #22D3EE;
+  --finance-success: #10B981;
+  --finance-danger: #EF4444;
+  --finance-bg: #030712;
+  --finance-surface: #111118;
+  --finance-elevated: #18181F;
 }
 
 .chitragupta-header {
-  background: var(--finance-secondary) !important;
+  background: var(--finance-surface) !important;
   border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
 }
 
 .chitragupta-header .header-text h1 {
-  background: linear-gradient(135deg, var(--finance-accent), var(--finance-gold));
+  background: linear-gradient(135deg, var(--finance-accent), var(--finance-cyan));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-family: var(--font-heading);
+  font-weight: 700;
 }
 
 .back-btn {
@@ -1648,14 +1677,16 @@ body {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: var(--bg-elevated);
+  background: var(--finance-elevated);
   color: var(--text-primary);
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
+  border: 1px solid var(--glass-border);
 }
 
 .back-btn:hover {
   background: var(--finance-accent);
-  color: var(--finance-bg);
+  color: var(--bg-deep);
+  border-color: var(--finance-accent);
 }
 
 .header-left {
@@ -1668,7 +1699,7 @@ body {
   display: flex;
   gap: var(--space-xs);
   padding: var(--space-sm) var(--space-md);
-  background: var(--finance-secondary);
+  background: var(--finance-surface);
   overflow-x: auto;
   border-bottom: 1px solid var(--glass-border);
 }
@@ -1678,22 +1709,25 @@ body {
   background: transparent;
   border: none;
   color: var(--text-secondary);
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
   border-radius: var(--radius-md);
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .nav-tab:hover {
-  background: var(--bg-elevated);
+  background: var(--finance-elevated);
   color: var(--text-primary);
 }
 
 .nav-tab.active {
-  background: var(--finance-accent);
-  color: var(--finance-bg);
+  background: var(--neural-gradient);
+  color: white;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
   font-weight: 600;
 }
 
