@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chitragupta — Finance Dashboard</title>
+    
+    <meta name="csrf-token" content="">
+    <meta name="api-base" content="">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://narad-7hc.pages.dev https://*.workers.dev;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+</head>
+<body class="chitragupta-theme">
+    <div class="background-overlay"></div>
+    
+    <header class="app-header chitragupta-header">
+        <div class="header-left">
+            <a href="index.html" class="back-btn" title="Back to Narad">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </a>
+            <div class="header-text">
+                <h1>💰 Chitragupta</h1>
+                <p>Finance Dashboard</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="status-badge" onclick="refreshDashboard()">
+                <span class="status-dot" id="api-dot"></span>
+                <span class="status-text" id="api-status">Loading...</span>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" title="Toggle Navigation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <nav class="chitragupta-nav" id="chitragupta-nav">
+        <button class="nav-tab active" data-tab="dashboard">📊 Dashboard</button>
+        <button class="nav-tab" data-tab="holdings">📈 Holdings</button>
+        <button class="nav-tab" data-tab="dividends">💰 Dividends</button>
+        <button class="nav-tab" data-tab="recurring">🔄 Recurring</button>
+        <button class="nav-tab" data-tab="expenses">💳 Expenses</button>
+    </nav>
+
+    <main class="main-content chitragupta-main">
+        <!-- Dashboard Tab -->
+        <section class="tab-panel active" id="tab-dashboard">
+            <div class="dashboard-grid">
+                <!-- Net Worth Card -->
+                <div class="dash-card net-worth-card">
+                    <div class="card-header">
+                        <h3>Net Worth</h3>
+                        <span class="card-icon">💎</span>
+                    </div>
+                    <div class="card-value" id="net-worth">₹0</div>
+                    <div class="card-subtitle">Total Assets</div>
+                </div>
+
+                <!-- Bank Balance Card -->
+                <div class="dash-card bank-card">
+                    <div class="card-header">
+                        <h3>Bank Balance</h3>
+                        <span class="card-icon">🏦</span>
+                    </div>
+                    <div class="card-value" id="bank-balance">₹0</div>
+                    <div class="card-subtitle">Available Cash</div>
+                </div>
+
+                <!-- Investment Value Card -->
+                <div class="dash-card investment-card">
+                    <div class="card-header">
+                        <h3>Investments</h3>
+                        <span class="card-icon">📈</span>
+                    </div>
+                    <div class="card-value" id="investment-value">₹0</div>
+                    <div class="card-subtitle" id="investment-change">+0%</div>
+                </div>
+
+                <!-- Monthly Dividend Card -->
+                <div class="dash-card dividend-card">
+                    <div class="card-header">
+                        <h3>Monthly Payout</h3>
+                        <span class="card-icon">💵</span>
+                    </div>
+                    <div class="card-value" id="monthly-payout">₹0</div>
+                    <div class="card-subtitle">Dividend Income</div>
+                </div>
+
+                <!-- Upcoming Bills Card -->
+                <div class="dash-card bills-card">
+                    <div class="card-header">
+                        <h3>Upcoming Bills</h3>
+                        <span class="card-icon">📅</span>
+                    </div>
+                    <div class="card-value" id="upcoming-bills">₹0</span></div>
+                    <div class="card-subtitle">Due This Month</div>
+                </div>
+
+                <!-- Gold Prices Card -->
+                <div class="dash-card gold-card">
+                    <div class="card-header">
+                        <h3>Commodities</h3>
+                        <span class="card-icon">🥇</span>
+                    </div>
+                    <div class="commodities-list" id="commodities-list">
+                        <div class="commodity-item">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Top Holdings -->
+                <div class="dash-card holdings-card wide">
+                    <div class="card-header">
+                        <h3>Top Holdings</h3>
+                        <button class="view-all-btn" onclick="switchTab('holdings')">View All →</button>
+                    </div>
+                    <div class="holdings-table" id="top-holdings">
+                        <div class="empty-state">No holdings data</div>
+                    </div>
+                </div>
+
+                <!-- Recent Dividends -->
+                <div class="dash-card dividends-card wide">
+                    <div class="card-header">
+                        <h3>Dividend SIPs</h3>
+                        <button class="view-all-btn" onclick="switchTab('dividends')">View All →</button>
+                    </div>
+                    <div class="dividends-table" id="dividend-list">
+                        <div class="empty-state">No dividend data</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Holdings Tab -->
+        <section class="tab-panel" id="tab-holdings">
+            <div class="section-header">
+                <h2>📈 Stock Holdings</h2>
+                <div class="summary-stats">
+                    <span class="stat">Invested: <strong id="total-invested">₹0</strong></span>
+                    <span class="stat">Current: <strong id="total-current">₹0</strong></span>
+                    <span class="stat gain">P&L: <strong id="total-pnl">₹0</strong></span>
+                </div>
+            </div>
+            <div class="holdings-full-table" id="holdings-full">
+                <div class="empty-state">Loading holdings...</div>
+            </div>
+        </section>
+
+        <!-- Dividends Tab -->
+        <section class="tab-panel" id="tab-dividends">
+            <div class="section-header">
+                <h2>💰 Dividend Portfolio</h2>
+                <div class="summary-stats">
+                    <span class="stat">Target: <strong id="div-target">₹0</strong></span>
+                    <span class="stat">Actual: <strong id="div-actual">₹0</strong></span>
+                    <span class="stat gain">Extra: <strong id="div-extra">₹0</strong></span>
+                </div>
+            </div>
+            <div class="dividends-full-table" id="dividends-full">
+                <div class="empty-state">Loading dividends...</div>
+            </div>
+        </section>
+
+        <!-- Recurring Tab -->
+        <section class="tab-panel" id="tab-recurring">
+            <div class="section-header">
+                <h2>🔄 Recurring Payments</h2>
+            </div>
+            <div class="recurring-cards" id="recurring-cards">
+                <div class="empty-state">Loading recurring...</div>
+            </div>
+        </section>
+
+        <!-- Expenses Tab -->
+        <section class="tab-panel" id="tab-expenses">
+            <div class="section-header">
+                <h2>💳 Expense Tracking</h2>
+                <button class="add-btn" onclick="showExpenseForm()">+ Add Expense</button>
+            </div>
+            <div class="expense-summary" id="expense-summary">
+                <div class="expense-card">
+                    <h4>Total Expenses</h4>
+                    <div class="expense-amount">₹0</div>
+                </div>
+            </div>
+            <p class="coming-soon">Expense tracking coming soon...</p>
+        </section>
+    </main>
+
+    <!-- Floating Narad Chat Button -->
+    <button class="floating-chat-btn" id="floating-chat-btn" onclick="toggleChatOverlay()" title="Chat with Narad">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Chat</span>
+    </button>
+
+    <!-- Chat Overlay -->
+    <div class="chat-overlay" id="chat-overlay">
+        <div class="chat-overlay-header">
+            <span>⚡ Narad</span>
+            <button onclick="toggleChatOverlay()">&times;</button>
+        </div>
+        <div class="chat-overlay-messages" id="chat-messages">
+            <div class="message assistant">
+                <div class="avatar">⚡</div>
+                <div class="message-content">Namaste! I can help you understand your finances. Ask me anything about your portfolio!</div>
+            </div>
+        </div>
+        <form class="chat-overlay-form" id="chat-form-overlay">
+            <input type="text" id="user-input-overlay" placeholder="Ask about your finances...">
+            <button type="submit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+        </form>
+    </div>
+
+    <script src="chitragupta.js" defer></script>
+</body>
+</html>
