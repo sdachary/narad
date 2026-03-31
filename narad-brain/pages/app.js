@@ -692,7 +692,7 @@ function addMessage(text, type = 'assistant') {
     const div = document.createElement('div');
     div.className = `message ${type}`;
     
-    const avatar = type === 'user' ? '∼' : '⚡';
+    const avatar = type === 'user' ? '>' : 'SYS';
     
     // Safe DOM API approach - no innerHTML
     const avatarDiv = document.createElement('div');
@@ -727,7 +727,7 @@ function addRichMessage(text, type = 'assistant', allowHtml = false) {
     const div = document.createElement('div');
     div.className = `message ${type}`;
     
-    const avatar = type === 'user' ? '∼' : '⚡';
+    const avatar = type === 'user' ? '>' : 'SYS';
     
     const avatarDiv = document.createElement('div');
     avatarDiv.className = 'avatar';
