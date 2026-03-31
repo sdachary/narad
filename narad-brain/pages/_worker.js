@@ -2335,7 +2335,7 @@ app.post('/api/detect-multi-agent', async (c) => {
 // Accounts APIs
 app.get('/api/finance/accounts', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare('SELECT * FROM accounts ORDER BY type, name').all();
+    const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM accounts ORDER BY type, name').all();
     return c.json({ accounts: results.results || [] });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2347,7 +2347,7 @@ app.post('/api/finance/accounts', async (c) => {
     const body = await c.req.json();
     const { name, type, balance, currency } = body;
     
-    const result = await env.CHITRAGUPTA_DB.prepare(
+    const result = await c.env.CHITRAGUPTA_DB.prepare(
       'INSERT INTO accounts (name, type, balance, currency) VALUES (?, ?, ?, ?)'
     ).bind(name, type, balance || 0, currency || 'INR').run();
     
@@ -2363,7 +2363,7 @@ app.put('/api/finance/accounts/:id', async (c) => {
     const body = await c.req.json();
     const { name, type, balance, currency } = body;
     
-    await env.CHITRAGUPTA_DB.prepare(
+    await c.env.CHITRAGUPTA_DB.prepare(
       'UPDATE accounts SET name = ?, type = ?, balance = ?, currency = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
     ).bind(name, type, balance, currency, id).run();
     
@@ -2376,7 +2376,7 @@ app.put('/api/finance/accounts/:id', async (c) => {
 app.delete('/api/finance/accounts/:id', async (c) => {
   try {
     const id = c.req.param('id');
-    await env.CHITRAGUPTA_DB.prepare('DELETE FROM accounts WHERE id = ?').bind(id).run();
+    await c.env.CHITRAGUPTA_DB.prepare('DELETE FROM accounts WHERE id = ?').bind(id).run();
     return c.json({ success: true });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2386,7 +2386,7 @@ app.delete('/api/finance/accounts/:id', async (c) => {
 // Holdings APIs
 app.get('/api/finance/holdings', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare('SELECT * FROM holdings ORDER BY current_value DESC').all();
+    const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM holdings ORDER BY current_value DESC').all();
     return c.json({ holdings: results.results || [] });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2398,7 +2398,7 @@ app.post('/api/finance/holdings', async (c) => {
     const body = await c.req.json();
     const { symbol, name, quantity, avg_cost, ltp, invested, current_value, pnl, net_chg_percent, day_chg_percent } = body;
     
-    const result = await env.CHITRAGUPTA_DB.prepare(
+    const result = await c.env.CHITRAGUPTA_DB.prepare(
       `INSERT INTO holdings (symbol, name, quantity, avg_cost, ltp, invested, current_value, pnl, net_chg_percent, day_chg_percent)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     ).bind(symbol, name, quantity, avg_cost, ltp, invested, current_value, pnl, net_chg_percent, day_chg_percent).run();
@@ -2414,7 +2414,7 @@ app.put('/api/finance/holdings/:id', async (c) => {
     const id = c.req.param('id');
     const body = await c.req.json();
     
-    await env.CHITRAGUPTA_DB.prepare(
+    await c.env.CHITRAGUPTA_DB.prepare(
       `UPDATE holdings SET symbol = ?, name = ?, quantity = ?, avg_cost = ?, ltp = ?, invested = ?, 
        current_value = ?, pnl = ?, net_chg_percent = ?, day_chg_percent = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
     ).bind(body.symbol, body.name, body.quantity, body.avg_cost, body.ltp, body.invested, body.current_value, body.pnl, body.net_chg_percent, body.day_chg_percent, id).run();
@@ -2428,7 +2428,7 @@ app.put('/api/finance/holdings/:id', async (c) => {
 app.delete('/api/finance/holdings/:id', async (c) => {
   try {
     const id = c.req.param('id');
-    await env.CHITRAGUPTA_DB.prepare('DELETE FROM holdings WHERE id = ?').bind(id).run();
+    await c.env.CHITRAGUPTA_DB.prepare('DELETE FROM holdings WHERE id = ?').bind(id).run();
     return c.json({ success: true });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2437,7 +2437,7 @@ app.delete('/api/finance/holdings/:id', async (c) => {
 
 app.get('/api/finance/holdings/summary', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare(
+    const results = await c.env.CHITRAGUPTA_DB.prepare(
       'SELECT SUM(invested) as total_invested, SUM(current_value) as total_current, SUM(pnl) as total_pnl FROM holdings'
     ).all();
     
@@ -2456,7 +2456,7 @@ app.get('/api/finance/holdings/summary', async (c) => {
 // Dividends APIs
 app.get('/api/finance/dividends', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare('SELECT * FROM dividends ORDER BY allocation DESC').all();
+    const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM dividends ORDER BY allocation DESC').all();
     return c.json({ dividends: results.results || [] });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2468,9 +2468,9 @@ app.post('/api/finance/dividends', async (c) => {
     const body = await c.req.json();
     const { symbol, name, ltp, allocation, monthly_sip, quantity, actual_sip } = body;
     
-    const result = await env.CHITRAGUPTA_DB.prepare(
+    const result = await c.env.CHITRAGUPTA_DB.prepare(
       'INSERT INTO dividends (symbol, name, ltp, allocation, monthly_sip, quantity, actual_sip) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    ).bind(symbol, name, ltp, allocation, monthly_sip, quantity, actual_sip).run();
+    ).bind(symbol, name, ltp || 0, allocation || 0, monthly_sip || 0, quantity || 0, actual_sip || 0).run();
     
     return c.json({ success: true, id: result.meta?.last_row_id });
   } catch (error) {
@@ -2480,7 +2480,7 @@ app.post('/api/finance/dividends', async (c) => {
 
 app.get('/api/finance/dividends/summary', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare(
+    const results = await c.env.CHITRAGUPTA_DB.prepare(
       'SELECT SUM(monthly_sip) as target_sip, SUM(actual_sip) as actual_sip FROM dividends'
     ).all();
     
@@ -2498,7 +2498,7 @@ app.get('/api/finance/dividends/summary', async (c) => {
 // Recurring APIs
 app.get('/api/finance/recurring', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare('SELECT * FROM recurrings ORDER BY category, name').all();
+    const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM recurrings ORDER BY category, name').all();
     return c.json({ recurrings: results.results || [] });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2510,10 +2510,21 @@ app.post('/api/finance/recurring', async (c) => {
     const body = await c.req.json();
     const { category, name, amount, frequency, start_date, end_date, monthly_saving, planned_saving, actual_saving, is_paid } = body;
     
-    const result = await env.CHITRAGUPTA_DB.prepare(
+    const result = await c.env.CHITRAGUPTA_DB.prepare(
       `INSERT INTO recurrings (category, name, amount, frequency, start_date, end_date, monthly_saving, planned_saving, actual_saving, is_paid)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    ).bind(category, name, amount, frequency, start_date, end_date, monthly_saving, planned_saving, actual_saving, is_paid || 0).run();
+    ).bind(
+      category, 
+      name, 
+      amount || 0, 
+      frequency || 'monthly', 
+      start_date || null, 
+      end_date || null, 
+      monthly_saving || 0, 
+      planned_saving || 0, 
+      actual_saving || 0, 
+      is_paid || 0
+    ).run();
     
     return c.json({ success: true, id: result.meta?.last_row_id });
   } catch (error) {
@@ -2523,7 +2534,7 @@ app.post('/api/finance/recurring', async (c) => {
 
 app.get('/api/finance/recurring/upcoming', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare(
+    const results = await c.env.CHITRAGUPTA_DB.prepare(
       "SELECT * FROM recurrings WHERE is_paid = 0 ORDER BY CASE frequency WHEN 'monthly' THEN 1 WHEN 'quarter' THEN 2 WHEN 'annual' THEN 3 END LIMIT 10"
     ).all();
     return c.json({ upcoming: results.results || [] });
@@ -2535,7 +2546,7 @@ app.get('/api/finance/recurring/upcoming', async (c) => {
 // Commodities APIs
 app.get('/api/finance/commodities', async (c) => {
   try {
-    const results = await env.CHITRAGUPTA_DB.prepare('SELECT * FROM commodities ORDER BY name').all();
+    const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM commodities ORDER BY name').all();
     return c.json({ commodities: results.results || [] });
   } catch (error) {
     return c.json({ error: error.message }, 500);
@@ -2547,9 +2558,9 @@ app.post('/api/finance/commodities', async (c) => {
     const body = await c.req.json();
     const { name, price, change, change_percent } = body;
     
-    const result = await env.CHITRAGUPTA_DB.prepare(
+    const result = await c.env.CHITRAGUPTA_DB.prepare(
       'INSERT INTO commodities (name, price, change, change_percent) VALUES (?, ?, ?, ?)'
-    ).bind(name, price, change, change_percent).run();
+    ).bind(name, price || 0, change || 0, change_percent || 0).run();
     
     return c.json({ success: true, id: result.meta?.last_row_id });
   } catch (error) {
@@ -2562,11 +2573,11 @@ app.get('/api/finance/dashboard/summary', async (c) => {
   try {
     // Get all summaries in parallel
     const [accounts, holdings, dividends, recurring, commodities] = await Promise.all([
-      env.CHITRAGUPTA_DB.prepare('SELECT SUM(balance) as total FROM accounts').all(),
-      env.CHITRAGUPTA_DB.prepare('SELECT SUM(current_value) as total FROM holdings').all(),
-      env.CHITRAGUPTA_DB.prepare('SELECT SUM(actual_sip) as total FROM dividends').all(),
-      env.CHITRAGUPTA_DB.prepare('SELECT SUM(amount) as total FROM recurrings WHERE is_paid = 0').all(),
-      env.CHITRAGUPTA_DB.prepare('SELECT * FROM commodities').all()
+      c.env.CHITRAGUPTA_DB.prepare('SELECT SUM(balance) as total FROM accounts').all(),
+      c.env.CHITRAGUPTA_DB.prepare('SELECT SUM(current_value) as total FROM holdings').all(),
+      c.env.CHITRAGUPTA_DB.prepare('SELECT SUM(actual_sip) as total FROM dividends').all(),
+      c.env.CHITRAGUPTA_DB.prepare('SELECT SUM(amount) as total FROM recurrings WHERE is_paid = 0').all(),
+      c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM commodities').all()
     ]);
     
     const bankBalance = accounts.results?.[0]?.total || 0;
@@ -2595,17 +2606,17 @@ app.get('/api/finance/dashboard/insights', async (c) => {
     const insights = [];
     
     // Get top gainers
-    const gainers = await env.CHITRAGUPTA_DB.prepare(
+    const gainers = await c.env.CHITRAGUPTA_DB.prepare(
       'SELECT * FROM holdings WHERE pnl > 0 ORDER BY net_chg_percent DESC LIMIT 5'
     ).all();
     
     // Get top losers
-    const losers = await env.CHITRAGUPTA_DB.prepare(
+    const losers = await c.env.CHITRAGUPTA_DB.prepare(
       'SELECT * FROM holdings WHERE pnl < 0 ORDER BY net_chg_percent ASC LIMIT 5'
     ).all();
     
     // Get portfolio allocation
-    const allocation = await env.CHITRAGUPTA_DB.prepare(
+    const allocation = await c.env.CHITRAGUPTA_DB.prepare(
       'SELECT SUM(current_value) as total FROM holdings'
     ).all();
     
