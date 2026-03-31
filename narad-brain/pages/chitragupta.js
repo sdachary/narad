@@ -81,6 +81,246 @@ function switchTab(tabName) {
 }
 
 // ============================================
+// EXPENSE TRACKING logic
+// ============================================
+
+async function loadExpenseTracking() {
+  const container = document.getElementById('expense-details');
+  if (!container) return;
+
+  const data = await fetchApi('/api/finance/expenses');
+  if (!data || !data.expenses) {
+    container.innerHTML = '<div class="empty-state">Failed to load expenses</div>';
+    return;
+  }
+
+  const expenses = data.expenses;
+  updateExpenseSummary(expenses);
+  renderExpenseList(expenses);
+  renderExpenseCategoryChart(expenses);
+}
+
+function updateExpenseSummary(expenses) {
+  const total = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+  const amountEl = document.querySelector('.expense-amount');
+  if (amountEl) amountEl.textContent = formatCurrency(total);
+}
+
+function renderExpenseList(expenses) {
+  const listEl = document.getElementById('expense-details');
+  if (!listEl) return;
+
+  if (expenses.length === 0) {
+    listEl.innerHTML = '<div class="empty-state">No expenses recorded yet</div>';
+    return;
+  }
+
+  const html = `
+    <div class="expense-list-table">
+      <div class="table-header">
+        <span>Date</span>
+        <span>Category</span>
+        <span>Description</span>
+        <span>Amount</span>
+        <span>Action</span>
+      </div>
+      ${expenses.map(e => `
+        <div class="table-row">
+          <span class="date">${new Date(e.date).toLocaleDateString()}</span>
+          <span class="category"><span class="cat-pill">${e.category}</span></span>
+          <span class="desc">${e.description || '-'}</span>
+          <span class="amount">${formatCurrency(e.amount)}</span>
+          <span class="action"><button onclick="deleteExpense(${e.id})" class="delete-btn">🗑️</button></span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  listEl.innerHTML = html;
+}
+
+function showExpenseForm() {
+  const modal = document.createElement('div');
+  modal.className = 'glass-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>Add New Expense</h3>
+      <form id="add-expense-form">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="exp-category" required>
+            <option value="Housing">Housing</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Health">Health</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount</label>
+          <input type="number" id="exp-amount" placeholder="0.00" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="exp-desc" placeholder="What was this for?">
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="exp-date" value="${new Date().toISOString().split('T')[0]}">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="this.closest('.glass-modal').remove()">Cancel</button>
+          <button type="submit" class="btn-save">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('add-expense-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      category: document.getElementById('exp-category').value,
+      amount: parseFloat(document.getElementById('exp-amount').value),
+      description: document.getElementById('exp-desc').value,
+      date: new Date(document.getElementById('exp-date').value).getTime()
+    };
+
+    const res = await fetch(`${API_BASE}/api/finance/expenses`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      modal.remove();
+      loadExpenseTracking();
+      refreshDashboard();
+    }
+  });
+}
+
+async function deleteExpense(id) {
+  if (!confirm('Are you sure you want to delete this expense?')) return;
+  const res = await fetch(`${API_BASE}/api/finance/expenses/${id}`, { method: 'DELETE' });
+  if (res.ok) {
+    loadExpenseTracking();
+    refreshDashboard();
+  }
+}
+
+function renderExpenseCategoryChart(expenses) {
+  // Simple CSS-based visualization logic would go here
+  // For now, we utilize the categories in the list
+}
+
+// ============================================
+// SETTINGS logic
+// ============================================
+
+function loadSettings() {
+  const settings = JSON.parse(localStorage.getItem('chitragupta_settings') || '{}');
+  
+  // Apply settings to form
+  if (settings.bill_notifications !== undefined) document.getElementById('bill-notifications').checked = settings.bill_notifications;
+  if (settings.low_balance_alerts !== undefined) document.getElementById('low-balance-alerts').checked = settings.low_balance_alerts;
+  if (settings.currency) document.getElementById('currency-select').value = settings.currency;
+  if (settings.date_format) document.getElementById('date-format').value = settings.date_format;
+  
+  // Add listeners for auto-save
+  const inputs = ['bill-notifications', 'low-balance-alerts', 'currency-select', 'date-format'];
+  inputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('change', () => saveSettings());
+    }
+  });
+}
+
+function saveSettings() {
+  const settings = {
+    bill_notifications: document.getElementById('bill-notifications').checked,
+    low_balance_alerts: document.getElementById('low-balance-alerts').checked,
+    currency: document.getElementById('currency-select').value,
+    date_format: document.getElementById('date-format').value
+  };
+  localStorage.setItem('chitragupta_settings', JSON.stringify(settings));
+  
+  // Sync to cloud if available
+  fetch(`${API_BASE}/api/finance/settings`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'X-Session-ID': sessionId
+    },
+    body: JSON.stringify(settings)
+  }).catch(e => console.warn('Cloud sync failed', e));
+}
+
+function exportFinancialData() {
+  const data = {
+    expenses: [], // would fetch all
+    settings: JSON.parse(localStorage.getItem('chitragupta_settings') || '{}'),
+    timestamp: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `chitragupta_data_${Date.now()}.json`;
+  a.click();
+}
+
+// ============================================
+// INSIGHTS logic
+// ============================================
+
+async function loadFinancialInsights() {
+  const endpoints = ['portfolio', 'budget', 'suggestions'];
+  const containers = {
+    portfolio: 'portfolio-insight',
+    budget: 'cashflow-insight',
+    suggestions: 'risk-insight'
+  };
+
+  for (const type of endpoints) {
+    const el = document.getElementById(containers[type]);
+    if (!el) continue;
+    
+    el.innerHTML = '<div class="loading-pulse">Analyzing data...</div>';
+    
+    const res = await fetchApi(`/api/finance/analysis/${type}`);
+    if (res && res.insights) {
+      renderInsights(el, res.insights);
+    } else {
+      el.innerHTML = '<div class="empty-state">No insights available</div>';
+    }
+  }
+}
+
+function renderInsights(container, insights) {
+  // If insights is a string (sometimes LLM returns raw string), parse it
+  let data = insights;
+  if (typeof insights === 'string') {
+    try { data = JSON.parse(insights).insights; } catch(e) {}
+  }
+  
+  if (!Array.isArray(data)) {
+    container.innerHTML = `<div class="insight-text">${typeof data === 'string' ? data : 'Analysis complete.'}</div>`;
+    return;
+  }
+
+  container.innerHTML = data.map(item => `
+    <div class="insight-item">
+      <h4>${item.title}</h4>
+      <p>${item.content}</p>
+      ${item.action ? `<button class="insight-action-btn">${item.action}</button>` : ''}
+    </div>
+  `).join('');
+}
+
+// ============================================
 // API FUNCTIONS
 // ============================================
 

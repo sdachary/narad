@@ -2568,6 +2568,100 @@ app.post('/api/finance/commodities', async (c) => {
   }
 });
 
+// Expense Tracking APIs
+app.get('/api/finance/expenses', async (c) => {
+  try {
+    const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM expenses ORDER BY date DESC').all();
+    return c.json({ expenses: results.results || [] });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+app.post('/api/finance/expenses', async (c) => {
+  try {
+    const body = await c.req.json();
+    const { category, amount, description, date } = body;
+    
+    const result = await c.env.CHITRAGUPTA_DB.prepare(
+      'INSERT INTO expenses (category, amount, description, date) VALUES (?, ?, ?, ?)'
+    ).bind(category, amount || 0, description || '', date || Date.now()).run();
+    
+    return c.json({ success: true, id: result.meta?.last_row_id });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+app.delete('/api/finance/expenses/:id', async (c) => {
+  try {
+    const id = c.req.param('id');
+    await c.env.CHITRAGUPTA_DB.prepare('DELETE FROM expenses WHERE id = ?').bind(id).run();
+    return c.json({ success: true });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+// Settings & Preferences API
+app.get('/api/finance/settings', async (c) => {
+  try {
+    const sessionId = c.req.header('X-Session-ID') || 'default';
+    const settings = await c.env.NARAD_DATA.get(`settings:${sessionId}`);
+    return c.json({ settings: settings ? JSON.parse(settings) : {} });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+app.post('/api/finance/settings', async (c) => {
+  try {
+    const sessionId = c.req.header('X-Session-ID') || 'default';
+    const body = await c.req.json();
+    await c.env.NARAD_DATA.put(`settings:${sessionId}`, JSON.stringify(body));
+    return c.json({ success: true });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+// AI Analysis APIs
+app.get('/api/finance/analysis/:type', async (c) => {
+  const type = c.req.param('type');
+  try {
+    let dataContext = '';
+    
+    if (type === 'portfolio') {
+      const results = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM holdings').all();
+      dataContext = JSON.stringify(results.results || []);
+    } else if (type === 'budget') {
+      const expenses = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM expenses').all();
+      const recurring = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM recurrings').all();
+      dataContext = JSON.stringify({ expenses: expenses.results || [], recurring: recurring.results || [] });
+    } else if (type === 'suggestions') {
+      const all = await c.env.CHITRAGUPTA_DB.prepare('SELECT * FROM portfolio_summary').all();
+       dataContext = JSON.stringify(all.results || []);
+    }
+
+    const systemPrompt = `You are an expert financial analyst. Analyze the following user financial data and provide 3-4 concise, professional, and actionable insights. 
+    Category: ${type.toUpperCase()}. 
+    Format: Return a JSON array of objects with {title, content, action}.
+    Focus on: ${type === 'portfolio' ? 'Diversification and risk' : type === 'budget' ? 'Savings and expense reduction' : 'Wealth growth and SIP optimization'}.`;
+
+    const response = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Analyze this data: ${dataContext}` }
+      ],
+      response_format: { type: 'json_object' }
+    });
+
+    return c.json({ insights: response.response || [] });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
 // Dashboard Summary API
 app.get('/api/finance/dashboard/summary', async (c) => {
   try {

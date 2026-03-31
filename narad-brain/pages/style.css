@@ -6,56 +6,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Zen Professional Palette */
-  --primary: #00A3FF; /* Clean Action Blue */
-  --primary-hover: #0081CC;
-  --secondary: #6B7280;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --danger: #EF4444;
+  /* Celestial Ledger Palette (Universal) */
+  --bg-main: #061423;
+  --bg-surface: #0F1C2C;
+  --bg-elevated: #1E2B3B;
+  --bg-hover: #2D3A4B;
 
-  /* Zen Dark Backgrounds */
-  --bg-main: #0A0A0A;
-  --bg-surface: #141414;
-  --bg-elevated: #1F1F1F;
-  --bg-hover: #2A2A2A;
+  --primary: #E0A458; /* Premium Gold */
+  --primary-hover: #F2B972;
+  --primary-glow: rgba(224, 164, 88, 0.15);
 
-  /* Minimalist Borders */
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-hover: rgba(255, 255, 255, 0.1);
-  --glass-bg: rgba(10, 10, 10, 0.95);
+  --text-primary: #D6E4F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #061423;
 
-  /* Text - High Legibility */
-  --text-primary: #F5F5F5;
-  --text-secondary: #A3A3A3;
-  --text-muted: #666666;
-  --text-inverse: #FFFFFF;
+  /* Glassmorphism Logic */
+  --glass-bg: rgba(15, 28, 44, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.03);
 
-  /* Natural Depth Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.7);
+  /* Typography */
+  --font-main: 'Inter', sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
-  /* Standard Spacing */
+  /* Base Tokens (Restored) */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
+  --space-2xl: 48px;
 
-  /* Refined Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-full: 9999px;
 
-  /* Zen Typography */
-  --font-main: 'Inter', -apple-system, system-ui, sans-serif;
-  --font-display: 'Outfit', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Clean Transitions */
   --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.7);
 }
 
 /* Light Theme Variables */
@@ -126,10 +115,11 @@ body {
 .app-header {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  justify-content: space-between;
   padding: var(--space-sm) var(--space-lg);
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
   flex-shrink: 0;
   position: relative;
   z-index: 100;
@@ -2180,3 +2170,241 @@ body {
     grid-column: span 1;
   }
 }
+
+/* ============================================
+   CHITRAGUPTA - CELESTIAL LEDGER THEME
+   Premium Zen Finance Aesthetic
+   ============================================ */
+
+.chitragupta-theme {
+  --finance-bg: #061423;
+  --finance-surface: #0F1C2C;
+  --finance-surface-high: #1E2B3B;
+  --finance-accent: #E0A458;
+  --finance-accent-dim: #83540c;
+  --finance-text: #D6E4F9;
+  --finance-text-muted: #94A3B8;
+  
+  background: var(--finance-bg);
+  color: var(--finance-text);
+  font-family: 'Outfit', sans-serif;
+}
+
+.chitragupta-header {
+  background: rgba(6, 20, 35, 0.8) !important;
+  backdrop-filter: blur(20px);
+  border-bottom: none !important;
+}
+
+.chitragupta-nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--finance-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  color: var(--finance-text-muted);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: var(--transition);
+  border-bottom: 2px solid transparent;
+}
+
+.nav-tab.active {
+  color: var(--finance-accent);
+  border-bottom-color: var(--finance-accent);
+}
+
+.dash-card {
+  background: var(--finance-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: var(--transition);
+  border: none !important; /* No borders rule */
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+.dash-card:hover {
+  background: var(--finance-surface-high);
+  transform: translateY(-2px);
+}
+
+.card-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--finance-accent);
+}
+
+.expense-list-table {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--finance-surface-high);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: var(--space-md);
+}
+
+.table-header, .table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr 80px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--finance-surface);
+  align-items: center;
+}
+
+.table-header {
+  background: var(--finance-surface-high);
+  font-weight: 600;
+  color: var(--finance-accent);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table-row:nth-child(even) {
+  background: var(--finance-bg);
+}
+
+.cat-pill {
+  background: var(--finance-accent-dim);
+  color: var(--finance-accent);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.glass-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--finance-surface);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--finance-text-muted);
+}
+
+.form-group input, .form-group select {
+  background: var(--finance-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  color: var(--finance-text);
+  font-family: inherit;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.btn-save {
+  background: var(--finance-accent);
+  color: var(--finance-bg);
+  border: none;
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--finance-text-muted);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.insight-item {
+  background: var(--finance-surface-high);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  border-left: 4px solid var(--finance-accent);
+}
+
+.insight-item h4 {
+  color: var(--finance-accent);
+  margin-bottom: var(--space-xs);
+}
+
+.insight-item p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.insight-action-btn {
+  margin-top: var(--space-sm);
+  background: rgba(224, 164, 88, 0.1);
+  color: var(--finance-accent);
+  border: 1px solid var(--finance-accent);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.loading-pulse {
+  animation: pulse 1.5s infinite;
+  color: var(--finance-accent);
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--finance-text-muted);
+}
+
