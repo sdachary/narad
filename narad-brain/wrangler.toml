@@ -6,6 +6,12 @@ compatibility_flags = ["nodejs_compat"]
 binding = "NARAD_DATA"
 id = "ca98881c7005404c8a0d00330759b80e"
 
+# D1 Database for Chitragupta  
+[env.production.d1_databases]
+binding = "CHITRAGUPTA_DB"
+database_name = "chitragupta"
+database_id = "dbc93e7f-6faa-4fbd-8287-9cd028bd960e"
+
 # Workers AI binding for semantic embeddings (FREE tier)
 # Enable in Cloudflare Dashboard > Workers & Pages > your-worker > Settings > Bindings
 # Or run: wrangler types
