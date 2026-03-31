@@ -605,13 +605,25 @@ async function checkApiHealth() {
     console.log('[Narad] Health check starting...');
     
     // Ensure DOM elements exist
-    const statusEl = document.getElementById('api-status');
-    const dotEl = document.getElementById('api-dot');
+    let statusEl = document.getElementById('api-status');
+    let dotEl = document.getElementById('api-dot');
+    
+    // Retry DOM lookup if not found (handles race condition)
+    if (!statusEl || !dotEl) {
+        await new Promise(r => setTimeout(r, 100));
+        statusEl = document.getElementById('api-status');
+        dotEl = document.getElementById('api-dot');
+    }
     
     if (!statusEl || !dotEl) {
         console.error('[Narad] Status elements not found in DOM');
+        document.getElementById('service-status').innerHTML = '<span style="color:var(--danger)">Error</span>';
         return;
     }
+    
+    // Force update text to show we're checking
+    statusEl.textContent = 'Checking...';
+    statusEl.style.color = 'var(--text-secondary)';
     
     try {
         const controller = new AbortController();
