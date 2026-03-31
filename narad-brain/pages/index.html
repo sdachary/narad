@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narad — Multi-Agent AI Assistant</title>
+    <title>Narad — Terminal AI Assistant</title>
     
     <!-- Security Headers -->
     <meta name="csrf-token" content="">
@@ -18,10 +18,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    </noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background-overlay"></div>
@@ -32,7 +29,7 @@
                 <p>AI Assistant</p>
             </div>
             <div class="header-controls">
-                <div class="status-badge" id="service-status" onclick="healthCheckRetries=0;checkApiHealth();" style="cursor:pointer;" title="Click to refresh">
+                <div class="status-badge" id="service-status" onclick="healthCheckRetries=0;checkApiHealth();" title="Refresh Status">
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
                 </div>
@@ -219,14 +216,13 @@
                 </div>
             </aside>
             
-            <!-- Chat Container -->
             <section class="chat-container">
                 <div id="chat-messages" class="chat-messages">
                     <div class="message assistant slide-up">
-                        <div class="avatar">⚡</div>
-                        <div class="message-content">
-                            👋 Greetings. I am Narad, your multi-agent AI assistant with semantic memory. How may I assist you today?
-                        </div>
+                        <div class="avatar">SYS</div>
+                        <div class="message-content">NARAD Terminal v2.0.1
+System initialized. Multi-agent kernel active.
+Type 'help' or ask anything to begin.</div>
                     </div>
                 </div>
                 
@@ -236,13 +232,13 @@
                         <button type="button" id="image-upload-btn" class="image-upload-btn" title="Upload image">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
                         </button>
-                        <button type="button" id="voice-input-btn" class="voice-btn" title="Voice input (Hold to speak)">
+                        <button type="button" id="voice-input-btn" class="voice-btn" title="Voice input">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                         </button>
-                        <button type="button" id="voice-output-btn" class="voice-btn" title="Read response aloud">
+                        <button type="button" id="voice-output-btn" class="voice-btn" title="Speak response">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                         </button>
-                        <div id="image-preview" class="image-preview" style="display: none;"></div>
+                        <div id="image-preview" class="image-preview"></div>
                         <input type="text" id="user-input" placeholder="Ask Narad anything..." autocomplete="off">
                         <button type="submit" id="send-btn">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
