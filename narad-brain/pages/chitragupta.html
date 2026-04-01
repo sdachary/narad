@@ -105,16 +105,16 @@
                     <div class="card-subtitle">Due This Month</div>
                 </div>
 
-                <!-- Gold Prices Card -->
-                <div class="dash-card gold-card">
-                    <div class="card-header">
-                        <h3>Commodities</h3>
-                        <span class="card-icon">🥇</span>
-                    </div>
-                    <div class="commodities-list" id="commodities-list">
-                        <div class="commodity-item">Loading...</div>
-                    </div>
-                </div>
+<!-- Cloud VM Card -->
+<div class="dash-card gold-card">
+    <div class="card-header">
+        <h3>Server Status</h3>
+        <span class="card-icon">☁️</span>
+    </div>
+    <div class="commodities-list" id="commodities-list">
+        <div class="commodity-item">Loading...</div>
+    </div>
+</div>
 
                 <!-- Holdings Overview (Pie Chart) -->
                 <div class="dash-card holdings-card wide">
@@ -155,30 +155,32 @@
             </div>
         </section>
 
-        <!-- Dividends Tab -->
-        <section class="tab-panel" id="tab-dividends">
-            <div class="section-header">
-                <h2>💰 Dividend Portfolio</h2>
-                <div class="summary-stats">
-                    <span class="stat">Target: <strong id="div-target">₹0</strong></span>
-                    <span class="stat">Actual: <strong id="div-actual">₹0</strong></span>
-                    <span class="stat gain">Extra: <strong id="div-extra">₹0</strong></span>
-                </div>
-            </div>
-            <div class="dividends-full-table" id="dividends-full">
-                <div class="empty-state">Loading dividends...</div>
-            </div>
-        </section>
+<!-- Dividends Tab -->
+<section class="tab-panel" id="tab-dividends">
+    <div class="section-header">
+        <h2>💰 Dividend Portfolio</h2>
+        <div class="summary-stats">
+            <span class="stat">Target: <strong id="div-target">₹0</strong></span>
+            <span class="stat">Collected: <strong id="div-collected">₹0</strong></span>
+            <span class="stat">Remaining: <strong id="div-remaining">₹0</strong></span>
+            <span class="stat">Avg Yield: <strong id="div-yield">0%</strong></span>
+        </div>
+    </div>
+    <div class="dividends-table-container" id="dividends-table">
+        <div class="empty-state">Loading dividends...</div>
+    </div>
+</section>
 
-        <!-- Recurring Tab -->
-        <section class="tab-panel" id="tab-recurring">
-            <div class="section-header">
-                <h2>🔄 Recurring Payments</h2>
-            </div>
-            <div class="recurring-cards" id="recurring-cards">
-                <div class="empty-state">Loading recurring...</div>
-            </div>
-        </section>
+<!-- Recurring Tab -->
+<section class="tab-panel" id="tab-recurring">
+    <div class="section-header">
+        <h2>📅 Recurring Bills</h2>
+        <button class="add-btn" onclick="showRecurringBillForm()">+ Add Bill</button>
+    </div>
+    <div class="recurring-bills-list" id="recurring-bills-list">
+        <div class="empty-state">Loading bills...</div>
+    </div>
+</section>
 
         <!-- Expenses Tab -->
         <section class="tab-panel" id="tab-expenses">

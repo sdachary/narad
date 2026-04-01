@@ -1989,15 +1989,245 @@ body {
 }
 
 .slice-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-  color: var(--text-primary);
-  pointer-events: none;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   text-align: center;
+   font-size: 0.75rem;
+   font-family: var(--font-mono);
+   color: var(--text-primary);
+   pointer-events: none;
+}
+
+/* Holdings Table Styles */
+.holdings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-size: 14px;
+}
+
+.holdings-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.holdings-table th {
+    padding: 14px;
+    text-align: left;
+    font-weight: 600;
+    border: none;
+}
+
+.holdings-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.holdings-table tbody tr:hover {
+    background-color: #f9f9ff;
+}
+
+.holdings-table .ticker {
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: #2c3e50;
+    letter-spacing: 0.5px;
+}
+
+.holdings-table .change {
+    font-weight: 600;
+}
+
+.holdings-table .gain {
+    color: #27ae60;
+}
+
+.holdings-table .loss {
+    color: #e74c3c;
+}
+
+.holdings-table .pnl {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Dividends Table Styles */
+.dividends-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 1.5rem;
+}
+
+.dividends-table thead {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.dividends-table th {
+    padding: 14px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.dividends-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dividends-table tbody tr:hover {
+    background-color: #fff5f8;
+}
+
+.dividends-table .yield {
+    color: #16a085;
+    font-weight: 600;
+}
+
+/* Bills List Styles */
+.bill-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.bill-item.paid {
+    background: #f0f9ff;
+    border-left-color: #27ae60;
+    opacity: 0.8;
+}
+
+.bill-item.urgent {
+    border-left-color: #f39c12;
+    background: #fffbf0;
+}
+
+.bill-item.overdue {
+    border-left-color: #e74c3c;
+    background: #fff5f5;
+}
+
+.bill-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.bill-info h4 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.bill-meta {
+    margin: 0;
+    font-size: 13px;
+    color: #7f8c8d;
+}
+
+.bill-amount {
+    text-align: right;
+    flex-shrink: 0;
+    margin: 0 20px;
+}
+
+.bill-amount .amount {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 4px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.paid {
+    background: #d5f4e6;
+    color: #27ae60;
+}
+
+.status-badge.pending {
+    background: #ffeaa7;
+    color: #d63031;
+}
+
+.bill-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.recurring-bills-list {
+    margin-top: 1.5rem;
+}
+
+/* Cloud VM Metrics Styles */
+.vm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 14px;
+}
+
+.vm-item:last-child {
+    border-bottom: none;
+}
+
+.vm-label {
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.vm-value {
+    font-weight: 700;
+    color: #2c3e50;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .bill-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .bill-amount {
+        margin: 12px 0;
+        text-align: left;
+    }
+    
+    .holdings-table {
+        font-size: 12px;
+    }
+    
+    .holdings-table th,
+    .holdings-table td {
+        padding: 8px 6px;
+    }
+}
 }
 
 .slice-label .symbol {

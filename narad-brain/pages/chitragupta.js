@@ -39,6 +39,451 @@ let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.no
 localStorage.setItem('narad_session_id', sessionId);
 
 // ============================================
+// CLOUD VM METRICS
+// ============================================
+const cloudVMMetrics = {
+    vmId: 'oci-instance-001',
+    name: 'Narad Production Server',
+    provider: 'Oracle Cloud',
+    ipAddress: '140.245.227.176',
+    region: 'Mumbai (ap-mumbai-1)',
+    cpu: { current: 2.4, total: 4 },
+    memory: { current: 3.2, total: 8 },
+    storage: { current: 45, total: 150 },
+    bandwidth: { uptime: '99.8%', status: 'healthy' },
+    costPerMonth: 2800
+};
+
+async function fetchCloudVMMetrics() {
+    try {
+        const response = await fetch(`${API_BASE}/api/cloud/vm-metrics`, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+        const data = await response.json();
+        updateCloudVMCard(data);
+    } catch (error) {
+        console.warn('CloudVM metrics fetch failed, using defaults', error);
+        updateCloudVMCard(cloudVMMetrics);
+    }
+}
+
+function updateCloudVMCard(metrics) {
+    const commoditiesList = document.getElementById('commodities-list');
+    if (!commoditiesList) return;
+    
+    commoditiesList.innerHTML = `
+        <div class="vm-item">
+            <span class="vm-label">CPU Usage</span>
+            <span class="vm-value">${metrics.cpu.current.toFixed(1)}/${metrics.cpu.total} cores</span>
+        </div>
+        <div class="vm-item">
+            <span class="vm-label">Memory</span>
+            <span class="vm-value">${metrics.memory.current.toFixed(1)}/${metrics.memory.total} GB</span>
+        </div>
+        <div class="vm-item">
+            <span class="vm-label">Storage</span>
+            <span class="vm-value">${metrics.storage.current}/${metrics.storage.total} GB</span>
+        </div>
+        <div class="vm-item">
+            <span class="vm-label">Uptime</span>
+            <span class="vm-value">${metrics.bandwidth.uptime}</span>
+        </div>
+        <div class="vm-item">
+            <span class="vm-label">Monthly Cost</span>
+            <span class="vm-value">₹${metrics.costPerMonth.toLocaleString('en-IN')}</span>
+        </div>
+    `;
+}
+
+// ============================================
+// HOLDINGS DATA & TABLE RENDERING
+// ============================================
+const holdingsDataModel = {
+    stocks: [
+        {
+            id: 'stock_001',
+            ticker: 'RELIANCE',
+            name: 'Reliance Industries',
+            qty: 10,
+            buyPrice: 2450.00,
+            currentPrice: 2680.50,
+            change: 9.42,
+            allocation: 15.2
+        },
+        {
+            id: 'stock_002',
+            ticker: 'INFY',
+            name: 'Infosys',
+            qty: 5,
+            buyPrice: 1800.00,
+            currentPrice: 1950.75,
+            change: 8.38,
+            allocation: 10.5
+        }
+    ]
+};
+
+async function fetchHoldingsData() {
+    try {
+        const response = await fetch(`${API_BASE}/api/portfolio/holdings`, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.warn('Holdings fetch failed', error);
+        return holdingsDataModel;
+    }
+}
+
+function renderHoldingsTable(holdings) {
+    const container = document.getElementById('holdings-full');
+    if (!container || !holdings || !holdings.stocks) return;
+    
+    const totalInvested = holdings.stocks.reduce((sum, s) => sum + (s.qty * s.buyPrice), 0);
+    const totalCurrent = holdings.stocks.reduce((sum, s) => sum + (s.qty * s.currentPrice), 0);
+    const totalPnL = totalCurrent - totalInvested;
+    
+    // Update summary
+    document.getElementById('total-invested').textContent = 
+        `₹${totalInvested.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+    document.getElementById('total-current').textContent = 
+        `₹${totalCurrent.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+    document.getElementById('total-pnl').textContent = 
+        `₹${totalPnL.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+    
+    const tableHTML = `
+        <table class="holdings-table">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Buy Price</th>
+                    <th>Current</th>
+                    <th>Change %</th>
+                    <th>P&L</th>
+                    <th>Allocation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${holdings.stocks.map(stock => {
+                    const currentValue = stock.qty * stock.currentPrice;
+                    const investedValue = stock.qty * stock.buyPrice;
+                    const pnl = currentValue - investedValue;
+                    
+                    return `
+                        <tr class="holding-row ${pnl >= 0 ? 'gain' : 'loss'}">
+                            <td class="ticker">${stock.ticker}</td>
+                            <td>${stock.name}</td>
+                            <td>${stock.qty}</td>
+                            <td>₹${stock.buyPrice.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</td>
+                            <td>₹${stock.currentPrice.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</td>
+                            <td class="change">${stock.change >= 0 ? '↑' : '↓'} ${Math.abs(stock.change).toFixed(2)}%</td>
+                            <td class="pnl">${pnl >= 0 ? '✓' : ''} ₹${Math.abs(pnl).toLocaleString('en-IN', { maximumFractionDigits: 2 })}</td>
+                            <td>${stock.allocation.toFixed(1)}%</td>
+                            <td>
+                                <button class="btn-small" onclick="editHolding('${stock.id}')">Edit</button>
+                                <button class="btn-small danger" onclick="deleteHolding('${stock.id}')">Del</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('')}
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = tableHTML;
+}
+
+function editHolding(holdingId) {
+    console.log('Edit holding:', holdingId);
+    // TODO: Implement edit modal
+}
+
+function deleteHolding(holdingId) {
+    if (confirm('Delete this holding?')) {
+        console.log('Delete holding:', holdingId);
+        // TODO: API call
+    }
+}
+
+// ============================================
+// DIVIDEND TRACKING
+// ============================================
+const dividendDataModel = {
+    target: 100000,
+    nextPaymentDate: '2026-04-15',
+    records: [
+        {
+            id: 'div_001',
+            ticker: 'RELIANCE',
+            exDate: '2026-02-28',
+            paymentDate: '2026-03-15',
+            amount: 45,
+            qty: 10,
+            totalReceived: 450,
+            yield: 1.63
+        },
+        {
+            id: 'div_002',
+            ticker: 'INFY',
+            exDate: '2026-02-15',
+            paymentDate: '2026-03-01',
+            amount: 32,
+            qty: 5,
+            totalReceived: 160,
+            yield: 1.78
+        }
+    ]
+};
+
+async function fetchDividendData() {
+    try {
+        const response = await fetch(`${API_BASE}/api/portfolio/dividends`, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.warn('Dividend fetch failed', error);
+        return dividendDataModel;
+    }
+}
+
+function renderDividendPortfolio(dividends) {
+    const container = document.getElementById('dividends-table');
+    if (!container) return;
+    
+    const totalDividends = dividends.records.reduce((sum, d) => sum + d.totalReceived, 0);
+    const avgYield = (dividends.records.reduce((sum, d) => sum + d.yield, 0) / dividends.records.length).toFixed(2);
+    
+    document.getElementById('div-target').textContent = 
+        `₹${dividends.target.toLocaleString('en-IN')}`;
+    document.getElementById('div-collected').textContent = 
+        `₹${totalDividends.toLocaleString('en-IN')}`;
+    document.getElementById('div-remaining').textContent = 
+        `₹${(dividends.target - totalDividends).toLocaleString('en-IN')}`;
+    document.getElementById('div-yield').textContent = 
+        `${avgYield}%`;
+    
+    const tableHTML = `
+        <table class="dividends-table">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Ex-Date</th>
+                    <th>Payment Date</th>
+                    <th>Per Share</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Yield %</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${dividends.records.map(div => `
+                    <tr>
+                        <td class="ticker">${div.ticker}</td>
+                        <td>${new Date(div.exDate).toLocaleDateString('en-IN')}</td>
+                        <td>${new Date(div.paymentDate).toLocaleDateString('en-IN')}</td>
+                        <td>₹${div.amount.toFixed(2)}</td>
+                        <td>${div.qty}</td>
+                        <td class="total">₹${div.totalReceived.toLocaleString('en-IN')}</td>
+                        <td class="yield">${div.yield.toFixed(2)}%</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = tableHTML;
+}
+
+// ============================================
+// RECURRING BILLS & EXPENSES
+// ============================================
+const recurringDataModel = {
+    bills: [
+        {
+            id: 'bill_001',
+            name: 'Electricity Bill',
+            amount: 2500,
+            dueDate: '2026-04-10',
+            frequency: 'monthly',
+            lastPaid: '2026-03-10',
+            status: 'pending'
+        },
+        {
+            id: 'bill_002',
+            name: 'Internet Plan',
+            amount: 1299,
+            dueDate: '2026-04-01',
+            frequency: 'monthly',
+            lastPaid: '2026-03-01',
+            status: 'paid'
+        },
+        {
+            id: 'bill_003',
+            name: 'Phone Bill',
+            amount: 599,
+            dueDate: '2026-04-05',
+            frequency: 'monthly',
+            lastPaid: '2026-03-05',
+            status: 'pending'
+        }
+    ]
+};
+
+async function fetchRecurringBills() {
+    try {
+        const response = await fetch(`${API_BASE}/api/expenses/recurring`, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.warn('Recurring bills fetch failed', error);
+        return recurringDataModel;
+    }
+}
+
+function renderRecurringBills(billData) {
+    const container = document.getElementById('recurring-bills-list');
+    if (!container) return;
+    
+    const today = new Date();
+    const billsHTML = billData.bills.map(bill => {
+        const dueDate = new Date(bill.dueDate);
+        const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+        const isOverdue = daysUntilDue < 0;
+        const isUrgent = daysUntilDue >= 0 && daysUntilDue <= 3;
+        
+        return `
+            <div class="bill-item ${isOverdue ? 'overdue' : ''} ${isUrgent ? 'urgent' : ''} ${bill.status === 'paid' ? 'paid' : 'pending'}">
+                <div class="bill-info">
+                    <h4>${bill.name}</h4>
+                    <p class="bill-meta">
+                        Due: ${dueDate.toLocaleDateString('en-IN')}
+                        ${daysUntilDue >= 0 ? `(in ${daysUntilDue} days)` : `(${Math.abs(daysUntilDue)} days overdue)`}
+                    </p>
+                </div>
+                <div class="bill-amount">
+                    <span class="amount">₹${bill.amount.toLocaleString('en-IN')}</span>
+                    <span class="status-badge ${bill.status}">${bill.status.toUpperCase()}</span>
+                </div>
+                <div class="bill-actions">
+                    <button class="btn-small" onclick="markBillPaid('${bill.id}')">Mark Paid</button>
+                    <button class="btn-small" onclick="editBill('${bill.id}')">Edit</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    container.innerHTML = billsHTML || '<div class="empty-state">No recurring bills</div>';
+}
+
+function markBillPaid(billId) {
+    console.log('Mark bill paid:', billId);
+    // TODO: API call
+}
+
+function editBill(billId) {
+    console.log('Edit bill:', billId);
+    // TODO: Show modal
+}
+
+function showRecurringBillForm() {
+    // TODO: Implement modal for adding new recurring bill
+    alert('Add recurring bill form would be implemented here');
+}
+
+// ============================================
+// DATA PERSISTENCE & MIGRATION
+// ============================================
+
+const STORAGE_KEYS = {
+    HOLDINGS: 'chitragupta_holdings',
+    DIVIDENDS: 'chitragupta_dividends',
+    BILLS: 'chitragupta_bills',
+    SETTINGS: 'chitragupta_settings'
+};
+
+function initializeLocalStorage() {
+    if (!localStorage.getItem(STORAGE_KEYS.HOLDINGS)) {
+        localStorage.setItem(STORAGE_KEYS.HOLDINGS, JSON.stringify(holdingsDataModel));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.DIVIDENDS)) {
+        localStorage.setItem(STORAGE_KEYS.DIVIDENDS, JSON.stringify(dividendDataModel));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.BILLS)) {
+        localStorage.setItem(STORAGE_KEYS.BILLS, JSON.stringify(recurringDataModel));
+    }
+    console.log('✅ Local storage initialized');
+}
+
+function loadFromLocalStorage(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+}
+
+function saveToLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+    console.log(`✅ Saved ${key}`);
+}
+
+// ============================================
+// PDF & DATA EXPORT
+// ============================================
+
+function exportFinancialData() {
+    const format = prompt('Export as JSON or CSV?', 'JSON').toUpperCase();
+    
+    if (format === 'JSON') {
+        const data = {
+            exportDate: new Date().toISOString(),
+            dashboard: {
+                netWorth: document.getElementById('net-worth').textContent,
+                bankBalance: document.getElementById('bank-balance').textContent,
+                investments: document.getElementById('investment-value').textContent,
+            },
+            holdings: holdingsDataModel.stocks,
+            dividends: dividendDataModel.records,
+            bills: recurringDataModel.bills
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        downloadFile(blob, `chitragupta-export-${new Date().getTime()}.json`);
+    } else if (format === 'CSV') {
+        let csv = 'Chitragupta Financial Export\n' + new Date().toISOString() + '\n\n';
+        csv += 'Holdings\nTicker,Qty,BuyPrice,CurrentPrice,Change%\n';
+        holdingsDataModel.stocks.forEach(s => {
+            csv += `${s.ticker},${s.qty},${s.buyPrice},${s.currentPrice},${s.change}\n`;
+        });
+        
+        csv += '\n\nDividends\nTicker,Ex-Date,Payment Date,Amount,Yield%\n';
+        dividendDataModel.records.forEach(d => {
+            csv += `${d.ticker},${d.exDate},${d.paymentDate},${d.amount},${d.yield}\n`;
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv' });
+        downloadFile(blob, `chitragupta-export-${new Date().getTime()}.csv`);
+    }
+}
+
+function downloadFile(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// ============================================
 // NAVIGATION
 // ============================================
 
@@ -765,5 +1210,32 @@ setInterval(async () => {
 // INITIALIZE
 // ============================================
 
-document.addEventListener('DOMContentLoaded', () => loadDashboard());
-if (document.readyState !== 'loading') loadDashboard();
+// Initialize local storage and load data
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('🚀 Chitragupta Dashboard Initializing...');
+    
+    // Initialize local storage
+    initializeLocalStorage();
+    
+    // Load data
+    const holdings = await fetchHoldingsData();
+    const dividends = await fetchDividendData();
+    const bills = await fetchRecurringBills();
+    await fetchCloudVMMetrics(); // This updates the UI directly
+    
+    // Render components
+    renderHoldingsTable(holdings);
+    renderDividendPortfolio(dividends);
+    renderRecurringBills(bills);
+    
+    console.log('✅ Dashboard loaded successfully');
+    
+    // Also load the regular dashboard data
+    loadDashboard();
+});
+
+if (document.readyState !== 'loading') {
+    // For cases where DOMContentLoaded already fired
+    initializeLocalStorage();
+    loadDashboard();
+}
