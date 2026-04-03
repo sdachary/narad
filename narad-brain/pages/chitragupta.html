@@ -347,7 +347,7 @@
     </main>
 
     <!-- Floating Narad Chat Button -->
-    <button class="floating-chat-btn" id="floating-chat-btn" onclick="toggleChatOverlay()" title="Chat with Narad">
+    <button class="floating-chat-btn" id="floating-chat-btn" title="Chat with Narad">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span>Chat</span>
     </button>
@@ -356,7 +356,7 @@
     <div class="chat-overlay" id="chat-overlay">
         <div class="chat-overlay-header">
             <span>⚡ Narad</span>
-            <button onclick="toggleChatOverlay()">&times;</button>
+            <button id="close-chat-overlay">&times;</button>
         </div>
         <div class="chat-overlay-messages" id="chat-messages">
             <div class="message assistant">
