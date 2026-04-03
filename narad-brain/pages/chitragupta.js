@@ -2,9 +2,11 @@
 
 function initApiBase() {
   const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
   let apiBase = '';
   
-  if (hostname.includes('localhost') || hostname === '127.0.0.1') {
+  // Default to localhost if on file protocol or localhost
+  if (protocol === 'file:' || hostname.includes('localhost') || hostname === '127.0.0.1') {
     apiBase = 'http://localhost:8788';
   } else if (hostname.includes('pages.dev')) {
     apiBase = 'https://narad-7hc.pages.dev';
@@ -1119,32 +1121,55 @@ function getCategoryIcon(category) {
 // CHAT FUNCTIONS
 // ============================================
 
-const floatingChatBtn = document.getElementById('floating-chat-btn');
-const chatOverlay = document.getElementById('chat-overlay');
-const chatFormOverlay = document.getElementById('chat-form-overlay');
+// Global state for chat
 let chatHistory = [];
 
-function toggleChatOverlay() {
-  chatOverlay.classList.toggle('open');
+window.toggleChatOverlay = function() {
+  const overlay = document.getElementById('chat-overlay');
+  if (overlay) {
+    overlay.classList.toggle('open');
+    console.log('💬 Chat overlay toggled:', overlay.classList.contains('open') ? 'opened' : 'closed');
+  } else {
+    console.warn('❌ Chat overlay element (#chat-overlay) not found!');
+  }
+};
+
+function setupChatOverlay() {
+  const floatingBtn = document.getElementById('floating-chat-btn');
+  const closeBtn = document.getElementById('close-chat-overlay');
+  const form = document.getElementById('chat-form-overlay');
+  
+  if (floatingBtn) {
+    // Remove old listeners to avoid duplicates
+    floatingBtn.replaceWith(floatingBtn.cloneNode(true));
+    document.getElementById('floating-chat-btn').addEventListener('click', window.toggleChatOverlay);
+  }
+  
+  if (closeBtn) {
+    closeBtn.addEventListener('click', window.toggleChatOverlay);
+  }
+  
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('user-input-overlay');
+      if (!input) return;
+      
+      const message = input.value.trim();
+      if (!message) return;
+      
+      addChatMessage(message, 'user');
+      input.value = '';
+      
+      await sendChatMessage(message);
+    });
+  }
+  
+  console.log('✅ Chat listeners initialized');
 }
 
-if (floatingChatBtn) {
-  floatingChatBtn.addEventListener('click', toggleChatOverlay);
-}
-
-if (chatFormOverlay) {
-  chatFormOverlay.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const input = document.getElementById('user-input-overlay');
-    const message = input.value.trim();
-    if (!message) return;
-    
-    addChatMessage(message, 'user');
-    input.value = '';
-    
-    await sendChatMessage(message);
-  });
-}
+// Initial Call
+setupChatOverlay();
 
 function addChatMessage(text, type) {
   const chatMessages = document.getElementById('chat-messages');
@@ -1230,27 +1255,42 @@ setInterval(async () => {
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Chitragupta Dashboard Initializing...');
     
-    // Initialize CSRF
-    await CSRFManager.init();
-    
-    // Initialize local storage
+    // 1. Critical UI Setup (No awaits)
     initializeLocalStorage();
+    setupTheme();
+    setupChatOverlay(); 
+
+    // 2. Security Setup
+    try {
+        await CSRFManager.init();
+    } catch (e) {
+        console.warn('⚠️ Security token fetch failed. Chat may be restricted.', e);
+    }
     
-    // Load data
-    const holdings = await fetchHoldingsData();
-    const dividends = await fetchDividendData();
-    const bills = await fetchRecurringBills();
-    await fetchCloudVMMetrics(); // This updates the UI directly
-    
-    // Render components
-    renderHoldingsTable(holdings);
-    renderDividendPortfolio(dividends);
-    renderRecurringBills(bills);
-    
-    console.log('✅ Dashboard loaded successfully');
-    
-    // Also load the regular dashboard data
-    loadDashboard();
+    // 3. Data Fetching (Wrapped in try-catch)
+    try {
+        console.log('📦 Fetching financial records...');
+        const [holdings, dividends, bills] = await Promise.all([
+            fetchHoldingsData().catch(() => null),
+            fetchDividendData().catch(() => null),
+            fetchRecurringBills().catch(() => null)
+        ]);
+        
+        await fetchCloudVMMetrics().catch(() => null);
+
+        // Render components only if data is returned
+        if (holdings) renderHoldingsTable(holdings);
+        if (dividends) renderDividendPortfolio(dividends);
+        if (bills) renderRecurringBills(bills);
+        
+        // Also load the regular dashboard data
+        loadDashboard();
+        
+        console.log('✅ Dashboard components loaded');
+    } catch (e) {
+        console.error('❌ Data load error:', e);
+        updateApiStatus('offline');
+    }
 });
 
 if (document.readyState !== 'loading') {
