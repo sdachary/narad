@@ -134,7 +134,10 @@ body {
 }
 
 .header-text p {
-  display: none;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-top: 2px;
 }
 
 .header-controls {
@@ -610,22 +613,25 @@ body {
 }
 
 .memory-sidebar {
-  position: fixed;
-  top: 0;
-  right: -400px;
   width: 380px;
-  height: 100vh;
+  height: 100%;
   background: var(--bg-surface);
-  border-left: 1px solid var(--border-subtle);
-  z-index: 1000;
+  border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
-  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-lg);
+  margin-right: -380px;
+  opacity: 0;
+  visibility: hidden;
+  position: relative;
+  z-index: 10;
 }
 
 .memory-sidebar.open {
-  right: 0;
+  margin-right: 0;
+  opacity: 1;
+  visibility: visible;
 }
 
 .memory-header {
@@ -2227,7 +2233,6 @@ body {
     .holdings-table td {
         padding: 8px 6px;
     }
-}
 }
 
 .slice-label .symbol {
