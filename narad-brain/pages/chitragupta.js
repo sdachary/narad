@@ -1,21 +1,8 @@
 // Chitragupta Finance Dashboard
 
-function getApiBase() {
-  const metaApiBase = document.querySelector('meta[name="api-base"]')?.getAttribute('content');
-  if (metaApiBase) return metaApiBase;
-  
-  const hostname = window.location.hostname;
-  if (hostname.includes('localhost') || hostname === '127.0.0.1') {
-    return 'http://localhost:8788';
-  }
-  return '';
-}
-
-const API_BASE = initApiBase();
-
 function initApiBase() {
   const hostname = window.location.hostname;
-  let apiBase;
+  let apiBase = '';
   
   if (hostname.includes('localhost') || hostname === '127.0.0.1') {
     apiBase = 'http://localhost:8788';
@@ -23,17 +10,43 @@ function initApiBase() {
     apiBase = 'https://narad-7hc.pages.dev';
   } else if (hostname.includes('narad.io')) {
     apiBase = 'https://narad.io';
-  } else {
-    apiBase = '';
   }
   
   const metaApiBase = document.querySelector('meta[name="api-base"]');
-  if (metaApiBase) {
-    metaApiBase.setAttribute('content', apiBase);
-  }
+  if (metaApiBase) metaApiBase.setAttribute('content', apiBase);
   
   return apiBase;
 }
+
+const API_BASE = initApiBase();
+let csrfToken = null;
+
+// CSRF Token Manager (Matches main Narad app)
+const CSRFManager = {
+  async init() {
+    const tokenEl = document.querySelector('meta[name="csrf-token"]');
+    if (tokenEl && tokenEl.getAttribute('content')) {
+      csrfToken = tokenEl.getAttribute('content');
+      return;
+    }
+    await this.fetchNewToken();
+  },
+  
+  async fetchNewToken() {
+    try {
+      const response = await fetch(`${API_BASE}/api/csrf-token`);
+      if (response.ok) {
+        const data = await response.json();
+        csrfToken = data.token;
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        if (tokenEl) tokenEl.setAttribute('content', csrfToken);
+      }
+    } catch (e) {
+      console.warn('Failed to fetch CSRF token:', e);
+      csrfToken = 'client_fallback_' + Date.now();
+    }
+  }
+};
 
 let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
 localStorage.setItem('narad_session_id', sessionId);
@@ -1149,7 +1162,10 @@ async function sendChatMessage(message) {
   try {
     const response = await fetch(`${API_BASE}/api/chat`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken
+      },
       body: JSON.stringify({
         message,
         history: chatHistory,
@@ -1213,6 +1229,9 @@ setInterval(async () => {
 // Initialize local storage and load data
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Chitragupta Dashboard Initializing...');
+    
+    // Initialize CSRF
+    await CSRFManager.init();
     
     // Initialize local storage
     initializeLocalStorage();
