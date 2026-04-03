@@ -23,6 +23,12 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Agents
+.agents/
+
+# Narad brain backup
+narad-brain/schema.sql.backup
+
 # Editor
 .vscode/
 .idea/
