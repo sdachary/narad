@@ -1675,6 +1675,82 @@ app.post('/api/feedback', async (c) => {
 });
 
 // Core AGI Chat Endpoint
+// Real-Time Stock Price Fetching (NSE/BSE)
+const STOCK_MAPPINGS = {
+  'railtel': 'RAILTEL.NS',
+  'tcs': 'TCS.NS',
+  'infosys': 'INFY.NS',
+  'infy': 'INFY.NS',
+  'reliance': 'RELIANCE.NS',
+  'hdfc': 'HDFCBANK.NS',
+  'irfc': 'IRFC.NS',
+  'rvnl': 'RVNL.NS',
+  'ireda': 'IREDA.NS',
+  'lic': 'LICI.NS',
+  'sbi': 'SBIN.NS'
+};
+
+async function fetchStockData(query) {
+  const lowerQuery = query.toLowerCase();
+  let symbol = null;
+
+  // 1. Check for stock symbol directly (e.g., RELIANCE.NS)
+  const symbolMatch = lowerQuery.match(/\b([A-Z0-9]+\.(NS|BO))\b/i);
+  if (symbolMatch) {
+    symbol = symbolMatch[1].toUpperCase();
+  }
+
+  // 2. Check for common stock names in mappings
+  if (!symbol) {
+    for (const [name, sym] of Object.entries(STOCK_MAPPINGS)) {
+      if (lowerQuery.includes(name)) {
+        symbol = sym;
+        break;
+      }
+    }
+  }
+
+  // 3. Fallback: Identify capitalized words that look like stocks
+  if (!symbol) {
+    const wordMatch = query.match(/\b([A-Z]{2,10})\b/);
+    if (wordMatch && !['NSE', 'BSE', 'INR', 'USD', 'AI', 'API', 'POST', 'GET'].includes(wordMatch[1])) {
+      symbol = wordMatch[1] + '.NS';
+    }
+  }
+
+  if (!symbol) return null;
+
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
+    console.log(`[Narad] Fetching stock price for ${symbol}...`);
+    
+    // Yahoo Finance requires a User-Agent
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+    });
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const result = data.chart?.result?.[0];
+    if (!result) return null;
+
+    const meta = result.meta;
+    return {
+      symbol: meta.symbol,
+      price: meta.regularMarketPrice,
+      currency: meta.currency,
+      exchange: meta.exchangeName,
+      change: meta.regularMarketPrice - meta.chartPreviousClose,
+      changePercent: ((meta.regularMarketPrice - meta.chartPreviousClose) / meta.chartPreviousClose * 100).toFixed(2),
+      time: new Date(meta.regularMarketTime * 1000).toLocaleString()
+    };
+  } catch (error) {
+    console.error(`[Narad] Stock fetch error: ${error.message}`);
+    return null;
+  }
+}
+
 app.post('/api/chat', async (c) => {
   try {
     // Rate limiting
@@ -1795,6 +1871,21 @@ app.post('/api/chat', async (c) => {
       systemPromptParts.push(agentPrompt);
     }
     
+    // Real-Time Stock Price Injection
+    if (lowerMessage.includes('price') || lowerMessage.includes('share') || lowerMessage.includes('stock') || lowerMessage.includes('nifty')) {
+      const stockData = await fetchStockData(message);
+      if (stockData) {
+        systemPromptParts.push('');
+        systemPromptParts.push('REAL-TIME STOCK DATA (CRITICAL):');
+        systemPromptParts.push(`- Symbol: ${stockData.symbol}`);
+        systemPromptParts.push(`- Current Price: ${stockData.currency} ${stockData.price}`);
+        systemPromptParts.push(`- Change: ${stockData.change > 0 ? '+' : ''}${stockData.change.toFixed(2)} (${stockData.changePercent}%)`);
+        systemPromptParts.push(`- Exchange: ${stockData.exchange}`);
+        systemPromptParts.push(`- Last Updated: ${stockData.time}`);
+        systemPromptParts.push('NOTE: Use this live data as the primary source for the user\'s query. Ignore your pre-trained limits on stock prices.');
+      }
+    }
+
     if (patternHint) {
       systemPromptParts.push('');
       systemPromptParts.push('FEEDBACK HINT:');
