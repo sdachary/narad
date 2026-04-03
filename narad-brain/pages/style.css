@@ -2444,6 +2444,27 @@ body {
   background: var(--finance-bg);
   color: var(--finance-text);
   font-family: 'Outfit', sans-serif;
+  overflow-y: auto !important; /* Enable scrolling */
+  height: min-content !important; /* Allow body to grow */
+}
+
+.chitragupta-theme .app-container {
+  overflow-y: auto !important;
+  height: auto !important;
+  min-height: 100vh;
+}
+
+.chitragupta-main {
+  overflow-y: visible !important;
+  height: auto !important;
+  padding-bottom: 100px !important; /* Space for nav on mobile */
+}
+
+.tab-panel {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-lg);
+  overflow-y: visible !important;
 }
 
 .chitragupta-header {
