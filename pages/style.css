@@ -201,6 +201,28 @@ textarea#user-input {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Searching Indicator Pulsing */
+.searching {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-style: italic;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.searching::before {
+    content: "📡";
+    font-style: normal;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .terminal-header {

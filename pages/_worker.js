@@ -1691,8 +1691,60 @@ const STOCK_MAPPINGS = {
   'rvnl': 'RVNL.NS',
   'ireda': 'IREDA.NS',
   'lic': 'LICI.NS',
-  'sbi': 'SBIN.NS'
+  'sbi': 'SBIN.NS',
+  'adani power': 'ADANIPOWER.NS',
+  'adani': 'ADANIENT.NS',
+  'zomato': 'ZOMATO.NS',
+  'paytm': 'PAYTM.NS'
 };
+
+// Web Search Fetcher (Brave + DuckDuckGo Fallback)
+async function fetchWebSearch(query, env) {
+  const BRAVE_API_KEY = env.BRAVE_API_KEY;
+  
+  if (BRAVE_API_KEY) {
+    try {
+      const url = `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=5`;
+      const response = await fetch(url, {
+        headers: { 'Accept': 'application/json', 'X-Subscription-Token': BRAVE_API_KEY }
+      });
+      if (response.ok) {
+        const data = await response.ok ? await response.json() : null;
+        if (data && data.web && data.web.results) {
+          return data.web.results.map(r => ({
+            title: r.title,
+            snippet: r.description,
+            url: r.url
+          }));
+        }
+      }
+    } catch (e) {
+      console.warn('[Narad] Brave Search failed, falling back...', e);
+    }
+  }
+
+  // Fallback: DuckDuckGo Lite (Scraping-free public endpoint)
+  try {
+    const url = `https://duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' }
+    });
+    if (response.ok) {
+      const html = await response.text();
+      // Very basic extraction of titles/snippets from HTML
+      const searchResults = [];
+      const matches = html.matchAll(/class="result__a" href="([^"]+)">([^<]+)<\/a>[\s\S]*?class="result__snippet">([^<]+)<\/div>/g);
+      for (const match of matches) {
+        if (searchResults.length >= 3) break;
+        searchResults.push({ url: match[1], title: match[2], snippet: match[3] });
+      }
+      return searchResults;
+    }
+  } catch (e) {
+    console.error('[Narad] Search failed completely:', e);
+  }
+  return null;
+}
 
 async function fetchStockData(query) {
   const lowerQuery = query.toLowerCase();
@@ -1906,7 +1958,25 @@ app.post('/api/chat', async (c) => {
         systemPromptParts.push(`- Change: ${stockData.change > 0 ? '+' : ''}${stockData.change.toFixed(2)} (${stockData.changePercent}%)`);
         systemPromptParts.push(`- Exchange: ${stockData.exchange}`);
         systemPromptParts.push(`- Last Updated: ${stockData.time}`);
-        systemPromptParts.push('NOTE: Use this live data as the primary source for the user\'s query. Use the exact date/time format provided (DD MMM YYYY, HH:mm:ss) to avoid any ambiguity.');
+        systemPromptParts.push('NOTE: Answer ONLY with the price and change. Use the exact date/time format provided. DO NOT add conversational filler or disclaimers.');
+      }
+    }
+    
+    // Web Search Injection
+    const searchTriggers = ['news', 'who is', 'latest', 'what is', 'current', 'event', 'result', 'where'];
+    const shouldSearch = lowerMessage.startsWith('/search') || 
+                       (searchTriggers.some(t => lowerMessage.includes(t)) && !lowerMessage.includes('price') && !lowerMessage.includes('share'));
+    
+    if (shouldSearch) {
+      const searchQuery = lowerMessage.replace(/^\/search\s*/, '');
+      const searchResults = await fetchWebSearch(searchQuery, c.env);
+      if (searchResults && searchResults.length > 0) {
+        systemPromptParts.push('');
+        systemPromptParts.push('WEB SEARCH RESULTS (CRITICAL - USE THESE TO ANSWER):');
+        searchResults.forEach((r, i) => {
+          systemPromptParts.push(`${i+1}. ${r.title}\n   Snippet: ${r.snippet}\n   URL: ${r.url}`);
+        });
+        systemPromptParts.push('\nNOTE: You are in TERMINAL MODE. Be extremely concise. Use ONLY the facts provided above. Do NOT mention knowledge cutoffs or fillers like "Based on my search". Just provide the answer.');
       }
     }
 
