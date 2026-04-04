@@ -8,7 +8,15 @@ export const AI_PROVIDERS = {
       balanced: 'llama-3.3-70b-versatile',
       strong: 'mixtral-8x7b-32768'
     },
-    defaultModel: 'llama-3.3-70b-versatile'
+    defaultModel: 'llama-3.3-70b-versatile',
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: true,
+      json: true,
+      maxContext: 32768,
+      speed: 'fastest'
+    }
   },
   openai: {
     name: 'OpenAI',
@@ -19,7 +27,15 @@ export const AI_PROVIDERS = {
       balanced: 'gpt-4o',
       strong: 'gpt-4-turbo'
     },
-    defaultModel: 'gpt-4o-mini'
+    defaultModel: 'gpt-4o-mini',
+    features: {
+      streaming: true,
+      vision: true,
+      functionCalls: true,
+      json: true,
+      maxContext: 128000,
+      speed: 'fast'
+    }
   },
   anthropic: {
     name: 'Anthropic',
@@ -30,7 +46,15 @@ export const AI_PROVIDERS = {
       balanced: 'claude-3-sonnet-20240229',
       strong: 'claude-3-opus-20240229'
     },
-    defaultModel: 'claude-3-haiku-20240307'
+    defaultModel: 'claude-3-haiku-20240307',
+    features: {
+      streaming: true,
+      vision: true,
+      functionCalls: false,
+      json: true,
+      maxContext: 200000,
+      speed: 'medium'
+    }
   },
   openrouter: {
     name: 'OpenRouter',
@@ -42,7 +66,15 @@ export const AI_PROVIDERS = {
       strong: 'deepseek/deepseek-chat'
     },
     defaultModel: 'google/gemma-2-9b-it:free',
-    requiresModelInBody: true
+    requiresModelInBody: true,
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: true,
+      json: true,
+      maxContext: 128000,
+      speed: 'variable'
+    }
   },
   gemini: {
     name: 'Gemini',
@@ -54,7 +86,15 @@ export const AI_PROVIDERS = {
       strong: 'gemini-1.5-pro'
     },
     defaultModel: 'gemini-1.5-flash',
-    isGemini: true
+    isGemini: true,
+    features: {
+      streaming: true,
+      vision: true,
+      functionCalls: true,
+      json: true,
+      maxContext: 1000000,
+      speed: 'fast'
+    }
   },
   mistral: {
     name: 'Mistral',
@@ -65,8 +105,65 @@ export const AI_PROVIDERS = {
       balanced: 'mistral-medium-latest',
       strong: 'mistral-large-latest'
     },
-    defaultModel: 'mistral-small-latest'
+    defaultModel: 'mistral-small-latest',
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: true,
+      json: true,
+      maxContext: 128000,
+      speed: 'fast'
+    }
   }
 };
+
+// Provider Feature Matrix for intelligent fallbacks
+export const PROVIDER_FEATURES = {
+  streaming: { requiredFor: 'streaming', preferred: ['groq', 'openai', 'gemini', 'mistral', 'openrouter'] },
+  vision: { requiredFor: 'image_analysis', preferred: ['openai', 'anthropic', 'gemini'] },
+  functionCalls: { requiredFor: 'tool_use', preferred: ['openai', 'groq', 'mistral', 'openrouter', 'gemini'] },
+  json: { requiredFor: 'structured_output', preferred: ['openai', 'groq', 'anthropic', 'gemini', 'mistral'] },
+  longContext: { requiredFor: 'large_context', preferred: ['anthropic', 'gemini', 'openrouter', 'openai'] },
+  fast: { requiredFor: 'quick_response', preferred: ['groq', 'gemini', 'openai', 'mistral'] },
+  free: { requiredFor: 'no_cost', preferred: ['openrouter'] }
+};
+
+// Smart provider selection based on task requirements
+export function selectBestProvider(requirements = {}) {
+  const available = Object.entries(AI_PROVIDERS)
+    .filter(([_, p]) => p.apiKey && (typeof process === 'undefined' || process.env?.[p.apiKey]))
+    .map(([key, p]) => ({ key, ...p }));
+  
+  if (available.length === 0) return 'groq';
+  
+  // Score each provider
+  const scores = available.map(provider => {
+    let score = 0;
+    
+    if (requirements.streaming && provider.features.streaming) score += 10;
+    if (requirements.vision && provider.features.vision) score += 10;
+    if (requirements.functionCalls && provider.features.functionCalls) score += 10;
+    if (requirements.json && provider.features.json) score += 5;
+    if (requirements.fast) {
+      if (provider.features.speed === 'fastest') score += 15;
+      else if (provider.features.speed === 'fast') score += 10;
+      else if (provider.features.speed === 'medium') score += 5;
+    }
+    if (requirements.longContext && provider.features.maxContext >= (requirements.longContext || 0)) score += 10;
+    if (requirements.free && provider.features.speed === 'variable') score += 5;
+    
+    // Prefer faster providers by default
+    if (!requirements.fast && !requirements.vision && !requirements.functionCalls) {
+      if (provider.features.speed === 'fastest') score += 5;
+      else if (provider.features.speed === 'fast') score += 3;
+    }
+    
+    return { key: provider.key, score, ...provider };
+  });
+  
+  // Sort by score and return best
+  scores.sort((a, b) => b.score - a.score);
+  return scores[0]?.key || 'groq';
+}
 
 export const PROVIDER_FALLBACK_ORDER = ['groq', 'openrouter', 'mistral', 'gemini', 'openai', 'anthropic'];

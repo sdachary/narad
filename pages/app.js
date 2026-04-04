@@ -212,7 +212,225 @@ console.log('[Narad] API_BASE is:', API_BASE);
 let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
 localStorage.setItem('narad_session_id', sessionId);
 
-let chatHistory = [];
+// Session persistence - load chat history from localStorage
+const CHAT_HISTORY_KEY = 'narad_chat_history';
+const MAX_PERSISTED_MESSAGES = 100;
+
+function loadChatHistory() {
+    try {
+        const saved = localStorage.getItem(CHAT_HISTORY_KEY + '_' + sessionId);
+        if (saved) {
+            return JSON.parse(saved);
+        }
+    } catch (e) {
+        console.warn('[Narad] Failed to load chat history:', e);
+    }
+    return [];
+}
+
+// ============================================
+// Command Registry (inspired by Claw Code)
+// ============================================
+const COMMAND_REGISTRY = {
+    // Single agent commands
+    'dev': {
+        name: 'Developer',
+        icon: '⚡',
+        description: 'Git, test, build, npm, code tasks',
+        syntax: '/dev: <task>',
+        examples: ['/dev: create a new component', '/dev: fix this bug']
+    },
+    'reviewer': {
+        name: 'Code Reviewer',
+        icon: '🔍',
+        description: 'Code review, security audit, quality checks',
+        syntax: '/reviewer: <code to review>',
+        examples: ['/reviewer: review this PR']
+    },
+    'debugger': {
+        name: 'Debugger',
+        icon: '🔧',
+        description: 'Debugging, troubleshooting, fix issues',
+        syntax: '/debugger: <issue description>',
+        examples: ['/debugger: fix this error']
+    },
+    'api': {
+        name: 'API Developer',
+        icon: '🔌',
+        description: 'REST/GraphQL, OpenAPI, endpoints',
+        syntax: '/api: <API task>',
+        examples: ['/api: create a REST endpoint']
+    },
+    'database': {
+        name: 'Database Expert',
+        icon: '🗄️',
+        description: 'SQL, migrations, schema design',
+        syntax: '/database: <db task>',
+        examples: ['/database: write a migration']
+    },
+    'infrastructure': {
+        name: 'DevOps',
+        icon: '🚀',
+        description: 'Docker, K8s, CI/CD, deployment',
+        syntax: '/infrastructure: <infra task>',
+        examples: ['/infrastructure: write a Dockerfile']
+    },
+    'security': {
+        name: 'Security',
+        icon: '🔒',
+        description: 'Auth, JWT, OAuth, security audit',
+        syntax: '/security: <security task>',
+        examples: ['/security: review auth flow']
+    },
+    'writer': {
+        name: 'Writer',
+        icon: '✍️',
+        description: 'Documentation, README, content',
+        syntax: '/writer: <writing task>',
+        examples: ['/writer: write a README']
+    },
+    // Subagents
+    'research': {
+        name: 'Research Agent',
+        icon: '🔬',
+        description: 'Web search, information lookup',
+        syntax: '/research: <topic>',
+        examples: ['/research: latest AI news']
+    },
+    'coder': {
+        name: 'Coder Agent',
+        icon: '💻',
+        description: 'Write code, implement features',
+        syntax: '/coder: <task>',
+        examples: ['/coder: write a function']
+    },
+    'analyst': {
+        name: 'Analyst Agent',
+        icon: '📊',
+        description: 'Data analysis, insights, reports',
+        syntax: '/analyst: <data task>',
+        examples: ['/analyst: analyze this data']
+    },
+    'architect': {
+        name: 'Architect Agent',
+        icon: '🏗️',
+        description: 'System design, architecture',
+        syntax: '/architect: <design task>',
+        examples: ['/architect: design a system']
+    }
+};
+
+function parseCommand(input) {
+    const trimmed = input.trim();
+    
+    // Check for parallel execution: /dev+reviewer:
+    const parallelMatch = trimmed.match(/^\/([a-zA-Z]+)\+([a-zA-Z]+):\s*(.*)$/);
+    if (parallelMatch) {
+        const agent1 = parallelMatch[1].toLowerCase();
+        const agent2 = parallelMatch[2].toLowerCase();
+        const message = parallelMatch[3];
+        
+        if (COMMAND_REGISTRY[agent1] && COMMAND_REGISTRY[agent2]) {
+            return {
+                type: 'parallel',
+                agents: [agent1, agent2],
+                message: message || input
+            };
+        }
+    }
+    
+    // Check for chain execution: /chain:dev->writer->reviewer:
+    const chainMatch = trimmed.match(/^\/chain:([a-zA-Z]+(?:->[a-zA-Z]+)+):\s*(.*)$/);
+    if (chainMatch) {
+        const agents = chainMatch[1].toLowerCase().split('->');
+        const validAgents = agents.filter(a => COMMAND_REGISTRY[a]);
+        
+        if (validAgents.length > 0) {
+            return {
+                type: 'chain',
+                agents: validAgents,
+                message: chainMatch[2] || input
+            };
+        }
+    }
+    
+    // Check for single agent: /dev:
+    const singleMatch = trimmed.match(/^\/([a-zA-Z]+):\s*(.*)$/);
+    if (singleMatch) {
+        const agent = singleMatch[1].toLowerCase();
+        
+        // Help command
+        if (agent === 'help' || agent === '?') {
+            return {
+                type: 'help',
+                message: singleMatch[2] || input
+            };
+        }
+        
+        // List available agents
+        if (agent === 'agents' || agent === 'list') {
+            return {
+                type: 'agent_list'
+            };
+        }
+        
+        if (COMMAND_REGISTRY[agent]) {
+            return {
+                type: 'single',
+                agent: agent,
+                message: singleMatch[2] || input
+            };
+        }
+    }
+    
+    // No command detected, return original
+    return {
+        type: 'none',
+        message: input
+    };
+}
+
+function getCommandHelp() {
+    let help = 'Available Commands:\n\n';
+    help += 'Single Agent:\n';
+    for (const [key, cmd] of Object.entries(COMMAND_REGISTRY)) {
+        help += `  ${cmd.icon} /${key}: ${cmd.description}\n`;
+    }
+    help += '\nParallel Execution:\n';
+    help += '  /agent1+agent2: <task>  # Run two agents in parallel\n';
+    help += '\nChain Execution:\n';
+    help += '  /chain:agent1->agent2: <task>  # Run agents sequentially\n';
+    help += '\nOther Commands:\n';
+    help += '  /help [command]  # Get help for a command\n';
+    help += '  /agents  # List all available agents';
+    return help;
+}
+
+function showCommandHelp(agent) {
+    if (agent && COMMAND_REGISTRY[agent]) {
+        const cmd = COMMAND_REGISTRY[agent];
+        return `${cmd.icon} **/${agent}** - ${cmd.name}\n${cmd.description}\n\nSyntax: ${cmd.syntax}\n\nExamples:\n${cmd.examples.map(e => `- ${e}`).join('\n')}`;
+    }
+    return getCommandHelp();
+}
+
+function saveChatHistory() {
+    try {
+        const historyToSave = chatHistory.slice(-MAX_PERSISTED_MESSAGES);
+        localStorage.setItem(CHAT_HISTORY_KEY + '_' + sessionId, JSON.stringify(historyToSave));
+    } catch (e) {
+        console.warn('[Narad] Failed to save chat history:', e);
+    }
+}
+
+function restoreChatDisplay() {
+    chatHistory.forEach(msg => {
+        addMessage(msg.text, msg.role);
+    });
+}
+
+let chatHistory = loadChatHistory() || [];
+console.log('[Narad] Loaded', chatHistory.length, 'messages from history');
 let isStreaming = false;
 let currentAbortController = null;
 let csrfToken = null;
@@ -421,6 +639,11 @@ async function init() {
     await CSRFManager.init();
     checkApiHealth();
     updateUsageRing();
+    
+    // Restore chat from previous session
+    if (chatHistory.length > 0) {
+        restoreChatDisplay();
+    }
 
     // Periodic health check every 60 seconds
     setInterval(checkApiHealth, 60000);
@@ -465,6 +688,15 @@ async function init() {
         searchInputEl.addEventListener('input', (e) => searchChat(e.target.value));
         searchInputEl.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeSearch();
+        });
+    }
+    
+    // Help button
+    const helpBtn = document.getElementById('help-btn');
+    if (helpBtn) {
+        helpBtn.addEventListener('click', () => {
+            const helpText = getCommandHelp();
+            addRichMessage(helpText, 'assistant', true);
         });
     }
 }
@@ -792,6 +1024,27 @@ async function handleSubmit(e) {
     
     if (!message) return;
     
+    // Parse command syntax
+    const parsed = parseCommand(message);
+    
+    // Handle help and list commands locally
+    if (parsed.type === 'help') {
+        const helpText = showCommandHelp(parsed.message.trim() || null);
+        addRichMessage(helpText, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
+    if (parsed.type === 'agent_list') {
+        let agentList = '# Available Agents\n\n';
+        for (const [key, cmd] of Object.entries(COMMAND_REGISTRY)) {
+            agentList += `${cmd.icon} **/${key}** - ${cmd.name}\n${cmd.description}\n\n`;
+        }
+        addRichMessage(agentList, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
     // Validate message input
     const validation = InputValidator.validate('message', message);
     if (!validation.valid) {
@@ -812,6 +1065,7 @@ function clearHistory() {
     chatHistory = [];
     sessionId = 'session_' + Date.now();
     localStorage.setItem('narad_session_id', sessionId);
+    saveChatHistory();
 }
 
 // Stop current search/generation
@@ -1155,6 +1409,7 @@ async function sendToApi(message) {
         if (data.reply) {
             chatHistory.push({ role: 'user', text: message });
             chatHistory.push({ role: 'assistant', text: data.reply });
+            saveChatHistory();
             
             // Streaming effect
             let charIndex = 0;
