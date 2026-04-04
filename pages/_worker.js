@@ -1725,12 +1725,17 @@ async function fetchStockData(query) {
   if (!symbol) return null;
 
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1m&range=1d&_=${Date.now()}`;
     console.log(`[Narad] Fetching stock price for ${symbol}...`);
     
     // Yahoo Finance requires a User-Agent
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+      headers: { 
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      },
+      cache: 'no-store'
     });
 
     if (!response.ok) return null;
@@ -1740,6 +1745,19 @@ async function fetchStockData(query) {
     if (!result) return null;
 
     const meta = result.meta;
+    const date = new Date(meta.regularMarketTime * 1000);
+    
+    // Standardized format: DD MMM YYYY, HH:mm:ss
+    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    }).format(date);
+
     return {
       symbol: meta.symbol,
       price: meta.regularMarketPrice,
@@ -1747,7 +1765,7 @@ async function fetchStockData(query) {
       exchange: meta.exchangeName,
       change: meta.regularMarketPrice - meta.chartPreviousClose,
       changePercent: ((meta.regularMarketPrice - meta.chartPreviousClose) / meta.chartPreviousClose * 100).toFixed(2),
-      time: new Date(meta.regularMarketTime * 1000).toLocaleString()
+      time: formattedDate
     };
   } catch (error) {
     console.error(`[Narad] Stock fetch error: ${error.message}`);
@@ -1888,7 +1906,7 @@ app.post('/api/chat', async (c) => {
         systemPromptParts.push(`- Change: ${stockData.change > 0 ? '+' : ''}${stockData.change.toFixed(2)} (${stockData.changePercent}%)`);
         systemPromptParts.push(`- Exchange: ${stockData.exchange}`);
         systemPromptParts.push(`- Last Updated: ${stockData.time}`);
-        systemPromptParts.push('NOTE: Use this live data as the primary source for the user\'s query. Ignore your pre-trained limits on stock prices.');
+        systemPromptParts.push('NOTE: Use this live data as the primary source for the user\'s query. Use the exact date/time format provided (DD MMM YYYY, HH:mm:ss) to avoid any ambiguity.');
       }
     }
 
