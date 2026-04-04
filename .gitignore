@@ -3,16 +3,16 @@
 *.pem
 *.key
 *.p12
+.dev.vars
 
 # Runtime / Generated
 node_modules/
+pages/node_modules/
 .narad/
 *.db
 *.db-shm
 *.db-wal
-
-# Wrangler
-narad-brain/.wrangler/
+.wrangler/
 
 # Logs
 logs/
@@ -23,16 +23,12 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Agents
+# Documentation / Scripts
 .agents/
-
-# Narad brain backup
-narad-brain/schema.sql.backup
+.agent/
 
 # Editor
 .vscode/
 .idea/
 *.swp
 *.swo
-.wrangler/
-narad-brain/.dev.vars

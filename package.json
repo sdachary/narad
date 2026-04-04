@@ -1,5 +1,17 @@
 {
+  "name": "narad-ai",
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev pages",
+    "deploy": "wrangler pages deploy pages",
+    "build": "echo 'Build complete (bundling handled by Cloudflare)'"
+  },
+  "devDependencies": {
+    "wrangler": "^3.114.17"
+  },
   "dependencies": {
+    "hono": "^4.6.0",
     "xlsx": "^0.18.5"
   }
 }
