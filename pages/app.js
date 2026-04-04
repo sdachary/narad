@@ -897,8 +897,6 @@ async function sendToApi(message) {
         // Remove searching indicator
         if (searchingEl) searchingEl.remove();
 
-        if (stopBtn) stopBtn.style.display = 'none';
-
         const msgEl = addMessage('', 'assistant');
         msgEl.classList.add('streaming');
         const contentEl = msgEl.querySelector('.message-content');
@@ -935,6 +933,7 @@ async function sendToApi(message) {
                 // Check if we stop in middle of generation
                 if (!isStreaming) {
                     clearInterval(interval);
+                    if (stopBtn) stopBtn.style.display = 'none';
                     return;
                 }
 
@@ -944,6 +943,7 @@ async function sendToApi(message) {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 } else {
                     clearInterval(interval);
+                    if (stopBtn) stopBtn.style.display = 'none';
                     msgEl.classList.remove('streaming');
                     isStreaming = false;
                     
@@ -975,6 +975,7 @@ async function sendToApi(message) {
             }, 10);
         }
     } catch (error) {
+        if (stopBtn) stopBtn.style.display = 'none';
         if (error.name === 'AbortError') {
             console.log('Fetch aborted');
             return; 
@@ -983,7 +984,6 @@ async function sendToApi(message) {
         msgEl.classList.remove('streaming');
         isStreaming = false;
     } finally {
-        if (stopBtn) stopBtn.style.display = 'none';
         currentAbortController = null;
     }
 }
