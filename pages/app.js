@@ -401,8 +401,8 @@ const InputValidator = {
 const chatMessages = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const chatForm = document.getElementById('chat-form');
-const apiStatus = document.getElementById('api-status');
-const apiDot = document.getElementById('api-dot');
+let apiStatus = document.getElementById('api-status');
+let apiDot = document.getElementById('api-dot');
 const usageRing = document.getElementById('usage-ring');
 const imageInput = document.getElementById('image-input');
 const imageUploadBtn = document.getElementById('image-upload-btn');
@@ -413,6 +413,10 @@ let selectedImage = null;
 async function init() {
     // Initialize theme
     initTheme();
+    
+    // Re-query status elements in case they weren't ready at top level
+    apiStatus = document.getElementById('api-status');
+    apiDot = document.getElementById('api-dot');
     
     await CSRFManager.init();
     checkApiHealth();
@@ -953,13 +957,18 @@ function handleHealthFailure(reason) {
     healthCheckRetries++;
     console.warn(`[Narad] Health check failed (${healthCheckRetries}/${MAX_HEALTH_RETRIES}):`, reason);
     
+    // Ensure we have current references
+    const statusEl = document.getElementById('api-status');
+    const dotEl = document.getElementById('api-dot');
+    
     if (healthCheckRetries >= MAX_HEALTH_RETRIES) {
-        if (apiStatus) apiStatus.textContent = 'Offline';
-        if (apiDot) {
-            apiDot.classList.remove('connected', 'warning');
-            apiDot.classList.add('error');
+        if (statusEl) statusEl.textContent = 'Offline';
+        if (dotEl) {
+            dotEl.classList.remove('connected', 'warning');
+            dotEl.classList.add('error');
         }
     } else {
+        if (statusEl) statusEl.textContent = `Retrying (${healthCheckRetries}/${MAX_HEALTH_RETRIES})...`;
         // Retry with exponential backoff
         setTimeout(checkApiHealth, Math.min(2000 * Math.pow(2, healthCheckRetries), 10000));
     }
@@ -1593,7 +1602,7 @@ async function autoSaveToMemory(text, query) {
 
 const memorySearchInput = document.getElementById('memory-search-input');
 const memorySearchBtn = document.getElementById('memory-search-btn');
-const searchResults = document.getElementById('search-results');
+const memorySearchResults = document.getElementById('search-results');
 const memoryBudget = document.getElementById('memory-budget');
 const budgetFill = document.getElementById('budget-fill');
 const budgetText = document.getElementById('budget-text');
@@ -1606,8 +1615,8 @@ async function searchMemory() {
     
     const query = memorySearchInput.value.trim();
     
-    if (!searchResults) return;
-    searchResults.innerHTML = '<div class="empty-state"><span class="loading-spinner"></span> Searching...</div>';
+    if (!memorySearchResults) return;
+    memorySearchResults.innerHTML = '<div class="empty-state"><span class="loading-spinner"></span> Searching...</div>';
     
     try {
         const token = CSRFManager.getToken();
@@ -1627,11 +1636,11 @@ async function searchMemory() {
         const data = await response.json();
         
         if (!data.results || data.results.length === 0) {
-            searchResults.innerHTML = '<div class="empty-state">No matching memories found</div>';
+            memorySearchResults.innerHTML = '<div class="empty-state">No matching memories found</div>';
             return;
         }
         
-        searchResults.innerHTML = data.results.map(result => `
+        memorySearchResults.innerHTML = data.results.map(result => `
             <div class="search-result">
                 <div class="result-content">
                     ${escapeHtml(result.content)}
@@ -1646,7 +1655,7 @@ async function searchMemory() {
         
     } catch (error) {
         console.error('Search error:', error);
-        searchResults.innerHTML = '<div class="empty-state">Search failed. Try again.</div>';
+        memorySearchResults.innerHTML = '<div class="empty-state">Search failed. Try again.</div>';
     }
 }
 
