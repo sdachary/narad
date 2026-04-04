@@ -3,132 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narad | Midnight Focus AI</title>
-    <meta name="description" content="A simple, effective, and eye-friendly AI chat interface.">
-    
-    <!-- Security & Config -->
+    <title>Narad | Terminal AI</title>
+    <meta name="description" content="A simple, powerful MacBook Terminal-themed AI chat.">
     <meta name="csrf-token" content="">
     <meta name="api-base" content="">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-overlay"></div>
-    <main class="app-container">
-        <header class="app-header">
-            <div class="header-text">
-                <h1>Narad</h1>
-                <p>Your Intelligent AI Assistant</p>
+    <div class="terminal-window">
+        <header class="terminal-header">
+            <div class="traffic-lights">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
             </div>
-            <div class="header-controls">
-                <div class="status-badge" id="service-status" onclick="healthCheckRetries=0;checkApiHealth();" style="cursor:pointer;" title="Click to refresh">
+            <div class="terminal-title">Narad @ macOS — zsh</div>
+            <div class="header-status">
+                <div class="status-badge" id="service-status" onclick="checkApiHealth();">
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
                 </div>
-                <div class="usage-ring" id="usage-ring">
-                    <svg viewBox="0 0 36 36">
-                        <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
-                        <circle class="ring-progress" cx="18" cy="18" r="15.5" stroke-dasharray="0, 100"></circle>
-                    </svg>
-                    <span class="tokens">--</span>
-                    <span class="percent">--%</span>
-                </div>
-
-                <button class="memory-toggle-btn" id="memory-toggle" title="Memory Panel">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>
-                </button>
             </div>
         </header>
 
-        <div class="main-content">
-            <!-- Memory Sidebar -->
-            <aside class="memory-sidebar" id="memory-sidebar">
-                <div class="memory-header">
-                    <h2>🧠 Memory Bank</h2>
-                    <button class="close-sidebar" id="close-sidebar">&times;</button>
-                </div>
-                
-                <div class="memory-tabs">
-                    <button class="memory-tab active" data-tab="ideas">💡 Ideas</button>
-                    <button class="memory-tab" data-tab="search">🔍 Search</button>
-                    <button class="memory-tab" data-tab="sync">☁️ Sync</button>
-                </div>
-                
-                <div class="memory-panel active" id="ideas-panel">
-                    <div class="save-idea-form">
-                        <textarea id="idea-input" placeholder="Capture an insight..." rows="3"></textarea>
-                        <div class="idea-tags">
-                            <input type="text" id="idea-tags" placeholder="Tags (work, research, etc)">
-                        </div>
-                        <button class="save-idea-btn" id="save-idea">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
-                            Save Insight
-                        </button>
-                    </div>
-                    <div class="ideas-list" id="ideas-list">
-                        <div class="empty-state">No memories stored yet</div>
-                    </div>
-                </div>
-                
-                <div class="memory-panel" id="search-panel">
-                    <div class="search-form">
-                        <input type="text" id="memory-search-input" placeholder="Search memories...">
-                        <button class="search-btn" id="memory-search-btn">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        </button>
-                    </div>
-                    <div class="search-results" id="search-results">
-                        <div class="empty-state">Search your semantic memory</div>
-                    </div>
-                </div>
+        <main class="terminal-body" id="chat-messages">
+            <div class="message assistant">
+                <span class="prompt">[narad@system]</span>
+                <div class="message-content">Hello. I am Narad, your Terminal AI. How can I assist you today?</div>
+            </div>
+        </main>
 
-                <div class="sidebar-section-footer">
-                    <h3 class="sidebar-title">Quick Actions</h3>
-                    <div class="action-grid">
-                        <button class="btn-action" id="clear-chat-btn" title="New Chat">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6Z"/></svg>
-                            <span>New Conversation</span>
-                        </button>
-                        <button class="btn-action" title="Export Chat">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19,9H15V3H9V9H5V5H19V9Z"/></svg>
-                            <span>Export</span>
-                        </button>
-                    </div>
+        <footer class="terminal-footer">
+            <form id="chat-form" class="input-line">
+                <span class="prompt">[user@macos] &gt;</span>
+                <textarea id="user-input" placeholder="" autocomplete="off" rows="1"></textarea>
+                <div class="input-controls">
+                    <button type="button" id="voice-input-btn" class="icon-btn" title="Voice Input">🎤</button>
+                    <button type="submit" id="send-btn" class="icon-btn">⏎</button>
                 </div>
-            </aside>
-            
-                    <div class="message assistant slide-up">
-                        <div class="avatar">⚡</div>
-                        <div class="message-content">
-                            Hello! I'm Narad, your AI assistant. How can I help you today?
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="chat-input-area">
-                    <form id="chat-form">
-                        <input type="file" id="image-input" accept="image/*" style="display: none;">
-                        <button type="button" id="image-upload-btn" class="image-upload-btn" title="Upload image">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
-                        </button>
-                        <button type="button" id="voice-input-btn" class="voice-btn" title="Voice input">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                        </button>
-                        <button type="button" id="voice-output-btn" class="voice-btn" title="Read aloud">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                        </button>
-                        <div id="image-preview" class="image-preview" style="display: none;"></div>
-                        <textarea id="user-input" placeholder="Ask me anything..." autocomplete="off" rows="1"></textarea>
-                        <button type="submit" id="send-btn">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                        </button>
-                    </form>
-                </div>
-            </section>
-        </div>
-    </main>
+            </form>
+        </footer>
+    </div>
+
+    <!-- UI Components for functionality (hidden or integrated) -->
+    <div style="display:none;">
+        <input type="file" id="image-input" accept="image/*">
+        <button id="image-upload-btn"></button>
+        <div id="image-preview"></div>
+        <div id="usage-ring"></div>
+        <button id="clear-chat-btn"></button>
+        <button id="voice-output-btn"></button>
+    </div>
+
     <script src="app.js" defer></script>
 </body>
 </html>
