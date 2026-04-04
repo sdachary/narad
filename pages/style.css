@@ -21,6 +21,11 @@
   --text-muted: #484F58;
   --text-inverse: #0D1117;
 
+  /* Status Colors (Vibrant) */
+  --success: #22C55E;    /* Vivid Green */
+  --warning: #F59E0B;    /* Vivid Amber */
+  --danger: #EF4444;     /* Vivid Red */
+
   /* Refined Glassmorphism */
   --glass-bg: rgba(13, 17, 23, 0.85);
   --glass-border: rgba(240, 246, 252, 0.1);
@@ -177,12 +182,29 @@ body {
 
 .status-dot.connected {
   background: var(--success);
-  box-shadow: 0 0 8px var(--success);
+  box-shadow: 0 0 10px var(--success);
 }
 
-.status-text {
-  color: var(--text-secondary);
-  font-weight: 500;
+.status-dot.warning {
+  background: var(--warning);
+  box-shadow: 0 0 10px var(--warning);
+}
+
+.status-dot.error {
+  background: var(--danger);
+  box-shadow: 0 0 10px var(--danger);
+}
+
+.status-dot.connected + .status-text {
+  color: var(--success);
+}
+
+.status-dot.warning + .status-text {
+  color: var(--warning);
+}
+
+.status-dot.error + .status-text {
+  color: var(--danger);
 }
 
 /* Agent Select */

@@ -257,12 +257,6 @@ async function init() {
         }
     });
 
-    // Theme toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
-
     // Clear chat button
     const clearChatBtn = document.getElementById('clear-chat-btn');
     if (clearChatBtn) {
@@ -273,13 +267,6 @@ async function init() {
     setInterval(updateUsageRing, 30000);
 }
 
-// Theme toggle
-function toggleTheme() {
-    document.documentElement.classList.toggle('light-theme');
-    const isLight = document.documentElement.classList.contains('light-theme');
-    localStorage.setItem('narad-theme', isLight ? 'light' : 'dark');
-    showToast(isLight ? 'Light theme enabled' : 'Dark theme enabled', 'info');
-}
 
 // Clear chat
 function clearChat() {
@@ -647,13 +634,8 @@ async function checkApiHealth() {
     
     if (!statusEl || !dotEl) {
         console.error('[Narad] Status elements not found in DOM');
-        document.getElementById('service-status').innerHTML = '<span style="color:var(--danger)">Error</span>';
         return;
     }
-    
-    // Force update text to show we're checking
-    statusEl.textContent = 'Checking...';
-    statusEl.style.color = 'var(--text-secondary)';
     
     try {
         const controller = new AbortController();
@@ -665,34 +647,23 @@ async function checkApiHealth() {
         });
         clearTimeout(timeoutId);
         
-        console.log('[Narad] Health response:', res.status, res.statusText);
+        // Reset classes
+        dotEl.classList.remove('connected', 'warning', 'error');
         
         if (res.ok) {
             const data = await res.json();
             healthCheckRetries = 0;
             
-            console.log('[Narad] Health data:', data);
-            
-            // Update status based on service health
             if (data.status === 'ok') {
                 statusEl.textContent = 'Connected';
                 dotEl.classList.add('connected');
-                console.log('[Narad] Status updated to Connected');
             } else if (data.status === 'degraded') {
                 statusEl.textContent = 'Degraded';
-                dotEl.classList.remove('connected');
+                dotEl.classList.add('warning');
             } else {
                 statusEl.textContent = 'Error';
-                dotEl.classList.remove('connected');
+                dotEl.classList.add('error');
             }
-            
-            // Log detailed status to console for debugging
-            console.log('[Narad Health]', {
-                status: data.status,
-                uptime: data.uptime,
-                providers: data.checks?.providers?.count || 0,
-                successRate: data.metrics?.successRate || 'N/A'
-            });
         } else {
             handleHealthFailure(`HTTP ${res.status}`);
         }
@@ -708,7 +679,10 @@ function handleHealthFailure(reason) {
     
     if (healthCheckRetries >= MAX_HEALTH_RETRIES) {
         if (apiStatus) apiStatus.textContent = 'Offline';
-        if (apiDot) apiDot.classList.remove('connected');
+        if (apiDot) {
+            apiDot.classList.remove('connected', 'warning');
+            apiDot.classList.add('error');
+        }
     } else {
         // Retry with exponential backoff
         setTimeout(checkApiHealth, Math.min(2000 * Math.pow(2, healthCheckRetries), 10000));
@@ -810,13 +784,6 @@ async function sendToApi(message) {
     const contentEl = msgEl.querySelector('.message-content');
     
     try {
-        // Check for multi-agent request
-        const multiAgentCheck = await checkMultiAgent(message);
-        if (multiAgentCheck.isMultiAgent) {
-            await sendMultiAgentRequest(message, multiAgentCheck, msgEl, contentEl);
-            return;
-        }
-        
         // Validate session ID
         const sessionValidation = InputValidator.validate('sessionId', sessionId);
         if (!sessionValidation.valid) {
@@ -837,8 +804,7 @@ async function sendToApi(message) {
         }
         
         // Get selected agent type
-        const agentSelect = document.getElementById('agent-select');
-        const agent_type = agentSelect && agentSelect.value ? agentSelect.value : null;
+        const agent_type = 'general';
         
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
@@ -923,77 +889,6 @@ async function sendToApi(message) {
     }
 }
 
-// Send multi-agent request
-async function sendMultiAgentRequest(message, multiAgentInfo, msgEl, contentEl) {
-    try {
-        const headers = { 'Content-Type': 'application/json' };
-        const token = CSRFManager.getToken();
-        if (token) {
-            headers['X-CSRF-Token'] = token;
-        }
-        
-        const modeIcon = multiAgentInfo.mode === 'chain' ? '🔗' : '🔀';
-        contentEl.innerHTML = `<span class="streaming-text">${modeIcon} ${multiAgentInfo.mode.charAt(0).toUpperCase() + multiAgentInfo.mode.slice(1)} mode: ${multiAgentInfo.agents.join(' + ')}...</span>`;
-        
-        const response = await fetch(`${API_BASE}/api/multi-agent`, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify({
-                message,
-                context: chatHistory.slice(-10)
-            })
-        });
-        
-        if (!response.ok) {
-            const error = await response.json();
-            contentEl.textContent = `Error: ${error.error || 'Multi-agent request failed'}`;
-            msgEl.classList.remove('streaming');
-            isStreaming = false;
-            return;
-        }
-        
-        const data = await response.json();
-        
-        if (data.reply) {
-            chatHistory.push({ role: 'user', text: message });
-            chatHistory.push({ role: 'assistant', text: data.reply });
-            
-            // Show multi-agent metadata
-            const agentBadges = data.agents.map(a => {
-                const icons = { coder: '💻', research: '🔍', writer: '✍️', analyst: '📊', architect: '🏗️' };
-                return icons[a] || '';
-            }).join(' ');
-            
-            let charIndex = 0;
-            const reply = data.reply;
-            const interval = setInterval(() => {
-                if (charIndex < reply.length) {
-                    contentEl.textContent += reply[charIndex];
-                    charIndex++;
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                } else {
-                    clearInterval(interval);
-                    msgEl.classList.remove('streaming');
-                    isStreaming = false;
-                    
-                    updateUsageRing();
-                    
-                    const meta = document.createElement('div');
-                    meta.className = 'message-meta';
-                    meta.textContent = `${agentBadges} ${multiAgentInfo.mode} • ${data.metadata?.totalTokens || 0} tokens`;
-                    msgEl.appendChild(meta);
-                    
-                    autoSaveToMemory(data.reply, message);
-                }
-            }, 15);
-        }
-    } catch (error) {
-        contentEl.textContent = `Error: ${error.message}`;
-        msgEl.classList.remove('streaming');
-        isStreaming = false;
-    }
-}
-
 // Update Usage Ring in Header
 async function updateUsageRing() {
     try {
@@ -1063,19 +958,9 @@ function formatNumber(num) {
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
     init();
-    // Initialize theme from localStorage
-    const savedTheme = localStorage.getItem('narad-theme');
-    if (savedTheme === 'light') {
-        document.documentElement.classList.add('light-theme');
-    }
 });
 if (document.readyState !== 'loading') {
     init();
-    // Initialize theme from localStorage
-    const savedTheme = localStorage.getItem('narad-theme');
-    if (savedTheme === 'light') {
-        document.documentElement.classList.add('light-theme');
-    }
 }
 
 // Submit feedback with CSRF protection
@@ -1450,8 +1335,8 @@ async function updateMemoryBudget() {
             const limit = data.budget.limit;
             const percent = (used / limit) * 100;
             
-            budgetFill.style.width = `${Math.min(percent, 100)}%`;
-            budgetText.textContent = `${used}/${limit}`;
+            if (budgetFill) budgetFill.style.width = `${Math.min(percent, 100)}%`;
+            if (budgetText) budgetText.textContent = `${used}/${limit}`;
         }
     } catch (e) {
         console.warn('Failed to fetch memory status:', e);
@@ -1662,6 +1547,7 @@ let autoSaveEnabled = localStorage.getItem('narad_auto_save') !== 'false';
 const autoSaveToggle = document.getElementById('auto-save-toggle');
 
 if (autoSaveToggle) {
+    autoSaveEnabled = localStorage.getItem('narad_auto_save') !== 'false';
     autoSaveToggle.checked = autoSaveEnabled;
     autoSaveToggle.addEventListener('change', (e) => {
         autoSaveEnabled = e.target.checked;
@@ -1674,6 +1560,7 @@ let autoReadEnabled = localStorage.getItem('narad_auto_read') === 'true';
 const autoReadToggle = document.getElementById('auto-read-toggle');
 
 if (autoReadToggle) {
+    autoReadEnabled = localStorage.getItem('narad_auto_read') === 'true';
     autoReadToggle.checked = autoReadEnabled;
     autoReadToggle.addEventListener('change', (e) => {
         autoReadEnabled = e.target.checked;
@@ -1712,61 +1599,6 @@ function initMemoryFeatures() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(initMemoryFeatures, 100);
 });
-
-// ============================================
-// MULTI-AGENT COORDINATION
-// ============================================
-
-const multiAgentBtn = document.getElementById('multi-agent-btn');
-const multiAgentPanel = document.getElementById('multi-agent-panel');
-const closeMultiAgent = document.getElementById('close-multi-agent');
-const agentChecks = document.querySelectorAll('.agent-check');
-
-if (multiAgentBtn) {
-    multiAgentBtn.addEventListener('click', () => {
-        const isVisible = multiAgentPanel.style.display !== 'none';
-        multiAgentPanel.style.display = isVisible ? 'none' : 'block';
-        multiAgentBtn.classList.toggle('active', !isVisible);
-    });
-}
-
-if (closeMultiAgent) {
-    closeMultiAgent.addEventListener('click', () => {
-        multiAgentPanel.style.display = 'none';
-        multiAgentBtn?.classList.remove('active');
-    });
-}
-
-// Close panel when clicking outside
-document.addEventListener('click', (e) => {
-    if (multiAgentPanel && multiAgentPanel.style.display !== 'none') {
-        if (!multiAgentPanel.contains(e.target) && !multiAgentBtn?.contains(e.target)) {
-            multiAgentPanel.style.display = 'none';
-            multiAgentBtn?.classList.remove('active');
-        }
-    }
-});
-
-// Build multi-agent message from selected agents
-function buildMultiAgentMessage() {
-    const selectedAgents = Array.from(agentChecks)
-        .filter(cb => cb.checked)
-        .map(cb => cb.value);
-    
-    if (selectedAgents.length < 2) {
-        showToast('Select at least 2 agents for multi-agent mode', 'error');
-        return null;
-    }
-    
-    const modeRadio = document.querySelector('input[name="multi-mode"]:checked');
-    const mode = modeRadio ? modeRadio.value : 'parallel';
-    
-    if (mode === 'parallel') {
-        return `/${selectedAgents.join('+')}: `;
-    } else {
-        return `/chain:${selectedAgents.join('->')}: `;
-    }
-}
 
 // ============================================
 // GLOBAL ERROR HANDLERS

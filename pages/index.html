@@ -27,13 +27,6 @@
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
                 </div>
-                <div class="agent-selector">
-                    <select id="agent-type" title="Select AI Agent" class="agent-select">
-                        <option value="general">🤖 General Assistant</option>
-                        <option value="coder">💻 Expert Coder</option>
-                        <option value="researcher">🔬 Research Specialist</option>
-                    </select>
-                </div>
                 <div class="usage-ring" id="usage-ring">
                     <svg viewBox="0 0 36 36">
                         <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
@@ -43,9 +36,6 @@
                     <span class="percent">--%</span>
                 </div>
 
-                <button id="theme-toggle" class="control-btn btn-icon" aria-label="Toggle theme">
-                    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4.5A1,1 0 0,1 13,3.5A1,1 0 0,1 14,4.5A1,1 0 0,1 13,5.5A1,1 0 0,1 12,4.5M12,17A2.5,2.5 0 0,0 14.5,19.5A2.5,2.5 0 0,0 17,17A2.5,2.5 0 0,0 14.5,14.5A2.5,2.5 0 0,0 12,17M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M20.75,6L19,4.25L17.75,5.5L19.5,7.25L20.75,6Z"></path></svg>
-                </button>
                 <button class="memory-toggle-btn" id="memory-toggle" title="Memory Panel">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>
                 </button>
@@ -109,13 +99,6 @@
                 </div>
             </aside>
             
-            <!-- Chat Container -->
-            <section class="chat-container">
-                <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; border-bottom: 1px solid var(--border-subtle); background: var(--glass-bg);">
-                    <h3 style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Conversation</h3>
-                    <span class="status-badge" style="padding: 4px 12px; font-size: 0.7rem;">Ready</span>
-                </div>
-                <div id="chat-messages" class="chat-messages">
                     <div class="message assistant slide-up">
                         <div class="avatar">⚡</div>
                         <div class="message-content">
