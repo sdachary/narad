@@ -1,4 +1,162 @@
 // Narad AI Terminal - Original Theme with Minimal Ring Charts
+
+// Theme management
+const THEME_KEY = 'narad_theme';
+let currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
+
+function initTheme() {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeButton();
+}
+
+function toggleTheme() {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem(THEME_KEY, currentTheme);
+    updateThemeButton();
+}
+
+function updateThemeButton() {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+        btn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+// Chat search functionality
+const searchOverlay = document.getElementById('chat-search-overlay');
+const searchInput = document.getElementById('chat-search-input');
+const searchResults = document.getElementById('chat-search-results');
+
+function openSearch() {
+    const overlay = document.getElementById('chat-search-overlay');
+    if (overlay) {
+        overlay.classList.add('open');
+        const input = document.getElementById('chat-search-input');
+        if (input) input.focus();
+    }
+}
+
+function closeSearch() {
+    const overlay = document.getElementById('chat-search-overlay');
+    if (overlay) {
+        overlay.classList.remove('open');
+    }
+}
+
+function searchChat(query) {
+    if (!query) {
+        clearSearchHighlights();
+        return;
+    }
+    
+    const messages = document.querySelectorAll('.message-content');
+    clearSearchHighlights();
+    
+    const lowerQuery = query.toLowerCase();
+    let found = false;
+    
+    messages.forEach(msg => {
+        if (msg.textContent.toLowerCase().includes(lowerQuery)) {
+            msg.parentElement.classList.add('search-highlight');
+            found = true;
+        }
+    });
+    
+    return found;
+}
+
+function clearSearchHighlights() {
+    document.querySelectorAll('.search-highlight').forEach(el => {
+        el.classList.remove('search-highlight');
+    });
+}
+
+// Message reactions
+function addReaction(messageEl, reaction) {
+    let reactionsDiv = messageEl.querySelector('.message-reactions');
+    if (!reactionsDiv) {
+        reactionsDiv = document.createElement('div');
+        reactionsDiv.className = 'message-reactions';
+        messageEl.appendChild(reactionsDiv);
+    }
+    
+    const existingBtn = reactionsDiv.querySelector(`[data-reaction="${reaction}"]`);
+    if (existingBtn) {
+        const count = parseInt(existingBtn.dataset.count || '0') + 1;
+        existingBtn.dataset.count = count;
+        existingBtn.textContent = reaction + (count > 1 ? ` ${count}` : '');
+    } else {
+        const btn = document.createElement('button');
+        btn.className = 'reaction-btn';
+        btn.dataset.reaction = reaction;
+        btn.dataset.count = '1';
+        btn.textContent = reaction;
+        btn.onclick = () => addReaction(messageEl.parentElement, reaction);
+        reactionsDiv.appendChild(btn);
+    }
+    
+    // Send to API
+    const sessionId = localStorage.getItem('narad_session_id');
+    if (sessionId) {
+        submitFeedback(reaction === '👍' ? 1 : reaction === '👎' ? -1 : 0);
+    }
+}
+
+// Typing indicator
+function showTypingIndicator() {
+    const existing = document.getElementById('typing-indicator');
+    if (existing) return;
+    
+    const div = document.createElement('div');
+    div.id = 'typing-indicator';
+    div.className = 'message assistant typing';
+    div.innerHTML = `
+        <span class="prompt">[narad@system]</span>
+        <div class="message-content typing-indicator">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    `;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function hideTypingIndicator() {
+    const existing = document.getElementById('typing-indicator');
+    if (existing) existing.remove();
+}
+
+// Markdown and syntax highlighting (loaded via CDN or fallback)
+const { marked, hljs } = window;
+
+function renderMarkdown(text) {
+  if (!text) return '';
+  
+  let html = text;
+  
+  // Check if marked is available
+  if (typeof marked !== 'undefined' && marked.parse) {
+    try {
+      html = marked.parse(text, { breaks: true, gfm: true });
+    } catch (e) {
+      console.warn('Markdown parse error:', e);
+    }
+  }
+  
+  // Apply syntax highlighting to code blocks
+  if (typeof hljs !== 'undefined') {
+    setTimeout(() => {
+      document.querySelectorAll('pre code').forEach(block => {
+        hljs.highlightElement(block);
+      });
+    }, 0);
+  }
+  
+  return html;
+}
+
 function getApiBase() {
   const metaApiBase = document.querySelector('meta[name="api-base"]')?.getAttribute('content');
   if (metaApiBase) return metaApiBase;
@@ -240,6 +398,9 @@ let selectedImage = null;
 
 // Initialize
 async function init() {
+    // Initialize theme
+    initTheme();
+    
     await CSRFManager.init();
     checkApiHealth();
     updateUsageRing();
@@ -264,6 +425,31 @@ async function init() {
 
     // Auto update usage ring every 30 seconds
     setInterval(updateUsageRing, 30000);
+    
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', toggleTheme);
+    }
+    
+    // Search button
+    const searchBtn = document.getElementById('search-btn');
+    const searchOverlay = document.getElementById('chat-search-overlay');
+    const searchCloseBtn = document.getElementById('search-close-btn');
+    const searchInputEl = document.getElementById('chat-search-input');
+    
+    if (searchBtn && searchOverlay) {
+        searchBtn.addEventListener('click', openSearch);
+    }
+    if (searchCloseBtn && searchOverlay) {
+        searchCloseBtn.addEventListener('click', closeSearch);
+    }
+    if (searchInputEl) {
+        searchInputEl.addEventListener('input', (e) => searchChat(e.target.value));
+        searchInputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSearch();
+        });
+    }
 }
 
 
@@ -658,6 +844,18 @@ window.addEventListener('keydown', (e) => {
         e.preventDefault();
         stopSearch();
     }
+    
+    // CMD+F to search
+    if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+        e.preventDefault();
+        openSearch();
+    }
+    
+    // CMD+T to toggle theme
+    if ((e.metaKey || e.ctrlKey) && e.key === 't') {
+        e.preventDefault();
+        toggleTheme();
+    }
 });
 
 const clearHistoryBtn = document.getElementById('clear-history-btn');
@@ -787,7 +985,7 @@ function addMessage(text, type = 'assistant') {
     return div;
 }
 
-// Add message with optional rich content (limited HTML)
+// Add message with optional rich content (markdown supported)
 function addRichMessage(text, type = 'assistant', allowHtml = false) {
     const div = document.createElement('div');
     div.className = `message ${type}`;
@@ -799,16 +997,30 @@ function addRichMessage(text, type = 'assistant', allowHtml = false) {
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     
-    if (allowHtml) {
-      // Sanitize with DOMPurify for rich content
-      contentDiv.innerHTML = DOMPurify.sanitize(text || '', DOMPURIFY_CONFIG);
+    if (allowHtml || type === 'assistant') {
+      const rendered = renderMarkdown(text || '');
+      contentDiv.innerHTML = DOMPurify.sanitize(rendered, DOMPURIFY_CONFIG);
     } else {
-      // Plain text - use textContent
       contentDiv.textContent = text || '';
     }
     
     div.appendChild(promptSpan);
     div.appendChild(contentDiv);
+    
+    // Add actions for assistant messages
+    if (type === 'assistant') {
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'message-actions';
+        actionsDiv.innerHTML = `
+            <button class="message-action-btn" onclick="this.parentElement.parentElement.querySelector('.message-reactions').innerHTML = '👍'; submitFeedback(1);" title="Good response">👍</button>
+            <button class="message-action-btn" onclick="this.parentElement.parentElement.querySelector('.message-reactions').innerHTML = '👎'; submitFeedback(-1);" title="Bad response">👎</button>
+        `;
+        div.appendChild(actionsDiv);
+        
+        const reactionsDiv = document.createElement('div');
+        reactionsDiv.className = 'message-reactions';
+        div.appendChild(reactionsDiv);
+    }
     
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -895,6 +1107,9 @@ async function sendToApi(message) {
         // Remove searching indicator
         if (searchingEl) searchingEl.remove();
 
+        // Show typing indicator
+        showTypingIndicator();
+        
         const msgEl = addMessage('', 'assistant');
         msgEl.classList.add('streaming');
         const contentEl = msgEl.querySelector('.message-content');
@@ -941,6 +1156,7 @@ async function sendToApi(message) {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 } else {
                     clearInterval(interval);
+                    hideTypingIndicator();
                     if (stopBtn) stopBtn.style.display = 'none';
                     msgEl.classList.remove('streaming');
                     isStreaming = false;
@@ -973,6 +1189,7 @@ async function sendToApi(message) {
             }, 10);
         }
     } catch (error) {
+        hideTypingIndicator();
         if (stopBtn) stopBtn.style.display = 'none';
         if (error.name === 'AbortError') {
             console.log('Fetch aborted');
@@ -982,6 +1199,7 @@ async function sendToApi(message) {
         msgEl.classList.remove('streaming');
         isStreaming = false;
     } finally {
+        hideTypingIndicator();
         currentAbortController = null;
     }
 }

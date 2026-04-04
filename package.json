@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "dompurify": "^3.3.3",
+    "highlight.js": "^11.11.1",
     "hono": "^4.6.0",
+    "marked": "^17.0.5",
     "xlsx": "^0.18.5"
   }
 }
