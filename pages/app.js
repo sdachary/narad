@@ -605,6 +605,30 @@ async function handleSubmit(e) {
     sendToApi(validation.value);
 }
 
+// Clear chat history
+function clearHistory() {
+    chatMessages.innerHTML = '';
+    chatHistory = [];
+    sessionId = 'session_' + Date.now();
+    localStorage.setItem('narad_session_id', sessionId);
+    
+    addMessage('Terminal buffer cleared. Ready for input.', 'assistant');
+    showToast('History cleared', 'info');
+}
+
+// CMD+K to clear
+window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        clearHistory();
+    }
+});
+
+const clearHistoryBtn = document.getElementById('clear-history-btn');
+if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener('click', clearHistory);
+}
+
 // Show error message to user
 function showError(message) {
     const errorDiv = document.createElement('div');
@@ -774,9 +798,6 @@ async function checkMultiAgent(message) {
 // Send to API with CSRF protection
 async function sendToApi(message) {
     isStreaming = true;
-    const msgEl = addMessage('', 'assistant');
-    msgEl.classList.add('streaming');
-    const contentEl = msgEl.querySelector('.message-content');
     
     try {
         // Validate session ID
@@ -811,7 +832,7 @@ async function sendToApi(message) {
             searchingEl = document.createElement('div');
             searchingEl.className = 'searching';
             searchingEl.textContent = 'Querying global data grid...';
-            chatMessages.insertBefore(searchingEl, msgEl);
+            chatMessages.appendChild(searchingEl);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
@@ -828,6 +849,10 @@ async function sendToApi(message) {
         
         // Remove searching indicator
         if (searchingEl) searchingEl.remove();
+
+        const msgEl = addMessage('', 'assistant');
+        msgEl.classList.add('streaming');
+        const contentEl = msgEl.querySelector('.message-content');
         
         // Handle CSRF errors
         if (response.status === 403) {
