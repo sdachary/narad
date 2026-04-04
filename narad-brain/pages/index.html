@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narad - AI Assistant</title>
+    <title>Narad | Midnight Focus AI</title>
+    <meta name="description" content="A simple, effective, and eye-friendly AI chat interface.">
     
-    <!-- Security Headers -->
+    <!-- Security & Config -->
     <meta name="csrf-token" content="">
     <meta name="api-base" content="">
     
@@ -93,15 +94,14 @@
                     </div>
                 </div>
 
-                <div class="sidebar-section" style="padding: 20px; border-top: 1px solid var(--glass-border); margin-top: auto;">
-                    <h3 class="sidebar-title" style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 15px;">Quick Actions</h3>
-                    <div class="action-grid" style="display: grid; grid-template-columns: 1fr; gap: 8px;">
-
-                        <button class="btn-action" id="clear-chat-btn" title="New Chat" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-secondary); cursor: pointer;">
+                <div class="sidebar-section-footer">
+                    <h3 class="sidebar-title">Quick Actions</h3>
+                    <div class="action-grid">
+                        <button class="btn-action" id="clear-chat-btn" title="New Chat">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6Z"/></svg>
                             <span>New Conversation</span>
                         </button>
-                        <button class="btn-action" title="Export Chat" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-secondary); cursor: pointer;">
+                        <button class="btn-action" title="Export Chat">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19,9H15V3H9V9H5V5H19V9Z"/></svg>
                             <span>Export</span>
                         </button>

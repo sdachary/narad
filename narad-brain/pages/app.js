@@ -720,21 +720,20 @@ const MESSAGE_LIMIT = 500;
 
 function addMessage(text, type = 'assistant') {
     const div = document.createElement('div');
-    div.className = `message ${type}`;
+    div.className = `message ${type} slide-up`;
     
-    const avatar = type === 'user' ? 'U' : 'N';
-    
-    // Safe DOM API approach - no innerHTML
+    // Premium Avatars
     const avatarDiv = document.createElement('div');
     avatarDiv.className = 'avatar';
-    avatarDiv.textContent = avatar;
+    avatarDiv.innerHTML = type === 'user' 
+        ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+        : `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>`;
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     
-    // Sanitize with DOMPurify before rendering any HTML
+    // Sanitize with DOMPurify
     const sanitizedText = DOMPurify.sanitize(text || '');
-    // Use textContent for user content to prevent XSS
     contentDiv.textContent = sanitizedText;
     
     div.appendChild(avatarDiv);
@@ -742,7 +741,7 @@ function addMessage(text, type = 'assistant') {
     
     chatMessages.appendChild(div);
     
-    // Clean old messages if exceeding limit to prevent memory leak
+    // Clean old messages for performance
     const messages = chatMessages.querySelectorAll('.message');
     if (messages.length > MESSAGE_LIMIT) {
         messages[0].remove();
@@ -1120,18 +1119,38 @@ const closeSidebar = document.getElementById('close-sidebar');
 const memoryTabs = document.querySelectorAll('.memory-tab');
 const memoryPanels = document.querySelectorAll('.memory-panel');
 
-// Toggle sidebar
+// Toggle sidebar with backdrop support
 function toggleSidebar(open) {
+    const sidebar = document.getElementById('memory-sidebar');
+    if (!sidebar) return;
+
     if (open === undefined) {
-        open = !memorySidebar.classList.contains('open');
+        open = !sidebar.classList.contains('open');
     }
-    memorySidebar.classList.toggle('open', open);
+    
+    sidebar.classList.toggle('open', open);
+
+    // Mobile Backdrop logic
+    if (window.innerWidth <= 768) {
+        let backdrop = document.getElementById('sidebar-backdrop');
+        if (open) {
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.id = 'sidebar-backdrop';
+                backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150;backdrop-filter:blur(4px);';
+                backdrop.addEventListener('click', () => toggleSidebar(false));
+                document.body.appendChild(backdrop);
+            }
+        } else if (backdrop) {
+            backdrop.remove();
+        }
+    }
 }
 
+// Re-attach listeners for sidebar
 if (memoryToggle) {
     memoryToggle.addEventListener('click', () => toggleSidebar());
 }
-
 if (closeSidebar) {
     closeSidebar.addEventListener('click', () => toggleSidebar(false));
 }

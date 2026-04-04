@@ -35,3 +35,4 @@ narad-brain/schema.sql.backup
 *.swp
 *.swo
 .wrangler/
+narad-brain/.dev.vars
