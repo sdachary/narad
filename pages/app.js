@@ -801,6 +801,20 @@ async function sendToApi(message) {
         // Get selected agent type
         const agent_type = 'general';
         
+        // Show searching indicator if needed
+        const searchKeywords = ['news', 'who is', 'latest', 'what is', 'price', 'share', 'stock', 'current', 'event'];
+        const isSearch = message.toLowerCase().startsWith('/search') || 
+                        searchKeywords.some(k => message.toLowerCase().includes(k));
+        
+        let searchingEl = null;
+        if (isSearch) {
+            searchingEl = document.createElement('div');
+            searchingEl.className = 'searching';
+            searchingEl.textContent = 'Querying global data grid...';
+            chatMessages.insertBefore(searchingEl, msgEl);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
             headers,
@@ -811,6 +825,9 @@ async function sendToApi(message) {
                 agent_type
             })
         });
+        
+        // Remove searching indicator
+        if (searchingEl) searchingEl.remove();
         
         // Handle CSRF errors
         if (response.status === 403) {
