@@ -6,17 +6,21 @@
 
 ---
 
-## What's New (March 2026)
+## What's New (April 2026)
 
 | Feature | Description |
 |---------|-------------|
-| **Agent Warehouse** | 8 optimized agents for daily use (dev, reviewer, debugger, etc.) |
-| **Multi-Agent** | Parallel execution (`/dev+reviewer:`) and chains (`/chain:dev->writer:`) |
-| **Voice I/O** | STT (Whisper) + TTS (MeloTTS) via Web Speech API |
+| **Modern UI** | Syntax highlighting, Markdown rendering, code blocks |
+| **PWA Support** | Installable app, works offline |
+| **Theme Toggle** | Dark/Light mode with keyboard shortcut |
+| **Chat Search** | Search through messages (⌘F) |
+| **Typing Indicator** | Animated dots during generation |
+| **Quick Reactions** | 👍👎 feedback on responses |
+| **Agent Warehouse** | 8 optimized agents for daily use |
+| **Multi-Agent** | Parallel (`/dev+reviewer:`) and chains (`/chain:dev->writer:`) |
+| **Voice I/O** | STT (Whisper) + TTS (MeloTTS) |
 | **Image Upload** | AI analysis with `@cf/unum/uform-gen2-qwen-7b` |
 | **Semantic Memory** | Workers AI embeddings with TF-IDF fallback |
-| **Security** | XSS prevention, CSRF tokens, rate limiting (60/min) |
-| **Chitragupta** | Premium Finance Dashboard with AI Insights and Expense Tracking |
 
 ---
 
@@ -58,7 +62,7 @@
 ```bash
 # Clone
 git clone https://github.com/sdachary/narad.git ~/narad
-cd ~/narad/narad-brain
+cd ~/narad
 
 # Deploy
 npx wrangler pages deploy pages --project-name narad
@@ -66,7 +70,24 @@ npx wrangler pages deploy pages --project-name narad
 
 ---
 
-## Agent Warehouse
+## Features
+
+### 🎨 Modern UI
+- **Syntax Highlighting** - Code blocks with highlight.js (JS, Python, Bash, JSON, CSS, SQL)
+- **Markdown Rendering** - Tables, lists, headers, formatted code
+- **Theme Toggle** - Dark/Light mode (⌘T or click moon icon)
+- **Responsive** - Works on desktop and mobile
+
+### ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `⌘K` / `Ctrl+K` | Clear chat |
+| `⌘F` / `Ctrl+F` | Search messages |
+| `⌘T` / `Ctrl+T` | Toggle theme |
+| `Ctrl+C` | Stop generation |
+
+### 🤖 Agent Warehouse
 
 8 agents optimized for daily use:
 
@@ -105,25 +126,13 @@ npx wrangler pages deploy pages --project-name narad
 
 ---
 
-## Commands
-
-| Command | What it does |
-|---------|--------------|
-| `/ask <query>` | Direct question |
-| `/idea <text>` | Capture R&D idea |
-| `/recall <query>` | Search memory |
-| `/research <topic>` | Web search + AI summary |
-| `/build <description>` | Activate multi-agent system |
-
----
-
 ## Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `GROQ_API_KEY` | ✅ | Groq API key |
-| `TELEGRAM_BOT_TOKEN` | ✅ | Telegram bot token |
-| `TELEGRAM_CHAT_ID` | ✅ | Your Telegram user ID |
+| `TELEGRAM_BOT_TOKEN` | Optional | Telegram bot |
+| `TELEGRAM_CHAT_ID` | Optional | Telegram chat ID |
 | `OPENROUTER_API_KEY` | Optional | Fallback models |
 
 ---
@@ -136,6 +145,16 @@ npx wrangler pages deploy pages --project-name narad
 | CSRF Protection | ✅ Token validation |
 | Rate Limiting | ✅ 60 req/min |
 | Security Headers | ✅ CSP, X-Frame-Options |
+
+---
+
+## Tech Stack
+
+- **Runtime**: Cloudflare Workers
+- **Framework**: Hono
+- **AI**: Groq, OpenRouter, Mistral, Gemini
+- **Frontend**: Vanilla JS, CSS Variables
+- **Build**: Wrangler v4
 
 ---
 
