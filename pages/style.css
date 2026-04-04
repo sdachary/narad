@@ -298,7 +298,7 @@ textarea#user-input {
     right: 0;
     background: var(--terminal-header);
     padding: 10px 20px;
-    display: flex;
+    display: none;
     align-items: center;
     gap: 10px;
     z-index: 1000;
