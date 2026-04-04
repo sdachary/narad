@@ -1875,6 +1875,8 @@ app.post('/api/chat', async (c) => {
       systemPromptParts.push(agentPrompt);
     }
     
+    const lowerMessage = message.toLowerCase();
+    
     // Real-Time Stock Price Injection
     if (lowerMessage.includes('price') || lowerMessage.includes('share') || lowerMessage.includes('stock') || lowerMessage.includes('nifty')) {
       const stockData = await fetchStockData(message);

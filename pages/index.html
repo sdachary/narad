@@ -15,13 +15,14 @@
 <body>
     <div class="terminal-window">
         <header class="terminal-header">
-            <div class="traffic-lights">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-            </div>
             <div class="terminal-title">Narad @ macOS — zsh</div>
-            <div class="header-status">
+            
+            <div class="header-right">
+                <div class="token-container" id="token-usage-header" title="Daily Token Usage">
+                    <span class="token-label">TOKENS:</span>
+                    <span class="token-value" id="current-tokens">0</span>
+                    <span class="token-percent" id="current-percent">(0%)</span>
+                </div>
                 <div class="status-badge" id="service-status" onclick="checkApiHealth();">
                     <span class="status-dot" id="api-dot"></span>
                     <span class="status-text" id="api-status">Connecting...</span>
@@ -53,7 +54,11 @@
         <input type="file" id="image-input" accept="image/*">
         <button id="image-upload-btn"></button>
         <div id="image-preview"></div>
-        <div id="usage-ring"></div>
+        <div id="usage-ring">
+            <span class="tokens"></span>
+            <span class="percent"></span>
+            <circle class="ring-progress"></circle>
+        </div>
         <button id="clear-chat-btn"></button>
         <button id="voice-output-btn"></button>
     </div>
