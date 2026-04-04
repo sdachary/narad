@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narad - AI Financial Assistant</title>
+    <title>Narad - AI Assistant</title>
     
     <!-- Security Headers -->
     <meta name="csrf-token" content="">
@@ -19,7 +19,7 @@
         <header class="app-header">
             <div class="header-text">
                 <h1>Narad</h1>
-                <p>Your AI Financial Assistant</p>
+                <p>Your Intelligent AI Assistant</p>
             </div>
             <div class="header-controls">
                 <div class="status-badge" id="service-status" onclick="healthCheckRetries=0;checkApiHealth();" style="cursor:pointer;" title="Click to refresh">
@@ -28,8 +28,8 @@
                 </div>
                 <div class="agent-selector">
                     <select id="agent-type" title="Select AI Agent" class="agent-select">
-                        <option value="analyst">📊 Financial Analyst</option>
-                        <option value="advisor">💰 Investment Advisor</option>
+                        <option value="general">🤖 General Assistant</option>
+                        <option value="coder">💻 Expert Coder</option>
                         <option value="researcher">🔬 Research Specialist</option>
                     </select>
                 </div>
@@ -41,9 +41,7 @@
                     <span class="tokens">--</span>
                     <span class="percent">--%</span>
                 </div>
-                <a href="chitragupta.html" class="control-btn btn-icon dashboard-btn" title="Financial Dashboard" style="color: var(--primary);">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                </a>
+
                 <button id="theme-toggle" class="control-btn btn-icon" aria-label="Toggle theme">
                     <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4.5A1,1 0 0,1 13,3.5A1,1 0 0,1 14,4.5A1,1 0 0,1 13,5.5A1,1 0 0,1 12,4.5M12,17A2.5,2.5 0 0,0 14.5,19.5A2.5,2.5 0 0,0 17,17A2.5,2.5 0 0,0 14.5,14.5A2.5,2.5 0 0,0 12,17M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M20.75,6L19,4.25L17.75,5.5L19.5,7.25L20.75,6Z"></path></svg>
                 </button>
@@ -69,9 +67,9 @@
                 
                 <div class="memory-panel active" id="ideas-panel">
                     <div class="save-idea-form">
-                        <textarea id="idea-input" placeholder="Capture a financial insight..." rows="3"></textarea>
+                        <textarea id="idea-input" placeholder="Capture an insight..." rows="3"></textarea>
                         <div class="idea-tags">
-                            <input type="text" id="idea-tags" placeholder="Tags (finance, stocks, etc)">
+                            <input type="text" id="idea-tags" placeholder="Tags (work, research, etc)">
                         </div>
                         <button class="save-idea-btn" id="save-idea">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
@@ -98,10 +96,7 @@
                 <div class="sidebar-section" style="padding: 20px; border-top: 1px solid var(--glass-border); margin-top: auto;">
                     <h3 class="sidebar-title" style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 15px;">Quick Actions</h3>
                     <div class="action-grid" style="display: grid; grid-template-columns: 1fr; gap: 8px;">
-                        <a href="chitragupta.html" class="btn-action" title="Financial Dashboard" style="text-decoration: none; display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-secondary); cursor: pointer;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                            <span>Financial Dashboard</span>
-                        </a>
+
                         <button class="btn-action" id="clear-chat-btn" title="New Chat" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-secondary); cursor: pointer;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6Z"/></svg>
                             <span>New Conversation</span>
@@ -124,7 +119,7 @@
                     <div class="message assistant slide-up">
                         <div class="avatar">⚡</div>
                         <div class="message-content">
-                            Hello! I'm Narad, your AI financial assistant. How can I help you today?
+                            Hello! I'm Narad, your AI assistant. How can I help you today?
                         </div>
                     </div>
                 </div>
@@ -142,7 +137,7 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                         </button>
                         <div id="image-preview" class="image-preview" style="display: none;"></div>
-                        <textarea id="user-input" placeholder="Ask about investments, stocks, or financial planning..." autocomplete="off" rows="1"></textarea>
+                        <textarea id="user-input" placeholder="Ask me anything..." autocomplete="off" rows="1"></textarea>
                         <button type="submit" id="send-btn">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                         </button>
