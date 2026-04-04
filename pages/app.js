@@ -472,12 +472,10 @@ async function init() {
 
 // Clear chat
 function clearChat() {
-    if (confirm('Are you sure you want to clear the chat?')) {
-        chatMessages.innerHTML = '';
-        // Add welcome message back
-        addMessage('Hello. I am Narad, your simplified AI assistant. How can I help you today?', 'assistant');
-        showToast('Chat cleared', 'info');
-    }
+    chatMessages.innerHTML = '';
+    chatHistory = [];
+    sessionId = 'session_' + Date.now();
+    localStorage.setItem('narad_session_id', sessionId);
 }
 
 // ============================================
@@ -814,9 +812,6 @@ function clearHistory() {
     chatHistory = [];
     sessionId = 'session_' + Date.now();
     localStorage.setItem('narad_session_id', sessionId);
-    
-    addMessage('Terminal buffer cleared. Ready for input.', 'assistant');
-    showToast('History cleared', 'info');
 }
 
 // Stop current search/generation
