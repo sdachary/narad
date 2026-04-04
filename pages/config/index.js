@@ -33,6 +33,7 @@ export const RATE_LIMIT = {
 };
 
 export const CSRF_TRUSTED_ORIGINS = [
+  'https://narad-7hc.pages.dev/',
   'https://narad-7hc.pages.dev',
   'https://narad.io',
   'http://localhost:8788',
@@ -40,6 +41,7 @@ export const CSRF_TRUSTED_ORIGINS = [
 ];
 
 export const ALLOWED_ORIGINS = [
+  'https://narad-7hc.pages.dev/',
   'https://narad-7hc.pages.dev',
   'https://narad.io',
   'http://localhost:8788',

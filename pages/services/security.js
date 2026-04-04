@@ -44,11 +44,13 @@ export function validateCSRF(request) {
   const token = request.headers.get('X-CSRF-Token');
   
   if (origin) {
-    const isTrustedOrigin = CSRF_TRUSTED_ORIGINS.some(trusted => 
-      origin.startsWith(trusted) || origin === trusted
-    );
+    const cleanOrigin = origin.replace(/\/$/, '');
+    const isTrustedOrigin = CSRF_TRUSTED_ORIGINS.some(trusted => {
+      const cleanTrusted = trusted.replace(/\/$/, '');
+      return cleanOrigin === cleanTrusted || cleanOrigin.startsWith(cleanTrusted + '/');
+    });
     if (!isTrustedOrigin) {
-      return { valid: false, error: 'Untrusted origin' };
+      return { valid: false, error: `Untrusted origin: ${origin}` };
     }
   }
   
