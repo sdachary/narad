@@ -43,6 +43,7 @@ localStorage.setItem('narad_session_id', sessionId);
 
 let chatHistory = [];
 let isStreaming = false;
+let currentAbortController = null;
 let csrfToken = null;
 let savedIdeas = JSON.parse(localStorage.getItem('narad_ideas') || '[]');
 
@@ -607,6 +608,7 @@ async function handleSubmit(e) {
 
 // Clear chat history
 function clearHistory() {
+    if (isStreaming) stopSearch();
     chatMessages.innerHTML = '';
     chatHistory = [];
     sessionId = 'session_' + Date.now();
@@ -616,17 +618,58 @@ function clearHistory() {
     showToast('History cleared', 'info');
 }
 
-// CMD+K to clear
+// Stop current search/generation
+function stopSearch() {
+    if (currentAbortController) {
+        currentAbortController.abort();
+        currentAbortController = null;
+    }
+    isStreaming = false;
+    const stopBtn = document.getElementById('stop-search-btn');
+    if (stopBtn) stopBtn.style.display = 'none';
+    
+    // Clean up any empty/streaming messages
+    const streamingMsgs = document.querySelectorAll('.message.streaming');
+    streamingMsgs.forEach(m => {
+        const content = m.querySelector('.message-content');
+        if (content && !content.textContent) {
+            m.remove();
+        } else {
+            m.classList.remove('streaming');
+            if (content) content.textContent += ' [CANCELLED]';
+        }
+    });
+    
+    // Look for searching indicators
+    const searchingIndicators = document.querySelectorAll('.searching');
+    searchingIndicators.forEach(i => i.remove());
+    
+    showToast('Process terminated', 'warning');
+}
+
+// Keyboard shortcuts
 window.addEventListener('keydown', (e) => {
+    // CMD+K to clear
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         clearHistory();
+    }
+    
+    // Ctrl+C to stop
+    if (e.ctrlKey && e.key === 'c' && isStreaming) {
+        e.preventDefault();
+        stopSearch();
     }
 });
 
 const clearHistoryBtn = document.getElementById('clear-history-btn');
 if (clearHistoryBtn) {
     clearHistoryBtn.addEventListener('click', clearHistory);
+}
+
+const stopSearchBtn = document.getElementById('stop-search-btn');
+if (stopSearchBtn) {
+    stopSearchBtn.addEventListener('click', stopSearch);
 }
 
 // Show error message to user
@@ -798,6 +841,9 @@ async function checkMultiAgent(message) {
 // Send to API with CSRF protection
 async function sendToApi(message) {
     isStreaming = true;
+    currentAbortController = new AbortController();
+    const stopBtn = document.getElementById('stop-search-btn');
+    if (stopBtn) stopBtn.style.display = 'block';
     
     try {
         // Validate session ID
@@ -839,6 +885,7 @@ async function sendToApi(message) {
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
             headers,
+            signal: currentAbortController.signal,
             body: JSON.stringify({
                 message,
                 history: chatHistory,
@@ -849,6 +896,8 @@ async function sendToApi(message) {
         
         // Remove searching indicator
         if (searchingEl) searchingEl.remove();
+
+        if (stopBtn) stopBtn.style.display = 'none';
 
         const msgEl = addMessage('', 'assistant');
         msgEl.classList.add('streaming');
@@ -883,6 +932,12 @@ async function sendToApi(message) {
             let charIndex = 0;
             const reply = data.reply;
             const interval = setInterval(() => {
+                // Check if we stop in middle of generation
+                if (!isStreaming) {
+                    clearInterval(interval);
+                    return;
+                }
+
                 if (charIndex < reply.length) {
                     contentEl.textContent += reply[charIndex];
                     charIndex++;
@@ -917,12 +972,19 @@ async function sendToApi(message) {
                         };
                     }
                 }
-            }, 15);
+            }, 10);
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Fetch aborted');
+            return; 
+        }
         contentEl.textContent = `Error: ${error.message}`;
         msgEl.classList.remove('streaming');
         isStreaming = false;
+    } finally {
+        if (stopBtn) stopBtn.style.display = 'none';
+        currentAbortController = null;
     }
 }
 
