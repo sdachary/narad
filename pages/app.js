@@ -54,13 +54,12 @@ const DOMPURIFY_CONFIG = {
   ALLOW_DATA_ATTR: false,
 };
 
-// Simple DOMPurify implementation for vanilla JS
-const DOMPurify = {
+// DOMPurify import (bundled via esbuild shim)
+const DOMPurify = window.DOMPurify || {
   sanitize: function(html) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const scripts = doc.querySelectorAll('script, style, iframe, object, embed');
     scripts.forEach(el => el.remove());
-    
     const elements = doc.querySelectorAll('*');
     elements.forEach(el => {
       const attrs = Array.from(el.attributes);
@@ -70,7 +69,6 @@ const DOMPurify = {
         }
       });
     });
-    
     return doc.body.innerHTML;
   }
 };
