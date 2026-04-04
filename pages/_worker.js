@@ -1723,25 +1723,39 @@ async function fetchWebSearch(query, env) {
     }
   }
 
-  // Fallback: DuckDuckGo Lite (Scraping-free public endpoint)
+  // Fallback: DuckDuckGo Lite (No-JS endpoint)
   try {
-    const url = `https://duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+    const url = `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(query)}`;
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' }
+      headers: { 
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html'
+      }
     });
     if (response.ok) {
       const html = await response.text();
-      // Very basic extraction of titles/snippets from HTML
       const searchResults = [];
-      const matches = html.matchAll(/class="result__a" href="([^"]+)">([^<]+)<\/a>[\s\S]*?class="result__snippet">([^<]+)<\/div>/g);
-      for (const match of matches) {
-        if (searchResults.length >= 3) break;
-        searchResults.push({ url: match[1], title: match[2], snippet: match[3] });
+      
+      // DuckDuckGo Lite parser (Table-based layout)
+      // Pattern: <a class='result-link' href='...'>Title</a> ... <td class='snippet'>Snippet</td>
+      const linkRegex = /<a class='result-link' href='([^']+)'>([\s\S]*?)<\/a>/g;
+      const snippetRegex = /<td class='result-snippet'>([\s\S]*?)<\/td>/g;
+      
+      let linkMatch;
+      while ((linkMatch = linkRegex.exec(html)) !== null && searchResults.length < 5) {
+        const urlValue = linkMatch[1];
+        const titleValue = linkMatch[2].replace(/<[^>]*>?/gm, '').trim();
+        
+        // Find corresponding snippet
+        const snippetMatch = snippetRegex.exec(html);
+        const snippetValue = snippetMatch ? snippetMatch[1].replace(/<[^>]*>?/gm, '').trim() : 'No snippet available.';
+        
+        searchResults.push({ url: urlValue, title: titleValue, snippet: snippetValue });
       }
-      return searchResults;
+      return searchResults.length > 0 ? searchResults : null;
     }
   } catch (e) {
-    console.error('[Narad] Search failed completely:', e);
+    console.error('[Narad] DuckDuckGo Lite failed:', e);
   }
   return null;
 }
@@ -1971,12 +1985,11 @@ app.post('/api/chat', async (c) => {
       const searchQuery = lowerMessage.replace(/^\/search\s*/, '');
       const searchResults = await fetchWebSearch(searchQuery, c.env);
       if (searchResults && searchResults.length > 0) {
-        systemPromptParts.push('');
-        systemPromptParts.push('WEB SEARCH RESULTS (CRITICAL - USE THESE TO ANSWER):');
+        systemPromptParts.push('\nWEB SEARCH RESULTS (CRITICAL - USE THESE TO ANSWER):');
         searchResults.forEach((r, i) => {
           systemPromptParts.push(`${i+1}. ${r.title}\n   Snippet: ${r.snippet}\n   URL: ${r.url}`);
         });
-        systemPromptParts.push('\nNOTE: You are in TERMINAL MODE. Be extremely concise. Use ONLY the facts provided above. Do NOT mention knowledge cutoffs or fillers like "Based on my search". Just provide the answer.');
+        systemPromptParts.push('\nCRITICAL: You are in TERMINAL MODE. Answer ONLY with the specific facts found in the search results above. Do NOT use introductory phrases ("According to...", "Based on..."), do NOT mention your knowledge cutoff, and do NOT provide general advice. If the information is not in the results, state "No data found in current index." Be extremely brief.');
       }
     }
 
