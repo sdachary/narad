@@ -159,7 +159,7 @@ function renderMarkdown(text) {
 
 function getApiBase() {
   const metaApiBase = document.querySelector('meta[name="api-base"]')?.getAttribute('content');
-  if (metaApiBase) return metaApiBase;
+  if (metaApiBase && metaApiBase.trim() !== '') return metaApiBase;
   
   if (typeof process !== 'undefined' && process.env?.REACT_APP_API_BASE) {
     return process.env.REACT_APP_API_BASE;
@@ -169,23 +169,35 @@ function getApiBase() {
   if (hostname.includes('localhost') || hostname === '127.0.0.1') {
     return 'http://localhost:8788';
   }
+  if (hostname.includes('pages.dev')) {
+    return 'https://narad-7hc.pages.dev';
+  }
+  if (hostname.includes('narad.io')) {
+    return 'https://narad.io';
+  }
   
   return '';
 }
 
 function initApiBase() {
   const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
   let apiBase;
+  
+  console.log('[Narad] Initializing API base for hostname:', hostname, 'protocol:', protocol);
   
   if (hostname.includes('localhost') || hostname === '127.0.0.1') {
     apiBase = 'http://localhost:8788';
-  } else if (hostname.includes('pages.dev')) {
-    apiBase = 'https://narad-7hc.pages.dev';
+  } else if (hostname.includes('pages.dev') || hostname.includes('workers.dev')) {
+    apiBase = protocol + '//' + hostname;
   } else if (hostname.includes('narad.io')) {
     apiBase = 'https://narad.io';
   } else {
-    apiBase = '';
+    apiBase = protocol + '//' + hostname;
+    console.warn('[Narad] Unknown hostname:', hostname, '- using fallback:', apiBase);
   }
+  
+  console.log('[Narad] API_BASE initialized to:', apiBase);
   
   const metaApiBase = document.querySelector('meta[name="api-base"]');
   if (metaApiBase) {
@@ -196,6 +208,7 @@ function initApiBase() {
 }
 
 const API_BASE = initApiBase();
+console.log('[Narad] API_BASE is:', API_BASE);
 let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
 localStorage.setItem('narad_session_id', sessionId);
 
