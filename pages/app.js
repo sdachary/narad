@@ -897,50 +897,49 @@ async function updateUsageRing() {
     }
 }
 
-// Render usage ring in header with SVG
+// Render usage ring (and header tokens)
 function renderUsageRing(usageData) {
-    const ringEl = document.getElementById('usage-ring') || usageRing;
-    if (!ringEl) return;
-    
-    if (!usageData || typeof usageData !== 'object') {
-        ringEl.innerHTML = `
-            <svg viewBox="0 0 36 36">
-                <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
-                <circle class="ring-progress" cx="18" cy="18" r="15.5" stroke-dasharray="0, 100"></circle>
-            </svg>
-            <span class="tokens">--</span>
-            <span class="percent">--%</span>
-        `;
-        return;
-    }
+    const currentTokensEl = document.getElementById('current-tokens');
+    const currentPercentEl = document.getElementById('current-percent');
     
     let totalUsed = 0;
     let totalLimit = 0;
     
-    for (const agent in usageData) {
-        if (usageData[agent]) {
-            totalUsed += usageData[agent].tokensUsed || 0;
-            totalLimit += usageData[agent].limit || 200000;
+    if (usageData && typeof usageData === 'object') {
+        for (const agent in usageData) {
+            if (usageData[agent]) {
+                totalUsed += usageData[agent].tokensUsed || 0;
+                totalLimit += usageData[agent].limit || 200000;
+            }
         }
     }
     
     const percent = totalLimit > 0 ? Math.min(100, (totalUsed / totalLimit) * 100) : 0;
-    const circumference = 2 * Math.PI * 15.5;
-    const dashArray = (percent / 100) * circumference;
     
-    let colorClass = '';
-    if (percent >= 90) colorClass = 'danger';
-    else if (percent >= 70) colorClass = 'warning';
+    // Update new full-screen header elements
+    if (currentTokensEl) currentTokensEl.textContent = formatNumber(totalUsed);
+    if (currentPercentEl) currentPercentEl.textContent = `(${percent.toFixed(0)}%)`;
     
-    ringEl.innerHTML = `
-        <svg viewBox="0 0 36 36">
-            <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
-            <circle class="ring-progress ${colorClass}" cx="18" cy="18" r="15.5" 
-                stroke-dasharray="${dashArray}, ${circumference}"></circle>
-        </svg>
-        <span class="tokens">${formatNumber(totalUsed)}</span>
-        <span class="percent ${colorClass}">${percent.toFixed(0)}%</span>
-    `;
+    // Maintain old ring logic for compatibility/hidden elements if needed
+    const ringEl = document.getElementById('usage-ring') || (typeof usageRing !== 'undefined' ? usageRing : null);
+    if (ringEl) {
+        let colorClass = '';
+        if (percent >= 90) colorClass = 'danger';
+        else if (percent >= 70) colorClass = 'warning';
+        
+        const circumference = 2 * Math.PI * 15.5;
+        const dashArray = (percent / 100) * circumference;
+        
+        ringEl.innerHTML = `
+            <svg viewBox="0 0 36 36">
+                <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
+                <circle class="ring-progress ${colorClass}" cx="18" cy="18" r="15.5" 
+                    stroke-dasharray="${dashArray}, ${circumference}"></circle>
+            </svg>
+            <span class="tokens">${formatNumber(totalUsed)}</span>
+            <span class="percent ${colorClass}">${percent.toFixed(0)}%</span>
+        `;
+    }
 }
 
 // Format number with K/M suffix
