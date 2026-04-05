@@ -5,13 +5,15 @@ import { setupHealthRoutes } from './routes/health.js';
 import { setupChatRoutes } from './routes/chat.js';
 import { setupErrorRoutes } from './routes/errors.js';
 import { csrfManager } from './services/security.js';
-import { getStore, getUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, clearSemanticMemory, getEmbeddingBudget } from './services/memory.js';
-import { storeSemanticMemory, searchSemanticMemory } from './services/memory.js';
-import { WAREHOUSE_INDEX, SUBAGENTS } from './config/agents.js';
+import { getStore, getUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, clearSemanticMemory, getEmbeddingBudget, generateEmbedding, storeSemanticMemory, searchSemanticMemory } from './services/memory.js';
 import { initializeRAGIndex, addDocumentToRAG, searchRAG, deleteDocumentFromRAG, getRAGStats } from './services/rag.js';
 import { webSearch, scrapeUrl, multiProviderSearch } from './services/search.js';
 import { mcpConnect, mcpQuery, mcpDisconnect, listAvailableConnectors } from './services/mcp.js';
-import { initializeMemoryDB, saveMemory, searchMemories, getMemoryStats, saveVerification, getVerificationStats, verifyTruth } from './services/verification.js';
+import { initializeMemoryDB, saveMemory, searchMemories, getMemoryStats } from './services/sqlite-memory.js';
+import { saveVerification, getVerificationStats, verifyTruth } from './services/verification.js';
+import { CHARACTERS, getCharacter, listCharacters, getCharacterByTrait, getCharacterSystemPrompt } from './config/characters.js';
+import { getRelationship, updateRelationship, summarizeContext } from './services/memory.js';
+import { addDocument, searchDocuments, listDocuments, getContextForQuery } from './services/ragDocuments.js';
 
 const app = new Hono();
 

@@ -1,5 +1,28 @@
 // Narad AI Terminal - Original Theme with Minimal Ring Charts
 
+// Character Selector
+const CHARACTER_KEY = 'narad_character';
+let selectedCharacter = localStorage.getItem(CHARACTER_KEY) || 'default';
+
+function initCharacterSelector() {
+    const select = document.getElementById('character-select');
+    if (!select || typeof listCharacters !== 'function') return;
+    
+    const characters = listCharacters();
+    characters.forEach(char => {
+        const option = document.createElement('option');
+        option.value = char.id;
+        option.textContent = char.name;
+        select.appendChild(option);
+    });
+    
+    select.value = selectedCharacter;
+    select.addEventListener('change', (e) => {
+        selectedCharacter = e.target.value || 'default';
+        localStorage.setItem(CHARACTER_KEY, selectedCharacter);
+    });
+}
+
 // Theme management
 const THEME_KEY = 'narad_theme';
 let currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
@@ -632,6 +655,9 @@ async function init() {
     // Initialize theme
     initTheme();
     
+    // Initialize character selector
+    initCharacterSelector();
+    
     // Re-query status elements in case they weren't ready at top level
     apiStatus = document.getElementById('api-status');
     apiDot = document.getElementById('api-dot');
@@ -1230,9 +1256,22 @@ function addMessage(text, type = 'assistant') {
     const div = document.createElement('div');
     div.className = `message ${type} slide-up`;
     
+    const messageHeader = document.createElement('div');
+    messageHeader.className = 'message-header';
+    
     const promptSpan = document.createElement('span');
     promptSpan.className = 'prompt';
     promptSpan.textContent = type === 'user' ? '[user@macos] >' : '[narad@system]';
+    
+    messageHeader.appendChild(promptSpan);
+    
+    if (type === 'assistant' && selectedCharacter && selectedCharacter !== 'default') {
+        const charBadge = document.createElement('span');
+        charBadge.className = 'character-badge';
+        const char = typeof getCharacter === 'function' ? getCharacter(selectedCharacter) : null;
+        charBadge.textContent = char?.name || selectedCharacter;
+        messageHeader.appendChild(charBadge);
+    }
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
@@ -1241,7 +1280,7 @@ function addMessage(text, type = 'assistant') {
     const sanitizedText = DOMPurify.sanitize(text || '');
     contentDiv.textContent = sanitizedText;
     
-    div.appendChild(promptSpan);
+    div.appendChild(messageHeader);
     div.appendChild(contentDiv);
     
     chatMessages.appendChild(div);
@@ -1261,9 +1300,22 @@ function addRichMessage(text, type = 'assistant', allowHtml = false) {
     const div = document.createElement('div');
     div.className = `message ${type}`;
     
+    const messageHeader = document.createElement('div');
+    messageHeader.className = 'message-header';
+    
     const promptSpan = document.createElement('span');
     promptSpan.className = 'prompt';
     promptSpan.textContent = type === 'user' ? '[user@macos] >' : '[narad@system]';
+    
+    messageHeader.appendChild(promptSpan);
+    
+    if (type === 'assistant' && selectedCharacter && selectedCharacter !== 'default') {
+        const charBadge = document.createElement('span');
+        charBadge.className = 'character-badge';
+        const char = typeof getCharacter === 'function' ? getCharacter(selectedCharacter) : null;
+        charBadge.textContent = char?.name || selectedCharacter;
+        messageHeader.appendChild(charBadge);
+    }
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
@@ -1275,7 +1327,7 @@ function addRichMessage(text, type = 'assistant', allowHtml = false) {
       contentDiv.textContent = text || '';
     }
     
-    div.appendChild(promptSpan);
+    div.appendChild(messageHeader);
     div.appendChild(contentDiv);
     
     // Add actions for assistant messages
@@ -1371,7 +1423,8 @@ async function sendToApi(message) {
                 message,
                 history: chatHistory,
                 session_id: sessionId,
-                agent_type
+                agent_type,
+                character: selectedCharacter
             })
         });
         

@@ -271,3 +271,114 @@ export async function getLastAssistantMessage(env, sessionId) {
   }
   return null;
 }
+
+export async function saveMemory(env, sessionId, key, value, important = false) {
+  const store = getStore(env);
+  const memoryKey = `memory:${sessionId}`;
+  
+  const existingData = await store.get(memoryKey);
+  const memories = existingData ? JSON.parse(existingData) : [];
+  
+  const newMemory = {
+    key,
+    value,
+    important,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  
+  const existingIndex = memories.findIndex(m => m.key === key);
+  if (existingIndex >= 0) {
+    memories[existingIndex] = { ...memories[existingIndex], ...newMemory, updatedAt: new Date().toISOString() };
+  } else {
+    memories.push(newMemory);
+  }
+  
+  await store.put(memoryKey, JSON.stringify(memories));
+  return newMemory;
+}
+
+export async function getMemories(env, sessionId, filter = 'all') {
+  const store = getStore(env);
+  const memoryKey = `memory:${sessionId}`;
+  
+  const existingData = await store.get(memoryKey);
+  if (!existingData) return [];
+  
+  let memories = JSON.parse(existingData);
+  
+  if (filter === 'important') {
+    memories = memories.filter(m => m.important);
+  } else if (filter === 'recent') {
+    memories = memories.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 10);
+  }
+  
+  return memories;
+}
+
+export async function updateRelationship(env, sessionId, updates) {
+  const store = getStore(env);
+  const relKey = `relationship:${sessionId}`;
+  
+  const existingData = await store.get(relKey);
+  const relationship = existingData ? JSON.parse(existingData) : {
+    preferences: {},
+    facts: {},
+    interactionCount: 0,
+    firstInteraction: new Date().toISOString(),
+    lastInteraction: new Date().toISOString()
+  };
+  
+  if (updates.preferences) {
+    relationship.preferences = { ...relationship.preferences, ...updates.preferences };
+  }
+  if (updates.facts) {
+    relationship.facts = { ...relationship.facts, ...updates.facts };
+  }
+  if (typeof updates.interactionCount !== 'undefined') {
+    relationship.interactionCount = updates.interactionCount;
+  }
+  
+  relationship.interactionCount += 1;
+  relationship.lastInteraction = new Date().toISOString();
+  
+  await store.put(relKey, JSON.stringify(relationship));
+  return relationship;
+}
+
+export async function getRelationship(env, sessionId) {
+  const store = getStore(env);
+  const relKey = `relationship:${sessionId}`;
+  
+  const existingData = await store.get(relKey);
+  if (!existingData) return null;
+  
+  return JSON.parse(existingData);
+}
+
+export function summarizeContext(memories, maxTokens = 2000) {
+  if (!memories || memories.length === 0) return '';
+  
+  const important = memories.filter(m => m.important);
+  const recent = memories.slice(0, 5);
+  
+  let summary = 'Important facts:\n';
+  important.forEach(m => {
+    summary += `- ${m.key}: ${m.value}\n`;
+  });
+  
+  summary += '\nRecent context:\n';
+  recent.forEach(m => {
+    if (!m.important) {
+      summary += `- ${m.key}: ${m.value}\n`;
+    }
+  });
+  
+  const tokensEstimate = summary.split(/\s+/).length;
+  if (tokensEstimate > maxTokens) {
+    const words = summary.split(/\s+/);
+    return words.slice(0, maxTokens).join(' ') + '...';
+  }
+  
+  return summary;
+}
