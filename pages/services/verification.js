@@ -122,7 +122,7 @@ async function verifyWithOpenRouter(env, prompt) {
 
 function parseVerificationResponse(content) {
   try {
-    const jsonMatch = content.match(/\{[\s\S*\}/);
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
     }

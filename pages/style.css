@@ -62,7 +62,32 @@ body {
 .header-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
+}
+
+.character-select {
+    background: var(--terminal-bg);
+    border: 1px solid var(--text-muted);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.character-select:hover {
+    opacity: 1;
+    border-color: var(--text-secondary);
+}
+
+.character-select:focus {
+    opacity: 1;
+    border-color: var(--text-secondary);
+    box-shadow: 0 0 0 2px rgba(255, 176, 0, 0.2);
 }
 
 .token-container {
@@ -176,6 +201,24 @@ body {
     font-weight: 700;
     margin-right: 10px;
     white-space: nowrap;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.character-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    background: var(--text-secondary);
+    color: var(--terminal-bg);
+    border-radius: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease-out;
 }
 
 .user .prompt { color: var(--text-primary); }

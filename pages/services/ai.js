@@ -1,4 +1,5 @@
 import { AI_PROVIDERS, PROVIDER_FALLBACK_ORDER } from '../config/providers.js';
+import { getCharacter, getCharacterSystemPrompt } from '../config/characters.js';
 
 export function getAvailableProviders(env) {
   return PROVIDER_FALLBACK_ORDER.filter(p => {
@@ -17,48 +18,59 @@ export function getProviderConfig(env, providerName) {
   return { ...provider, apiKey };
 }
 
-export function selectProviderAndModel(agentType, message, availableProviders) {
+export function selectProviderAndModel(agentType, message, availableProviders, character = null) {
   const lowerMessage = message.toLowerCase();
   const available = availableProviders || PROVIDER_FALLBACK_ORDER;
   
+  const characterInfo = character ? getCharacter(character) : null;
+  
   if (agentType === 'coding' || lowerMessage.includes('code') || lowerMessage.includes('function') || lowerMessage.includes('implement')) {
     const provider = available.find(p => ['groq', 'mistral', 'openrouter'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced };
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced, character: characterInfo };
   }
   
   if (agentType === 'debugging' || lowerMessage.includes('debug') || lowerMessage.includes('error') || lowerMessage.includes('fix')) {
     const provider = available.find(p => ['openai', 'anthropic', 'gemini'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced };
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced, character: characterInfo };
   }
   
   if (agentType === 'research' || lowerMessage.includes('research') || lowerMessage.includes('explain') || lowerMessage.includes('analysis')) {
     const provider = available.find(p => ['anthropic', 'gemini', 'openai'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced };
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced, character: characterInfo };
   }
   
   if (agentType === 'testing' || lowerMessage.includes('test') || lowerMessage.includes('spec')) {
     const provider = available.find(p => ['anthropic', 'openai', 'mistral'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.strong };
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.strong, character: characterInfo };
   }
   
   if (agentType === 'deployment' || lowerMessage.includes('deploy') || lowerMessage.includes('docker') || lowerMessage.includes('kubernetes')) {
     const provider = available.find(p => ['groq', 'mistral', 'openrouter', 'gemini'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.fast };
+    if (provider) return { provider, model: AI_PROVIDERS[provider].models.fast, character: characterInfo };
   }
   
   if (available.length > 0) {
     const provider = available[0];
-    return { provider, model: AI_PROVIDERS[provider].defaultModel };
+    return { provider, model: AI_PROVIDERS[provider].defaultModel, character: characterInfo };
   }
   
-  return { provider: 'groq', model: AI_PROVIDERS.groq.defaultModel };
+  return { provider: 'groq', model: AI_PROVIDERS.groq.defaultModel, character: characterInfo };
 }
 
 export async function callAI(messages, providerConfig, options = {}) {
-  const { model, max_tokens = 2048, temperature = 0.7 } = options;
+  const { model, max_tokens = 2048, temperature = 0.7, character = null } = options;
   const isAnthropic = providerConfig.name === 'Anthropic';
   const isGemini = providerConfig.name === 'Gemini';
   const isOpenRouter = providerConfig.name === 'OpenRouter';
+  
+  let processedMessages = [...messages];
+  if (character) {
+    const characterSystemPrompt = getCharacterSystemPrompt(character);
+    processedMessages = [
+      { role: 'system', content: characterSystemPrompt },
+      ...messages
+    ];
+  }
   
   let res;
   
@@ -72,7 +84,7 @@ export async function callAI(messages, providerConfig, options = {}) {
       },
       body: JSON.stringify({
         model: model || providerConfig.defaultModel,
-        messages,
+        messages: processedMessages,
         max_tokens
       })
     });
@@ -82,14 +94,14 @@ export async function callAI(messages, providerConfig, options = {}) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: messages.map(m => ({ role: m.role === 'system' ? 'user' : m.role, parts: [{ text: m.content }] })),
+        contents: processedMessages.map(m => ({ role: m.role === 'system' ? 'user' : m.role, parts: [{ text: m.content }] })),
         generationConfig: { temperature, maxOutputTokens: max_tokens }
       })
     });
   } else {
     const body = {
       model: model || providerConfig.defaultModel,
-      messages,
+      messages: processedMessages,
       temperature,
       max_tokens
     };

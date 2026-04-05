@@ -10,6 +10,7 @@
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
+    <script src="config/characters.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
@@ -31,6 +32,9 @@
             <div class="terminal-title">Narad @ macOS — zsh</div>
             
             <div class="header-right">
+                <select id="character-select" class="character-select">
+                    <option value="">Select Character</option>
+                </select>
                 <button id="search-btn" class="header-btn" title="Search (⌘F)">🔍</button>
                 <button id="clear-history-btn" class="header-btn" title="Clear (⌘K)">CLEAR</button>
                 <button id="stop-search-btn" class="header-btn stop-btn" style="display:none;" title="Stop (⌃C)">STOP</button>
