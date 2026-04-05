@@ -8,6 +8,10 @@ import { csrfManager } from './services/security.js';
 import { getStore, getUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, clearSemanticMemory, getEmbeddingBudget } from './services/memory.js';
 import { storeSemanticMemory, searchSemanticMemory } from './services/memory.js';
 import { WAREHOUSE_INDEX, SUBAGENTS } from './config/agents.js';
+import { initializeRAGIndex, addDocumentToRAG, searchRAG, deleteDocumentFromRAG, getRAGStats } from './services/rag.js';
+import { webSearch, scrapeUrl, multiProviderSearch } from './services/search.js';
+import { mcpConnect, mcpQuery, mcpDisconnect, listAvailableConnectors } from './services/mcp.js';
+import { initializeMemoryDB, saveMemory, searchMemories, getMemoryStats, saveVerification, getVerificationStats, verifyTruth } from './services/verification.js';
 
 const app = new Hono();
 
@@ -412,6 +416,186 @@ app.post('/api/reset-usage', async (c) => {
   }
   
   return c.json({ success: true });
+});
+
+app.post('/api/rag/add', async (c) => {
+  const { validateCSRF } = await import('./services/security.js');
+  const csrfResult = validateCSRF(c.req);
+  if (!csrfResult.valid) {
+    return c.json({ error: 'CSRF validation failed' }, 403);
+  }
+  
+  const { title, content, source, metadata } = await c.req.json();
+  
+  if (!title || !content) {
+    return c.json({ error: 'title and content are required' }, 400);
+  }
+  
+  const doc = await addDocumentToRAG(c.env, { title, content, source, metadata });
+  
+  return c.json({ success: true, document: doc });
+});
+
+app.post('/api/rag/search', async (c) => {
+  const { query, topK, hybridMode } = await c.req.json();
+  
+  if (!query) {
+    return c.json({ error: 'query is required' }, 400);
+  }
+  
+  const results = await searchRAG(c.env, query, { topK, hybridMode });
+  
+  return c.json(results);
+});
+
+app.get('/api/rag/stats', async (c) => {
+  const stats = await getRAGStats(c.env);
+  return c.json(stats);
+});
+
+app.delete('/api/rag/doc/:docId', async (c) => {
+  const { docId } = c.req.param();
+  const result = await deleteDocumentFromRAG(c.env, docId);
+  return c.json(result);
+});
+
+app.post('/api/search', async (c) => {
+  const { query, provider, limit } = await c.req.json();
+  
+  if (!query) {
+    return c.json({ error: 'query is required' }, 400);
+  }
+  
+  const apiKey = c.env.SERPER_API_KEY || c.env.FIRECRAWL_API_KEY;
+  const results = await webSearch(query, { provider, limit, apiKey });
+  
+  return c.json(results);
+});
+
+app.post('/api/search/scrape', async (c) => {
+  const { url } = await c.req.json();
+  
+  if (!url) {
+    return c.json({ error: 'url is required' }, 400);
+  }
+  
+  const result = await scrapeUrl(url, { apiKey: c.env.FIRECRAWL_API_KEY });
+  return c.json(result);
+});
+
+app.post('/api/search/multi', async (c) => {
+  const { query, providers, limit } = await c.req.json();
+  
+  if (!query) {
+    return c.json({ error: 'query is required' }, 400);
+  }
+  
+  const apiKeys = {
+    serper: c.env.SERPER_API_KEY,
+    firecrawl: c.env.FIRECRAWL_API_KEY
+  };
+  
+  const results = await multiProviderSearch(query, { providers, limit, apiKeys });
+  return c.json(results);
+});
+
+app.post('/api/mcp/connect', async (c) => {
+  const { connectorType, config } = await c.req.json();
+  
+  if (!connectorType) {
+    return c.json({ error: 'connectorType is required' }, 400);
+  }
+  
+  const result = await mcpConnect(c.env, connectorType, config || {});
+  return c.json(result);
+});
+
+app.post('/api/mcp/query', async (c) => {
+  const { connectorId, query } = await c.req.json();
+  
+  if (!connectorId || !query) {
+    return c.json({ error: 'connectorId and query are required' }, 400);
+  }
+  
+  const result = await mcpQuery(c.env, connectorId, query);
+  return c.json(result);
+});
+
+app.post('/api/mcp/disconnect', async (c) => {
+  const { connectorId } = await c.req.json();
+  
+  if (!connectorId) {
+    return c.json({ error: 'connectorId is required' }, 400);
+  }
+  
+  const result = await mcpDisconnect(connectorId);
+  return c.json(result);
+});
+
+app.get('/api/mcp/connectors', async (c) => {
+  const result = listAvailableConnectors();
+  return c.json({ connectors: result });
+});
+
+app.post('/api/verification/verify', async (c) => {
+  const { query, result, threshold } = await c.req.json();
+  
+  if (!query || !result) {
+    return c.json({ error: 'query and result are required' }, 400);
+  }
+  
+  const verification = await verifyTruth(c.env, query, result, { threshold });
+  return c.json(verification);
+});
+
+app.get('/api/verification/history', async (c) => {
+  const limit = parseInt(c.req.query('limit') || '50');
+  const history = await getVerificationStats(c.env);
+  return c.json(history);
+});
+
+app.get('/api/verification/stats', async (c) => {
+  const stats = await getVerificationStats(c.env);
+  return c.json(stats);
+});
+
+app.post('/api/memory/sql', async (c) => {
+  const { sql, params } = await c.req.json();
+  
+  if (!sql) {
+    return c.json({ error: 'sql is required' }, 400);
+  }
+  
+  const db = await initializeMemoryDB(c.env);
+  const result = await executeSQL(c.env, sql, params || []);
+  return c.json(result);
+});
+
+app.post('/api/memory/save', async (c) => {
+  const { key, content, type, importance } = await c.req.json();
+  
+  if (!key || !content) {
+    return c.json({ error: 'key and content are required' }, 400);
+  }
+  
+  const memory = await saveMemory(c.env, key, content, type, importance);
+  return c.json({ success: true, memory });
+});
+
+app.post('/api/memory/search', async (c) => {
+  const { query, type, limit } = await c.req.json();
+  
+  if (!query) {
+    return c.json({ error: 'query is required' }, 400);
+  }
+  
+  const results = await searchMemories(c.env, query, type, limit);
+  return c.json({ results });
+});
+
+app.get('/api/memory/stats', async (c) => {
+  const stats = await getMemoryStats(c.env);
+  return c.json(stats);
 });
 
 export default {
