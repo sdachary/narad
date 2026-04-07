@@ -59,6 +59,11 @@ jobs:
         run: |
           git config --local user.email "narad-bot@github.com"
           git config --local user.name "Narad (Smriti Bot)"
-          git add smriti/Projects/ pages/smriti_graph.json
-          git commit -m "🧠 Smriti: Automated knowledge & graph refresh [skip ci]" || echo "No changes to commit"
+          
+          # Sync to web-accessible vault
+          mkdir -p pages/vault
+          cp -r smriti/Projects/* pages/vault/
+          
+          git add smriti/Projects/ pages/smriti_graph.json pages/vault/
+          git commit -m "🧠 Smriti: Automated knowledge & web-vault refresh [skip ci]" || echo "No changes to commit"
           git push

@@ -117,7 +117,7 @@ function showPreview(node) {
     
     // Setup the Enter button
     document.getElementById('enter-node').onclick = () => {
-        window.parent.postMessage({ type: 'GOTO_NODE', path: node.path }, '*');
+        window.location.href = `reader.html?path=${node.path}`;
     };
 
     // Smoothly focus camera on the selected node
