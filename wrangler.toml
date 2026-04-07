@@ -7,7 +7,6 @@ main = "pages/_worker.js"
 binding = "NARAD_DATA"
 id = "ca98881c7005404c8a0d00330759b80e"
 
-
 [ai]
 binding = "AI"
 
