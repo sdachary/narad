@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smriti | Knowledge Observatory</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Graph Engines (CDN) -->
+    <script src="https://unpkg.com/force-graph"></script>
+    <script src="https://unpkg.com/3d-force-graph"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            background-color: #0d1117;
+            color: #eee;
+            overflow: hidden;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        #graph-container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .graph-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .graph-controls {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1001;
+            pointer-events: auto;
+        }
+
+        .obs-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-secondary, #ffb000);
+            text-shadow: 0 0 10px rgba(255, 176, 0, 0.4);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .obs-title .obs-icon {
+            width: 12px;
+            height: 12px;
+            background: var(--text-secondary, #ffb000);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--text-secondary);
+        }
+
+        .obs-subtitle {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toggle-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            font-weight: 700;
+        }
+
+        .toggle-btn.active {
+            border-color: var(--text-secondary, #ffb000);
+            color: var(--text-secondary, #ffb000);
+            box-shadow: 0 0 15px rgba(255, 176, 0, 0.4);
+        }
+
+        .speed-selector {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 11px;
+            cursor: pointer;
+            outline: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .speed-selector:hover {
+            border-color: #666;
+        }
+
+        #back-btn {
+            background: rgba(255, 95, 86, 0.1);
+            border-color: #ff5f56;
+            color: #ff5f56;
+        }
+
+        #back-btn:hover {
+            background: #ff5f56;
+            color: white;
+        }
+
+        .node-label {
+            font-size: 11px;
+            padding: 2px 6px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 4px;
+            pointer-events: none;
+            border: 1px solid #333;
+            color: #00ff00;
+            white-space: nowrap;
+        }
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #0d1117;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading-screen">
+        <div class="obs-title"><div class="obs-icon"></div> SMRITI</div>
+        <div class="loading-text">RECALLING MEMORIES...</div>
+    </div>
+
+    <div class="graph-overlay">
+        <div class="obs-title"><div class="obs-icon"></div> SMRITI</div>
+        <div class="obs-subtitle">Knowledge Observatory</div>
+    </div>
+
+    <div class="graph-controls">
+        <select id="speed-select" class="speed-selector" title="Animation Speed">
+            <option value="1000">Fast Reveal</option>
+            <option value="3000">Smooth Reveal</option>
+            <option value="5000">Meditative (5s)</option>
+            <option value="10000" selected>Deep Meditation (10s)</option>
+        </select>
+        <button id="toggle-2d" class="toggle-btn active">2D VIEW</button>
+        <button id="toggle-3d" class="toggle-btn">3D VIEW</button>
+        <button id="back-btn" class="toggle-btn" onclick="window.location.href='/'">RETURN TO NARAD</button>
+    </div>
+
+    <div id="graph-container"></div>
+
+    <script src="graph.js"></script>
+</body>
+</html>

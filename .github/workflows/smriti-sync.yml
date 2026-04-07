@@ -50,11 +50,15 @@ jobs:
           # Run the refiner (pointing to the temp sync dir)
           export SMRITI_SOURCE_DIR=$(pwd)/sync_temp
           python3 smriti/Scripts/enhance_notes.py
+          
+          # Generate Knowledge Graph JSON
+          echo "--- Generating Knowledge Map ---"
+          python3 smriti/Scripts/generate_graph.py
 
       - name: 🚀 Commit and Push Knowledge
         run: |
           git config --local user.email "narad-bot@github.com"
           git config --local user.name "Narad (Smriti Bot)"
-          git add smriti/Projects/
-          git commit -m "🧠 Smriti: Automated knowledge refresh [skip ci]" || echo "No changes to commit"
+          git add smriti/Projects/ pages/smriti_graph.json
+          git commit -m "🧠 Smriti: Automated knowledge & graph refresh [skip ci]" || echo "No changes to commit"
           git push
