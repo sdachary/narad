@@ -10,15 +10,13 @@ function initCharacterSelector() {
     const select = document.getElementById('character-select');
     if (!select) return;
     
-    const characters = listCharacters();
-    characters.forEach(char => {
-        const option = document.createElement('option');
-        option.value = char.id;
-        option.textContent = char.name;
-        select.appendChild(option);
-    });
+    // Options are already rendered in HTML — just restore the saved selection
+    const saved = localStorage.getItem(CHARACTER_KEY) || 'default';
+    if (select.querySelector(`option[value="${saved}"]`)) {
+        select.value = saved;
+        selectedCharacter = saved;
+    }
     
-    select.value = selectedCharacter;
     select.addEventListener('change', (e) => {
         selectedCharacter = e.target.value || 'default';
         localStorage.setItem(CHARACTER_KEY, selectedCharacter);
@@ -60,14 +58,6 @@ function initModeSelector() {
         });
     });
 
-    // Sidebar Toggle
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    if (toggleBtn && sidebar) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
-    }
 
     // New Chat Button
     const newChatBtn = document.getElementById('new-chat-btn');
@@ -989,6 +979,15 @@ async function init() {
     
     // Initialize mode selector
     initModeSelector();
+
+    // Sidebar Toggle — wired here so DOM is guaranteed ready
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle');
+    if (sidebarToggleBtn && sidebar) {
+        sidebarToggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+    }
 
     // Initialize Sessions & Sidebar — this also populates chatHistory and calls restoreChatDisplay
     await loadSessionsForCurrentMode();
