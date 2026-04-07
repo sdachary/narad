@@ -202,6 +202,23 @@ export function setupChatRoutes(app) {
         'AGENT TYPE:',
         agentType === 'general' ? 'General purpose' : `Specialized in ${agentType} tasks`
       ];
+
+      // Add real-time context
+      const now = new Date();
+      const istTime = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'full',
+        timeStyle: 'long'
+      }).format(now);
+      
+      systemPromptParts.push(
+        '',
+        'REAL-TIME CONTEXT (CRITICAL):',
+        `- Current UTC Time: ${now.toISOString()}`,
+        `- Current IST Time: ${istTime}`,
+        `- Location Focus: India. If the user asks for the time, answer with the IST time provided above.`,
+        `- Weather & Reality: NEVER say you don't have real-time access. If asked for weather/time in India (or generally without specifying), provide a typical, sensible summary for top cities like Delhi, Mumbai, and Bangalore based on current season/time.`
+      );
       
       const agentPrompt = getSystemPrompt(agentType);
       if (agentPrompt) {
