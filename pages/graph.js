@@ -48,13 +48,16 @@ async function init() {
         // Sort nodes by time (Chronological Focus)
         graphData.nodes.sort((a, b) => new Date(a.time) - new Date(b.time));
         
-        // Hide loading screen
-        document.getElementById('loading').style.opacity = '0';
-        setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
-        
         render3D();
         setupPreviewControls();
         animateDiscovery();
+        
+        // Hide loading screen only after graph is initialized
+        const loading = document.getElementById('loading');
+        loading.style.opacity = '0';
+        setTimeout(() => {
+            loading.style.display = 'none';
+        }, 500);
         
     } catch (error) {
         console.error("Failed to load Smriti graph:", error);
@@ -71,6 +74,10 @@ function render3D() {
         
         // GEOMETRIC SEMANTICS: Custom shapes based on content type
         .nodeThreeObject(node => {
+            if (typeof THREE === 'undefined') {
+                console.error("THREE is missing!");
+                return null;
+            }
             const material = new THREE.MeshLambertMaterial({ 
                 color: getProjectColor(node),
                 transparent: true,
@@ -105,7 +112,6 @@ function showPreview(node) {
     title.textContent = node.name.toUpperCase();
     icon.style.background = getProjectColor(node);
     
-    // Simulate content summary (In Phase 4 we will fetch real summary)
     const project = node.path.split('/')[0] || 'Smriti';
     body.innerHTML = `
         <div style="color: grey; font-size: 11px; margin-bottom: 8px;">PATH: ${node.path}</div>
@@ -137,13 +143,15 @@ function setupPreviewControls() {
 }
 
 function clearContainer() {
-    document.getElementById('graph-container').innerHTML = '';
+    const container = document.getElementById('graph-container');
+    if (container) container.innerHTML = '';
 }
 
 async function animateDiscovery() {
     if (!graphData.nodes.length) return;
     const getSpeed = () => parseInt(document.getElementById('speed-select').value);
 
+    // Briefly orbit or highlight first few nodes to "show life"
     for (let i = 0; i < Math.min(graphData.nodes.length, 12); i++) {
         const node = graphData.nodes[i];
         const sleepDuration = getSpeed();
@@ -152,7 +160,5 @@ async function animateDiscovery() {
     }
     currentGraph.zoomToFit(2000, 200);
 }
-
-document.addEventListener('DOMContentLoaded', init);
 
 document.addEventListener('DOMContentLoaded', init);
