@@ -1933,13 +1933,18 @@ function formatNumber(num) {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-});
-if (document.readyState !== 'loading') {
+let hasInitialized = false;
+function triggerInit() {
+    if (hasInitialized) return;
+    hasInitialized = true;
     init();
 }
 
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', triggerInit);
+} else {
+    triggerInit();
+}
 // Submit feedback with CSRF protection
 async function submitFeedback(score) {
     const token = CSRFManager.getToken();
