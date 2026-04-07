@@ -1,0 +1,95 @@
+---
+source: "/home/deepak/Work/narad/pages/routes/errors.js"
+project: "narad"
+role: route
+language: javascript
+frameworks: []
+lines: 55
+size: 1671 bytes
+last_modified: "2026-04-04 23:47"
+scanned: "2026-04-06 21:37"
+tags: [code, javascript, project/narad, route]
+---
+
+# errors.js
+
+> Route handler / API endpoint (55 lines).
+
+**Key exports:** `ErrorTracker`, `setupErrorRoutes`
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/routes/errors.js` |
+| **Role** | route |
+| **Language** | javascript |
+| **Frameworks** | — |
+| **Lines** | 55 |
+| **Size** | 1671 bytes |
+| **Modified** | 2026-04-04 23:47 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```javascript
+export const ErrorTracker = {
+  async trackError(env, error, context = {}) {
+    const errorKey = `error:${Date.now()}:${Math.random().toString(36).substr(2, 9)}`;
+    const errorData = {
+      message: error.message || String(error),
+      stack: error.stack || '',
+      timestamp: new Date().toISOString(),
+      context: {
+        path: context.path || '',
+        method: context.method || '',
+        userAgent: context.userAgent || '',
+        ip: context.ip || ''
+      }
+    };
+    
+    try {
+      const { getStore } = await import('../services/memory.js');
+      const store = getStore(env);
+      await store.put(errorKey, JSON.stringify(errorData), { expirationTtl: 86400 });
+    } catch (e) {
+      console.error('Failed to store error:', e);
+    }
+    
+    console.error('[ERROR]', JSON.stringify(errorData));
+  },
+  
+  async getRecentErrors(env, limit = 10) {
+    const errors = [];
+    const { getStore } = await import('../services/memory.js');
+    const store = getStore(env);
+    const list = await store.list({ prefix: 'error:', limit: 50 });
+    
+    for (const key of list.keys.reverse()) {
+      if (errors.length >= limit) break;
+      const data = await store.get(key.name);
+      if (data) {
+        errors.push(JSON.parse(data));
+      }
+    }
+    
+    return errors;
+  }
+};
+
+export function setupErrorRoutes(app) {
+  app.get('/api/errors', async (c) => {
+    try {
+      const limit = parseInt(c.req.query('limit') || '10');
+      const errors = await ErrorTracker.getRecentErrors(c.env, Math.min(limit, 50));
+      return c.json({ errors });
+    } catch (error) {
+      return c.json({ error: 'Failed to fetch errors' }, 500);
+    }
+  });
+}
+
+```

@@ -1,0 +1,41 @@
+---
+source: "/home/deepak/Work/unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/cache/cache-api.js"
+project: "unnati"
+role: service
+language: javascript
+frameworks: []
+lines: 1
+size: 441 bytes
+last_modified: "2026-04-07 17:53"
+scanned: "2026-04-07 17:53"
+tags: [code, javascript, project/unnati, service]
+---
+
+# cache-api.js
+
+> Service / API client module (1 lines).
+
+**Key exports:** `o`
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/cache/cache-api.js` |
+| **Role** | service |
+| **Language** | javascript |
+| **Frameworks** | — |
+| **Lines** | 1 |
+| **Size** | 441 bytes |
+| **Modified** | 2026-04-07 17:53 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```javascript
+import{CacheAdaptor as r}from"./adaptor.js";export default class o extends r{cacheName="suspense-cache";constructor(e={}){super(e)}async retrieve(e){const c=await(await caches.open(this.cacheName)).match(this.buildCacheKey(e));return c?c.text():null}async update(e,a,c){const s=await caches.open(this.cacheName),t=c??"31536000",n=new Response(a,{headers:new Headers({"cache-control":`max-age=${t}`})});await s.put(this.buildCacheKey(e),n)}}
+
+```

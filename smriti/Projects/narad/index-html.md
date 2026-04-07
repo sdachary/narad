@@ -1,0 +1,130 @@
+---
+source: "/home/deepak/Work/narad/pages/index.html"
+project: "narad"
+role: page
+language: html
+frameworks: []
+lines: 92
+size: 4848 bytes
+last_modified: "2026-04-05 19:33"
+scanned: "2026-04-06 21:37"
+tags: [code, html, page, project/narad]
+---
+
+# index.html
+
+> Web page (92 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/index.html` |
+| **Role** | page |
+| **Language** | html |
+| **Frameworks** | — |
+| **Lines** | 92 |
+| **Size** | 4848 bytes |
+| **Modified** | 2026-04-05 19:33 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Narad | Terminal AI</title>
+    <meta name="description" content="A simple, powerful MacBook Terminal-themed AI chat.">
+    <meta name="csrf-token" content="">
+    <meta name="api-base" content="">
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <script src="config/characters.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/xml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/sql.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+</head>
+<body>
+    <div class="terminal-window">
+        <header class="terminal-header">
+            <div class="terminal-title">Narad @ macOS — zsh</div>
+            
+            <div class="header-right">
+                <select id="character-select" class="character-select">
+                    <option value="">Select Character</option>
+                </select>
+                <button id="search-btn" class="header-btn" title="Search (⌘F)">🔍</button>
+                <button id="clear-history-btn" class="header-btn" title="Clear (⌘K)">CLEAR</button>
+                <button id="stop-search-btn" class="header-btn stop-btn" style="display:none;" title="Stop (⌃C)">STOP</button>
+                <div class="status-badge" id="service-status" onclick="checkApiHealth();">
+                    <span class="status-dot" id="api-dot"></span>
+                    <span class="status-text" id="api-status">Connecting...</span>
+                </div>
+                <button id="help-btn" class="header-btn" title="Help & Commands">?</button>
+            </div>
+        </header>
+
+        <main class="terminal-body" id="chat-messages">
+            <div class="message assistant">
+                <span class="prompt">[narad@system]</span>
+                <div class="message-content">Hello. I am Narad, your Terminal AI. How can I assist you today?</div>
+            </div>
+        </main>
+
+        <footer class="terminal-footer">
+            <form id="chat-form" class="input-line">
+                <span class="prompt">[user@macos] &gt;</span>
+                <textarea id="user-input" placeholder="" autocomplete="off" rows="1"></textarea>
+                <div class="input-controls">
+                    <button type="button" id="voice-input-btn" class="icon-btn" title="Voice Input">🎤</button>
+                    <button type="submit" id="send-btn" class="icon-btn">⏎</button>
+                </div>
+            </form>
+        </footer>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="chat-search-overlay" class="search-overlay" style="display:none;">
+        <div class="search-container">
+            <input type="text" id="chat-search-input" placeholder="Search messages...">
+            <button id="search-close-btn" class="header-btn">✕</button>
+        </div>
+    </div>
+
+    <!-- UI Components for functionality (hidden or integrated) -->
+    <div style="display:none;">
+        <input type="file" id="image-input" accept="image/*">
+        <button id="image-upload-btn"></button>
+        <div id="image-preview"></div>
+        <div id="usage-ring">
+            <span class="tokens"></span>
+            <span class="percent"></span>
+            <circle class="ring-progress"></circle>
+        </div>
+        <button id="clear-chat-btn"></button>
+        <button id="voice-output-btn"></button>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>
+
+```

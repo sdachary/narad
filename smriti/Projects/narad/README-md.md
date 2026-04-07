@@ -1,3 +1,39 @@
+---
+source: "/home/deepak/Work/narad/README.md"
+project: "narad"
+role: auth
+language: markdown
+frameworks: [cloudflare-workers]
+lines: 385
+size: 12362 bytes
+last_modified: "2026-04-06 22:06"
+scanned: "2026-04-06 22:06"
+tags: [auth, cloudflare-workers, documentation, markdown, project/narad]
+---
+
+# README.md
+
+> Authentication / authorization module using **cloudflare-workers** (385 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/README.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 385 |
+| **Size** | 12362 bytes |
+| **Modified** | 2026-04-06 22:06 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
 # Narad v2
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
@@ -25,7 +61,6 @@
 | **Web Search** | Serper, Firecrawl backends (NEW) |
 | **MCP Connectors** | GitHub, Notion, Slack, Postgres, S3 (NEW) |
 | **Truth Verification** | 0.95 threshold AI response validation (NEW) |
-| **Smriti (Brain)** | Integrated knowledge base with visual graph & sync (NEW) |
 
 ---
 
@@ -54,11 +89,6 @@
 │  │              NEW: RAG & Search System              │ │
 │  │  Vector Index │ Keyword Index │ Hybrid Search       │ │
 │  │  Web Search (Serper/Firecrawl) │ MCP Connectors    │ │
-│  └────────────────────────────────────────────────────┘ │
-│  ┌───────────────────────▼────────────────────────────┐ │
-│  │           SMRITI: KNOWLEDGE BASE (NEW)             │ │
-│  │  Graph View │ Markdown Reader │ Project Refiner    │ │
-│  │  Multi-Repo Sync (GitHub Actions)                  │ │
 │  └────────────────────────────────────────────────────┘ │
 │                          │                               │
 │  ┌───────────────────────▼────────────────────────────┐ │
@@ -314,56 +344,6 @@ curl https://narad.pages.dev/api/memory/stats
 
 ---
 
-## 🧠 Smriti (Knowledge Base)
-
-**Smriti** ("Memory") is Narad's internal brain. It consists of refined Markdown notes from all your projects, organized into a searchable and visualizable vault.
-
-### 🛰️ Graph View
-Visualize your entire codebase as a dynamic knowledge graph. Nodes represent files/projects, and edges represent dependencies and wikilinks. Accessible via the **🛰️** button in the Narad UI.
-
-### 📖 Markdown Reader
-Read project documentation, design specs, and refined notes directly in the terminal interface with full Markdown support.
-
----
-
-## 🔄 Smriti Sync Guide (Multi-Repo Setup)
-
-To allow Narad to automatically "remember" changes from your other repositories, follow these steps:
-
-### 1. Generate GitHub Token
-1. Go to **GitHub Settings** > **Developer Settings** > **Personal Access Tokens**.
-2. Generate a new token (classic) with `repo` scope.
-3. Save it securely.
-
-### 2. Add Secrets to Narad Repo
-1. In your **Narad repository**, go to **Settings** > **Secrets and variables** > **Actions**.
-2. Add a new repository secret called `SMRITI_SYNC_TOKEN` and paste your token value.
-
-### 3. Configure Project Repos
-For each project you want to sync (e.g., *Vishwakarma*):
-1. In that project's repo, create `.github/workflows/sync-to-narad.yml`.
-2. Add the following action:
-   ```yaml
-   on:
-     push:
-       branches: [main, master]
-   jobs:
-     sync:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Trigger Narad Brain Sync
-           run: |
-             curl -X POST https://api.github.com/repos/YOUR_USERNAME/narad/dispatches \
-             -H "Authorization: token ${{ secrets.SMRITI_SYNC_TOKEN }}" \
-             -H "Accept: application/vnd.github.v3+json" \
-             -d '{"event_type": "smriti_update"}'
-   ```
-
-### 4. Trigger Sync
-The brain will automatically refresh every time you push to a project repository. You can also trigger it manually via the Actions tab in the Narad repo.
-
----
-
 ## API Endpoints
 
 | Endpoint | Method | Description |
@@ -439,3 +419,5 @@ The brain will automatically refresh every time you push to a project repository
 ---
 
 *Proprietary — Nisha Platform*
+
+```

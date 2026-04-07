@@ -1,0 +1,60 @@
+name: Smriti Brain Sync
+
+on:
+  repository_dispatch:
+    types: [smriti_update]
+  workflow_dispatch:
+
+# Ensure only one sync runs at a time
+concurrency:
+  group: smriti-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛰️ Checkout Narad
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SMRITI_SYNC_TOKEN }}
+          persist-credentials: true
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python_version: '3.10'
+
+      - name: 🔄 Sync External Projects
+        run: |
+          mkdir -p sync_temp
+          
+          # 1. Sync self (Narad) - Copying local files to avoid cloning again
+          # Exclude smriti/ and sync_temp/ to avoid infinite recursion
+          echo "--- Syncing self (Narad) ---"
+          mkdir -p sync_temp/narad
+          rsync -av . sync_temp/narad/ --exclude smriti/ --exclude sync_temp/ --exclude .git/
+          
+          cd sync_temp
+          
+          # 2. Sync others
+          REPOS=("vishwakarma" "chitragupta" "social-blueprint-ai" "unnati" "indra" "kanak")
+          
+          for repo in "${REPOS[@]}"; do
+            echo "--- Syncing $repo ---"
+            git clone --depth 1 "https://x-access-token:${{ secrets.SMRITI_SYNC_TOKEN }}@github.com/sdachary/$repo.git" || echo "Failed to clone $repo, skipping..."
+          done
+          
+          cd ..
+          
+          # Run the refiner (pointing to the temp sync dir)
+          export SMRITI_SOURCE_DIR=$(pwd)/sync_temp
+          python3 smriti/Scripts/enhance_notes.py
+
+      - name: 🚀 Commit and Push Knowledge
+        run: |
+          git config --local user.email "narad-bot@github.com"
+          git config --local user.name "Narad (Smriti Bot)"
+          git add smriti/Projects/
+          git commit -m "🧠 Smriti: Automated knowledge refresh [skip ci]" || echo "No changes to commit"
+          git push
