@@ -5,7 +5,6 @@
 
 let graphData = null;
 let currentGraph = null;
-let is3D = false;
 const API_URL = 'smriti_graph.json';
 
 // Terminal Colors
@@ -14,7 +13,8 @@ const COLORS = {
     KNOWLEDGE: '#ffb000',    // Orange (Memory)
     INDEX: '#ffff00',        // Yellow (Hub)
     GENERAL: '#888888',      // Gray
-    LINK: 'rgba(255, 255, 255, 0.1)'
+    LINK: 'rgba(255, 255, 255, 0.1)',
+    HIGHLIGHT: '#ffffff'
 };
 
 async function init() {
@@ -22,15 +22,14 @@ async function init() {
         const response = await fetch(API_URL);
         graphData = await response.json();
         
-        // Sort nodes by time (Chrological Focus)
+        // Sort nodes by time (Chronological Focus)
         graphData.nodes.sort((a, b) => new Date(a.time) - new Date(b.time));
         
         // Hide loading screen
         document.getElementById('loading').style.opacity = '0';
         setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
         
-        render2D();
-        setupToggles();
+        render3D();
         animateDiscovery();
         
     } catch (error) {
@@ -39,68 +38,34 @@ async function init() {
     }
 }
 
-function setupToggles() {
-    document.getElementById('toggle-2d').addEventListener('click', () => {
-        if (!is3D) return;
-        is3D = false;
-        document.getElementById('toggle-2d').classList.add('active');
-        document.getElementById('toggle-3d').classList.remove('active');
-        render2D();
-    });
-
-    document.getElementById('toggle-3d').addEventListener('click', () => {
-        if (is3D) return;
-        is3D = true;
-        document.getElementById('toggle-3d').classList.add('active');
-        document.getElementById('toggle-2d').classList.remove('active');
-        render3D();
-    });
-}
-
-function render2D() {
-    clearContainer();
-    currentGraph = ForceGraph()(document.getElementById('graph-container'))
-        .graphData(graphData)
-        .nodeId('id')
-        .nodeLabel('name')
-        .nodeAutoColorBy('group')
-        .linkColor(() => COLORS.LINK)
-        .nodeCanvasObject((node, ctx, globalScale) => {
-            const label = node.name;
-            const fontSize = 12 / globalScale;
-            ctx.font = `${fontSize}px Roboto Mono`;
-            const textWidth = ctx.measureText(label).width;
-            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); 
-
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-            ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
-
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = getNodeColor(node);
-            ctx.fillText(label, node.x, node.y);
-
-            node.__bckgDimensions = bckgDimensions; // to use in nodePointerAreaPaint
-        })
-        .onNodeClick(node => {
-            window.parent.postMessage({ type: 'GOTO_NODE', path: node.path }, '*');
-        });
-
-    currentGraph.d3Force('charge').strength(-150);
-}
-
 function render3D() {
     clearContainer();
     currentGraph = ForceGraph3D()(document.getElementById('graph-container'))
         .graphData(graphData)
         .nodeId('id')
-        .nodeLabel('name')
+        .nodeLabel(node => `<div class="node-label"><b>${node.name}</b><br/>${new Date(node.time).toLocaleDateString()}</div>`)
         .nodeColor(getNodeColor)
+        .nodeOpacity(0.9)
+        .nodeResolution(20)
         .linkColor(() => COLORS.LINK)
+        .linkWidth(1)
+        .linkOpacity(0.2)
         .backgroundColor('#0d1117')
+        .showNavInfo(false)
         .onNodeClick(node => {
             window.parent.postMessage({ type: 'GOTO_NODE', path: node.path }, '*');
         });
+
+    // SMOOTHNESS: Adjust physics for a more 'meditative' canvas feel
+    // Increase velocity decay (friction) to make it settle faster and feel less 'bouncy'
+    currentGraph.d3VelocityDecay(0.4); 
+    
+    // Strengthen forces for better structure
+    currentGraph.d3Force('charge').strength(-200);
+    currentGraph.d3Force('link').distance(100);
+
+    // Initial Zoom Level
+    currentGraph.cameraPosition({ z: 1200 });
 }
 
 function getNodeColor(node) {
@@ -119,34 +84,27 @@ function clearContainer() {
 
 /**
  * Chronological Focus Animation (Old-to-New)
- * Focuses on nodes in order of their modification time.
  */
 async function animateDiscovery() {
     if (!graphData.nodes.length) return;
 
-    // Read speed from user selector
     const getSpeed = () => parseInt(document.getElementById('speed-select').value);
 
-    // Reveal chronological history (Oldest -> Newest)
+    // Initial reveal of key nodes
     for (let i = 0; i < Math.min(graphData.nodes.length, 12); i++) {
         const node = graphData.nodes[i];
         const sleepDuration = getSpeed();
         
-        // Flight animation
-        if (is3D) {
-            currentGraph.cameraPosition({ x: node.x, y: node.y, z: 200 }, node, sleepDuration * 0.8);
-        } else {
-            currentGraph.centerAt(node.x, node.y, sleepDuration * 0.8);
-            currentGraph.zoom(2.5, sleepDuration * 0.8);
-        }
+        // Smooth flight transit
+        currentGraph.cameraPosition({ x: node.x, y: node.y, z: 400 }, node, sleepDuration * 0.9);
         
         await new Promise(r => setTimeout(r, sleepDuration));
     }
     
-    // Final zoom to show overall structure
-    if (!is3D) {
-        currentGraph.zoomToFit(1500);
-    }
+    // Zoom out to see everything at the end
+    currentGraph.zoomToFit(2000, 200, node => true);
 }
+
+document.addEventListener('DOMContentLoaded', init);
 
 document.addEventListener('DOMContentLoaded', init);
