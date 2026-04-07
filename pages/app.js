@@ -1,4 +1,6 @@
-// Narad AI Terminal - Original Theme with Minimal Ring Charts
+import { listCharacters, getCharacterByTrait, getCharacter } from './config/characters.js';
+
+// Narad AI Terminal - Multi-Session Workspace
 
 // Character Selector
 const CHARACTER_KEY = 'narad_character';
@@ -6,7 +8,7 @@ let selectedCharacter = localStorage.getItem(CHARACTER_KEY) || 'default';
 
 function initCharacterSelector() {
     const select = document.getElementById('character-select');
-    if (!select || typeof listCharacters !== 'function') return;
+    if (!select) return;
     
     const characters = listCharacters();
     characters.forEach(char => {
@@ -21,6 +23,78 @@ function initCharacterSelector() {
         selectedCharacter = e.target.value || 'default';
         localStorage.setItem(CHARACTER_KEY, selectedCharacter);
     });
+}
+
+// Mode Selector
+const MODE_KEY = 'narad_mode';
+let currentMode = localStorage.getItem(MODE_KEY) || 'casual';
+
+function initModeSelector() {
+    const selector = document.getElementById('mode-selector');
+    if (!selector) return;
+
+    // Apply initial mode
+    document.body.setAttribute('data-mode', currentMode);
+
+    const chips = selector.querySelectorAll('.mode-chip');
+    chips.forEach(chip => {
+        const mode = chip.getAttribute('data-mode');
+        if (mode === 'casual') chip.title = "CASUAL: Natural Q&A and Brainstorming";
+        if (mode === 'rnd') chip.title = "R&D: Planning, Strategy, and Feasibility Testing";
+        if (mode === 'build') chip.title = "BUILD: End-to-End Creation & File Execution";
+
+        chip.addEventListener('click', () => {
+            if (currentMode === chip.getAttribute('data-mode')) return;
+            
+            // Save current session before switching mode
+            saveChatHistory();
+            
+            currentMode = chip.getAttribute('data-mode');
+            localStorage.setItem(MODE_KEY, currentMode);
+            document.body.setAttribute('data-mode', currentMode);
+            
+            // Load sessions for the new mode
+            loadSessionsForCurrentMode();
+            
+            appendSystemMessage(`NARAD STATE SHIFT: ${currentMode.toUpperCase()} MODE ACTIVE.`);
+        });
+    });
+
+    // Sidebar Toggle
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+    }
+
+    // New Chat Button
+    const newChatBtn = document.getElementById('new-chat-btn');
+    if (newChatBtn) {
+        newChatBtn.addEventListener('click', createNewSession);
+    }
+}
+
+function appendSystemMessage(text) {
+    const chatContainer = document.getElementById('chat-messages');
+    if (!chatContainer) return;
+
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message system';
+    msgDiv.style.borderLeft = `2px solid var(--mode-accent, #666)`;
+    msgDiv.style.paddingLeft = '10px';
+    msgDiv.style.opacity = '0.7';
+    msgDiv.style.fontSize = '12px';
+    msgDiv.style.margin = '10px 0';
+    
+    msgDiv.innerHTML = `
+        <span class="prompt" style="color: #666;">[system@narad]</span>
+        <span class="message-content" style="color: #888; font-style: italic;">${text}</span>
+    `;
+    
+    chatContainer.appendChild(msgDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 // Theme management
@@ -232,29 +306,291 @@ function initApiBase() {
 
 const API_BASE = initApiBase();
 console.log('[Narad] API_BASE is:', API_BASE);
+
+// Session persistence logic
+const SESSIONS_KEY = 'narad_mode_sessions';
 let sessionId = localStorage.getItem('narad_session_id') || 'session_' + Date.now();
 localStorage.setItem('narad_session_id', sessionId);
 
-// Session persistence - load chat history from localStorage
+// Persistent state for behavioral skills (Superpowers integration)
+let activeSkill = null;
+
 const CHAT_HISTORY_KEY = 'narad_chat_history';
 const MAX_PERSISTED_MESSAGES = 100;
 
-function loadChatHistory() {
+async function getModeSessions() {
+    // Try cloud first
     try {
-        const saved = localStorage.getItem(CHAT_HISTORY_KEY + '_' + sessionId);
-        if (saved) {
-            return JSON.parse(saved);
+        const res = await fetch(`${API_BASE}/api/sessions/${currentMode}`);
+        if (res.ok) {
+            const data = await res.json();
+            if (data.sessions && data.sessions.length > 0) return data.sessions;
         }
     } catch (e) {
-        console.warn('[Narad] Failed to load chat history:', e);
+        console.warn('[Narad] Cloud session fetch failed, using local.');
     }
-    return [];
+
+    const all = JSON.parse(localStorage.getItem(SESSIONS_KEY) || '{}');
+    if (!all[currentMode]) {
+        all[currentMode] = [sessionId];
+        localStorage.setItem(SESSIONS_KEY, JSON.stringify(all));
+    }
+    return all[currentMode];
+}
+
+async function loadSessionsForCurrentMode() {
+    const sessions = await getModeSessions();
+    // Default to first session of mode if current sessionId isn't in it
+    if (!sessions.includes(sessionId)) {
+        sessionId = sessions[0];
+        localStorage.setItem('narad_session_id', sessionId);
+    }
+    
+    // Refresh history and UI
+    chatHistory = await loadChatHistory();
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+        chatMessages.innerHTML = '';
+        restoreChatDisplay();
+    }
+    await renderSidebar();
+}
+
+async function createNewSession() {
+    await saveChatHistory();
+    const newId = 'session_' + Date.now();
+    
+    const sessions = await getModeSessions();
+    sessions.unshift(newId);
+    
+    // Sync to cloud
+    try {
+        await fetch(`${API_BASE}/api/sessions/sync`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': CSRFManager.getToken()
+            },
+            body: JSON.stringify({ mode: currentMode, sessions })
+        });
+    } catch (e) { console.warn('Cloud sync failed'); }
+
+    sessionId = newId;
+    localStorage.setItem('narad_session_id', sessionId);
+    
+    chatHistory = [];
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+        chatMessages.innerHTML = '';
+        addMessage('Neural Channel Initialized. How can I assist you?', 'assistant');
+    }
+    await renderSidebar();
+}
+
+async function switchSession(id) {
+    if (id === sessionId) return;
+    await saveChatHistory();
+    sessionId = id;
+    localStorage.setItem('narad_session_id', sessionId);
+    
+    chatHistory = await loadChatHistory();
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+        chatMessages.innerHTML = '';
+        restoreChatDisplay();
+    }
+    await renderSidebar();
+}
+
+async function deleteSession(id) {
+    if (confirm('Are you sure you want to delete this neural channel? Memory will be lost.')) {
+        const sessions = await getModeSessions();
+        const updated = sessions.filter(sid => sid !== id);
+        
+        // Sync to cloud
+        try {
+            await fetch(`${API_BASE}/api/sessions/sync`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRFManager.getToken()
+                },
+                body: JSON.stringify({ mode: currentMode, sessions: updated })
+            });
+        } catch (e) { console.warn('Cloud delete failed'); }
+
+        localStorage.removeItem(CHAT_HISTORY_KEY + '_' + id);
+        
+        if (updated.length === 0) {
+            const newId = 'session_' + Date.now();
+            sessionId = newId;
+        } else if (id === sessionId) {
+            sessionId = updated[0];
+        }
+        
+        localStorage.setItem('narad_session_id', sessionId);
+        
+        chatHistory = await loadChatHistory();
+        const chatMessages = document.getElementById('chat-messages');
+        if (chatMessages) {
+            chatMessages.innerHTML = '';
+            restoreChatDisplay();
+        }
+        await renderSidebar();
+    }
+}
+
+async function renderSidebar() {
+    const list = document.getElementById('session-list');
+    if (!list) return;
+    
+    const sessions = await getModeSessions();
+    list.innerHTML = sessions.map(id => {
+        const historyJson = localStorage.getItem(CHAT_HISTORY_KEY + '_' + id);
+        const history = historyJson ? JSON.parse(historyJson) : [];
+        const lastMsg = history.length > 0 ? history[history.length-1].text : 'Empty Session';
+        const label = lastMsg.substring(0, 20) + (lastMsg.length > 20 ? '...' : '');
+        
+        return `
+            <div class="session-item ${id === sessionId ? 'active' : ''}" onclick="window.switchSession('${id}')">
+                <span class="session-label">${label}</span>
+                <span class="delete-session-btn" onclick="event.stopPropagation(); window.deleteSession('${id}')">🗑</span>
+            </div>
+        `;
+    }).join('');
+}
+
+// Global hooks for onclick events (since using type="module")
+window.switchSession = switchSession;
+window.deleteSession = deleteSession;
+
+async function loadChatHistory() {
+    try {
+        const res = await fetch(`${API_BASE}/api/sessions/history/${sessionId}`);
+        if (res.ok) {
+            const data = await res.json();
+            if (data.history) return data.history;
+        }
+    } catch (e) {
+        console.warn('[Narad] Cloud history fetch failed, using local.');
+    }
+
+    const saved = localStorage.getItem(CHAT_HISTORY_KEY + '_' + sessionId);
+    return saved ? JSON.parse(saved) : [];
+}
+
+async function saveChatHistory() {
+    try {
+        const historyToSave = chatHistory.slice(-MAX_PERSISTED_MESSAGES);
+        localStorage.setItem(CHAT_HISTORY_KEY + '_' + sessionId, JSON.stringify(historyToSave));
+        
+        // Sync to cloud
+        try {
+            await fetch(`${API_BASE}/api/sessions/history/${sessionId}`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRFManager.getToken()
+                },
+                body: JSON.stringify({ history: historyToSave })
+            });
+        } catch (e) { console.warn('Cloud history save failed'); }
+
+        await renderSidebar(); 
+    } catch (e) {
+        console.warn('[Narad] Failed to save chat history:', e);
+    }
 }
 
 // ============================================
 // Command Registry (inspired by Claw Code)
 // ============================================
 const COMMAND_REGISTRY = {
+    // R&D Commands
+    'last30days': {
+        description: 'Run high-fidelity research on a topic across Reddit, HN, X, and YouTube',
+        handler: async (args) => {
+            const topic = args.join(' ');
+            if (!topic) return 'Please provide a topic for research.';
+            
+            appendSystemMessage(`INITIATING GLOBAL RESEARCH: ${topic.toUpperCase()}...`);
+            const res = await fetch(`${API_BASE}/api/research/last30days`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic })
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            return `### Research Briefing: ${topic}\n\n${data.briefing}`;
+        }
+    },
+    
+    // Build & Architect Commands
+    'build': {
+        description: 'Trigger a cloud codebase generation for a project',
+        handler: async (args) => {
+            const projectName = args[0] || 'mark0';
+            const prompt = args.slice(1).join(' ');
+            
+            appendSystemMessage(`DISPATCHING CLOUD CONSTRUCTOR: ${projectName}...`);
+            const res = await fetch(`${API_BASE}/api/github/dispatch`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRFManager.getToken()
+                },
+                body: JSON.stringify({
+                    repo: 'narad', // or target repo
+                    eventType: 'narad_build',
+                    clientPayload: { projectName, prompt, mode: currentMode }
+                })
+            });
+            const data = await res.json();
+            return `✅ **Cloud Dispatch Success**: [${projectName}] is now being architected in the cloud via GitHub Actions.`;
+        }
+    },
+
+    'upgrade': {
+        description: 'Upgrade an existing service (e.g. Chitragupta) based on analysis',
+        handler: async (args) => {
+            const service = args[0];
+            const instruction = args.slice(1).join(' ');
+            if (!service) return 'Please specify a service (e.g. chitragupta).';
+            
+            appendSystemMessage(`INITIATING CROSS-REPO UPGRADE: ${service.toUpperCase()}...`);
+            const res = await fetch(`${API_BASE}/api/github/dispatch`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRFManager.getToken()
+                },
+                body: JSON.stringify({
+                    repo: service,
+                    eventType: 'narad_upgrade',
+                    clientPayload: { instruction, character: selectedCharacter }
+                })
+            });
+            return `🚀 **Upgrade Dispatched**: ${service} implementation started.`;
+        }
+    },
+
+    'skill': {
+        description: 'Load a behavioral skill from the Superpowers library (e.g. tdd, brainstorming)',
+        handler: async (args) => {
+            const skillName = args[0];
+            if (!skillName) return 'Please provide a skill name.';
+            
+            appendSystemMessage(`LOADING NEURAL SKILL: ${skillName.toUpperCase()}...`);
+            const res = await fetch(`${API_BASE}/api/skills/${skillName}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            
+            // Store active skill in session state
+            activeSkill = data;
+            return `⚡ **Skill Active**: Narad is now operating with the **${skillName}** protocol. Your next instructions will be steered by this behavior.`;
+        }
+    },
+
     // Single agent commands
     'dev': {
         name: 'Developer',
@@ -441,6 +777,7 @@ function saveChatHistory() {
     try {
         const historyToSave = chatHistory.slice(-MAX_PERSISTED_MESSAGES);
         localStorage.setItem(CHAT_HISTORY_KEY + '_' + sessionId, JSON.stringify(historyToSave));
+        renderSidebar(); // Update sidebar labels
     } catch (e) {
         console.warn('[Narad] Failed to save chat history:', e);
     }
@@ -657,6 +994,12 @@ async function init() {
     
     // Initialize character selector
     initCharacterSelector();
+    
+    // Initialize mode selector
+    initModeSelector();
+
+    // Initialize Sessions & Sidebar
+    loadSessionsForCurrentMode();
     
     // Re-query status elements in case they weren't ready at top level
     apiStatus = document.getElementById('api-status');
@@ -1432,7 +1775,8 @@ async function sendToApi(message) {
                 history: chatHistory,
                 session_id: sessionId,
                 agent_type,
-                character: selectedCharacter
+                character: selectedCharacter,
+                skill_context: activeSkill ? activeSkill.content : null
             })
         });
         

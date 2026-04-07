@@ -8,31 +8,18 @@
 
 ## What's New (April 2026)
 
-| Feature | Description |
-|---------|-------------|
-| **Modern UI** | Syntax highlighting, Markdown rendering, code blocks |
-| **PWA Support** | Installable app, works offline |
-| **Theme Toggle** | Dark/Light mode with keyboard shortcut |
-| **Chat Search** | Search through messages (⌘F) |
-| **Typing Indicator** | Animated dots during generation |
-| **Quick Reactions** | 👍👎 feedback on responses |
-| **Agent Warehouse** | 8 optimized agents for daily use |
-| **Multi-Agent** | Parallel (`/dev+reviewer:`) and chains (`/chain:dev->writer:`) |
-| **Voice I/O** | STT (Whisper) + TTS (MeloTTS) |
-| **Image Upload** | AI analysis with `@cf/unum/uform-gen2-qwen-7b` |
-| **Semantic Memory** | Workers AI embeddings with TF-IDF fallback |
-| **RAG Architecture** | Hybrid vector + keyword search (NEW) |
-| **Web Search** | Serper, Firecrawl backends (NEW) |
-| **MCP Connectors** | GitHub, Notion, Slack, Postgres, S3 (NEW) |
-| **Truth Verification** | 0.95 threshold AI response validation (NEW) |
-| **Smriti (Brain)** | Integrated knowledge base with visual graph & sync (NEW) |
+| **Truth Verification** | 0.95 threshold AI response validation |
+| **Neural Workspace** | Mode-based (Casual, R&D, Build) session management (NEW) |
+| **Cloud Persistence** | Device-independent KV-based session sync (NEW) |
+| **Research Intel** | High-fidelity platform scans via `/last30days` (NEW) |
+| **GitHub Builder** | Background codebase generation via `/build`, `/upgrade` (NEW) |
+| **Superpowers** | Engineering protocols via `/skill [tdd|brainstorm]` (NEW) |
 
 ---
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
+``┌─────────────────────────────────────────────────────────┐
 │                    USER INTERFACES                      │
 │     Web UI (narad.pages.dev)  │  Telegram Bot           │
 └───────────────────────────────┼─────────────────────────┘
@@ -40,34 +27,25 @@
 ┌───────────────────────────────▼─────────────────────────┐
 │              CLOUDFLARE WORKER (Serverless)             │
 │  ┌─────────────────────────────────────────────────────┐ │
-│  │ /api/chat │ /api/rag/* │ /api/search │ /api/mcp/*  │ │
-│  │ /api/memory/* │ /api/verification/* │ ...          │ │
+│  │ /api/chat │ /api/sessions/* │ /api/research/*      │ │
+│  │ /api/github/* │ /api/skills/*   │ /api/mcp/*       │ │
 │  └─────────────────────────────────────────────────────┘ │
 │                          │                               │
 │  ┌───────────────────────▼────────────────────────────┐ │
-│  │         Multi-Agent System (MAS) Core              │ │
-│  │  TaskManager → SubtaskManager → AgentManager       │ │
-│  │  Agent Warehouse (8 optimized agents)              │ │
+│  │       NEURAL WORKSPACE & CLOUD SYNC                │ │
+│  │   Multi-Session (KV) │ Mode Isolation (Build/R&D)  │ │
+│  │   GitHub Dispatch Bridge (Background Build)         │ │
 │  └────────────────────────────────────────────────────┘ │
 │                          │                               │
 │  ┌───────────────────────▼────────────────────────────┐ │
-│  │              NEW: RAG & Search System              │ │
-│  │  Vector Index │ Keyword Index │ Hybrid Search       │ │
-│  │  Web Search (Serper/Firecrawl) │ MCP Connectors    │ │
-│  └────────────────────────────────────────────────────┘ │
-│  ┌───────────────────────▼────────────────────────────┐ │
-│  │           SMRITI: KNOWLEDGE BASE (NEW)             │ │
-│  │  Graph View │ Markdown Reader │ Project Refiner    │ │
-│  │  Multi-Repo Sync (GitHub Actions)                  │ │
+│  │     SMRITI: KNOWLEDGE BASE & RESEARCH              │ │
+│  │  Graph View │ Platform Research (last30days)       │ │
+│  │  Cross-Repo Sync │ Multi-Agent Warehouse           │ │
 │  └────────────────────────────────────────────────────┘ │
 │                          │                               │
 │  ┌───────────────────────▼────────────────────────────┐ │
-│  │     AI Providers Pool (Fallback Chain)             │ │
-│  │  Groq → OpenRouter → Mistral → Gemini             │ │
-│  └────────────────────────────────────────────────────┘ │
-│                          │                               │
-│  ┌───────────────────────▼────────────────────────────┐ │
-│  │  KV Storage │ Workers AI │ Rate Limiting           │ │
+│  │     AI PROVIDERS & PERSISTENCE                     │ │
+│  │  Llama 3.3 (70B) │ Groq │ Narad_Data (KV)         │ │
 │  └────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -364,11 +342,43 @@ The brain will automatically refresh every time you push to a project repository
 
 ---
 
+## ⚡ Neural Workspace (Zero-Laptop Development)
+
+Narad v2 is architected for **Device-Independent** development.
+
+### 🧠 Mode Partitioning
+- **Casual Mode**: General questions, quick ideas, no persistent memory.
+- **R&D Mode**: High-fidelity research, planning, and strategy.
+- **Build Mode**: Dedicated project scaffolding and end-to-end codebase generation.
+
+### 🏠 Multi-Session Storage
+Use the **Neural Sidebar** to manage multiple independent chat sessions. All sessions are synced to the cloud (**Cloudflare KV**), ensuring you can pick up where you left off on any device.
+
+### 🏗️ GitHub Cloud Builder
+Trigger background builds with the `/build` and `/upgrade` commands. These dispatch events to GitHub Actions, allowing Narad to "work in the background" even if your browser is closed.
+
+---
+
+## 🔍 Advanced Research (last30days)
+
+Narad includes the `last30days` skill for tracking community trends and synthesising briefings.
+
+```bash
+/last30days AI Agents   # Scans Reddit, HN, X, and YouTube for latest news
+```
+
+---
+
 ## API Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/chat` | POST | Send message |
+| `/api/sessions/sync` | POST | Sync sessions to KV |
+| `/api/sessions/history/:id` | GET/POST | Fetch/Save history |
+| `/api/github/dispatch` | POST | Trigger background build |
+| `/api/research/last30days` | POST | Run platform research |
+| `/api/skills/:name` | GET | Fetch behavioral skill |
 | `/api/health` | GET | Health status |
 | `/api/memory/store` | POST | Store memory |
 | `/api/memory/search` | POST | Search memory |

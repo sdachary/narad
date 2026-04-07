@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <script src="config/characters.js"></script>
+    <script src="config/characters.js" type="module"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
@@ -27,14 +27,32 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
 </head>
 <body>
-    <div class="terminal-window">
+<body>
+    <div class="sidebar-layout">
+        <aside class="terminal-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>NEURAL CHANNELS</h3>
+                <button id="new-chat-btn" class="icon-btn" title="New Session">+</button>
+            </div>
+            <div id="session-list" class="session-list">
+                <!-- Sessions populated from app.js -->
+            </div>
+        </aside>
+
+        <div class="terminal-window">
         <header class="terminal-header">
+            <button id="sidebar-toggle" class="sidebar-toggle-btn">☰</button>
             <div class="terminal-title">Narad @ macOS — zsh</div>
             
             <div class="header-right">
                 <div id="smriti-btn" class="smriti-pill-btn" title="Open Smriti Knowledge Graph">
                     <span class="smriti-icon"></span>
                     <span>Smriti</span>
+                </div>
+                <div class="mode-selector" id="mode-selector">
+                    <button class="mode-chip" data-mode="casual">CASUAL</button>
+                    <button class="mode-chip" data-mode="rnd">R&D</button>
+                    <button class="mode-chip" data-mode="build">BUILD</button>
                 </div>
                 <select id="character-select" class="character-select">
                     <option value="">Select Character</option>
@@ -91,6 +109,8 @@
         <button id="voice-output-btn"></button>
     </div>
 
-    <script src="app.js" defer></script>
+    </div>
+
+    <script src="app.js" type="module" defer></script>
 </body>
 </html>
