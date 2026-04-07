@@ -773,15 +773,7 @@ function showCommandHelp(agent) {
     return getCommandHelp();
 }
 
-function saveChatHistory() {
-    try {
-        const historyToSave = chatHistory.slice(-MAX_PERSISTED_MESSAGES);
-        localStorage.setItem(CHAT_HISTORY_KEY + '_' + sessionId, JSON.stringify(historyToSave));
-        renderSidebar(); // Update sidebar labels
-    } catch (e) {
-        console.warn('[Narad] Failed to save chat history:', e);
-    }
-}
+// NOTE: saveChatHistory is defined as async above (line ~482) — do not redefine here.
 
 function restoreChatDisplay() {
     chatHistory.forEach(msg => {
@@ -789,8 +781,8 @@ function restoreChatDisplay() {
     });
 }
 
-let chatHistory = loadChatHistory() || [];
-console.log('[Narad] Loaded', chatHistory.length, 'messages from history');
+let chatHistory = []; // Populated async during init()
+console.log('[Narad] chatHistory initialized (will load async in init)');
 let isStreaming = false;
 let currentAbortController = null;
 let csrfToken = null;
@@ -998,8 +990,8 @@ async function init() {
     // Initialize mode selector
     initModeSelector();
 
-    // Initialize Sessions & Sidebar
-    loadSessionsForCurrentMode();
+    // Initialize Sessions & Sidebar — this also populates chatHistory and calls restoreChatDisplay
+    await loadSessionsForCurrentMode();
     
     // Re-query status elements in case they weren't ready at top level
     apiStatus = document.getElementById('api-status');
@@ -1008,11 +1000,6 @@ async function init() {
     await CSRFManager.init();
     checkApiHealth();
     updateUsageRing();
-    
-    // Restore chat from previous session
-    if (chatHistory.length > 0) {
-        restoreChatDisplay();
-    }
 
     // Periodic health check every 60 seconds
     setInterval(checkApiHealth, 60000);
