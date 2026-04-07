@@ -7,15 +7,38 @@ let graphData = null;
 let currentGraph = null;
 const API_URL = 'smriti_graph.json';
 
-// Terminal Colors
-const COLORS = {
-    PROJECT: '#00ff00',      // Green (Code)
-    KNOWLEDGE: '#ffb000',    // Orange (Memory)
-    INDEX: '#ffff00',        // Yellow (Hub)
-    GENERAL: '#888888',      // Gray
-    LINK: 'rgba(255, 255, 255, 0.1)',
-    HIGHLIGHT: '#ffffff'
-};
+// Utility: String to HSL Color (Stable Project Palettes)
+function getProjectColor(node) {
+    const parts = node.path.split('/');
+    const project = parts.length > 1 ? parts[0] : 'General';
+    
+    let hash = 0;
+    for (let i = 0; i < project.length; i++) {
+        hash = project.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Use HSL for vibrant, distinct project colors
+    const hue = Math.abs(hash % 360);
+    return `hsl(${hue}, 80%, 60%)`;
+}
+
+// Utility: Geometric Semantics
+function getGeometry(node) {
+    const path = node.path.toLowerCase();
+    
+    // Cone: Index / Hub nodes
+    if (node.group === 'index' || path.includes('index.md')) {
+        return new THREE.ConeGeometry(8, 16);
+    }
+    
+    // Box: Action/Project Code files
+    if (path.includes('projects/')) {
+        return new THREE.BoxGeometry(10, 10, 10);
+    }
+    
+    // Sphere: General Memory / Knowledge
+    return new THREE.SphereGeometry(6);
+}
 
 async function init() {
     try {
@@ -30,6 +53,7 @@ async function init() {
         setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
         
         render3D();
+        setupPreviewControls();
         animateDiscovery();
         
     } catch (error) {
@@ -43,66 +67,90 @@ function render3D() {
     currentGraph = ForceGraph3D()(document.getElementById('graph-container'))
         .graphData(graphData)
         .nodeId('id')
-        .nodeLabel(node => `<div class="node-label"><b>${node.name}</b><br/>${new Date(node.time).toLocaleDateString()}</div>`)
-        .nodeColor(getNodeColor)
-        .nodeOpacity(0.9)
-        .nodeResolution(20)
-        .linkColor(() => COLORS.LINK)
-        .linkWidth(1)
-        .linkOpacity(0.2)
+        .nodeLabel(node => `<div class="node-label"><b>${node.name}</b></div>`)
+        
+        // GEOMETRIC SEMANTICS: Custom shapes based on content type
+        .nodeThreeObject(node => {
+            const material = new THREE.MeshLambertMaterial({ 
+                color: getProjectColor(node),
+                transparent: true,
+                opacity: 0.9
+            });
+            const geometry = getGeometry(node);
+            return new THREE.Mesh(geometry, material);
+        })
+        
+        // NEURAL DATA FLOW: Particles represent information transfer
+        .linkDirectionalParticles(2)
+        .linkDirectionalParticleWidth(1.5)
+        .linkDirectionalParticleSpeed(0.005)
+        .linkDirectionalParticleColor(() => '#ffffff')
+        
+        .linkColor(() => 'rgba(255, 255, 255, 0.1)')
         .backgroundColor('#0d1117')
-        .showNavInfo(false)
-        .onNodeClick(node => {
-            window.parent.postMessage({ type: 'GOTO_NODE', path: node.path }, '*');
-        });
+        .onNodeClick(node => showPreview(node));
 
-    // SMOOTHNESS: Adjust physics for a more 'meditative' canvas feel
-    // Increase velocity decay (friction) to make it settle faster and feel less 'bouncy'
-    currentGraph.d3VelocityDecay(0.4); 
-    
-    // Strengthen forces for better structure
-    currentGraph.d3Force('charge').strength(-200);
-    currentGraph.d3Force('link').distance(100);
-
-    // Initial Zoom Level
-    currentGraph.cameraPosition({ z: 1200 });
+    // Physics Tuning for high-end feel
+    currentGraph.d3VelocityDecay(0.45); 
+    currentGraph.d3Force('charge').strength(-250);
 }
 
-function getNodeColor(node) {
-    if (node.path.includes('.md')) {
-        if (node.path.includes('Projects/')) return COLORS.PROJECT;
-        if (node.path.includes('Knowledge/')) return COLORS.KNOWLEDGE;
-    }
-    if (node.group === 'index') return COLORS.INDEX;
-    return COLORS.GENERAL;
+// INTERACTIVE PREVIEW LOGIC
+function showPreview(node) {
+    const preview = document.getElementById('node-preview');
+    const title = document.getElementById('preview-title');
+    const body = document.getElementById('preview-body');
+    const icon = document.getElementById('preview-icon');
+    
+    title.textContent = node.name.toUpperCase();
+    icon.style.background = getProjectColor(node);
+    
+    // Simulate content summary (In Phase 4 we will fetch real summary)
+    const project = node.path.split('/')[0] || 'Smriti';
+    body.innerHTML = `
+        <div style="color: grey; font-size: 11px; margin-bottom: 8px;">PATH: ${node.path}</div>
+        Connecting to node via <b>Narad Neural Link</b>...<br/>
+        This segment of your memory pertains to the <b>${project}</b> ecosystem.
+    `;
+    
+    preview.classList.add('visible');
+    
+    // Setup the Enter button
+    document.getElementById('enter-node').onclick = () => {
+        window.parent.postMessage({ type: 'GOTO_NODE', path: node.path }, '*');
+    };
+
+    // Smoothly focus camera on the selected node
+    const distance = 150;
+    const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+    currentGraph.cameraPosition(
+        { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, 
+        node, 
+        2000
+    );
+}
+
+function setupPreviewControls() {
+    document.getElementById('close-preview').addEventListener('click', () => {
+        document.getElementById('node-preview').classList.remove('visible');
+    });
 }
 
 function clearContainer() {
-    const container = document.getElementById('graph-container');
-    container.innerHTML = '';
+    document.getElementById('graph-container').innerHTML = '';
 }
 
-/**
- * Chronological Focus Animation (Old-to-New)
- */
 async function animateDiscovery() {
     if (!graphData.nodes.length) return;
-
     const getSpeed = () => parseInt(document.getElementById('speed-select').value);
 
-    // Initial reveal of key nodes
     for (let i = 0; i < Math.min(graphData.nodes.length, 12); i++) {
         const node = graphData.nodes[i];
         const sleepDuration = getSpeed();
-        
-        // Smooth flight transit
         currentGraph.cameraPosition({ x: node.x, y: node.y, z: 400 }, node, sleepDuration * 0.9);
-        
         await new Promise(r => setTimeout(r, sleepDuration));
     }
-    
-    // Zoom out to see everything at the end
-    currentGraph.zoomToFit(2000, 200, node => true);
+    currentGraph.zoomToFit(2000, 200);
 }
 
 document.addEventListener('DOMContentLoaded', init);
