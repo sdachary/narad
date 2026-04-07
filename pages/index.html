@@ -10,7 +10,6 @@
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <script src="config/characters.js" type="module"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
@@ -26,7 +25,6 @@
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/languages/sql.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
 </head>
-<body>
 <body>
     <div class="sidebar-layout">
         <aside class="terminal-sidebar" id="sidebar">
@@ -55,7 +53,24 @@
                     <button class="mode-chip" data-mode="build">BUILD</button>
                 </div>
                 <select id="character-select" class="character-select">
-                    <option value="">Select Character</option>
+                    <option value="default">🤖 Default</option>
+                    <optgroup label="── Communication Style ──">
+                        <option value="professional">💼 Professional</option>
+                        <option value="casual">😊 Casual</option>
+                        <option value="mentor">🎓 Mentor</option>
+                        <option value="technical">⚙️ Technical</option>
+                        <option value="concise">⚡ Concise</option>
+                    </optgroup>
+                    <optgroup label="── Local Skill Agents ──">
+                        <option value="systematic_debugger">🪲 Systematic Debugger</option>
+                        <option value="frontend_architect">🎨 Frontend Architect</option>
+                        <option value="database_engineer">🗄️ Database Engineer</option>
+                        <option value="testing_lead">🧪 Testing & QA Lead</option>
+                        <option value="multi_agent_expert">🤖 Multi-Agent Systems Expert</option>
+                        <option value="knowledge_architect">📚 Docs & Knowledge Architect</option>
+                        <option value="review_specialist">🕵️ Code Review Specialist</option>
+                        <option value="mcp_designer">🔌 Tool & MCP Designer</option>
+                    </optgroup>
                 </select>
                 <button id="search-btn" class="header-btn" title="Search (⌘F)">🔍</button>
                 <button id="clear-history-btn" class="header-btn" title="Clear (⌘K)">CLEAR</button>
