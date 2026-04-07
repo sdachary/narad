@@ -118,6 +118,78 @@
             color: white;
         }
 
+        /* Interactive Preview Bubble */
+        #node-preview {
+            position: absolute;
+            left: 20px;
+            bottom: 80px;
+            width: 320px;
+            background: rgba(13, 17, 23, 0.85);
+            border: 1px solid rgba(255, 176, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 2000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        #node-preview.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .preview-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            flex-grow: 1;
+        }
+
+        .preview-body {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .preview-footer {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-btn {
+            background: rgba(255, 176, 0, 0.1);
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .preview-btn:hover {
+            background: var(--text-secondary);
+            color: #0d1117;
+        }
+
         .node-label {
             font-size: 11px;
             padding: 2px 6px;
@@ -175,6 +247,20 @@
             <option value="10000" selected>Deep Meditation (10s)</option>
         </select>
         <button id="back-btn" class="toggle-btn" onclick="window.location.href='/'">RETURN TO NARAD</button>
+    </div>
+
+    <div id="node-preview" class="preview-bubble">
+        <div class="preview-header">
+            <div id="preview-icon" class="obs-icon"></div>
+            <div id="preview-title" class="preview-title">PROJECT_NAME</div>
+        </div>
+        <div id="preview-body" class="preview-body">
+            This project represents your deep knowledge base. Initializing visualization...
+        </div>
+        <div class="preview-footer">
+            <button id="enter-node" class="preview-btn">ENTER NODE</button>
+            <button id="close-preview" class="preview-btn" style="border-color: #666; color: #666; background: transparent;">CLOSE</button>
+        </div>
     </div>
 
     <div id="graph-container"></div>
