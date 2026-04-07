@@ -125,7 +125,7 @@ export function setupChatRoutes(app) {
       }
       
       const body = await c.req.json();
-      const { message, history, context, session_id, agent_type, force_provider } = body;
+      const { message, history, context, session_id, agent_type, force_provider, skill_context } = body;
       
       const messageValidation = ValidationSchemas.message.validate(message);
       if (!messageValidation.valid) {
@@ -242,11 +242,12 @@ export function setupChatRoutes(app) {
         }
       }
       
-      if (patternHint) {
+      if (skill_context) {
         systemPromptParts.push('');
-        systemPromptParts.push('FEEDBACK HINT:');
-        systemPromptParts.push(patternHint);
+        systemPromptParts.push('BEHAVIORAL PROTOCOL (CRITICAL):');
+        systemPromptParts.push(skill_context);
       }
+      
       const systemPrompt = systemPromptParts.join('\n');
       
       const messages = [

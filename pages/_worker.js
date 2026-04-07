@@ -14,6 +14,10 @@ import { saveVerification, getVerificationStats, verifyTruth } from './services/
 import { CHARACTERS, getCharacter, listCharacters, getCharacterByTrait, getCharacterSystemPrompt } from './config/characters.js';
 import { getRelationship, updateRelationship, summarizeContext } from './services/memory.js';
 import { addDocument, searchDocuments, listDocuments, getContextForQuery } from './services/ragDocuments.js';
+import { syncSessions, getSessions, saveSessionHistory, getSessionHistory, deleteSessionCloud } from './services/sessionSync.js';
+import { triggerGitHubDispatch, analyzeGitHubRepo } from './services/github.js';
+import { runLast30DaysResearch } from './services/research.js';
+import { fetchSkill } from './services/skills.js';
 
 const app = new Hono();
 
@@ -593,6 +597,86 @@ app.post('/api/memory/search', async (c) => {
   
   const results = await searchMemories(c.env, query, type, limit);
   return c.json({ results });
+});
+
+// ============================================
+// CLOUD SESSION & GITHUB ROUTES
+// ============================================
+
+app.get('/api/sessions/:mode', async (c) => {
+    const { mode } = c.req.param();
+    const sessions = await getSessions(c.env, mode);
+    return c.json({ sessions });
+});
+
+app.post('/api/sessions/sync', async (c) => {
+    const { validateCSRF } = await import('./services/security.js');
+    if (!validateCSRF(c.req).valid) return c.json({ error: 'CSRF failed' }, 403);
+    
+    const { mode, sessions } = await c.req.json();
+    await syncSessions(c.env, mode, sessions);
+    return c.json({ success: true });
+});
+
+app.get('/api/sessions/history/:sessionId', async (c) => {
+    const { sessionId } = c.req.param();
+    const history = await getSessionHistory(c.env, sessionId);
+    return c.json({ history });
+});
+
+app.post('/api/sessions/history/:sessionId', async (c) => {
+    const { validateCSRF } = await import('./services/security.js');
+    if (!validateCSRF(c.req).valid) return c.json({ error: 'CSRF failed' }, 403);
+    
+    const { sessionId } = c.req.param();
+    const { history } = await c.req.json();
+    await saveSessionHistory(c.env, sessionId, history);
+    return c.json({ success: true });
+});
+
+app.post('/api/github/dispatch', async (c) => {
+    const { validateCSRF } = await import('./services/security.js');
+    if (!validateCSRF(c.req).valid) return c.json({ error: 'CSRF failed' }, 403);
+    
+    try {
+        const payload = await c.req.json();
+        const result = await triggerGitHubDispatch(c.env, payload);
+        return c.json(result);
+    } catch (e) {
+        return c.json({ error: e.message }, 500);
+    }
+});
+
+app.post('/api/github/analyze', async (c) => {
+    const { repoUrl } = await c.req.json();
+    try {
+        const result = await analyzeGitHubRepo(c.env, repoUrl);
+        return c.json(result);
+    } catch (e) {
+        return c.json({ error: e.message }, 400);
+    }
+});
+
+app.post('/api/research/last30days', async (c) => {
+    const { topic } = await c.req.json();
+    if (!topic) return c.json({ error: 'Topic required' }, 400);
+    
+    try {
+        const result = await runLast30DaysResearch(c.env, topic);
+        return c.json(result);
+    } catch (e) {
+        return c.json({ error: e.message }, 500);
+    }
+});
+
+app.get('/api/skills/:name', async (c) => {
+    const { name } = c.req.param();
+    try {
+        const skill = await fetchSkill(c.env, name);
+        return c.json(skill);
+    } catch (e) {
+        return c.json({ error: e.message }, 404);
+    }
 });
 
 app.get('/api/memory/stats', async (c) => {
