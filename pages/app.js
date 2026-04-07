@@ -725,6 +725,14 @@ async function init() {
             addRichMessage(helpText, 'assistant', true);
         });
     }
+
+    // Smriti Graph Button
+    const smritiBtn = document.getElementById('smriti-btn');
+    if (smritiBtn) {
+        smritiBtn.addEventListener('click', () => {
+            window.location.href = '/graph.html';
+        });
+    }
 }
 
 
