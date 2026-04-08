@@ -1,0 +1,38 @@
+---
+source: "/home/deepak/Work/unnati/.vercel/output/diagnostics/framework.json"
+project: "unnati"
+role: other
+language: json
+frameworks: []
+lines: 1
+size: 37 bytes
+last_modified: "2026-04-07 17:52"
+scanned: "2026-04-07 17:53"
+tags: [code, json, other, project/unnati]
+---
+
+# framework.json
+
+> Project file (1 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/.vercel/output/diagnostics/framework.json` |
+| **Role** | other |
+| **Language** | json |
+| **Frameworks** | — |
+| **Lines** | 1 |
+| **Size** | 37 bytes |
+| **Modified** | 2026-04-07 17:52 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```json
+{"name":"Next.js","version":"15.5.2"}
+```
