@@ -1,0 +1,52 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/unnati/src/lib/supabase.ts"
+project: "unnati"
+role: utility
+language: typescript
+frameworks: []
+lines: 13
+size: 385 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [code, project/unnati, typescript, utility]
+---
+
+# supabase.ts
+
+> Utility / helper module (13 lines).
+
+**Key exports:** `getSupabase`, `supabase`
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/src/lib/supabase.ts` |
+| **Role** | utility |
+| **Language** | typescript |
+| **Frameworks** | — |
+| **Lines** | 13 |
+| **Size** | 385 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```typescript
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_ANON_KEY || "";
+
+export function getSupabase() {
+  if (!supabaseUrl || !supabaseKey) {
+    return null;
+  }
+  return createClient(supabaseUrl, supabaseKey);
+}
+
+export const supabase = typeof window !== 'undefined' ? null : getSupabase();
+```
