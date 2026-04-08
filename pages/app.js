@@ -58,12 +58,26 @@ function initModeSelector() {
             
             currentMode = chip.getAttribute('data-mode');
             localStorage.setItem(MODE_KEY, currentMode);
+            
+            // Visual transition trigger
+            document.body.classList.add('mode-switching');
             document.body.setAttribute('data-mode', currentMode);
             
             // Load sessions for the new mode
             loadSessionsForCurrentMode();
             
+            const modeNames = {
+                'casual': 'CASUAL MODE (Brainstorming)',
+                'rnd': 'R&D MODE (Strategic Planning)',
+                'build': 'BUILD MODE (Execution)'
+            };
+            
+            showToast(`State Shift: ${modeNames[currentMode]}`, 'info');
             appendSystemMessage(`NARAD STATE SHIFT: ${currentMode.toUpperCase()} MODE ACTIVE.`);
+            
+            setTimeout(() => {
+                document.body.classList.remove('mode-switching');
+            }, 500);
         });
     });
 
@@ -115,7 +129,11 @@ function toggleTheme() {
 function updateThemeButton() {
     const btn = document.getElementById('theme-toggle-btn');
     if (btn) {
-        btn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        const icon = btn.querySelector('i');
+        if (icon) {
+            icon.setAttribute('data-lucide', currentTheme === 'dark' ? 'sun' : 'moon');
+            if (window.lucide) lucide.createIcons();
+        }
     }
 }
 
@@ -484,13 +502,16 @@ async function renderSidebar() {
         return `
             <div class="session-item ${id === sessionId ? 'active' : ''}" onclick="window.switchSession('${id}')">
                 <span class="session-label">${label}</span>
-                <span class="delete-session-btn" onclick="event.stopPropagation(); window.deleteSession('${id}')">🗑</span>
+                <span class="delete-session-btn" onclick="event.stopPropagation(); window.deleteSession('${id}')">
+                    <i data-lucide="trash-2"></i>
+                </span>
             </div>
         `;
     });
     
     const htmls = await Promise.all(htmlPromises);
     list.innerHTML = htmls.join('');
+    if (window.lucide) lucide.createIcons();
 }
 
 // Global hooks for onclick events (since using type="module")
@@ -2625,7 +2646,10 @@ function initMemoryFeatures() {
 
 // Run memory init after main init
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(initMemoryFeatures, 100);
+    setTimeout(() => {
+        initMemoryFeatures();
+        if (window.lucide) lucide.createIcons();
+    }, 100);
 });
 
 // ============================================
