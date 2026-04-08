@@ -203,6 +203,22 @@ export function setupChatRoutes(app) {
         agentType === 'general' ? 'General purpose' : `Specialized in ${agentType} tasks`
       ];
 
+      // Inject Smriti (Global Knowledge Base) Context dynamically
+      try {
+        const { searchSemanticMemory } = await import('../services/memory.js');
+        const memoryResults = await searchSemanticMemory(c.env, cleaned || message, 3, 0.65);
+        if (memoryResults && memoryResults.length > 0) {
+          systemPromptParts.push(
+            '',
+            'GLOBAL SMRITI MEMORY (RELEVANT CONTEXT):',
+            'Use the following related facts from the global knowledge base. Use these facts seamlessly without explicitly referring to a "database" or "smriti".',
+             memoryResults.map(r => `* ${r.content}`).join('\n')
+          );
+        }
+      } catch (e) {
+        console.warn('Smriti sync injection failed:', e.message);
+      }
+
       // Add real-time context
       const now = new Date();
       const istTime = new Intl.DateTimeFormat('en-IN', {

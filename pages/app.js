@@ -449,9 +449,26 @@ async function renderSidebar() {
     if (!list) return;
     
     const sessions = await getModeSessions();
-    list.innerHTML = sessions.map(id => {
+    const htmlPromises = sessions.map(async id => {
         const historyJson = localStorage.getItem(CHAT_HISTORY_KEY + '_' + id);
-        const history = historyJson ? JSON.parse(historyJson) : [];
+        let history = historyJson ? JSON.parse(historyJson) : null;
+        
+        if (!history) {
+            try {
+                const res = await fetch(`${API_BASE}/api/sessions/history/${id}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.history) {
+                        history = data.history;
+                        localStorage.setItem(CHAT_HISTORY_KEY + '_' + id, JSON.stringify(history));
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed to fetch sidebar preview for', id);
+            }
+        }
+        
+        history = history || [];
         const lastMsg = history.length > 0 ? history[history.length-1].text : 'Empty Session';
         const label = lastMsg.substring(0, 20) + (lastMsg.length > 20 ? '...' : '');
         
@@ -461,7 +478,10 @@ async function renderSidebar() {
                 <span class="delete-session-btn" onclick="event.stopPropagation(); window.deleteSession('${id}')">🗑</span>
             </div>
         `;
-    }).join('');
+    });
+    
+    const htmls = await Promise.all(htmlPromises);
+    list.innerHTML = htmls.join('');
 }
 
 // Global hooks for onclick events (since using type="module")
@@ -473,7 +493,10 @@ async function loadChatHistory() {
         const res = await fetch(`${API_BASE}/api/sessions/history/${sessionId}`);
         if (res.ok) {
             const data = await res.json();
-            if (data.history) return data.history;
+            if (data.history) {
+                localStorage.setItem(CHAT_HISTORY_KEY + '_' + sessionId, JSON.stringify(data.history));
+                return data.history;
+            }
         }
     } catch (e) {
         console.warn('[Narad] Cloud history fetch failed, using local.');
