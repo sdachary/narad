@@ -3,7 +3,7 @@
 # --- Obsidian Specific ---
 # Exclude entire .obsidian directory to maintain portability.
 # If you want to sync themes/plugins, you can selectively un-ignore them.
-.obsidian/
+.obsidian/*
 !.obsidian/graph.json
 
 # --- System & Misc ---
