@@ -681,6 +681,7 @@ See [[{parent_name}]] project index for files outside of services.
     }
 
     graph_path = VAULT_DIR / ".obsidian" / "graph.json"
+    graph_path.parent.mkdir(parents=True, exist_ok=True)
     graph_path.write_text(json.dumps(graph_config, indent=2), encoding="utf-8")
     print(f"\n🎨 Wrote Obsidian graph config: .obsidian/graph.json")
     print(f"   Color groups: nisha children (red), nisha core (orange), narad (green), social-blueprint-ai (blue), indexes (yellow)")

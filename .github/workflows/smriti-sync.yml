@@ -64,6 +64,6 @@ jobs:
           mkdir -p pages/vault
           cp -r smriti/Projects/* pages/vault/
           
-          git add smriti/Projects/ pages/smriti_graph.json pages/vault/
+          git add smriti/Projects/ smriti/.obsidian/graph.json pages/smriti_graph.json pages/vault/
           git commit -m "🧠 Smriti: Automated knowledge & web-vault refresh [skip ci]" || echo "No changes to commit"
           git push
