@@ -41,11 +41,20 @@ function initModeSelector() {
         if (mode === 'rnd') chip.title = "R&D: Planning, Strategy, and Feasibility Testing";
         if (mode === 'build') chip.title = "BUILD: End-to-End Creation & File Execution";
 
+        // Set active state for current mode
+        if (mode === currentMode) {
+            chip.classList.add('active');
+        }
+
         chip.addEventListener('click', () => {
             if (currentMode === chip.getAttribute('data-mode')) return;
             
             // Save current session before switching mode
             saveChatHistory();
+            
+            // Update active chip states
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
             
             currentMode = chip.getAttribute('data-mode');
             localStorage.setItem(MODE_KEY, currentMode);
