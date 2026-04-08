@@ -321,9 +321,23 @@ async function getModeSessions() {
     }
 
     const all = JSON.parse(localStorage.getItem(SESSIONS_KEY) || '{}');
-    if (!all[currentMode]) {
+    if (!all[currentMode] || all[currentMode].length === 0) {
         all[currentMode] = [sessionId];
         localStorage.setItem(SESSIONS_KEY, JSON.stringify(all));
+        
+        // Sync to cloud
+        try {
+            fetch(`${API_BASE}/api/sessions/sync`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRFManager.getToken()
+                },
+                body: JSON.stringify({ mode: currentMode, sessions: all[currentMode] })
+            });
+        } catch (e) {
+            console.warn('Cloud sync failed');
+        }
     }
     return all[currentMode];
 }
