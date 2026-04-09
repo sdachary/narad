@@ -1147,13 +1147,13 @@ async function init() {
         });
     }
 
-    // Smriti Graph Button
-    const smritiBtn = document.getElementById('smriti-btn');
-    if (smritiBtn) {
-        smritiBtn.addEventListener('click', () => {
-            window.location.href = '/graph.html';
-        });
-    }
+    // Smriti is now used internally for context - no longer a separate view
+    // const smritiBtn = document.getElementById('smriti-btn');
+    // if (smritiBtn) {
+    //     smritiBtn.addEventListener('click', () => {
+    //         window.location.href = '/graph.html';
+    //     });
+    // }
 }
 
 
