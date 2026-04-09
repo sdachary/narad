@@ -8,38 +8,35 @@
     <meta name="theme-color" content="#0d1117">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
 <body>
     <a href="#user-input" class="skip-link">Skip to input</a>
+    
     <div class="terminal-window">
         <header class="terminal-header">
-            <button id="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle sidebar" role="button" tabindex="0">
-                <i data-lucide="menu"></i>
-            </button>
             <div class="terminal-title">narad</div>
             
             <div class="header-right">
-                <button id="theme-toggle-btn" class="header-btn" title="Toggle Theme" aria-label="Toggle theme" role="button" tabindex="0">
+                <button id="theme-toggle-btn" class="header-btn" title="Toggle Theme (Cmd+T)" aria-label="Toggle theme" role="button" tabindex="0">
                     <i data-lucide="moon" id="theme-icon" aria-hidden="true"></i>
                 </button>
-                <button id="search-btn" class="header-btn" title="Search" aria-label="Search" role="button" tabindex="0">
+                <button id="search-btn" class="header-btn" title="Search (Cmd+F)" aria-label="Search" role="button" tabindex="0">
                     <i data-lucide="search"></i>
                 </button>
-                <button id="clear-history-btn" class="header-btn" title="Clear" aria-label="Clear chat" role="button" tabindex="0">
+                <button id="clear-history-btn" class="header-btn" title="Clear (Cmd+K)" aria-label="Clear chat" role="button" tabindex="0">
                     <i data-lucide="trash-2"></i>
                 </button>
-                <button id="stop-search-btn" class="header-btn stop-btn" title="Stop" aria-label="Stop" role="button" tabindex="0">
+                <button id="stop-search-btn" class="header-btn stop-btn" title="Stop (Ctrl+C)" aria-label="Stop" role="button" tabindex="0">
                     <i data-lucide="square"></i>
                 </button>
                 <div class="status-badge" id="service-status" onclick="checkApiHealth();">
                     <span class="status-dot" id="api-dot"></span>
-                    <span class="status-text" id="api-status">●</span>
                 </div>
             </div>
         </header>
@@ -47,18 +44,15 @@
         <main class="terminal-body" id="chat-messages" role="log" aria-live="polite" aria-label="Chat messages">
             <div class="message assistant" role="article" aria-label="Assistant message">
                 <span class="prompt">narad</span>
-                <div class="message-content">narad > Type a message or command...</div>
+                <div class="message-content">Hello! How can I help?</div>
             </div>
         </main>
 
         <footer class="terminal-footer">
             <form id="chat-form" class="input-line">
                 <span class="prompt">></span>
-                <textarea id="user-input" placeholder="Message or /command..." autocomplete="off" rows="1" aria-label="Type your message" role="combobox" aria-multiline="false"></textarea>
+                <textarea id="user-input" placeholder="Message or /command..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
                 <div class="input-controls">
-                    <button type="button" id="voice-input-btn" class="icon-btn" title="Voice">
-                        <i data-lucide="mic"></i>
-                    </button>
                     <button type="submit" id="send-btn" class="icon-btn">
                         <i data-lucide="send"></i>
                     </button>
@@ -71,7 +65,6 @@
     <div id="chat-search-overlay" class="search-overlay" style="display:none;">
         <div class="search-container">
             <input type="text" id="chat-search-input" placeholder="Search messages...">
-            <button id="search-close-btn" class="header-btn">✕</button>
         </div>
     </div>
 

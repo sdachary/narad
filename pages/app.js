@@ -1126,25 +1126,16 @@ async function init() {
     // Initialize theme
     initTheme();
     
-    // Initialize character selector
+    // Initialize character selector (for compatibility)
     initCharacterSelector();
     
-    // Initialize mode selector
+    // Initialize mode selector (for keyboard shortcut)
     initModeSelector();
     
     // Initialize user preferences
     initPreferences();
-
-    // Sidebar Toggle — wired here so DOM is guaranteed ready
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggleBtn = document.getElementById('sidebar-toggle');
-    if (sidebarToggleBtn && sidebar) {
-        sidebarToggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
-    }
-
-    // Initialize Sessions & Sidebar — this also populates chatHistory and calls restoreChatDisplay
+    
+    // Initialize Sessions - load chat history if exists, otherwise keep static welcome
     await loadSessionsForCurrentMode();
     
     // Re-query status elements in case they weren't ready at top level
