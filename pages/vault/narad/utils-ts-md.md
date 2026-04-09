@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 46
 size: 905 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [documentation, markdown, project/narad, utility]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, utility]
 | **Frameworks** | — |
 | **Lines** | 46 |
 | **Size** | 905 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: typescript
 frameworks: []
 lines: 6
 size: 169 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, project/social-blueprint-ai, typescript, utility]
 ---
 
@@ -63,7 +63,7 @@ tags: [code, project/social-blueprint-ai, typescript, utility]
 | **Frameworks** | — |
 | **Lines** | 6 |
 | **Size** | 169 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
