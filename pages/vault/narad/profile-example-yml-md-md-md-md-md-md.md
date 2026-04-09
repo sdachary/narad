@@ -1,0 +1,333 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/profile-example-yml-md-md-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 295
+size: 6744 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# profile-example-yml-md-md-md-md-md.md
+
+> Configuration file for the project (295 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/profile-example-yml-md-md-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 295 |
+| **Size** | 6744 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/profile-example-yml-md-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 257
+size: 5972 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# profile-example-yml-md-md-md-md.md
+
+> Configuration file for the project (257 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/profile-example-yml-md-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 257 |
+| **Size** | 5972 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/profile-example-yml-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 219
+size: 5209 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# profile-example-yml-md-md-md.md
+
+> Configuration file for the project (219 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/profile-example-yml-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 219 |
+| **Size** | 5209 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/profile-example-yml-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 181
+size: 4455 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# profile-example-yml-md-md.md
+
+> Configuration file for the project (181 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/profile-example-yml-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 181 |
+| **Size** | 4455 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/profile-example-yml-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 143
+size: 3710 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# profile-example-yml-md.md
+
+> Configuration file for the project (143 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/profile-example-yml-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 143 |
+| **Size** | 3710 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/profile-example-yml.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 105
+size: 2972 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# profile-example-yml.md
+
+> Configuration file for the project (105 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/profile-example-yml.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 105 |
+| **Size** | 2972 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/unnati/career-ops/config/profile.example.yml"
+project: "unnati"
+role: config
+language: yaml
+frameworks: []
+lines: 67
+size: 2269 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [code, config, project/unnati, yaml]
+---
+
+# profile.example.yml
+
+> Configuration file for the project (67 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/career-ops/config/profile.example.yml` |
+| **Role** | config |
+| **Language** | yaml |
+| **Frameworks** | — |
+| **Lines** | 67 |
+| **Size** | 2269 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```yaml
+# Career-Ops Profile Configuration
+# Copy this file to config/profile.yml and fill in your details.
+# This is the single source of truth for your personal data across all modes.
+
+candidate:
+  full_name: "Jane Smith"
+  email: "jane@example.com"
+  phone: "+1-555-0123"
+  location: "San Francisco, CA"
+  linkedin: "linkedin.com/in/janesmith"
+  portfolio_url: "https://janesmith.dev"
+  github: "github.com/janesmith"
+  twitter: "https://x.com/janesmith"
+
+target_roles:
+  # Your North Star roles — what you're optimizing for
+  primary:
+    - "Senior AI Engineer"
+    - "Staff ML Engineer"
+  # Archetypes help the evaluation system score fit
+  archetypes:
+    - name: "AI/ML Engineer"
+      level: "Senior/Staff"
+      fit: "primary"        # primary = dream role, secondary = good fit, adjacent = stretch
+    - name: "AI Product Manager"
+      level: "Senior"
+      fit: "secondary"
+    - name: "Solutions Architect"
+      level: "Mid-Senior"
+      fit: "adjacent"
+
+narrative:
+  # Your professional headline (1 line)
+  headline: "ML Engineer turned AI product builder"
+  # Your exit story — what makes you unique
+  exit_story: "Built and sold my SaaS after 5 years. Now focused on applied AI at scale."
+  # Your top 3-5 superpowers
+  superpowers:
+    - "End-to-end ML pipelines"
+    - "Fast prototyping (idea to prod in 2 weeks)"
+    - "Cross-functional communication"
+  # Proof points — projects, articles, case studies with measurable impact
+  proof_points:
+    - name: "Project Alpha"
+      url: "https://janesmith.dev/project-alpha"
+      hero_metric: "Reduced inference latency 40%"
+    - name: "Open Source Tool"
+      url: "https://github.com/janesmith/tool"
+      hero_metric: "2K+ GitHub stars"
+  # Optional: dashboard/demo URL with credentials
+  # dashboard:
+  #   url: "https://janesmith.dev/demo"
+  #   password: "demo-2026"
+
+compensation:
+  target_range: "$150K-200K"     # Your target total comp
+  currency: "USD"
+  minimum: "$120K"               # Walk-away number
+  location_flexibility: "Remote preferred, 1 week/month on-site possible"
+
+location:
+  country: "United States"
+  city: "San Francisco"
+  timezone: "PST"
+  visa_status: "No sponsorship needed"
+  # For remote roles outside your country:
+  # onsite_availability: "1 week/month in any city"
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```

@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 155
 size: 3382 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 155 |
 | **Size** | 3382 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 117
 size: 2653 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -61,7 +61,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 117 |
 | **Size** | 2653 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: []
 lines: 79
 size: 1936 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -97,7 +97,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 79 |
 | **Size** | 1936 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: []
 lines: 41
 size: 1226 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -133,7 +133,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 41 |
 | **Size** | 1226 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

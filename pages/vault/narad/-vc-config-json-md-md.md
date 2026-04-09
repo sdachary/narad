@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 76
 size: 1466 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 76 |
 | **Size** | 1466 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 38
 size: 745 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 38 |
 | **Size** | 745 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

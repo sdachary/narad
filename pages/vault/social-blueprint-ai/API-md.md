@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 76
 size: 1401 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, documentation, markdown, project/social-blueprint-ai]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/social-blueprint-ai]
 | **Frameworks** | — |
 | **Lines** | 76 |
 | **Size** | 1401 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

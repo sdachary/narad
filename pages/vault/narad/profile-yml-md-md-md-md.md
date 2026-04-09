@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 219
 size: 5113 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 219 |
 | **Size** | 5113 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 181
 size: 4383 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 181 |
 | **Size** | 4383 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: []
 lines: 143
 size: 3662 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -97,7 +97,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 143 |
 | **Size** | 3662 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: []
 lines: 105
 size: 2948 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -133,7 +133,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 105 |
 | **Size** | 2948 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -150,8 +150,8 @@ language: yaml
 frameworks: []
 lines: 67
 size: 2269 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, config, project/unnati, yaml]
 ---
 
@@ -169,7 +169,7 @@ tags: [code, config, project/unnati, yaml]
 | **Frameworks** | — |
 | **Lines** | 67 |
 | **Size** | 2269 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

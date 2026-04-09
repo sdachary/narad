@@ -5,9 +5,9 @@ role: auth
 language: markdown
 frameworks: [docker]
 lines: 524
-size: 18835 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+size: 18804 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, docker, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [auth, docker, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | docker |
 | **Lines** | 524 |
-| **Size** | 18835 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Size** | 18804 bytes |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -41,9 +41,9 @@ role: auth
 language: javascript
 frameworks: [docker]
 lines: 484
-size: 17969 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 17938 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [auth, code, docker, javascript, project/narad]
 ---
 
@@ -62,8 +62,8 @@ tags: [auth, code, docker, javascript, project/narad]
 | **Language** | javascript |
 | **Frameworks** | docker |
 | **Lines** | 484 |
-| **Size** | 17969 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 17938 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -265,13 +265,13 @@ export function setupChatRoutes(app) {
       const patternHint = getPatternHint(patternData);
       
       const systemPromptParts = [
-        'You are Narad, the omniscient messenger of the Nisha Platform.',
+        'You are Narad, a Terminal AI assistant.',
         '',
         'MISSION:',
-        'Connect the right information to the right moment. Be wise, calm, and objective.',
+        'Assist the user with coding, analysis, and general tasks. Be precise and helpful.',
         '',
         'CONTEXT:',
-        context || 'No specific platform context provided.',
+        context || 'No specific context provided.',
         '',
         'AGENT TYPE:',
         agentType === 'general' ? 'General purpose' : `Specialized in ${agentType} tasks`

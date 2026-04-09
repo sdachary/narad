@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 72
 size: 1390 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 72 |
 | **Size** | 1390 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 34
 size: 728 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 34 |
 | **Size** | 728 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -74,7 +74,7 @@ tags: [docs, documentation, markdown, project/narad]
 type: project-index
 project: "indra"
 source: "/home/runner/work/narad/narad/sync_temp/indra"
-scanned: "2026-04-09 14:45"
+scanned: "2026-04-09 15:19"
 total_files: 4
 total_lines: 148
 tags: [project/indra, index]

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [typescript, vite]
 lines: 544
 size: 21207 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, documentation, markdown, project/narad, typescript, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/narad, typescript, vite]
 | **Frameworks** | typescript, vite |
 | **Lines** | 544 |
 | **Size** | 21207 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: javascript
 frameworks: [typescript, vite]
 lines: 507
 size: 20417 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [auth, code, javascript, project/chitragupta, typescript, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [auth, code, javascript, project/chitragupta, typescript, vite]
 | **Frameworks** | typescript, vite |
 | **Lines** | 507 |
 | **Size** | 20417 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

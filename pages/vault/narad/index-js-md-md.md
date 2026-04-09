@@ -1,30 +1,66 @@
 ---
 source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/index-js-md.md"
 project: "narad"
-role: docs
+role: config
 language: markdown
 frameworks: []
-lines: 146
-size: 2949 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
-tags: [docs, documentation, markdown, project/narad]
+lines: 122
+size: 32899 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [config, documentation, markdown, project/narad]
 ---
 
 # index-js-md.md
 
-> Documentation (146 lines).
+> Configuration file for the project (122 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
 | **Path** | `narad/pages/vault/narad/index-js-md.md` |
-| **Role** | docs |
+| **Role** | config |
 | **Language** | markdown |
 | **Frameworks** | — |
-| **Lines** | 146 |
-| **Size** | 2949 bytes |
+| **Lines** | 122 |
+| **Size** | 32899 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/index-js.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 84
+size: 32195 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# index-js.md
+
+> Configuration file for the project (84 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/index-js.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 84 |
+| **Size** | 32195 bytes |
 | **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
@@ -35,71 +71,33 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/index-js.md"
-project: "narad"
-role: docs
-language: markdown
-frameworks: []
-lines: 108
-size: 2273 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
-tags: [docs, documentation, markdown, project/narad]
----
-
-# index-js.md
-
-> Documentation (108 lines).
-
-## 📋 Metadata
-
-| Property | Value |
-|----------|-------|
-| **Path** | `narad/pages/vault/narad/index-js.md` |
-| **Role** | docs |
-| **Language** | markdown |
-| **Frameworks** | — |
-| **Lines** | 108 |
-| **Size** | 2273 bytes |
-| **Modified** | 2026-04-09 15:18 |
-
-## 🔗 Related Files
-
-—
-
-## 📄 Content
-
-```markdown
----
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/config/index.js"
-project: "narad"
+source: "/home/deepak/Work/unnati/.vercel/output/static/_worker.js/index.js"
+project: "unnati"
 role: config
 language: javascript
 frameworks: []
-lines: 68
-size: 1412 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
-tags: [code, config, javascript, project/narad]
+lines: 46
+size: 31491 bytes
+last_modified: "2026-04-07 17:53"
+scanned: "2026-04-07 17:53"
+tags: [code, config, javascript, project/unnati]
 ---
 
 # index.js
 
-> Configuration file for the project (68 lines).
-
-**Key exports:** `EMBEDDING_MODEL`, `EMBEDDING_DIM`, `SEMANTIC_MEMORY_CONFIG`, `AI_BUDGET_CONFIG`, `DAILY_LIMITS`, `RATE_LIMIT`, `CSRF_TRUSTED_ORIGINS`, `ALLOWED_ORIGINS`, +1 more
+> Configuration file for the project (46 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/config/index.js` |
+| **Path** | `unnati/.vercel/output/static/_worker.js/index.js` |
 | **Role** | config |
 | **Language** | javascript |
 | **Frameworks** | — |
-| **Lines** | 68 |
-| **Size** | 1412 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Lines** | 46 |
+| **Size** | 31491 bytes |
+| **Modified** | 2026-04-07 17:53 |
 
 ## 🔗 Related Files
 
@@ -108,74 +106,52 @@ tags: [code, config, javascript, project/narad]
 ## 📄 Content
 
 ```javascript
-export const EMBEDDING_MODEL = '@cf/baai/bge-base-en-v1.5';
-export const EMBEDDING_DIM = 768;
 
-export const SEMANTIC_MEMORY_CONFIG = {
-  maxMemories: 1000,
-  similarityThreshold: 0.7,
-  topK: 5
-};
+		import('node:buffer').then(({ Buffer }) => {
+			globalThis.Buffer = Buffer;
+		})
+		.catch(() => null);
 
-export const AI_BUDGET_CONFIG = {
-  maxDailyEmbeddings: 10000,
-  cacheEmbeddingTTL: 3600,
-  fallbackOnLimit: true
-};
+		const __ALSes_PROMISE__ = import('node:async_hooks').then(({ AsyncLocalStorage }) => {
+			globalThis.AsyncLocalStorage = AsyncLocalStorage;
 
-export const DAILY_LIMITS = {
-  general: 200000,
-  coding: 250000,
-  research: 150000,
-  debugging: 200000,
-  testing: 200000,
-  deployment: 150000,
-  coder: 250000,
-  writer: 150000,
-  analyst: 150000,
-  architect: 200000
-};
+			const envAsyncLocalStorage = new AsyncLocalStorage();
+			const requestContextAsyncLocalStorage = new AsyncLocalStorage();
 
-export const RATE_LIMIT = {
-  maxRequests: 60,
-  windowMs: 60000,
-  burstLimit: 10
-};
+			globalThis.process = {
+				env: new Proxy(
+					{},
+					{
+						ownKeys: () => Reflect.ownKeys(envAsyncLocalStorage.getStore()),
+						getOwnPropertyDescriptor: (_, ...args) =>
+							Reflect.getOwnPropertyDescriptor(envAsyncLocalStorage.getStore(), ...args),
+						get: (_, property) => Reflect.get(envAsyncLocalStorage.getStore(), property),
+						set: (_, property, value) => Reflect.set(envAsyncLocalStorage.getStore(), property, value),
+				}),
+			};
 
-export const CSRF_TRUSTED_ORIGINS = [
-  'https://narad-7hc.pages.dev/',
-  'https://narad-7hc.pages.dev',
-  'https://narad.io',
-  'http://localhost:8788',
-  'http://localhost:3000'
-];
+			globalThis[Symbol.for('__cloudflare-request-context__')] = new Proxy(
+				{},
+				{
+					ownKeys: () => Reflect.ownKeys(requestContextAsyncLocalStorage.getStore()),
+					getOwnPropertyDescriptor: (_, ...args) =>
+						Reflect.getOwnPropertyDescriptor(requestContextAsyncLocalStorage.getStore(), ...args),
+					get: (_, property) => Reflect.get(requestContextAsyncLocalStorage.getStore(), property),
+					set: (_, property, value) => Reflect.set(requestContextAsyncLocalStorage.getStore(), property, value),
+				}
+			);
 
-export const ALLOWED_ORIGINS = [
-  'https://narad-7hc.pages.dev/',
-  'https://narad-7hc.pages.dev',
-  'https://narad.io',
-  'http://localhost:8788',
-  'http://localhost:3000',
-  'http://localhost:5173'
-];
-
-export const STOCK_MAPPINGS = {
-  'railtel': 'RAILTEL.NS',
-  'tcs': 'TCS.NS',
-  'infosys': 'INFY.NS',
-  'infy': 'INFY.NS',
-  'reliance': 'RELIANCE.NS',
-  'hdfc': 'HDFCBANK.NS',
-  'irfc': 'IRFC.NS',
-  'rvnl': 'RVNL.NS',
-  'ireda': 'IREDA.NS',
-  'lic': 'LICI.NS',
-  'sbi': 'SBIN.NS',
-  'adani power': 'ADANIPOWER.NS',
-  'adani': 'ADANIENT.NS',
-  'zomato': 'ZOMATO.NS',
-  'paytm': 'PAYTM.NS'
-};
+			return { envAsyncLocalStorage, requestContextAsyncLocalStorage };
+		})
+		.catch(() => null);
+	
+var re=Object.create;var H=Object.defineProperty;var ne=Object.getOwnPropertyDescriptor;var ae=Object.getOwnPropertyNames;var ie=Object.getPrototypeOf,oe=Object.prototype.hasOwnProperty;var M=(e,t)=>()=>(e&&(t=e(e=0)),t);var V=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var ce=(e,t,r,s)=>{if(t&&typeof t=="object"||typeof t=="function")for(let a of ae(t))!oe.call(e,a)&&a!==r&&H(e,a,{get:()=>t[a],enumerable:!(s=ne(t,a))||s.enumerable});return e};var $=(e,t,r)=>(r=e!=null?re(ie(e)):{},ce(t||!e||!e.__esModule?H(r,"default",{value:e,enumerable:!0}):r,e));var g,u=M(()=>{g={collectedLocales:[]}});var f,l=M(()=>{f={version:3,routes:{none:[{src:"^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$",headers:{Location:"/$1"},status:308,continue:!0},{src:"^/_next/__private/trace$",dest:"/404",status:404,continue:!0},{src:"^/404/?$",status:404,continue:!0,missing:[{type:"header",key:"x-prerender-revalidate"}]},{src:"^/500$",status:500,continue:!0},{src:"^/?$",has:[{type:"header",key:"rsc",value:"1"}],dest:"/index.rsc",headers:{vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"},continue:!0,override:!0},{src:"^/((?!.+\\.rsc).+?)(?:/)?$",has:[{type:"header",key:"rsc",value:"1"}],dest:"/$1.rsc",headers:{vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"},continue:!0,override:!0}],filesystem:[{src:"^/index(\\.action|\\.rsc)$",dest:"/",continue:!0},{src:"^/_next/data/(.*)$",dest:"/_next/data/$1",check:!0},{src:"^/\\.prefetch\\.rsc$",dest:"/__index.prefetch.rsc",check:!0},{src:"^/(.+)/\\.prefetch\\.rsc$",dest:"/$1.prefetch.rsc",check:!0},{src:"^/\\.rsc$",dest:"/index.rsc",check:!0},{src:"^/(.+)/\\.rsc$",dest:"/$1.rsc",check:!0}],miss:[{src:"^/_next/static/.+$",status:404,check:!0,dest:"/_next/static/not-found.txt",headers:{"content-type":"text/plain; charset=utf-8"}}],rewrite:[{src:"^/_next/data/(.*)$",dest:"/404",status:404}],resource:[{src:"^/.*$",status:404}],hit:[{src:"^/_next/static/(?:[^/]+/pages|pages|chunks|runtime|css|image|media|WhVZeJAEWDqUCEmazhlet)/.+$",headers:{"cache-control":"public,max-age=31536000,immutable"},continue:!0,important:!0},{src:"^/index(?:/)?$",headers:{"x-matched-path":"/"},continue:!0,important:!0},{src:"^/((?!index$).*?)(?:/)?$",headers:{"x-matched-path":"/$1"},continue:!0,important:!0}],error:[{src:"^/.*$",dest:"/404",status:404},{src:"^/.*$",dest:"/500",status:500}]},images:{domains:[],sizes:[640,750,828,1080,1200,1920,2048,3840,16,32,48,64,96,128,256,384],remotePatterns:[],minimumCacheTTL:60,formats:["image/webp"],dangerouslyAllowSVG:!1,contentSecurityPolicy:"script-src 'none'; frame-src 'none'; sandbox;",contentDispositionType:"attachment"},overrides:{"404.html":{path:"404",contentType:"text/html; charset=utf-8"},"500.html":{path:"500",contentType:"text/html; charset=utf-8"},"_app.rsc.json":{path:"_app.rsc",contentType:"application/json"},"_error.rsc.json":{path:"_error.rsc",contentType:"application/json"},"_document.rsc.json":{path:"_document.rsc",contentType:"application/json"},"404.rsc.json":{path:"404.rsc",contentType:"application/json"},"_next/static/not-found.txt":{contentType:"text/plain"}},framework:{version:"15.5.2"},crons:[]}});var m,p=M(()=>{m={"/404.html":{type:"override",path:"/404.html",headers:{"content-type":"text/html; charset=utf-8"}},"/404.rsc.json":{type:"override",path:"/404.rsc.json",headers:{"content-type":"application/json"}},"/500.html":{type:"override",path:"/500.html",headers:{"content-type":"text/html; charset=utf-8"}},"/_app.rsc.json":{type:"override",path:"/_app.rsc.json",headers:{"content-type":"application/json"}},"/_document.rsc.json":{type:"override",path:"/_document.rsc.json",headers:{"content-type":"application/json"}},"/_error.rsc.json":{type:"override",path:"/_error.rsc.json",headers:{"content-type":"application/json"}},"/_next/static/WhVZeJAEWDqUCEmazhlet/_buildManifest.js":{type:"static"},"/_next/static/WhVZeJAEWDqUCEmazhlet/_ssgManifest.js":{type:"static"},"/_next/static/chunks/255-e3bf15caf1f1e0f9.js":{type:"static"},"/_next/static/chunks/275-587834d0ceb05932.js":{type:"static"},"/_next/static/chunks/4bd1b696-c023c6e3521b1417.js":{type:"static"},"/_next/static/chunks/app/_not-found/page-c7f5713daae36b4d.js":{type:"static"},"/_next/static/chunks/app/api/applications/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/api/career-ops/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/api/hunt/toggle/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/api/jobs/refine/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/api/jobs/search/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/api/profile/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/api/resume/upload/route-1221fddf2e04eee8.js":{type:"static"},"/_next/static/chunks/app/layout-ed980458e08a7de8.js":{type:"static"},"/_next/static/chunks/app/page-fa1a24a5040f11a5.js":{type:"static"},"/_next/static/chunks/framework-de98b93a850cfc71.js":{type:"static"},"/_next/static/chunks/main-app-0b7d03ffd7dbc43b.js":{type:"static"},"/_next/static/chunks/main-c4b3f36a491c2d1a.js":{type:"static"},"/_next/static/chunks/pages/_app-7d307437aca18ad4.js":{type:"static"},"/_next/static/chunks/pages/_error-cb2a52f75f2162e2.js":{type:"static"},"/_next/static/chunks/polyfills-42372ed130431b0a.js":{type:"static"},"/_next/static/chunks/webpack-b66e35ffe30362a3.js":{type:"static"},"/_next/static/css/464d4656c4f3577c.css":{type:"static"},"/_next/static/media/4cf2300e9c8272f7-s.p.woff2":{type:"static"},"/_next/static/media/747892c23ea88013-s.woff2":{type:"static"},"/_next/static/media/8d697b304b401681-s.woff2":{type:"static"},"/_next/static/media/93f479601ee12b01-s.p.woff2":{type:"static"},"/_next/static/media/9610d9e46709d722-s.woff2":{type:"static"},"/_next/static/media/ba015fad6dcf6784-s.woff2":{type:"static"},"/_next/static/not-found.txt":{type:"static"},"/file.svg":{type:"static"},"/globe.svg":{type:"static"},"/next.svg":{type:"static"},"/vercel.svg":{type:"static"},"/window.svg":{type:"static"},"/api/applications":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/applications.func.js"},"/api/applications.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/applications.func.js"},"/api/career-ops":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/career-ops.func.js"},"/api/career-ops.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/career-ops.func.js"},"/api/hunt/toggle":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/hunt/toggle.func.js"},"/api/hunt/toggle.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/hunt/toggle.func.js"},"/api/jobs/refine":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/jobs/refine.func.js"},"/api/jobs/refine.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/jobs/refine.func.js"},"/api/jobs/search":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/jobs/search.func.js"},"/api/jobs/search.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/jobs/search.func.js"},"/api/profile":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/profile.func.js"},"/api/profile.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/profile.func.js"},"/api/resume/upload":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/resume/upload.func.js"},"/api/resume/upload.rsc":{type:"function",entrypoint:"__next-on-pages-dist__/functions/api/resume/upload.func.js"},"/404":{type:"override",path:"/404.html",headers:{"content-type":"text/html; charset=utf-8"}},"/500":{type:"override",path:"/500.html",headers:{"content-type":"text/html; charset=utf-8"}},"/_app.rsc":{type:"override",path:"/_app.rsc.json",headers:{"content-type":"application/json"}},"/_error.rsc":{type:"override",path:"/_error.rsc.json",headers:{"content-type":"application/json"}},"/_document.rsc":{type:"override",path:"/_document.rsc.json",headers:{"content-type":"application/json"}},"/404.rsc":{type:"override",path:"/404.rsc.json",headers:{"content-type":"application/json"}},"/_not-found.html":{type:"override",path:"/_not-found.html",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/_not-found/layout,_N_T_/_not-found/page,_N_T_/_not-found",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}},"/_not-found":{type:"override",path:"/_not-found.html",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/_not-found/layout,_N_T_/_not-found/page,_N_T_/_not-found",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}},"/_not-found.rsc":{type:"override",path:"/_not-found.rsc",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/_not-found/layout,_N_T_/_not-found/page,_N_T_/_not-found",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch","content-type":"text/x-component"}},"/favicon.ico":{type:"override",path:"/favicon.ico",headers:{"cache-control":"public, max-age=0, must-revalidate","content-type":"image/x-icon","x-next-cache-tags":"_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}},"/index.html":{type:"override",path:"/index.html",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/page,_N_T_/",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}},"/index":{type:"override",path:"/index.html",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/page,_N_T_/",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}},"/":{type:"override",path:"/index.html",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/page,_N_T_/",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}},"/index.rsc":{type:"override",path:"/index.rsc",headers:{"x-nextjs-stale-time":"300","x-nextjs-prerender":"1","x-next-cache-tags":"_N_T_/layout,_N_T_/page,_N_T_/",vary:"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch","content-type":"text/x-component"}}}});var F=V((Ke,q)=>{"use strict";u();l();p();function w(e,t){e=String(e||"").trim();let r=e,s,a="";if(/^[^a-zA-Z\\\s]/.test(e)){s=e[0];let o=e.lastIndexOf(s);a+=e.substring(o+1),e=e.substring(1,o)}let n=0;return e=pe(e,o=>{if(/^\(\?[P<']/.test(o)){let c=/^\(\?P?[<']([^>']+)[>']/.exec(o);if(!c)throw new Error(`Failed to extract named captures from ${JSON.stringify(o)}`);let d=o.substring(c[0].length,o.length-1);return t&&(t[n]=c[1]),n++,`(${d})`}return o.substring(0,3)==="(?:"||n++,o}),e=e.replace(/\[:([^:]+):\]/g,(o,c)=>w.characterClasses[c]||o),new w.PCRE(e,a,r,a,s)}function pe(e,t){let r=0,s=0,a=!1;for(let i=0;i<e.length;i++){let n=e[i];if(a){a=!1;continue}switch(n){case"(":s===0&&(r=i),s++;break;case")":if(s>0&&(s--,s===0)){let o=i+1,c=r===0?"":e.substring(0,r),d=e.substring(o),h=String(t(e.substring(r,o)));e=c+h+d,i=r}break;case"\\":a=!0;break;default:break}}return e}(function(e){class t extends RegExp{constructor(s,a,i,n,o){super(s,a),this.pcrePattern=i,this.pcreFlags=n,this.delimiter=o}}e.PCRE=t,e.characterClasses={alnum:"[A-Za-z0-9]",word:"[A-Za-z0-9_]",alpha:"[A-Za-z]",blank:"[ \\t]",cntrl:"[\\x00-\\x1F\\x7F]",digit:"\\d",graph:"[\\x21-\\x7E]",lower:"[a-z]",print:"[\\x20-\\x7E]",punct:"[\\]\\[!\"#$%&'()*+,./:;<=>?@\\\\^_`{|}~-]",space:"\\s",upper:"[A-Z]",xdigit:"[A-Fa-f0-9]"}})(w||(w={}));w.prototype=w.PCRE.prototype;q.exports=w});var Q=V(U=>{"use strict";u();l();p();U.parse=ve;U.serialize=Pe;var be=Object.prototype.toString,T=/^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;function ve(e,t){if(typeof e!="string")throw new TypeError("argument str must be a string");for(var r={},s=t||{},a=s.decode||Se,i=0;i<e.length;){var n=e.indexOf("=",i);if(n===-1)break;var o=e.indexOf(";",i);if(o===-1)o=e.length;else if(o<n){i=e.lastIndexOf(";",n-1)+1;continue}var c=e.slice(i,n).trim();if(r[c]===void 0){var d=e.slice(n+1,o).trim();d.charCodeAt(0)===34&&(d=d.slice(1,-1)),r[c]=Ee(d,a)}i=o+1}return r}function Pe(e,t,r){var s=r||{},a=s.encode||Ce;if(typeof a!="function")throw new TypeError("option encode is invalid");if(!T.test(e))throw new TypeError("argument name is invalid");var i=a(t);if(i&&!T.test(i))throw new TypeError("argument val is invalid");var n=e+"="+i;if(s.maxAge!=null){var o=s.maxAge-0;if(isNaN(o)||!isFinite(o))throw new TypeError("option maxAge is invalid");n+="; Max-Age="+Math.floor(o)}if(s.domain){if(!T.test(s.domain))throw new TypeError("option domain is invalid");n+="; Domain="+s.domain}if(s.path){if(!T.test(s.path))throw new TypeError("option path is invalid");n+="; Path="+s.path}if(s.expires){var c=s.expires;if(!ke(c)||isNaN(c.valueOf()))throw new TypeError("option expires is invalid");n+="; Expires="+c.toUTCString()}if(s.httpOnly&&(n+="; HttpOnly"),s.secure&&(n+="; Secure"),s.priority){var d=typeof s.priority=="string"?s.priority.toLowerCase():s.priority;switch(d){case"low":n+="; Priority=Low";break;case"medium":n+="; Priority=Medium";break;case"high":n+="; Priority=High";break;default:throw new TypeError("option priority is invalid")}}if(s.sameSite){var h=typeof s.sameSite=="string"?s.sameSite.toLowerCase():s.sameSite;switch(h){case!0:n+="; SameSite=Strict";break;case"lax":n+="; SameSite=Lax";break;case"strict":n+="; SameSite=Strict";break;case"none":n+="; SameSite=None";break;default:throw new TypeError("option sameSite is invalid")}}return n}function Se(e){return e.indexOf("%")!==-1?decodeURIComponent(e):e}function Ce(e){return encodeURIComponent(e)}function ke(e){return be.call(e)==="[object Date]"||e instanceof Date}function Ee(e,t){try{return t(e)}catch{return e}}});u();l();p();u();l();p();u();l();p();var b="INTERNAL_SUSPENSE_CACHE_HOSTNAME.local";u();l();p();u();l();p();u();l();p();u();l();p();var D=$(F());function C(e,t,r){if(t==null)return{match:null,captureGroupKeys:[]};let s=r?"":"i",a=[];return{match:(0,D.default)(`%${e}%${s}`,a).exec(t),captureGroupKeys:a}}function v(e,t,r,{namedOnly:s}={}){return e.replace(/\$([a-zA-Z0-9_]+)/g,(a,i)=>{let n=r.indexOf(i);return s&&n===-1?a:(n===-1?t[parseInt(i,10)]:t[n+1])||""})}function I(e,{url:t,cookies:r,headers:s,routeDest:a}){switch(e.type){case"host":return{valid:t.hostname===e.value};case"header":return e.value!==void 0?N(e.value,s.get(e.key),a):{valid:s.has(e.key)};case"cookie":{let i=r[e.key];return i&&e.value!==void 0?N(e.value,i,a):{valid:i!==void 0}}case"query":return e.value!==void 0?N(e.value,t.searchParams.get(e.key),a):{valid:t.searchParams.has(e.key)}}}function N(e,t,r){let{match:s,captureGroupKeys:a}=C(e,t);return r&&s&&a.length?{valid:!!s,newRouteDest:v(r,s,a,{namedOnly:!0})}:{valid:!!s}}u();l();p();function B(e){let t=new Headers(e.headers);return e.cf&&(t.set("x-vercel-ip-city",encodeURIComponent(e.cf.city)),t.set("x-vercel-ip-country",e.cf.country),t.set("x-vercel-ip-country-region",e.cf.regionCode),t.set("x-vercel-ip-latitude",e.cf.latitude),t.set("x-vercel-ip-longitude",e.cf.longitude)),t.set("x-vercel-sc-host",b),new Request(e,{headers:t})}u();l();p();function _(e,t,r){let s=t instanceof Headers?t.entries():Object.entries(t);for(let[a,i]of s){let n=a.toLowerCase(),o=r?.match?v(i,r.match,r.captureGroupKeys):i;n==="set-cookie"?e.append(n,o):e.set(n,o)}}function P(e){return/^https?:\/\//.test(e)}function x(e,t){for(let[r,s]of t.entries()){let a=/^nxtP(.+)$/.exec(r),i=/^nxtI(.+)$/.exec(r);a?.[1]?(e.set(r,s),e.set(a[1],s)):i?.[1]?e.set(i[1],s.replace(/(\(\.+\))+/,"")):(!e.has(r)||!!s&&!e.getAll(r).includes(s))&&e.append(r,s)}}function A(e,t){let r=new URL(t,e.url);return x(r.searchParams,new URL(e.url).searchParams),r.pathname=r.pathname.replace(/\/index.html$/,"/").replace(/\.html$/,""),new Request(r,e)}function S(e){return new Response(e.body,e)}function L(e){return e.split(",").map(t=>{let[r,s]=t.split(";"),a=parseFloat((s??"q=1").replace(/q *= */gi,""));return[r.trim(),isNaN(a)?1:a]}).sort((t,r)=>r[1]-t[1]).map(([t])=>t==="*"||t===""?[]:t).flat()}u();l();p();function O(e){switch(e){case"none":return"filesystem";case"filesystem":return"rewrite";case"rewrite":return"resource";case"resource":return"miss";default:return"miss"}}async function k(e,{request:t,assetsFetcher:r,ctx:s},{path:a,searchParams:i}){let n,o=new URL(t.url);x(o.searchParams,i);let c=new Request(o,t);try{switch(e?.type){case"function":case"middleware":{let d=await import(e.entrypoint);try{n=await d.default(c,s)}catch(h){let y=h;throw y.name==="TypeError"&&y.message.endsWith("default is not a function")?new Error(`An error occurred while evaluating the target edge function (${e.entrypoint})`):h}break}case"override":{n=S(await r.fetch(A(c,e.path??a))),e.headers&&_(n.headers,e.headers);break}case"static":{n=await r.fetch(A(c,a));break}default:n=new Response("Not Found",{status:404})}}catch(d){return console.error(d),new Response("Internal Server Error",{status:500})}return S(n)}function W(e,t){let r="^//?(?:",s=")/(.*)$";return!e.startsWith(r)||!e.endsWith(s)?!1:e.slice(r.length,-s.length).split("|").every(i=>t.has(i))}u();l();p();function de(e,{protocol:t,hostname:r,port:s,pathname:a}){return!(t&&e.protocol.replace(/:$/,"")!==t||!new RegExp(r).test(e.hostname)||s&&!new RegExp(s).test(e.port)||a&&!new RegExp(a).test(e.pathname))}function he(e,t){if(e.method!=="GET")return;let{origin:r,searchParams:s}=new URL(e.url),a=s.get("url"),i=Number.parseInt(s.get("w")??"",10),n=Number.parseInt(s.get("q")??"75",10);if(!a||Number.isNaN(i)||Number.isNaN(n)||!t?.sizes?.includes(i)||n<0||n>100)return;let o=new URL(a,r);if(o.pathname.endsWith(".svg")&&!t?.dangerouslyAllowSVG)return;let c=a.startsWith("//"),d=a.startsWith("/")&&!c;if(!d&&!t?.domains?.includes(o.hostname)&&!t?.remotePatterns?.find(R=>de(o,R)))return;let h=e.headers.get("Accept")??"",y=t?.formats?.find(R=>h.includes(R))?.replace("image/","");return{isRelative:d,imageUrl:o,options:{width:i,quality:n,format:y}}}function fe(e,t,r){let s=new Headers;if(r?.contentSecurityPolicy&&s.set("Content-Security-Policy",r.contentSecurityPolicy),r?.contentDispositionType){let i=t.pathname.split("/").pop(),n=i?`${r.contentDispositionType}; filename="${i}"`:r.contentDispositionType;s.set("Content-Disposition",n)}e.headers.has("Cache-Control")||s.set("Cache-Control",`public, max-age=${r?.minimumCacheTTL??60}`);let a=S(e);return _(a.headers,s),a}async function G(e,{buildOutput:t,assetsFetcher:r,imagesConfig:s}){let a=he(e,s);if(!a)return new Response("Invalid image resizing request",{status:400});let{isRelative:i,imageUrl:n}=a,c=await(i&&n.pathname in t?r.fetch.bind(r):fetch)(n);return fe(c,n,s)}u();l();p();u();l();p();u();l();p();async function E(e){return import(e)}var me="x-vercel-cache-tags",ge="x-next-cache-soft-tags",ye=Symbol.for("__cloudflare-request-context__");async function J(e){let t=`https://${b}/v1/suspense-cache/`;if(!e.url.startsWith(t))return null;try{let r=new URL(e.url),s=await _e();if(r.pathname==="/v1/suspense-cache/revalidate"){let i=r.searchParams.get("tags")?.split(",")??[];for(let n of i)await s.revalidateTag(n);return new Response(null,{status:200})}let a=r.pathname.replace("/v1/suspense-cache/","");if(!a.length)return new Response("Invalid cache key",{status:400});switch(e.method){case"GET":{let i=K(e,ge),n=await s.get(a,{softTags:i});return n?new Response(JSON.stringify(n.value),{status:200,headers:{"Content-Type":"application/json","x-vercel-cache-state":"fresh",age:`${(Date.now()-(n.lastModified??Date.now()))/1e3}`}}):new Response(null,{status:404})}case"POST":{let i=globalThis[ye],n=async()=>{let o=await e.json();o.data.tags===void 0&&(o.tags??=K(e,me)??[]),await s.set(a,o)};return i?i.ctx.waitUntil(n()):await n(),new Response(null,{status:200})}default:return new Response(null,{status:405})}}catch(r){return console.error(r),new Response("Error handling cache request",{status:500})}}async function _e(){return process.env.__NEXT_ON_PAGES__KV_SUSPENSE_CACHE?z("kv"):z("cache-api")}async function z(e){let t=`./__next-on-pages-dist__/cache/${e}.js`,r=await E(t);return new r.default}function K(e,t){return e.headers.get(t)?.split(",")?.filter(Boolean)}function X(){globalThis[Z]||(xe(),globalThis[Z]=!0)}function xe(){let e=globalThis.fetch;globalThis.fetch=async(...t)=>{let r=new Request(...t),s=await we(r);return s||(s=await J(r),s)?s:(Re(r),e(r))}}async function we(e){if(e.url.startsWith("blob:"))try{let r=`./__next-on-pages-dist__/assets/${new URL(e.url).pathname}.bin`,s=(await E(r)).default,a={async arrayBuffer(){return s},get body(){return new ReadableStream({start(i){let n=Buffer.from(s);i.enqueue(n),i.close()}})},async text(){return Buffer.from(s).toString()},async json(){let i=Buffer.from(s);return JSON.stringify(i.toString())},async blob(){return new Blob(s)}};return a.clone=()=>({...a}),a}catch{}return null}function Re(e){e.headers.has("user-agent")||e.headers.set("user-agent","Next.js Middleware")}var Z=Symbol.for("next-on-pages fetch patch");u();l();p();var Y=$(Q());var j=class{constructor(t,r,s,a,i){this.routes=t;this.output=r;this.reqCtx=s;this.url=new URL(s.request.url),this.cookies=(0,Y.parse)(s.request.headers.get("cookie")||""),this.path=this.url.pathname||"/",this.headers={normal:new Headers,important:new Headers},this.searchParams=new URLSearchParams,x(this.searchParams,this.url.searchParams),this.checkPhaseCounter=0,this.middlewareInvoked=[],this.wildcardMatch=i?.find(n=>n.domain===this.url.hostname),this.locales=new Set(a.collectedLocales)}url;cookies;wildcardMatch;path;status;headers;searchParams;body;checkPhaseCounter;middlewareInvoked;locales;checkRouteMatch(t,{checkStatus:r,checkIntercept:s}){let a=C(t.src,this.path,t.caseSensitive);if(!a.match||t.methods&&!t.methods.map(n=>n.toUpperCase()).includes(this.reqCtx.request.method.toUpperCase()))return;let i={url:this.url,cookies:this.cookies,headers:this.reqCtx.request.headers,routeDest:t.dest};if(!t.has?.find(n=>{let o=I(n,i);return o.newRouteDest&&(i.routeDest=o.newRouteDest),!o.valid})&&!t.missing?.find(n=>I(n,i).valid)&&!(r&&t.status!==this.status)){if(s&&t.dest){let n=/\/(\(\.+\))+/,o=n.test(t.dest),c=n.test(this.path);if(o&&!c)return}return{routeMatch:a,routeDest:i.routeDest}}}processMiddlewareResp(t){let r="x-middleware-override-headers",s=t.headers.get(r);if(s){let c=new Set(s.split(",").map(d=>d.trim()));for(let d of c.keys()){let h=`x-middleware-request-${d}`,y=t.headers.get(h);this.reqCtx.request.headers.get(d)!==y&&(y?this.reqCtx.request.headers.set(d,y):this.reqCtx.request.headers.delete(d)),t.headers.delete(h)}t.headers.delete(r)}let a="x-middleware-rewrite",i=t.headers.get(a);if(i){let c=new URL(i,this.url),d=this.url.hostname!==c.hostname;this.path=d?`${c}`:c.pathname,x(this.searchParams,c.searchParams),t.headers.delete(a)}let n="x-middleware-next";t.headers.get(n)?t.headers.delete(n):!i&&!t.headers.has("location")?(this.body=t.body,this.status=t.status):t.headers.has("location")&&t.status>=300&&t.status<400&&(this.status=t.status),_(this.reqCtx.request.headers,t.headers),_(this.headers.normal,t.headers),this.headers.middlewareLocation=t.headers.get("location")}async runRouteMiddleware(t){if(!t)return!0;let r=t&&this.output[t];if(!r||r.type!=="middleware")return this.status=500,!1;let s=await k(r,this.reqCtx,{path:this.path,searchParams:this.searchParams,headers:this.headers,status:this.status});return this.middlewareInvoked.push(t),s.status===500?(this.status=s.status,!1):(this.processMiddlewareResp(s),!0)}applyRouteOverrides(t){!t.override||(this.status=void 0,this.headers.normal=new Headers,this.headers.important=new Headers)}applyRouteHeaders(t,r,s){!t.headers||(_(this.headers.normal,t.headers,{match:r,captureGroupKeys:s}),t.important&&_(this.headers.important,t.headers,{match:r,captureGroupKeys:s}))}applyRouteStatus(t){!t.status||(this.status=t.status)}applyRouteDest(t,r,s){if(!t.dest)return this.path;let a=this.path,i=t.dest;this.wildcardMatch&&/\$wildcard/.test(i)&&(i=i.replace(/\$wildcard/g,this.wildcardMatch.value)),this.path=v(i,r,s);let n=/\/index\.rsc$/i.test(this.path),o=/^\/(?:index)?$/i.test(a),c=/^\/__index\.prefetch\.rsc$/i.test(a);n&&!o&&!c&&(this.path=a);let d=/\.rsc$/i.test(this.path),h=/\.prefetch\.rsc$/i.test(this.path),y=this.path in this.output;d&&!h&&!y&&(this.path=this.path.replace(/\.rsc/i,""));let R=new URL(this.path,this.url);return x(this.searchParams,R.searchParams),P(this.path)||(this.path=R.pathname),a}applyLocaleRedirects(t){if(!t.locale?.redirect||!/^\^(.)*$/.test(t.src)&&t.src!==this.path||this.headers.normal.has("location"))return;let{locale:{redirect:s,cookie:a}}=t,i=a&&this.cookies[a],n=L(i??""),o=L(this.reqCtx.request.headers.get("accept-language")??""),h=[...n,...o].map(y=>s[y]).filter(Boolean)[0];if(h){!this.path.startsWith(h)&&(this.headers.normal.set("location",h),this.status=307);return}}getLocaleFriendlyRoute(t,r){return!this.locales||r!=="miss"?t:W(t.src,this.locales)?{...t,src:t.src.replace(/\/\(\.\*\)\$$/,"(?:/(.*))?$")}:t}async checkRoute(t,r){let s=this.getLocaleFriendlyRoute(r,t),{routeMatch:a,routeDest:i}=this.checkRouteMatch(s,{checkStatus:t==="error",checkIntercept:t==="rewrite"})??{},n={...s,dest:i};if(!a?.match||n.middlewarePath&&this.middlewareInvoked.includes(n.middlewarePath))return"skip";let{match:o,captureGroupKeys:c}=a;if(this.applyRouteOverrides(n),this.applyLocaleRedirects(n),!await this.runRouteMiddleware(n.middlewarePath))return"error";if(this.body!==void 0||this.headers.middlewareLocation)return"done";this.applyRouteHeaders(n,o,c),this.applyRouteStatus(n);let h=this.applyRouteDest(n,o,c);if(n.check&&!P(this.path))if(h===this.path){if(t!=="miss")return this.checkPhase(O(t));this.status=404}else if(t==="miss"){if(!(this.path in this.output)&&!(this.path.replace(/\/$/,"")in this.output))return this.checkPhase("filesystem");this.status===404&&(this.status=void 0)}else return this.checkPhase("none");return!n.continue||n.status&&n.status>=300&&n.status<=399?"done":"next"}async checkPhase(t){if(this.checkPhaseCounter++>=50)return console.error(`Routing encountered an infinite loop while checking ${this.url.pathname}`),this.status=500,"error";this.middlewareInvoked=[];let r=!0;for(let i of this.routes[t]){let n=await this.checkRoute(t,i);if(n==="error")return"error";if(n==="done"){r=!1;break}}if(t==="hit"||P(this.path)||this.headers.normal.has("location")||!!this.body)return"done";if(t==="none")for(let i of this.locales){let n=new RegExp(`/${i}(/.*)`),c=this.path.match(n)?.[1];if(c&&c in this.output){this.path=c;break}}let s=this.path in this.output;if(!s&&this.path.endsWith("/")){let i=this.path.replace(/\/$/,"");s=i in this.output,s&&(this.path=i)}if(t==="miss"&&!s){let i=!this.status||this.status<400;this.status=i?404:this.status}let a="miss";return s||t==="miss"||t==="error"?a="hit":r&&(a=O(t)),this.checkPhase(a)}async run(t="none"){this.checkPhaseCounter=0;let r=await this.checkPhase(t);return this.headers.normal.has("location")&&(!this.status||this.status<300||this.status>=400)&&(this.status=307),r}};async function ee(e,t,r,s){let a=new j(t.routes,r,e,s,t.wildcard),i=await te(a);return Te(e,i,r)}async function te(e,t="none",r=!1){return await e.run(t)==="error"||!r&&e.status&&e.status>=400?te(e,"error",!0):{path:e.path,status:e.status,headers:e.headers,searchParams:e.searchParams,body:e.body}}async function Te(e,{path:t="/404",status:r,headers:s,searchParams:a,body:i},n){let o=s.normal.get("location");if(o){if(o!==s.middlewareLocation){let h=[...a.keys()].length?`?${a.toString()}`:"";s.normal.set("location",`${o??"/"}${h}`)}return new Response(null,{status:r,headers:s.normal})}let c;if(i!==void 0)c=new Response(i,{status:r});else if(P(t)){let h=new URL(t);x(h.searchParams,a),c=await fetch(h,e.request)}else c=await k(n[t],e,{path:t,status:r,headers:s,searchParams:a});let d=s.normal;return _(d,c.headers),_(d,s.important),c=new Response(c.body,{...c,status:r||c.status,headers:d}),c}u();l();p();function se(){globalThis.__nextOnPagesRoutesIsolation??={_map:new Map,getProxyFor:je}}function je(e){let t=globalThis.__nextOnPagesRoutesIsolation._map.get(e);if(t)return t;let r=Me();return globalThis.__nextOnPagesRoutesIsolation._map.set(e,r),r}function Me(){let e=new Map;return new Proxy(globalThis,{get:(t,r)=>e.has(r)?e.get(r):Reflect.get(globalThis,r),set:(t,r,s)=>Ne.has(r)?Reflect.set(globalThis,r,s):(e.set(r,s),!0)})}var Ne=new Set(["_nextOriginalFetch","fetch","__incrementalCache"]);var Ie=Object.defineProperty,Ae=(...e)=>{let t=e[0],r=e[1],s="__import_unsupported";if(!(r===s&&typeof t=="object"&&t!==null&&s in t))return Ie(...e)};globalThis.Object.defineProperty=Ae;globalThis.AbortController=class extends AbortController{constructor(){try{super()}catch(t){if(t instanceof Error&&t.message.includes("Disallowed operation called within global scope"))return{signal:{aborted:!1,reason:null,onabort:()=>{},throwIfAborted:()=>{}},abort(){}};throw t}}};var Ss={async fetch(e,t,r){se(),X();let s=await __ALSes_PROMISE__;if(!s){let n=new URL(e.url),o=await t.ASSETS.fetch(`${n.protocol}//${n.host}/cdn-cgi/errors/no-nodejs_compat.html`),c=o.ok?o.body:"Error: Could not access built-in Node.js modules. Please make sure that your Cloudflare Pages project has the 'nodejs_compat' compatibility flag set.";return new Response(c,{status:503})}let{envAsyncLocalStorage:a,requestContextAsyncLocalStorage:i}=s;return a.run({...t,NODE_ENV:"production",SUSPENSE_CACHE_URL:b},async()=>i.run({env:t,ctx:r,cf:e.cf},async()=>{if(new URL(e.url).pathname.startsWith("/_next/image"))return G(e,{buildOutput:m,assetsFetcher:t.ASSETS,imagesConfig:f.images});let o=B(e);return ee({request:o,ctx:r,assetsFetcher:t.ASSETS},f,m,g)}))}};export{Ss as default};
+/*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
 
 ```
 

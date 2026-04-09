@@ -6,8 +6,8 @@ language: typescript
 frameworks: [react, tailwind, vite]
 lines: 21
 size: 612 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [code, config, project/social-blueprint-ai, react, tailwind, typescript, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, config, project/social-blueprint-ai, react, tailwind, typescript, v
 | **Frameworks** | react, tailwind, vite |
 | **Lines** | 21 |
 | **Size** | 612 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

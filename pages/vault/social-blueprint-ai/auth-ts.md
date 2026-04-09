@@ -1,101 +1,73 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai/src/lib/auth.ts"
+source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai/worker/src/auth.ts"
 project: "social-blueprint-ai"
 role: auth
 language: typescript
 frameworks: [typescript]
-lines: 61
-size: 1750 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+lines: 35
+size: 1094 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, code, project/social-blueprint-ai, typescript]
 ---
 
 # auth.ts
 
-> Authentication / authorization module using **typescript** (61 lines).
-
-**Key exports:** `getAuthToken`, `logout`, `isAuthenticated`
+> Authentication / authorization module using **typescript** (35 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `social-blueprint-ai/src/lib/auth.ts` |
+| **Path** | `social-blueprint-ai/worker/src/auth.ts` |
 | **Role** | auth |
 | **Language** | typescript |
 | **Frameworks** | typescript |
-| **Lines** | 61 |
-| **Size** | 1750 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Lines** | 35 |
+| **Size** | 1094 bytes |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
-[[config-ts]]
+—
 
 ## 📄 Content
 
 ```typescript
-import { apiUrl } from '../config';
+import { SignJWT, jwtVerify } from 'jose';
+import bcrypt from 'bcryptjs';
 
-export async function login(email: string, password: string) {
-  const response = await fetch(apiUrl('/api/auth/login'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
+const getSecret = (env: any) => new TextEncoder().encode(
+  env.JWT_SECRET || 'dev-secret-change-in-production'
+);
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Login failed');
+export async function generateToken(userId: number, email: string, env: any): Promise<string> {
+  const secret = getSecret(env);
+  return await new SignJWT({ userId, email })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('24h')
+    .sign(secret);
+}
+
+export async function verifyToken(token: string, env: any): Promise<{ userId: number; email: string }> {
+  const secret = getSecret(env);
+  try {
+    const verified = await jwtVerify(token, secret);
+    return {
+      userId: verified.payload.userId as number,
+      email: verified.payload.email as string,
+    };
+  } catch (error) {
+    throw new Error('Invalid or expired token');
   }
-
-  const { token } = await response.json();
-  localStorage.setItem('authToken', token);
-  localStorage.setItem('isAuthenticated', 'true');
-  return token;
 }
 
-export async function register(email: string, password: string) {
-  const response = await fetch(apiUrl('/api/auth/register'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Registration failed');
-  }
-
-  const { token } = await response.json();
-  localStorage.setItem('authToken', token);
-  localStorage.setItem('isAuthenticated', 'true');
-  return token;
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
 }
 
-export function getAuthToken(): string | null {
-  return localStorage.getItem('authToken');
-}
-
-export function logout() {
-  localStorage.removeItem('authToken');
-  localStorage.setItem('isAuthenticated', 'false');
-  window.location.href = '/login';
-}
-
-export function isAuthenticated(): boolean {
-  return !!getAuthToken();
-}
-
-export async function loginWithGoogle() {
-  const response = await fetch(apiUrl('/api/auth/google/url'));
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to initialize Google login');
-  }
-  const { url } = await response.json();
-  window.location.href = url;
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(password, hash);
 }
 
 ```

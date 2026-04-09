@@ -6,8 +6,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 289
 size: 9038 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [docs, documentation, markdown, project/narad, react, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad, react, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 289 |
 | **Size** | 9038 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: tsx
 frameworks: [react, typescript]
 lines: 250
 size: 8235 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [code, component, project/unnati, react, tsx, typescript]
 ---
 
@@ -63,7 +63,7 @@ tags: [code, component, project/unnati, react, tsx, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 250 |
 | **Size** | 8235 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
