@@ -6,8 +6,8 @@ language: markdown
 frameworks: [typescript]
 lines: 162
 size: 30997 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 162 |
 | **Size** | 30997 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [typescript]
 lines: 124
 size: 30206 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -61,7 +61,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 124 |
 | **Size** | 30206 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [typescript]
 lines: 86
 size: 29427 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -97,7 +97,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 86 |
 | **Size** | 29427 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: [typescript]
 lines: 48
 size: 28655 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -133,7 +133,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 48 |
 | **Size** | 28655 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

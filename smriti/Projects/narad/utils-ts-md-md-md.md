@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 122
 size: 2324 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [documentation, markdown, project/narad, utility]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, utility]
 | **Frameworks** | — |
 | **Lines** | 122 |
 | **Size** | 2324 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 84
 size: 1623 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, utility]
 ---
 
@@ -61,7 +61,7 @@ tags: [documentation, markdown, project/narad, utility]
 | **Frameworks** | — |
 | **Lines** | 84 |
 | **Size** | 1623 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: []
 lines: 46
 size: 905 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [documentation, markdown, project/narad, utility]
 ---
 
@@ -97,7 +97,7 @@ tags: [documentation, markdown, project/narad, utility]
 | **Frameworks** | — |
 | **Lines** | 46 |
 | **Size** | 905 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: typescript
 frameworks: []
 lines: 6
 size: 169 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, project/social-blueprint-ai, typescript, utility]
 ---
 
@@ -135,7 +135,7 @@ tags: [code, project/social-blueprint-ai, typescript, utility]
 | **Frameworks** | — |
 | **Lines** | 6 |
 | **Size** | 169 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

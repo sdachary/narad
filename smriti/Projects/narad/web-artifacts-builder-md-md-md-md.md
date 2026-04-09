@@ -6,8 +6,8 @@ language: markdown
 frameworks: [vite]
 lines: 187
 size: 5312 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 187 |
 | **Size** | 5312 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [vite]
 lines: 149
 size: 4553 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 149 |
 | **Size** | 4553 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [vite]
 lines: 111
 size: 3803 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [docs, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 111 |
 | **Size** | 3803 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: [vite]
 lines: 74
 size: 3087 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad, vite]
 ---
 
@@ -133,7 +133,7 @@ tags: [docs, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 74 |
 | **Size** | 3087 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

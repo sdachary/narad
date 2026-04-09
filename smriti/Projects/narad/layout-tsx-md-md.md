@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 115
-size: 2228 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 2242 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 115 |
-| **Size** | 2228 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 2242 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -35,15 +35,15 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/layout-tsx.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/layout-tsx.md"
 project: "narad"
 role: docs
 language: markdown
 frameworks: []
 lines: 77
-size: 1547 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+size: 1549 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -55,13 +55,13 @@ tags: [docs, documentation, markdown, project/narad]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/unnati/layout-tsx.md` |
+| **Path** | `narad/pages/vault/job-hunt-app/layout-tsx.md` |
 | **Role** | docs |
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 77 |
-| **Size** | 1547 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Size** | 1549 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -71,16 +71,16 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/unnati/src/app/layout.tsx"
-project: "unnati"
+source: "/home/deepak/Work/job-hunt-app/src/app/layout.tsx"
+project: "job-hunt-app"
 role: component
 language: tsx
 frameworks: []
 lines: 37
 size: 856 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
-tags: [code, component, project/unnati, tsx]
+last_modified: "2026-04-06 23:42"
+scanned: "2026-04-06 23:42"
+tags: [code, component, project/job-hunt-app, tsx]
 ---
 
 # layout.tsx
@@ -93,13 +93,13 @@ tags: [code, component, project/unnati, tsx]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `unnati/src/app/layout.tsx` |
+| **Path** | `job-hunt-app/src/app/layout.tsx` |
 | **Role** | component |
 | **Language** | tsx |
 | **Frameworks** | — |
 | **Lines** | 37 |
 | **Size** | 856 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-06 23:42 |
 
 ## 🔗 Related Files
 

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [typescript]
 lines: 310
 size: 7630 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 310 |
 | **Size** | 7630 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [typescript]
 lines: 272
 size: 6862 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad, typescript]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 272 |
 | **Size** | 6862 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [typescript]
 lines: 234
 size: 6103 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad, typescript]
 ---
 
@@ -97,7 +97,7 @@ tags: [docs, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 234 |
 | **Size** | 6103 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: [typescript]
 lines: 197
 size: 5375 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad, typescript]
 ---
 
@@ -133,7 +133,7 @@ tags: [docs, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 197 |
 | **Size** | 5375 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

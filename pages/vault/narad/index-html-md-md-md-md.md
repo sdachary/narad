@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 152
-size: 2737 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 2701 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 152 |
-| **Size** | 2737 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 2701 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -41,9 +41,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 114
-size: 2037 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+size: 2001 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -60,8 +60,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 114 |
-| **Size** | 2037 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Size** | 2001 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -77,9 +77,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 76
-size: 1349 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+size: 1313 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -96,8 +96,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 76 |
-| **Size** | 1349 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Size** | 1313 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -107,15 +107,15 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/index-html.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/kanak/index-html.md"
 project: "narad"
 role: docs
 language: markdown
 frameworks: []
 lines: 38
-size: 660 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+size: 636 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -127,13 +127,13 @@ tags: [docs, documentation, markdown, project/narad]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/vishwakarma/index-html.md` |
+| **Path** | `narad/pages/vault/kanak/index-html.md` |
 | **Role** | docs |
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 38 |
-| **Size** | 660 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Size** | 636 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -143,16 +143,16 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/vishwakarma/pages/index.html"
-project: "vishwakarma"
+source: "/home/runner/work/narad/narad/sync_temp/kanak/pages/index.html"
+project: "kanak"
 role: page
 language: html
 frameworks: []
 lines: 0
-size: 72064 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [code, html, page, project/vishwakarma]
+size: 53759 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [code, html, page, project/kanak]
 ---
 
 # index.html
@@ -163,13 +163,13 @@ tags: [code, html, page, project/vishwakarma]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `vishwakarma/pages/index.html` |
+| **Path** | `kanak/pages/index.html` |
 | **Role** | page |
 | **Language** | html |
 | **Frameworks** | — |
 | **Lines** | 0 |
-| **Size** | 72064 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Size** | 53759 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

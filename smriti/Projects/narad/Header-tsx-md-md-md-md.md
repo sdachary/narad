@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 179
-size: 3567 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 3581 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 179 |
-| **Size** | 3567 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 3581 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -41,9 +41,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 141
-size: 2867 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+size: 2881 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -60,8 +60,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 141 |
-| **Size** | 2867 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Size** | 2881 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -77,9 +77,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 103
-size: 2176 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+size: 2190 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -96,8 +96,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 103 |
-| **Size** | 2176 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Size** | 2190 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -107,15 +107,15 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/Header-tsx.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/Header-tsx.md"
 project: "narad"
 role: docs
 language: markdown
 frameworks: []
 lines: 65
-size: 1495 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+size: 1497 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -127,13 +127,13 @@ tags: [docs, documentation, markdown, project/narad]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/unnati/Header-tsx.md` |
+| **Path** | `narad/pages/vault/job-hunt-app/Header-tsx.md` |
 | **Role** | docs |
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 65 |
-| **Size** | 1495 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Size** | 1497 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -143,16 +143,16 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/unnati/src/components/Header.tsx"
-project: "unnati"
+source: "/home/deepak/Work/job-hunt-app/src/components/Header.tsx"
+project: "job-hunt-app"
 role: component
 language: tsx
 frameworks: []
 lines: 25
 size: 817 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [code, component, project/unnati, tsx]
+last_modified: "2026-04-06 23:42"
+scanned: "2026-04-06 23:42"
+tags: [code, component, project/job-hunt-app, tsx]
 ---
 
 # Header.tsx
@@ -165,13 +165,13 @@ tags: [code, component, project/unnati, tsx]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `unnati/src/components/Header.tsx` |
+| **Path** | `job-hunt-app/src/components/Header.tsx` |
 | **Role** | component |
 | **Language** | tsx |
 | **Frameworks** | — |
 | **Lines** | 25 |
 | **Size** | 817 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-06 23:42 |
 
 ## 🔗 Related Files
 

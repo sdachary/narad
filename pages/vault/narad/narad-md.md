@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 0
-size: 88832 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 120303 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 0 |
-| **Size** | 88832 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 120303 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

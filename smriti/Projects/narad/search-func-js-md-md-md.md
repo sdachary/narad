@@ -6,8 +6,8 @@ language: markdown
 frameworks: [typescript]
 lines: 115
 size: 30067 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 115 |
 | **Size** | 30067 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [typescript]
 lines: 77
 size: 29288 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -61,7 +61,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 77 |
 | **Size** | 29288 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [typescript]
 lines: 39
 size: 28516 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, documentation, markdown, project/narad, typescript]
 ---
 
@@ -97,7 +97,7 @@ tags: [config, documentation, markdown, project/narad, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 39 |
 | **Size** | 28516 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

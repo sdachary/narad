@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 153
-size: 2933 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 2919 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 153 |
-| **Size** | 2933 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 2919 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -41,9 +41,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 115
-size: 2242 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+size: 2228 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -60,8 +60,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 115 |
-| **Size** | 2242 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Size** | 2228 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -71,15 +71,15 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/layout-tsx.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/layout-tsx.md"
 project: "narad"
 role: docs
 language: markdown
 frameworks: []
 lines: 77
-size: 1549 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+size: 1547 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -91,13 +91,13 @@ tags: [docs, documentation, markdown, project/narad]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/job-hunt-app/layout-tsx.md` |
+| **Path** | `narad/pages/vault/unnati/layout-tsx.md` |
 | **Role** | docs |
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 77 |
-| **Size** | 1549 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Size** | 1547 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -107,16 +107,16 @@ tags: [docs, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/deepak/Work/job-hunt-app/src/app/layout.tsx"
-project: "job-hunt-app"
+source: "/home/runner/work/narad/narad/sync_temp/unnati/src/app/layout.tsx"
+project: "unnati"
 role: component
 language: tsx
 frameworks: []
 lines: 37
 size: 856 bytes
-last_modified: "2026-04-06 23:42"
-scanned: "2026-04-06 23:42"
-tags: [code, component, project/job-hunt-app, tsx]
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [code, component, project/unnati, tsx]
 ---
 
 # layout.tsx
@@ -129,13 +129,13 @@ tags: [code, component, project/job-hunt-app, tsx]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `job-hunt-app/src/app/layout.tsx` |
+| **Path** | `unnati/src/app/layout.tsx` |
 | **Role** | component |
 | **Language** | tsx |
 | **Frameworks** | — |
 | **Lines** | 37 |
 | **Size** | 856 bytes |
-| **Modified** | 2026-04-06 23:42 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

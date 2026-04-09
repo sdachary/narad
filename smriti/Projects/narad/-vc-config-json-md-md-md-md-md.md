@@ -1,0 +1,228 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/-vc-config-json-md-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 190
+size: 3689 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# -vc-config-json-md-md-md-md.md
+
+> Configuration file for the project (190 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/-vc-config-json-md-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 190 |
+| **Size** | 3689 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/-vc-config-json-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 152
+size: 2938 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# -vc-config-json-md-md-md.md
+
+> Configuration file for the project (152 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/-vc-config-json-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 152 |
+| **Size** | 2938 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/-vc-config-json-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 114
+size: 2196 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# -vc-config-json-md-md.md
+
+> Configuration file for the project (114 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/-vc-config-json-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 114 |
+| **Size** | 2196 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/-vc-config-json-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 76
+size: 1466 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# -vc-config-json-md.md
+
+> Configuration file for the project (76 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/-vc-config-json-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 76 |
+| **Size** | 1466 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/-vc-config-json.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: []
+lines: 38
+size: 745 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [config, documentation, markdown, project/narad]
+---
+
+# -vc-config-json.md
+
+> Configuration file for the project (38 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/-vc-config-json.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 38 |
+| **Size** | 745 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/deepak/Work/unnati/.vercel/output/functions/favicon.ico.rsc.func/.vc-config.json"
+project: "unnati"
+role: config
+language: json
+frameworks: []
+lines: 0
+size: 83651 bytes
+last_modified: "2026-04-07 17:52"
+scanned: "2026-04-07 17:53"
+tags: [code, config, json, project/unnati]
+---
+
+# .vc-config.json
+
+> Configuration file for the project (0 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/.vercel/output/functions/favicon.ico.rsc.func/.vc-config.json` |
+| **Role** | config |
+| **Language** | json |
+| **Frameworks** | — |
+| **Lines** | 0 |
+| **Size** | 83651 bytes |
+| **Modified** | 2026-04-07 17:52 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```json
+[Could not read file]
+```
+
+```
+
+```
+
+```
+
+```
+
+```
