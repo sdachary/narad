@@ -5,9 +5,9 @@ role: page
 language: html
 frameworks: []
 lines: 240
-size: 7129 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+size: 7092 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, html, page, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [code, html, page, project/narad]
 | **Language** | html |
 | **Frameworks** | — |
 | **Lines** | 240 |
-| **Size** | 7129 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Size** | 7092 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -265,8 +265,8 @@ tags: [code, html, page, project/narad]
         </main>
 
         <div class="floating-controls">
-            <button class="neural-map-btn" onclick="window.location.href='/graph.html'" title="Return to Neural Map">
-                <span class="s-logo">S</span>
+            <button class="back-btn" onclick="window.location.href='/'" title="Back to Chat">
+                <span>←</span>
             </button>
         </div>
     </div>

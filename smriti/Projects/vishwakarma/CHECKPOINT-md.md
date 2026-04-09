@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 86
 size: 3221 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docker, documentation, markdown, project/vishwakarma, service]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, documentation, markdown, project/vishwakarma, service]
 | **Frameworks** | docker |
 | **Lines** | 86 |
 | **Size** | 3221 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

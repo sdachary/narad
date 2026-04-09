@@ -6,8 +6,8 @@ language: tsx
 frameworks: [docker, react, typescript]
 lines: 229
 size: 9589 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, component, docker, project/unnati, react, tsx, typescript]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, component, docker, project/unnati, react, tsx, typescript]
 | **Frameworks** | docker, react, typescript |
 | **Lines** | 229 |
 | **Size** | 9589 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

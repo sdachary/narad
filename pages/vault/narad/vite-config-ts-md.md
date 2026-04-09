@@ -1,31 +1,31 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/social-blueprint-ai/vite-config-ts.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/chitragupta/vite-config-ts.md"
 project: "narad"
 role: config
 language: markdown
-frameworks: [react, tailwind, vite]
-lines: 59
-size: 1432 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [config, documentation, markdown, project/narad, react, tailwind, vite]
+frameworks: [vite]
+lines: 96
+size: 2574 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, markdown, project/narad, vite]
 ---
 
 # vite-config-ts.md
 
-> Configuration file for the project using **react, tailwind, vite** (59 lines).
+> Configuration file for the project using **vite** (96 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/social-blueprint-ai/vite-config-ts.md` |
+| **Path** | `narad/pages/vault/chitragupta/vite-config-ts.md` |
 | **Role** | config |
 | **Language** | markdown |
-| **Frameworks** | react, tailwind, vite |
-| **Lines** | 59 |
-| **Size** | 1432 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Frameworks** | vite |
+| **Lines** | 96 |
+| **Size** | 2574 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -35,33 +35,33 @@ tags: [config, documentation, markdown, project/narad, react, tailwind, vite]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai/vite.config.ts"
-project: "social-blueprint-ai"
+source: "/home/runner/work/narad/narad/sync_temp/chitragupta/vite.config.ts"
+project: "chitragupta"
 role: config
 language: typescript
-frameworks: [react, tailwind, vite]
-lines: 21
-size: 612 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [code, config, project/social-blueprint-ai, react, tailwind, typescript, vite]
+frameworks: [vite]
+lines: 58
+size: 1852 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [code, config, project/chitragupta, typescript, vite]
 ---
 
 # vite.config.ts
 
-> Configuration file for the project using **react, tailwind, vite** (21 lines).
+> Configuration file for the project using **vite** (58 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `social-blueprint-ai/vite.config.ts` |
+| **Path** | `chitragupta/vite.config.ts` |
 | **Role** | config |
 | **Language** | typescript |
-| **Frameworks** | react, tailwind, vite |
-| **Lines** | 21 |
-| **Size** | 612 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Frameworks** | vite |
+| **Lines** | 58 |
+| **Size** | 1852 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -70,26 +70,63 @@ tags: [code, config, project/social-blueprint-ai, react, tailwind, typescript, v
 ## 📄 Content
 
 ```typescript
-import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
+import { VitePWA } from 'vite-plugin-pwa';
+import { copyFileSync, existsSync } from 'fs';
 
-export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, '.', '');
-  return {
-    plugins: [react(), tailwindcss()],
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
+export default defineConfig({
+  plugins: [
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['icon-192.png', 'icon-512.png', '_redirects'],
+      manifest: {
+        name: 'Chitragupta - Business Ledger',
+        short_name: 'Chitragupta',
+        description: 'Professional accounting and partner management',
+        theme_color: '#6366f1',
+        background_color: '#0f172a',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gstatic-fonts-cache',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
+          },
+        ],
+      },
+    }),
+  ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        login: resolve(__dirname, 'login.html'),
+        signup: resolve(__dirname, 'signup.html'),
+        invite: resolve(__dirname, 'invite-partner.html'),
+        landing: resolve(__dirname, 'landing.html'),
       },
     },
-    server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
-      hmr: process.env.DISABLE_HMR !== 'true',
-    },
-  };
+  },
 });
 
 ```

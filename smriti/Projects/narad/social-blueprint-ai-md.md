@@ -6,8 +6,8 @@ language: markdown
 frameworks: [vite]
 lines: 79
 size: 2412 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 79 |
 | **Size** | 2412 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -38,7 +38,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 type: project-index
 project: "social-blueprint-ai"
 source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai"
-scanned: "2026-04-08 16:51"
+scanned: "2026-04-09 13:31"
 total_files: 37
 total_lines: 3480
 tags: [project/social-blueprint-ai, index]
@@ -65,8 +65,8 @@ tags: [project/social-blueprint-ai, index]
 - [[ERROR_CODES-md]] — `docs/ERROR_CODES.md`
 - [[Login-tsx]] — `src/pages/Login.tsx`
 - [[apiClient-ts]] — `src/lib/apiClient.ts`
-- [[auth-ts]] — `src/lib/auth.ts`
 - [[auth-ts]] — `worker/src/auth.ts`
+- [[auth-ts]] — `src/lib/auth.ts`
 - [[index-ts]] — `worker/src/index.ts`
 
 ### 🧩 Component (8)

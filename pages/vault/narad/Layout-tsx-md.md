@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 55
 size: 1100 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 55 |
 | **Size** | 1100 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: tsx
 frameworks: []
 lines: 15
 size: 358 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, component, project/social-blueprint-ai, tsx]
 ---
 
@@ -63,7 +63,7 @@ tags: [code, component, project/social-blueprint-ai, tsx]
 | **Frameworks** | — |
 | **Lines** | 15 |
 | **Size** | 358 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

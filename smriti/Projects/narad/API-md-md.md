@@ -1,30 +1,66 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/API-md.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/social-blueprint-ai/API-md.md"
 project: "narad"
 role: auth
 language: markdown
-frameworks: [typescript]
-lines: 95
-size: 2195 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [auth, documentation, markdown, project/narad, typescript]
+frameworks: []
+lines: 114
+size: 2113 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [auth, documentation, markdown, project/narad]
 ---
 
 # API-md.md
 
-> Authentication / authorization module using **typescript** (95 lines).
+> Authentication / authorization module (114 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/vishwakarma/API-md.md` |
+| **Path** | `narad/pages/vault/social-blueprint-ai/API-md.md` |
 | **Role** | auth |
 | **Language** | markdown |
-| **Frameworks** | typescript |
-| **Lines** | 95 |
-| **Size** | 2195 bytes |
+| **Frameworks** | — |
+| **Lines** | 114 |
+| **Size** | 2113 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai/docs/API.md"
+project: "social-blueprint-ai"
+role: auth
+language: markdown
+frameworks: []
+lines: 76
+size: 1401 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [auth, documentation, markdown, project/social-blueprint-ai]
+---
+
+# API.md
+
+> Authentication / authorization module (76 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `social-blueprint-ai/docs/API.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 76 |
+| **Size** | 1401 bytes |
 | **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
@@ -34,99 +70,82 @@ tags: [auth, documentation, markdown, project/narad, typescript]
 ## 📄 Content
 
 ```markdown
----
-source: "/home/runner/work/narad/narad/sync_temp/vishwakarma/docs/platform/API.md"
-project: "vishwakarma"
-role: auth
-language: markdown
-frameworks: [typescript]
-lines: 57
-size: 1447 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [auth, documentation, markdown, project/vishwakarma, typescript]
----
+# Social Blueprint AI API Documentation
 
-# API.md
+## Base URL
+`https://social-blueprint-worker.your-subdomain.workers.dev/api/v1`
 
-> Authentication / authorization module using **typescript** (57 lines).
+## Authentication
+All protected endpoints require a Bearer token in the `Authorization` header.
+`Authorization: Bearer <your_jwt_token>`
 
-## 📋 Metadata
+## Public Endpoints
 
-| Property | Value |
-|----------|-------|
-| **Path** | `vishwakarma/docs/platform/API.md` |
-| **Role** | auth |
-| **Language** | markdown |
-| **Frameworks** | typescript |
-| **Lines** | 57 |
-| **Size** | 1447 bytes |
-| **Modified** | 2026-04-08 16:51 |
+### 1. Health Check
+`GET /health`
+Returns system status.
 
-## 🔗 Related Files
+### 2. Google OAuth URL
+`GET /auth/google/url`
+Returns the Google OAuth consent URL.
 
-—
+### 3. Google OAuth Callback
+`GET /auth/google/callback`
+Handles the code exchange and redirects back to the app.
 
-## 📄 Content
+### 4. Login
+`POST /auth/login`
+**Rate Limited:** 5 attempts per 15 mins.
+**Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "Password123!"
+}
+```
 
-```markdown
-# API Documentation
+### 5. Register
+`POST /auth/register`
+**Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "Password123!"
+}
+```
 
-## Services
+## Protected Endpoints
 
-### AGI Nexus API
-Base URL: `https://vishwakarma-agi.pages.dev/api`
+### 1. Profiles
+`GET /profiles?page=1&limit=20`
+Returns a paginated list of social media profiles.
 
-**POST /chat**
-Send a message to the AGI.
-- Request: `{ message: string, session_id?: string }`
-- Response: `{ reply: string, session_id: string }`
-- Errors: 400 (invalid input), 500 (thinking/connect error)
+`POST /profiles`
+Create a new profile.
+**Body:**
+```json
+{
+  "platform": "Instagram",
+  "handle": "username",
+  "followers": 1500,
+  "engagement_rate": 4.5
+}
+```
 
-**GET /health**
-Service health check.
-- Response: `{ status: "ok", service: "agi-nexus", checks: {...} }`
-- Status: 200 (ok), 503 (error)
+### 2. Audits
+`GET /audits/:profileId`
+Returns the latest audit results for a profile.
 
----
+`POST /audits`
+Save a new audit result.
 
-### SyncLedger API
-Base URL: `https://syncledger.pages.dev/api`
+### 3. AI Analysis
+`POST /ai/analyze`
+Invoke Gemini AI for custom analysis.
 
-**POST /auth/login**
-Authenticate user.
-- Request: `{ email: string, password: string }`
-- Response: `{ token: string, refreshToken: string, user: {...} }`
-- Errors: 401 (invalid credentials), 429 (too many attempts)
-
-**POST /businesses/:id/transactions**
-Create ledger transaction.
-- Headers: `Authorization: Bearer <token>`
-- Request: `{ type: "income|expense|...", amount: number, ... }`
-- Response: `{ id: string, ... }`
-- Errors: 401 (unauthorized), 400 (invalid input)
-
-**GET /health**
-Service health check.
-- Response: `{ status: "ok", service: "syncledger", checks: {...} }`
-
----
-
-### Cloud Provisioning API
-Base URL: `https://vishwakarma.pages.dev/api`
-
-**GET /health**
-Service health check.
-- Response: `{ status: "ok", service: "vishwakarma" }`
-
----
-
-### Gold SaaS Shield API
-Base URL: `https://gold-saas.pages.dev`
-
-**GET /health**
-Service health check.
-- Response: `{ status: "ok", service: "gold-saas-shield" }`
+### 4. Payments
+`POST /create-checkout-session`
+Create a Stripe Checkout session.
 
 ```
 

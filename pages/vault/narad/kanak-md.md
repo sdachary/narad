@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 57
 size: 1650 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [config, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 57 |
 | **Size** | 1650 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -38,7 +38,7 @@ tags: [config, documentation, markdown, project/narad]
 type: project-index
 project: "kanak"
 source: "/home/runner/work/narad/narad/sync_temp/kanak"
-scanned: "2026-04-08 16:51"
+scanned: "2026-04-09 13:31"
 total_files: 23
 total_lines: 3962
 tags: [project/kanak, index]

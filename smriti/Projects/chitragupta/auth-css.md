@@ -6,8 +6,8 @@ language: css
 frameworks: []
 lines: 179
 size: 4013 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:38"
 tags: [code, css, project/chitragupta, style]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, css, project/chitragupta, style]
 | **Frameworks** | — |
 | **Lines** | 179 |
 | **Size** | 4013 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

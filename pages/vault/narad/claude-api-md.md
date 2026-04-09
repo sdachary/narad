@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, typescript]
 lines: 262
 size: 20548 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [config, docker, documentation, markdown, project/narad, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, docker, documentation, markdown, project/narad, typescript]
 | **Frameworks** | docker, typescript |
 | **Lines** | 262 |
 | **Size** | 20548 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, typescript]
 lines: 266
 size: 7669 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docker, documentation, markdown, project/narad, typescript, utility]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, documentation, markdown, project/narad, typescript, utility]
 | **Frameworks** | docker, typescript |
 | **Lines** | 266 |
 | **Size** | 7669 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: typescript
 frameworks: [docker, typescript]
 lines: 226
 size: 6889 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, docker, project/unnati, typescript, utility]
 ---
 
@@ -63,7 +63,7 @@ tags: [code, docker, project/unnati, typescript, utility]
 | **Frameworks** | docker, typescript |
 | **Lines** | 226 |
 | **Size** | 6889 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

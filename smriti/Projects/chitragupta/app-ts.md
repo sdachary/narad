@@ -6,8 +6,8 @@ language: typescript
 frameworks: [docker, typescript, vite]
 lines: 941
 size: 33738 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:38"
 tags: [code, docker, project/chitragupta, service, typescript, vite]
 ---
 
@@ -25,11 +25,11 @@ tags: [code, docker, project/chitragupta, service, typescript, vite]
 | **Frameworks** | docker, typescript, vite |
 | **Lines** | 941 |
 | **Size** | 33738 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
-[[api-ts]], [[auth-css]]
+[[api-ts]], [[auth-ts]]
 
 ## 📄 Content
 

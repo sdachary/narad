@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 64
 size: 1774 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [auth, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 64 |
 | **Size** | 1774 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: javascript
 frameworks: []
 lines: 26
 size: 1108 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [auth, code, javascript, project/kanak]
 ---
 
@@ -61,7 +61,7 @@ tags: [auth, code, javascript, project/kanak]
 | **Frameworks** | — |
 | **Lines** | 26 |
 | **Size** | 1108 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

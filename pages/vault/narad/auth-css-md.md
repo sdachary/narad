@@ -4,16 +4,16 @@ project: "narad"
 role: docs
 language: markdown
 frameworks: []
-lines: 165
-size: 3470 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+lines: 217
+size: 4655 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
 # auth-css.md
 
-> Documentation (165 lines).
+> Documentation (217 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [docs, documentation, markdown, project/narad]
 | **Role** | docs |
 | **Language** | markdown |
 | **Frameworks** | — |
-| **Lines** | 165 |
-| **Size** | 3470 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Lines** | 217 |
+| **Size** | 4655 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -40,16 +40,16 @@ project: "chitragupta"
 role: style
 language: css
 frameworks: []
-lines: 127
-size: 2828 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+lines: 179
+size: 4013 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, css, project/chitragupta, style]
 ---
 
 # auth.css
 
-> Stylesheet (127 lines).
+> Stylesheet (179 lines).
 
 ## 📋 Metadata
 
@@ -59,9 +59,9 @@ tags: [code, css, project/chitragupta, style]
 | **Role** | style |
 | **Language** | css |
 | **Frameworks** | — |
-| **Lines** | 127 |
-| **Size** | 2828 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Lines** | 179 |
+| **Size** | 4013 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -71,16 +71,43 @@ tags: [code, css, project/chitragupta, style]
 
 ```css
 .auth-container {
-    max-width: 440px;
+    max-width: 420px;
     margin: 8vh auto;
-    padding: 60px 48px;
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    border-radius: var(--radius);
-    border: 1px solid var(--border-hi);
-    box-shadow: var(--shadow-md);
+    padding: 48px;
+    background: rgba(6, 20, 35, 0.7);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border-radius: 24px;
+    border: 1px solid rgba(214, 228, 249, 0.1);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
     text-align: center;
-    animation: authFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: authFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.auth-logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffbf70, #e0a458);
+    border-radius: 16px;
+    box-shadow: 0 0 32px rgba(255, 191, 112, 0.25);
+}
+
+.auth-logo .material-icons-round {
+    font-size: 32px;
+    color: #030810;
+}
+
+.auth-subtitle {
+    color: #64748b;
+    font-size: 15px;
+    margin-top: -16px;
+    margin-bottom: 32px;
 }
 
 @keyframes authFadeIn {
@@ -102,14 +129,29 @@ tags: [code, css, project/chitragupta, style]
 .auth-container input {
     width: 100%;
     padding: 16px 20px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     border-radius: 12px;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(214, 228, 249, 0.1);
     background: rgba(255, 255, 255, 0.03);
-    color: var(--text);
-    font-family: inherit;
+    color: #f0f4f8;
+    font-family: 'Sora', system-ui, sans-serif;
+    font-size: 15px;
     outline: none;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+}
+
+.auth-container input::placeholder {
+    color: #64748b;
+}
+
+.auth-container input:focus {
+    border-color: #ffbf70;
+    background: rgba(255, 191, 112, 0.05);
+    box-shadow: 0 0 0 4px rgba(255, 191, 112, 0.15);
+}
+
+.auth-container input:hover:not(:focus) {
+    border-color: rgba(214, 228, 249, 0.15);
 }
 
 .auth-container input:focus {
@@ -120,18 +162,28 @@ tags: [code, css, project/chitragupta, style]
 
 .auth-container button {
     width: 100%;
-    padding: 18px;
+    padding: 16px;
     border-radius: 12px;
     border: none;
-    background: var(--primary-gradient);
-    color: #061423;
-    font-weight: 800;
-    font-size: 16px;
+    background: linear-gradient(135deg, #ffbf70, #e0a458);
+    color: #030810;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: 'Sora', system-ui, sans-serif;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 4px 15px var(--primary-glow);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(255, 191, 112, 0.25);
+    letter-spacing: 0.5px;
+}
+
+.auth-container button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(255, 191, 112, 0.3);
+    filter: brightness(1.05);
+}
+
+.auth-container button:active {
+    transform: translateY(-1px);
 }
 
 .auth-container button:hover {

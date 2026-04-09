@@ -4,16 +4,16 @@ project: "narad"
 role: page
 language: html
 frameworks: [docker, typescript]
-lines: 157
-size: 9477 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+lines: 153
+size: 9271 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, docker, html, page, project/narad, typescript]
 ---
 
 # index.html
 
-> Web page using **docker, typescript** (157 lines).
+> Web page using **docker, typescript** (153 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, docker, html, page, project/narad, typescript]
 | **Role** | page |
 | **Language** | html |
 | **Frameworks** | docker, typescript |
-| **Lines** | 157 |
-| **Size** | 9477 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Lines** | 153 |
+| **Size** | 9271 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -51,7 +51,7 @@ tags: [code, docker, html, page, project/narad, typescript]
     <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
     <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github-dark.min.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github-dark.min.css"></noscript>
     <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js" defer></script>
@@ -92,10 +92,6 @@ tags: [code, docker, html, page, project/narad, typescript]
                 <button id="theme-toggle-btn" class="header-btn" title="Toggle Theme" aria-label="Toggle dark/light theme" role="button" tabindex="0">
                     <i data-lucide="moon" id="theme-icon" aria-hidden="true"></i>
                 </button>
-                <div id="smriti-btn" class="smriti-pill-btn" title="Open Smriti Knowledge Graph" role="button" tabindex="0" aria-label="Open Smriti Knowledge Graph">
-                    <span class="smriti-icon"></span>
-                    <span>Smriti</span>
-                </div>
                 <div class="mode-selector" id="mode-selector" role="radiogroup" aria-label="Select AI mode">
                     <button class="mode-chip" data-mode="casual" role="radio" aria-checked="false" aria-label="Casual mode">CASUAL</button>
                     <button class="mode-chip" data-mode="rnd" role="radio" aria-checked="false" aria-label="Research and Development mode">R&D</button>

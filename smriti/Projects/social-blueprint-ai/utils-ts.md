@@ -6,8 +6,8 @@ language: typescript
 frameworks: []
 lines: 6
 size: 169 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, project/social-blueprint-ai, typescript, utility]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, project/social-blueprint-ai, typescript, utility]
 | **Frameworks** | — |
 | **Lines** | 6 |
 | **Size** | 169 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
