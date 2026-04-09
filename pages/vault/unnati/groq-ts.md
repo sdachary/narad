@@ -6,8 +6,8 @@ language: typescript
 frameworks: [typescript]
 lines: 180
 size: 4433 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:46"
 tags: [auth, code, project/unnati, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, code, project/unnati, typescript]
 | **Frameworks** | typescript |
 | **Lines** | 180 |
 | **Size** | 4433 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

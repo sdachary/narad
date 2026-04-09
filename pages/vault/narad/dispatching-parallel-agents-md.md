@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 182
 size: 6441 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docker, documentation, markdown, project/narad, test]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, documentation, markdown, project/narad, test]
 | **Frameworks** | docker |
 | **Lines** | 182 |
 | **Size** | 6441 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker]
 lines: 276
 size: 7635 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:46"
 tags: [cloudflare-workers, docker, docs, documentation, markdown, project/vishwakarma]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, docker, docs, documentation, markdown, project/vishwa
 | **Frameworks** | cloudflare-workers, docker |
 | **Lines** | 276 |
 | **Size** | 7635 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 162
 size: 5596 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [auth, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 162 |
 | **Size** | 5596 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: html
 frameworks: []
 lines: 124
 size: 4933 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:38"
 tags: [auth, code, html, project/chitragupta]
 ---
 
@@ -61,7 +61,7 @@ tags: [auth, code, html, project/chitragupta]
 | **Frameworks** | — |
 | **Lines** | 124 |
 | **Size** | 4933 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

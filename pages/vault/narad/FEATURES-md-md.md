@@ -1,30 +1,66 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/FEATURES-md.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/FEATURES-md.md"
 project: "narad"
-role: docs
+role: auth
 language: markdown
-frameworks: [cloudflare-workers, docker]
-lines: 234
-size: 5357 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
-tags: [cloudflare-workers, docker, docs, documentation, markdown, project/narad]
+frameworks: [docker]
+lines: 334
+size: 7966 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [auth, docker, documentation, markdown, project/narad]
 ---
 
 # FEATURES-md.md
 
-> Documentation using **cloudflare-workers, docker** (234 lines).
+> Authentication / authorization module using **docker** (334 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/narad/FEATURES-md.md` |
-| **Role** | docs |
+| **Path** | `narad/pages/vault/vishwakarma/FEATURES-md.md` |
+| **Role** | auth |
 | **Language** | markdown |
-| **Frameworks** | cloudflare-workers, docker |
-| **Lines** | 234 |
-| **Size** | 5357 bytes |
+| **Frameworks** | docker |
+| **Lines** | 334 |
+| **Size** | 7966 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/vishwakarma/FEATURES.md"
+project: "vishwakarma"
+role: auth
+language: markdown
+frameworks: [docker]
+lines: 296
+size: 7244 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [auth, docker, documentation, markdown, project/vishwakarma]
+---
+
+# FEATURES.md
+
+> Authentication / authorization module using **docker** (296 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `vishwakarma/FEATURES.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 296 |
+| **Size** | 7244 bytes |
 | **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
@@ -34,204 +70,263 @@ tags: [cloudflare-workers, docker, docs, documentation, markdown, project/narad]
 ## 📄 Content
 
 ```markdown
----
-source: "/home/runner/work/narad/narad/sync_temp/narad/FEATURES.md"
-project: "narad"
-role: docs
-language: markdown
-frameworks: [cloudflare-workers, docker]
-lines: 196
-size: 4603 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [cloudflare-workers, docker, docs, documentation, markdown, project/narad]
----
+# Vishwakarma Features Guide
 
-# FEATURES.md
-
-> Documentation using **cloudflare-workers, docker** (196 lines).
-
-## 📋 Metadata
-
-| Property | Value |
-|----------|-------|
-| **Path** | `narad/FEATURES.md` |
-| **Role** | docs |
-| **Language** | markdown |
-| **Frameworks** | cloudflare-workers, docker |
-| **Lines** | 196 |
-| **Size** | 4603 bytes |
-| **Modified** | 2026-04-09 13:31 |
-
-## 🔗 Related Files
-
-—
-
-## 📄 Content
-
-```markdown
-# Narad Features Guide
-
-This document details how to enable and use each new feature in Narad.
+This document details how to enable and use each new feature in Vishwakarma.
 
 ---
 
-## 1. RAG (Retrieval-Augmented Generation)
+## 1. Swarm Orchestration
 
 ### What it does
-Hybrid search combining vector embeddings + keyword matching for better knowledge retrieval.
+Coordinate multiple specialized agents for complex deployment workflows using different topologies (mesh, hierarchical, ring, star).
 
 ### Setup
-1. Ensure `AI` binding is configured in `wrangler.toml`:
-```toml
-[ai]
-binding = "AI"
-```
-
-2. Deploy with Workers AI enabled:
-```bash
-npx wrangler pages deploy pages --project-name narad
-```
+No additional setup required - uses existing KV namespace.
 
 ### Usage
 ```bash
-# Add a document
-curl -X POST https://narad.pages.dev/api/rag/add \
+# Get swarm status
+curl https://vishwakarma.pages.dev/api/swarm/status
+
+# Execute single task
+curl -X POST https://vishwakarma.pages.dev/api/swarm/execute \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "API Documentation",
-    "content": "The API uses REST with JWT authentication...",
-    "source": "docs"
+    "task": {
+      "type": "infrastructure",
+      "action": "plan",
+      "workspace": "production"
+    },
+    "options": {
+      "parallel": false,
+      "topology": "hierarchical"
+    }
   }'
 
-# Search
-curl -X POST https://narad.pages.dev/api/rag/search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "authentication", "topK": 5}'
-```
-
----
-
-## 2. Web Search
-
-### What it does
-Search the web using Serper (Google) or Firecrawl.
-
-### Setup
-Add to Cloudflare dashboard > Narad > Settings > Environment Variables:
-- `SERPER_API_KEY` - Get at [serper.dev](https://serper.dev)
-- `FIRECRAWL_API_KEY` - Get at [firecrawl.dev](https://firecrawl.dev)
-
-### Usage
-```bash
-# Single provider
-curl -X POST https://narad.pages.dev/api/search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "latest news", "provider": "serper"}'
-
-# Multi-provider (merges results)
-curl -X POST https://narad.pages.dev/api/search/multi \
-  -H "Content-Type: application/json" \
-  -d '{"query": "react 19", "providers": ["serper", "firecrawl"]}'
-```
-
----
-
-## 3. MCP Connectors
-
-### What it does
-Connect to external services (GitHub, Notion, Slack, etc.) via MCP protocol.
-
-### Setup
-Add API keys to Cloudflare dashboard:
-- `GITHUB_API_KEY` - GitHub PAT with repo scope
-- `NOTION_API_KEY` - Notion integration token
-- `SLACK_BOT_TOKEN` - Slack bot token
-
-### Available Connectors
-| Connector | Required Env Var |
-|-----------|-----------------|
-| GitHub | `GITHUB_API_KEY` |
-| Notion | `NOTION_API_KEY` |
-| Slack | `SLACK_BOT_TOKEN` |
-| Postgres | (external service) |
-| S3/R2 | (external service) |
-
-### Usage
-```bash
-# Connect
-curl -X POST https://narad.pages.dev/api/mcp/connect \
-  -H "Content-Type: application/json" \
-  -d '{"connectorType": "github"}'
-
-# Query (use connectorId from connect response)
-curl -X POST https://narad.pages.dev/api/mcp/query \
+# Execute workflow
+curl -X POST https://vishwakarma.pages.dev/api/swarm/workflow \
   -H "Content-Type: application/json" \
   -d '{
-    "connectorId": "github:123456789",
-    "query": {"owner": "sdachary", "repo": "nisha", "query": "README"}
+    "workflow": {
+      "steps": [
+        {"name": "plan", "agents": ["terraform"]},
+        {"name": "scan", "agents": ["security"]},
+        {"name": "deploy", "agents": ["cicd"]}
+      ],
+      "parallel": false
+    }
   }'
 ```
 
----
-
-## 4. Truth Verification
-
-### What it does
-Verify AI responses against a truth threshold (0.95 by default) before returning to user.
-
-### Setup
-No additional setup - uses existing Groq/OpenRouter API.
-
-### Usage
-```bash
-curl -X POST https://narad.pages.dev/api/verification/verify \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "What is 2+2?",
-    "result": "4",
-    "threshold": 0.95
-  }'
-```
-
-### Response
-```json
-{
-  "verified": true,
-  "confidence": 0.98,
-  "accuracy": 0.99,
-  "meetsThreshold": true,
-  "threshold": 0.95
-}
-```
+### Available Topologies
+| Topology | Use Case |
+|----------|----------|
+| `hierarchical` | Sequential approval flow |
+| `mesh` | All agents work in parallel |
+| `ring` | Round-robin task distribution |
+| `star` | Central coordinator + workers |
 
 ---
 
-## 5. Memory System
+## 2. Deployment Agents
 
 ### What it does
-Persistent SQLite-style memory with tables for conversations, messages, memories, verifications.
+13 specialized agents for different deployment tasks.
 
 ### Setup
-No additional setup - uses KV namespace.
+No additional setup required.
 
 ### Usage
 ```bash
-# Save memory
-curl -X POST https://narad.pages.dev/api/memory/save \
+# List all agents
+curl https://vishwakarma.pages.dev/api/agents
+
+# Get specific agent
+curl https://vishwakarma.pages.dev/api/agents/terraform
+```
+
+### Agent Details
+
+| Agent | Role | Best For |
+|-------|------|----------|
+| terraform | Infrastructure | OCI provisioning |
+| github | Repository | PRs, releases |
+| security | Security | Scans, audits |
+| cicd | Automation | Build/deploy |
+| database | Data | Migrations |
+| monitoring | Observability | Dashboards |
+| docker | Container | Images |
+| kubernetes | Orchestration | K8s deployments |
+| backup | Data | Backups |
+| network | Infrastructure | DNS, VPN |
+| ssl | Security | Certificates |
+| dns | Infrastructure | DNS records |
+| oci | Infrastructure | OCI resources |
+
+---
+
+## 3. MLE-STAR Workflow
+
+### What it does
+Machine Learning Engineering via Search and Targeted Refinement - optimizes ML workflows and automates agent selection.
+
+### Setup
+Add to Cloudflare dashboard > Vishwakarma > Settings:
+- `GROQ_API_KEY` - For LLM-based optimization
+
+### Usage
+```bash
+# Run ML optimization
+curl -X POST https://vishwakarma.pages.dev/api/mle-star/run \
   -H "Content-Type: application/json" \
   -d '{
-    "key": "user-preference",
-    "content": "Prefers dark mode",
-    "type": "preference",
-    "importance": 7
+    "config": {
+      "dataset": "data.csv",
+      "target": "accuracy",
+      "features": ["cpu", "memory"]
+    },
+    "options": {
+      "maxIterations": 10,
+      "useLLM": true
+    }
   }'
 
-# Search memories
-curl -X POST https://narad.pages.dev/api/memory/search \
+# Run auto-agent (automatic agent selection)
+curl -X POST https://vishwakarma.pages.dev/api/auto-agent/run \
   -H "Content-Type: application/json" \
-  -d '{"query": "preference", "limit": 10}'
+  -d '{
+    "complexity": "enterprise",
+    "options": {"timeout": 300000}
+  }'
+
+# Run custom workflow
+curl -X POST https://vishwakarma.pages.dev/api/workflow/run \
+  -H "Content-Type: application/json" \
+  -d '{
+    "workflow": {
+      "steps": [
+        {"name": "build", "agent": "cicd", "action": "build"},
+        {"name": "test", "agent": "cicd", "action": "test"},
+        {"name": "deploy", "agent": "cicd", "action": "deploy"}
+      ]
+    },
+    "options": {"failFast": true}
+  }'
 ```
+
+---
+
+## 4. RBAC (Role-Based Access Control)
+
+### What it does
+Granular permissions for different user roles with session management.
+
+### Setup
+No additional setup - uses existing KV namespace.
+
+### Roles
+| Role | Permissions |
+|------|-------------|
+| `admin` | Full access (*) |
+| `operator` | provision, monitor, backup, restore |
+| `viewer` | view |
+| `client` | self_service, view |
+
+### Usage
+```bash
+# List roles
+curl https://vishwakarma.pages.dev/api/rbac/roles
+
+# Check permission
+curl -X POST https://vishwakarma.pages.dev/api/rbac/check \
+  -H "Content-Type: application/json" \
+  -d '{"role": "operator", "permission": "provision"}'
+
+# Create session
+curl -X POST https://vishwakarma.pages.dev/api/auth/session \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "user@example.com",
+    "role": "client",
+    "expiresIn": 86400
+  }'
+
+# Response includes token for subsequent requests
+```
+
+---
+
+## 5. SSO Integration
+
+### What it does
+Single Sign-On via Google OAuth or OIDC.
+
+### Setup
+Add to Cloudflare dashboard:
+- `GOOGLE_CLIENT_ID` - From Google Cloud Console
+- `GOOGLE_CLIENT_SECRET` - From Google Cloud Console
+- Or `OIDC_*` variables for generic OIDC
+
+### Usage
+```bash
+# Setup SSO
+curl -X POST https://vishwakarma.pages.dev/api/sso/setup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "google",
+    "clientId": "xxx.apps.googleusercontent.com",
+    "clientSecret": "xxx",
+    "authorizedDomains": ["example.com"],
+    "roleMapping": {"example.com": "client"}
+  }'
+
+# Login flow redirects to Google OAuth
+# After successful auth, creates session automatically
+```
+
+---
+
+## 6. Whitelabeling
+
+### What it does
+Customize appearance per client - colors, logos, CSS.
+
+### Setup
+No additional setup - uses existing KV namespace.
+
+### Usage
+```bash
+# Get default theme
+curl https://vishwakarma.pages.dev/api/whitelabel/config
+
+# Get client theme
+curl https://vishwakarma.pages.dev/api/whitelabel/client/acme-corp
+
+# Set client theme
+curl -X POST https://vishwakarma.pages.dev/api/whitelabel/client/acme-corp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "primaryColor": "#ff6b35",
+    "secondaryColor": "#1a1a2e",
+    "accentColor": "#00d4ff",
+    "companyName": "Acme Cloud",
+    "logoUrl": "https://acme.com/logo.png",
+    "customCSS": ".btn-primary { border-radius: 12px; }"
+  }'
+```
+
+### Theme Variables
+| Variable | Description |
+|----------|-------------|
+| `primaryColor` | Main brand color |
+| `secondaryColor` | Background color |
+| `accentColor` | Highlight color |
+| `companyName` | Custom company name |
+| `logoUrl` | Logo image URL |
+| `faviconUrl` | Favicon URL |
+| `supportEmail` | Support email |
+| `customCSS` | Additional CSS |
 
 ---
 
@@ -239,33 +334,38 @@ curl -X POST https://narad.pages.dev/api/memory/search \
 
 | Variable | Required | Feature |
 |----------|----------|---------|
-| `GROQ_API_KEY` | Yes | AI Chat |
-| `AI` binding | Yes | RAG, Voice, Image |
-| `SERPER_API_KEY` | No | Web Search |
-| `FIRECRAWL_API_KEY` | No | Web Search, Scraping |
-| `GITHUB_API_KEY` | No | MCP Connector |
-| `NOTION_API_KEY` | No | MCP Connector |
-| `SLACK_BOT_TOKEN` | No | MCP Connector |
+| `GROQ_API_KEY` | Yes (for AI) | Brahma AI, MLE-STAR |
+| `GITHUB_PAT` | Yes (for provisioning) | GitHub Actions |
+| `RESEND_API_KEY` | No | Email notifications |
+| `R2_*` | No | Backup/Restore |
+| `QDRANT_*` | No | Vector memory |
+| `GOOGLE_CLIENT_*` | No | SSO |
+| `OIDC_*` | No | SSO |
+| `ADMIN_PASSWORD` | Yes | Admin access |
 
 ---
 
 ## Troubleshooting
 
-### RAG not working
-- Check Workers AI is enabled in your Cloudflare account
-- Verify `AI` binding in `wrangler.toml`
+### Swarm execution fails
+- Check all agents are registered: `/api/swarm/status`
+- Verify task type matches agent capabilities
 
-### Search returns errors
-- Verify API keys are set in Cloudflare dashboard
-- Check Serper/Firecrawl account has credits remaining
+### RBAC returns unauthorized
+- Ensure session token is included in requests
+- Check role has required permission
 
-### MCP connector fails
-- Verify API token has required permissions
-- Check connector is in the supported list
+### SSO login fails
+- Verify client ID/secret are correct
+- Check authorized domains include user's email domain
 
-### Verification always fails
-- Lower threshold: `"threshold": 0.7`
-- Check AI provider is responding correctly
+### Whitelabel not applying
+- Ensure client ID matches exactly
+- Clear browser cache after changes
+
+### MLE-STAR times out
+- Reduce `maxIterations`
+- Increase timeout in options
 
 ```
 
