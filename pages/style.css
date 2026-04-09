@@ -515,3 +515,58 @@ body {
     border-radius: 3px;
     margin-left: var(--space-sm);
 }
+
+/* Command Palette */
+.command-palette {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: var(--space-lg);
+    right: var(--space-lg);
+    max-height: 300px;
+    overflow-y: auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    margin-bottom: var(--space-sm);
+}
+
+.command-palette.visible {
+    display: block;
+}
+
+.command-list {
+    padding: var(--space-sm);
+}
+
+.command-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 100ms ease;
+}
+
+.command-item:hover,
+.command-item.selected {
+    background: var(--bg-tertiary);
+}
+
+.command-name {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+}
+
+.command-name span {
+    color: var(--accent);
+}
+
+.command-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+}
