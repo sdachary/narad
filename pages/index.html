@@ -51,13 +51,16 @@
         <footer class="terminal-footer">
             <form id="chat-form" class="input-line">
                 <span class="prompt">></span>
-                <textarea id="user-input" placeholder="Message or /command..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
+                <textarea id="user-input" placeholder="Type / for commands..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
                 <div class="input-controls">
                     <button type="submit" id="send-btn" class="icon-btn">
                         <i data-lucide="send"></i>
                     </button>
                 </div>
             </form>
+            <div id="command-palette" class="command-palette">
+                <div class="command-list"></div>
+            </div>
         </footer>
     </div>
 
@@ -65,6 +68,7 @@
     <div id="chat-search-overlay" class="search-overlay" style="display:none;">
         <div class="search-container">
             <input type="text" id="chat-search-input" placeholder="Search messages...">
+            <button id="search-close-btn" class="header-btn">✕</button>
         </div>
     </div>
 

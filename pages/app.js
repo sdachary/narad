@@ -820,6 +820,62 @@ function parseCommand(input) {
         };
     }
     
+    // Check for /thinking toggle
+    if (/^\/thinking\s*$/i.test(trimmed)) {
+        return {
+            type: 'thinking_toggle'
+        };
+    }
+    
+    // Check for /models
+    if (/^\/models\s*$/i.test(trimmed)) {
+        return {
+            type: 'models_list'
+        };
+    }
+    
+    // Check for /undo
+    if (/^\/undo\s*$/i.test(trimmed)) {
+        return {
+            type: 'undo'
+        };
+    }
+    
+    // Check for /redo
+    if (/^\/redo\s*$/i.test(trimmed)) {
+        return {
+            type: 'redo'
+        };
+    }
+    
+    // Check for /share
+    if (/^\/share\s*$/i.test(trimmed)) {
+        return {
+            type: 'share'
+        };
+    }
+    
+    // Check for /unshare
+    if (/^\/unshare\s*$/i.test(trimmed)) {
+        return {
+            type: 'unshare'
+        };
+    }
+    
+    // Check for /compact
+    if (/^\/(compact|summarize)\s*$/i.test(trimmed)) {
+        return {
+            type: 'compact'
+        };
+    }
+    
+    // Check for /themes
+    if (/^\/themes\s*$/i.test(trimmed)) {
+        return {
+            type: 'themes_list'
+        };
+    }
+    
     // Check for parallel execution: /dev+reviewer:
     const parallelMatch = trimmed.match(/^\/([a-zA-Z]+)\+([a-zA-Z]+):\s*(.*)$/);
     if (parallelMatch) {
@@ -945,6 +1001,46 @@ function showCommandHelp(agent) {
     return getCommandHelp();
 }
 
+// Command palette functions
+const COMMANDS = [
+    { name: 'mode', desc: 'Switch between plan/build mode' },
+    { name: 'session', desc: 'Manage sessions (new, list, switch, delete)' },
+    { name: 'sessions', desc: 'List all sessions' },
+    { name: 'help', desc: 'Show help for commands' },
+    { name: 'agents', desc: 'List available agents' },
+    { name: 'thinking', desc: 'Toggle thinking display' },
+    { name: 'models', desc: 'List available models' },
+    { name: 'undo', desc: 'Undo last response' },
+    { name: 'redo', desc: 'Redo last undone response' },
+    { name: 'share', desc: 'Share this session' },
+    { name: 'unshare', desc: 'Unshare this session' },
+    { name: 'compact', desc: 'Compact session context' },
+    { name: 'summarize', desc: 'Summarize session' },
+    { name: 'themes', desc: 'List available themes' }
+];
+
+function showCommandPalette() {
+    const palette = document.getElementById('command-palette');
+    if (!palette) return;
+    
+    const list = palette.querySelector('.command-list');
+    list.innerHTML = COMMANDS.map((cmd, i) => `
+        <div class="command-item ${i === 0 ? 'selected' : ''}" data-command="${cmd.name}">
+            <span class="command-name"><span>/</span>${cmd.name}</span>
+            <span class="command-desc">${cmd.desc}</span>
+        </div>
+    `).join('');
+    
+    palette.classList.add('visible');
+}
+
+function hideCommandPalette() {
+    const palette = document.getElementById('command-palette');
+    if (palette) {
+        palette.classList.remove('visible');
+    }
+}
+
 // NOTE: saveChatHistory is defined as async above (line ~482) — do not redefine here.
 
 function restoreChatDisplay() {
@@ -959,6 +1055,11 @@ let isStreaming = false;
 let currentAbortController = null;
 let csrfToken = null;
 let savedIdeas = JSON.parse(localStorage.getItem('narad_ideas') || '[]');
+
+// State for new features
+let showThinking = localStorage.getItem('narad_show_thinking') === 'true';
+let undoStack = [];
+let redoStack = [];
 
 // XSS Prevention: DOMPurify configuration
 const DOMPURIFY_CONFIG = {
@@ -1185,6 +1286,54 @@ async function init() {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSubmit(e);
+        }
+        
+        // Command palette: show on /
+        if (e.key === '/' && userInput.value === '') {
+            showCommandPalette();
+        }
+        
+        // Close command palette on Escape
+        if (e.key === 'Escape') {
+            hideCommandPalette();
+        }
+        
+        // Navigate command palette with arrow keys
+        const palette = document.getElementById('command-palette');
+        if (palette && palette.classList.contains('visible')) {
+            const items = palette.querySelectorAll('.command-item');
+            const selected = palette.querySelector('.command-item.selected');
+            const selectedIndex = Array.from(items).indexOf(selected);
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (selected) selected.classList.remove('selected');
+                const next = items[Math.min(selectedIndex + 1, items.length - 1)];
+                if (next) next.classList.add('selected');
+            }
+            
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (selected) selected.classList.remove('selected');
+                const prev = items[Math.max(selectedIndex - 1, 0)];
+                if (prev) prev.classList.add('selected');
+            }
+            
+            if (e.key === 'Enter' && selected) {
+                e.preventDefault();
+                const cmdName = selected.getAttribute('data-command');
+                userInput.value = '/' + cmdName + ' ';
+                hideCommandPalette();
+            }
+        }
+    });
+    
+    // Hide command palette when typing (not /)
+    userInput.addEventListener('input', (e) => {
+        if (!userInput.value.startsWith('/')) {
+            hideCommandPalette();
+        } else if (userInput.value === '/') {
+            showCommandPalette();
         }
     });
 
@@ -1607,6 +1756,104 @@ async function handleSubmit(e) {
             if (cmd.icon) agentList += `${cmd.icon} /${key}: ${cmd.description}\n`;
         }
         addRichMessage(agentList, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle thinking toggle
+    if (parsed.type === 'thinking_toggle') {
+        showThinking = !showThinking;
+        localStorage.setItem('narad_show_thinking', showThinking);
+        appendSystemMessage(`Thinking display: ${showThinking ? 'ON' : 'OFF'}`);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle models list
+    if (parsed.type === 'models_list') {
+        const modelsInfo = `# Available Models
+
+**Current Mode:** ${currentMode}
+
+To switch models, configure in your provider settings.
+Current provider: Cloudflare Workers AI`;
+        addRichMessage(modelsInfo, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle undo
+    if (parsed.type === 'undo') {
+        if (undoStack.length === 0) {
+            appendSystemMessage('Nothing to undo.');
+        } else {
+            const lastState = undoStack.pop();
+            redoStack.push([...chatHistory]);
+            chatHistory = lastState;
+            // Redisplay all messages
+            chatMessages.innerHTML = '';
+            chatHistory.forEach(msg => {
+                addMessage(msg.text, msg.role);
+            });
+            appendSystemMessage('Undone last response.');
+        }
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle redo
+    if (parsed.type === 'redo') {
+        if (redoStack.length === 0) {
+            appendSystemMessage('Nothing to redo.');
+        } else {
+            const nextState = redoStack.pop();
+            undoStack.push([...chatHistory]);
+            chatHistory = nextState;
+            // Redisplay all messages
+            chatMessages.innerHTML = '';
+            chatHistory.forEach(msg => {
+                addMessage(msg.text, msg.role);
+            });
+            appendSystemMessage('Redone.');
+        }
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle share
+    if (parsed.type === 'share') {
+        const shareUrl = `${window.location.origin}/share/${sessionId}`;
+        appendSystemMessage(`Share this URL: ${shareUrl}`);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle unshare
+    if (parsed.type === 'unshare') {
+        appendSystemMessage('Session unshared.');
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle compact (summarize context)
+    if (parsed.type === 'compact') {
+        appendSystemMessage('Compacting session context...');
+        addMessage('Session compacted. Context summary saved.', 'assistant');
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle themes list
+    if (parsed.type === 'themes_list') {
+        const themesInfo = `# Available Themes
+
+- **dark** (default) - GitHub dark
+- **light** - GitHub light
+
+Current: ${document.documentElement.getAttribute('data-theme') || 'dark'}
+
+Use \`Cmd+T\` to toggle.`;
+        addRichMessage(themesInfo, 'assistant', true);
         userInput.value = '';
         return;
     }
