@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 455
 size: 10666 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 455 |
 | **Size** | 10666 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 417
 size: 9963 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 417 |
 | **Size** | 9963 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: html
 frameworks: []
 lines: 379
 size: 9311 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, html, page, project/vishwakarma]
 ---
 
@@ -97,7 +97,7 @@ tags: [code, html, page, project/vishwakarma]
 | **Frameworks** | — |
 | **Lines** | 379 |
 | **Size** | 9311 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

@@ -4,16 +4,16 @@ project: "narad"
 role: auth
 language: markdown
 frameworks: []
-lines: 178
-size: 4989 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+lines: 238
+size: 7035 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [auth, documentation, markdown, project/narad]
 ---
 
 # signup-html-md-md.md
 
-> Authentication / authorization module (178 lines).
+> Authentication / authorization module (238 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [auth, documentation, markdown, project/narad]
 | **Role** | auth |
 | **Language** | markdown |
 | **Frameworks** | — |
-| **Lines** | 178 |
-| **Size** | 4989 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Lines** | 238 |
+| **Size** | 7035 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -40,16 +40,16 @@ project: "narad"
 role: auth
 language: markdown
 frameworks: []
-lines: 140
-size: 4271 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+lines: 200
+size: 6317 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [auth, documentation, markdown, project/narad]
 ---
 
 # signup-html-md.md
 
-> Authentication / authorization module (140 lines).
+> Authentication / authorization module (200 lines).
 
 ## 📋 Metadata
 
@@ -59,9 +59,9 @@ tags: [auth, documentation, markdown, project/narad]
 | **Role** | auth |
 | **Language** | markdown |
 | **Frameworks** | — |
-| **Lines** | 140 |
-| **Size** | 4271 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Lines** | 200 |
+| **Size** | 6317 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -76,16 +76,16 @@ project: "narad"
 role: auth
 language: markdown
 frameworks: []
-lines: 102
-size: 3550 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+lines: 162
+size: 5596 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [auth, documentation, markdown, project/narad]
 ---
 
 # signup-html.md
 
-> Authentication / authorization module (102 lines).
+> Authentication / authorization module (162 lines).
 
 ## 📋 Metadata
 
@@ -95,9 +95,9 @@ tags: [auth, documentation, markdown, project/narad]
 | **Role** | auth |
 | **Language** | markdown |
 | **Frameworks** | — |
-| **Lines** | 102 |
-| **Size** | 3550 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Lines** | 162 |
+| **Size** | 5596 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -112,16 +112,16 @@ project: "chitragupta"
 role: auth
 language: html
 frameworks: []
-lines: 64
-size: 2890 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+lines: 124
+size: 4933 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [auth, code, html, project/chitragupta]
 ---
 
 # signup.html
 
-> Authentication / authorization module (64 lines).
+> Authentication / authorization module (124 lines).
 
 ## 📋 Metadata
 
@@ -131,9 +131,9 @@ tags: [auth, code, html, project/chitragupta]
 | **Role** | auth |
 | **Language** | html |
 | **Frameworks** | — |
-| **Lines** | 64 |
-| **Size** | 2890 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Lines** | 124 |
+| **Size** | 4933 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -149,16 +149,70 @@ tags: [auth, code, html, project/chitragupta]
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chitragupta - Signup</title>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#020617">
+    <meta name="theme-color" content="#061423">
     <link rel="stylesheet" href="src/css/styles.css">
     <link rel="stylesheet" href="src/css/auth.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #030810;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 191, 112, 0.08) 0%, transparent 70%);
+            top: -20%;
+            left: -10%;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+        
+        body::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+            bottom: -20%;
+            right: -10%;
+            animation: glowPulse 10s ease-in-out infinite reverse;
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
+    <div class="grid-overlay"></div>
     <div class="auth-container">
+        <div class="auth-logo">
+            <span class="material-icons-round">account_balance</span>
+        </div>
         <h1>Chitragupta</h1>
+        <p class="auth-subtitle">Create your business dashboard</p>
         <form id="signup-form">
             <div id="error-msg" class="error-message"></div>
             <input type="text" id="fullName" placeholder="Full Name" required autocomplete="name">
@@ -171,6 +225,12 @@ tags: [auth, code, html, project/chitragupta]
     </div>
     <script type="module">
         import { auth } from './src/ts/auth.ts';
+        
+        // Redirect to dashboard if already authenticated
+        if (auth.isAuthenticated()) {
+            window.location.href = 'index.html';
+        }
+        
         const form = document.getElementById('signup-form');
         const btn = document.getElementById('submit-btn');
         const errorEl = document.getElementById('error-msg');

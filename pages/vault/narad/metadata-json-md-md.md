@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 81
 size: 1550 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 81 |
 | **Size** | 1550 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 43
 size: 836 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 43 |
 | **Size** | 836 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: json
 frameworks: []
 lines: 5
 size: 165 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, json, other, project/social-blueprint-ai]
 ---
 
@@ -97,7 +97,7 @@ tags: [code, json, other, project/social-blueprint-ai]
 | **Frameworks** | — |
 | **Lines** | 5 |
 | **Size** | 165 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

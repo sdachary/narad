@@ -6,8 +6,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 316
 size: 9449 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, react, service, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, react, service, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 316 |
 | **Size** | 9449 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 278
 size: 8652 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [documentation, markdown, project/narad, react, service, typescript]
 ---
 
@@ -61,7 +61,7 @@ tags: [documentation, markdown, project/narad, react, service, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 278 |
 | **Size** | 8652 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: tsx
 frameworks: [react, typescript]
 lines: 238
 size: 7846 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, project/unnati, react, service, tsx, typescript]
 ---
 
@@ -99,7 +99,7 @@ tags: [code, project/unnati, react, service, tsx, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 238 |
 | **Size** | 7846 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

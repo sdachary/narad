@@ -4,16 +4,16 @@ project: "narad"
 role: service
 language: markdown
 frameworks: [vite]
-lines: 1244
-size: 26158 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+lines: 1350
+size: 28910 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
 # styles-css-md-md.md
 
-> Service / API client module using **vite** (1244 lines).
+> Service / API client module using **vite** (1350 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Role** | service |
 | **Language** | markdown |
 | **Frameworks** | vite |
-| **Lines** | 1244 |
-| **Size** | 26158 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Lines** | 1350 |
+| **Size** | 28910 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -40,16 +40,16 @@ project: "narad"
 role: service
 language: markdown
 frameworks: [vite]
-lines: 1206
-size: 25413 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+lines: 1312
+size: 28165 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
 # styles-css-md.md
 
-> Service / API client module using **vite** (1206 lines).
+> Service / API client module using **vite** (1312 lines).
 
 ## 📋 Metadata
 
@@ -59,9 +59,9 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Role** | service |
 | **Language** | markdown |
 | **Frameworks** | vite |
-| **Lines** | 1206 |
-| **Size** | 25413 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Lines** | 1312 |
+| **Size** | 28165 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -76,16 +76,16 @@ project: "narad"
 role: service
 language: markdown
 frameworks: [vite]
-lines: 1168
-size: 24665 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+lines: 1274
+size: 27417 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
 # styles-css.md
 
-> Service / API client module using **vite** (1168 lines).
+> Service / API client module using **vite** (1274 lines).
 
 ## 📋 Metadata
 
@@ -95,9 +95,9 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Role** | service |
 | **Language** | markdown |
 | **Frameworks** | vite |
-| **Lines** | 1168 |
-| **Size** | 24665 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Lines** | 1274 |
+| **Size** | 27417 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -112,16 +112,16 @@ project: "chitragupta"
 role: service
 language: css
 frameworks: [vite]
-lines: 1130
-size: 23963 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+lines: 1236
+size: 26715 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, css, project/chitragupta, service, vite]
 ---
 
 # styles.css
 
-> Service / API client module using **vite** (1130 lines).
+> Service / API client module using **vite** (1236 lines).
 
 ## 📋 Metadata
 
@@ -131,9 +131,9 @@ tags: [code, css, project/chitragupta, service, vite]
 | **Role** | service |
 | **Language** | css |
 | **Frameworks** | vite |
-| **Lines** | 1130 |
-| **Size** | 23963 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Lines** | 1236 |
+| **Size** | 26715 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -620,31 +620,58 @@ body {
 /* ────────────────────────────────────────────────────────── */
 /* Forms & Modals */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 20px;
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 20, 35, 0.7);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
 }
 .modal-overlay.active {
   opacity: 1;
   pointer-events: all;
 }
 .modal-content {
-  width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 32px;
-  transform: translateY(20px) scale(0.95);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(30px) scale(0.93);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Enhanced modal animation */
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* Subtle modal entrance delay for layered effect */
+.modal-overlay.active .modal-content {
+    animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.93);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* ────────────────────────────────────────────────────────── */
@@ -914,15 +941,63 @@ body {
 /* ────────────────────────────────────────────────────────── */
 /* View System */
 .view-container {
-  display: none;
-  animation: fadeIn 0.3s ease;
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+    contain: layout style;
 }
 .view-container.active {
-  display: block;
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+
+/* Enhanced transition for smoother view switching with staggered effect */
+@keyframes fadeInSmooth {
+    from { 
+        opacity: 0; 
+        transform: translateY(15px) scale(0.98);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeOutSmooth {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px) scale(0.99);
+    }
+}
+
+/* View container animations */
+.view-container.active {
+    animation: fadeInSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Add exit animation for outgoing views */
+.view-container.exiting {
+    animation: fadeOutSmooth 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Prevent layout shifts during transitions */
+.app-container {
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Ensure smooth height transitions */
+.view-container {
+    height: auto;
+    min-height: 0;
 }
 
 .filter-bar {
@@ -996,15 +1071,46 @@ body {
   color: #fff;
 }
 
-/* Loading Spinner */
+/* Enhanced Loading States */
 .loading-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3000;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+/* Loading Skeleton for cards and containers */
+.loading-skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: var(--radius);
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Pulse loading indicator */
+.pulse-loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 191, 112, 0.3);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: pulseSpin 1.2s ease-in-out infinite;
+}
+
+@keyframes pulseSpin {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0.6; }
 }
 .spinner {
   width: 40px;

@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 70
 size: 2459 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 70 |
 | **Size** | 2459 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 

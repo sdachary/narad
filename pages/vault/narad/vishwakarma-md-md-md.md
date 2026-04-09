@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 145
 size: 3931 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 145 |
 | **Size** | 3931 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 107
 size: 3237 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 107 |
 | **Size** | 3237 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: []
 lines: 69
 size: 2543 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -97,7 +97,7 @@ tags: [docs, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 69 |
 | **Size** | 2543 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -110,7 +110,7 @@ tags: [docs, documentation, markdown, project/narad]
 type: project-index
 project: "vishwakarma"
 source: "/home/runner/work/narad/narad/sync_temp/vishwakarma"
-scanned: "2026-04-08 16:51"
+scanned: "2026-04-09 13:31"
 total_files: 33
 total_lines: 7454
 tags: [project/vishwakarma, index]

@@ -3,17 +3,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/smriti-
 project: "narad"
 role: config
 language: markdown
-frameworks: [github-actions]
-lines: 183
-size: 4663 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
-tags: [config, documentation, github-actions, markdown, project/narad]
+frameworks: [docker, github-actions]
+lines: 217
+size: 6164 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [config, docker, documentation, github-actions, markdown, project/narad]
 ---
 
 # smriti-sync-yml-md-md.md
 
-> Configuration file for the project using **github-actions** (183 lines).
+> Configuration file for the project using **docker, github-actions** (217 lines).
 
 ## 📋 Metadata
 
@@ -22,10 +22,10 @@ tags: [config, documentation, github-actions, markdown, project/narad]
 | **Path** | `narad/pages/vault/narad/smriti-sync-yml-md-md.md` |
 | **Role** | config |
 | **Language** | markdown |
-| **Frameworks** | github-actions |
-| **Lines** | 183 |
-| **Size** | 4663 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Frameworks** | docker, github-actions |
+| **Lines** | 217 |
+| **Size** | 6164 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -39,17 +39,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/smriti-
 project: "narad"
 role: config
 language: markdown
-frameworks: [github-actions]
-lines: 145
-size: 3864 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
-tags: [config, documentation, github-actions, markdown, project/narad]
+frameworks: [docker, github-actions]
+lines: 179
+size: 5333 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, docker, documentation, github-actions, markdown, project/narad]
 ---
 
 # smriti-sync-yml-md.md
 
-> Configuration file for the project using **github-actions** (145 lines).
+> Configuration file for the project using **docker, github-actions** (179 lines).
 
 ## 📋 Metadata
 
@@ -58,10 +58,10 @@ tags: [config, documentation, github-actions, markdown, project/narad]
 | **Path** | `narad/pages/vault/narad/smriti-sync-yml-md.md` |
 | **Role** | config |
 | **Language** | markdown |
-| **Frameworks** | github-actions |
-| **Lines** | 145 |
-| **Size** | 3864 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Frameworks** | docker, github-actions |
+| **Lines** | 179 |
+| **Size** | 5333 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -75,17 +75,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/smriti-
 project: "narad"
 role: config
 language: markdown
-frameworks: [github-actions]
-lines: 107
-size: 3074 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [config, documentation, github-actions, markdown, project/narad]
+frameworks: [docker, github-actions]
+lines: 141
+size: 4511 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, docker, documentation, github-actions, markdown, project/narad]
 ---
 
 # smriti-sync-yml.md
 
-> Configuration file for the project using **github-actions** (107 lines).
+> Configuration file for the project using **docker, github-actions** (141 lines).
 
 ## 📋 Metadata
 
@@ -94,10 +94,10 @@ tags: [config, documentation, github-actions, markdown, project/narad]
 | **Path** | `narad/pages/vault/narad/smriti-sync-yml.md` |
 | **Role** | config |
 | **Language** | markdown |
-| **Frameworks** | github-actions |
-| **Lines** | 107 |
-| **Size** | 3074 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Frameworks** | docker, github-actions |
+| **Lines** | 141 |
+| **Size** | 4511 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -111,17 +111,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/.github/workflows/smriti-
 project: "narad"
 role: config
 language: yaml
-frameworks: [github-actions]
-lines: 69
-size: 2321 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [code, config, github-actions, project/narad, yaml]
+frameworks: [docker, github-actions]
+lines: 103
+size: 3723 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [code, config, docker, github-actions, project/narad, yaml]
 ---
 
 # smriti-sync.yml
 
-> Configuration file for the project using **github-actions** (69 lines).
+> Configuration file for the project using **docker, github-actions** (103 lines).
 
 ## 📋 Metadata
 
@@ -130,10 +130,10 @@ tags: [code, config, github-actions, project/narad, yaml]
 | **Path** | `narad/.github/workflows/smriti-sync.yml` |
 | **Role** | config |
 | **Language** | yaml |
-| **Frameworks** | github-actions |
-| **Lines** | 69 |
-| **Size** | 2321 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Frameworks** | docker, github-actions |
+| **Lines** | 103 |
+| **Size** | 3723 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -148,6 +148,15 @@ on:
   repository_dispatch:
     types: [smriti_update]
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Sync mode'
+        required: false
+        default: 'update'
+        type: choice
+        options:
+          - update
+          - force-full
 
 # Ensure only one sync runs at a time
 concurrency:
@@ -167,7 +176,7 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
-          python_version: '3.10'
+          python-version: '3.10'
 
       - name: 🔄 Sync External Projects
         run: |
@@ -195,9 +204,28 @@ jobs:
           export SMRITI_SOURCE_DIR=$(pwd)/sync_temp
           python3 smriti/Scripts/enhance_notes.py
           
-          # Generate Knowledge Graph JSON
+          # Generate Knowledge Graph JSON (incremental mode by default)
           echo "--- Generating Knowledge Map ---"
-          python3 smriti/Scripts/generate_graph.py
+          MODE="${{ github.event.inputs.mode }}"
+          if [ "$MODE" = "force-full" ]; then
+            echo "Forcing full regeneration..."
+            python3 smriti/Scripts/generate_graph.py --force-full
+          else
+            echo "Running incremental update..."
+            python3 smriti/Scripts/generate_graph.py --update
+          fi
+
+      - name: 📊 Generate Stats Report
+        run: |
+          # Extract metadata from generated graph
+          if [ -f pages/smriti_graph.json ]; then
+            echo "=== Smriti Graph Report ==="
+            echo "Node Count: $(jq '.metadata.nodeCount // .nodes | length' pages/smriti_graph.json)"
+            echo "Header Nodes: $(jq '.metadata.headerCount // 0' pages/smriti_graph.json)"
+            echo "Link Count: $(jq '.metadata.linkCount // .links | length' pages/smriti_graph.json)"
+            echo "Tags: $(jq '.metadata.tagCount // 0' pages/smriti_graph.json)"
+            echo "Generated: $(jq -r '.metadata.generated // "N/A"' pages/smriti_graph.json)"
+          fi
 
       - name: 🚀 Commit and Push Knowledge
         run: |
@@ -208,9 +236,15 @@ jobs:
           mkdir -p pages/vault
           cp -r smriti/Projects/* pages/vault/
           
-          git add smriti/Projects/ smriti/.obsidian/graph.json pages/smriti_graph.json pages/vault/
-          git commit -m "🧠 Smriti: Automated knowledge & web-vault refresh [skip ci]" || echo "No changes to commit"
-          git push
+          # Check for changes
+          if git diff --quiet -- pages/smriti_graph.json pages/vault/; then
+            echo "No changes to commit"
+          else
+            git add smriti/Projects/ smriti/.obsidian/graph.json pages/smriti_graph.json pages/vault/
+            git commit -m "🧠 Smriti: Automated knowledge & web-vault refresh [skip ci]"
+            git push
+            echo "✅ Changes pushed successfully"
+          fi
 
 ```
 

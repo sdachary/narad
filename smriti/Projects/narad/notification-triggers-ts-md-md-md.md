@@ -6,8 +6,8 @@ language: markdown
 frameworks: [typescript]
 lines: 201
 size: 4223 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, typescript, utility]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, typescript, utility]
 | **Frameworks** | typescript |
 | **Lines** | 201 |
 | **Size** | 4223 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [typescript]
 lines: 163
 size: 3421 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [documentation, markdown, project/narad, typescript, utility]
 ---
 
@@ -61,7 +61,7 @@ tags: [documentation, markdown, project/narad, typescript, utility]
 | **Frameworks** | typescript |
 | **Lines** | 163 |
 | **Size** | 3421 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [typescript]
 lines: 125
 size: 2626 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [documentation, markdown, project/narad, typescript, utility]
 ---
 
@@ -97,7 +97,7 @@ tags: [documentation, markdown, project/narad, typescript, utility]
 | **Frameworks** | typescript |
 | **Lines** | 125 |
 | **Size** | 2626 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: typescript
 frameworks: [typescript]
 lines: 87
 size: 1826 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, project/unnati, typescript, utility]
 ---
 
@@ -133,7 +133,7 @@ tags: [code, project/unnati, typescript, utility]
 | **Frameworks** | typescript |
 | **Lines** | 87 |
 | **Size** | 1826 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 355
 size: 15679 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docker, docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, docs, documentation, markdown, project/narad]
 | **Frameworks** | docker |
 | **Lines** | 355 |
 | **Size** | 15679 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [docker]
 lines: 317
 size: 14962 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docker, docs, documentation, markdown, project/narad]
 ---
 
@@ -61,7 +61,7 @@ tags: [docker, docs, documentation, markdown, project/narad]
 | **Frameworks** | docker |
 | **Lines** | 317 |
 | **Size** | 14962 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [docker]
 lines: 279
 size: 14266 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docker, docs, documentation, markdown, project/unnati]
 ---
 
@@ -97,7 +97,7 @@ tags: [docker, docs, documentation, markdown, project/unnati]
 | **Frameworks** | docker |
 | **Lines** | 279 |
 | **Size** | 14266 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

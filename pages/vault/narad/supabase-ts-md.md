@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 52
 size: 1102 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, utility]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, utility]
 | **Frameworks** | — |
 | **Lines** | 52 |
 | **Size** | 1102 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: typescript
 frameworks: []
 lines: 13
 size: 385 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:46"
 tags: [code, project/unnati, typescript, utility]
 ---
 
@@ -63,7 +63,7 @@ tags: [code, project/unnati, typescript, utility]
 | **Frameworks** | — |
 | **Lines** | 13 |
 | **Size** | 385 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

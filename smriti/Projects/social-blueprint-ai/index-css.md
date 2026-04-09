@@ -6,8 +6,8 @@ language: css
 frameworks: [tailwind]
 lines: 31
 size: 852 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:46"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [code, css, project/social-blueprint-ai, style, tailwind]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, css, project/social-blueprint-ai, style, tailwind]
 | **Frameworks** | tailwind |
 | **Lines** | 31 |
 | **Size** | 852 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 

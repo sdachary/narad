@@ -6,8 +6,8 @@ language: markdown
 frameworks: [react, vite]
 lines: 94
 size: 1986 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad, react, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad, react, vite]
 | **Frameworks** | react, vite |
 | **Lines** | 94 |
 | **Size** | 1986 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [react, vite]
 lines: 56
 size: 1231 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad, react, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad, react, vite]
 | **Frameworks** | react, vite |
 | **Lines** | 56 |
 | **Size** | 1231 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: tsx
 frameworks: [react, vite]
 lines: 18
 size: 471 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, component, project/social-blueprint-ai, react, tsx, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [code, component, project/social-blueprint-ai, react, tsx, vite]
 | **Frameworks** | react, vite |
 | **Lines** | 18 |
 | **Size** | 471 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

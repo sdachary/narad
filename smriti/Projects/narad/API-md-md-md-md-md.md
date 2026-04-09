@@ -1,0 +1,247 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/API-md-md-md-md.md"
+project: "narad"
+role: auth
+language: markdown
+frameworks: [typescript]
+lines: 209
+size: 4463 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [auth, documentation, markdown, project/narad, typescript]
+---
+
+# API-md-md-md-md.md
+
+> Authentication / authorization module using **typescript** (209 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/API-md-md-md-md.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 209 |
+| **Size** | 4463 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/API-md-md-md.md"
+project: "narad"
+role: auth
+language: markdown
+frameworks: [typescript]
+lines: 171
+size: 3701 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [auth, documentation, markdown, project/narad, typescript]
+---
+
+# API-md-md-md.md
+
+> Authentication / authorization module using **typescript** (171 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/API-md-md-md.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 171 |
+| **Size** | 3701 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/API-md-md.md"
+project: "narad"
+role: auth
+language: markdown
+frameworks: [typescript]
+lines: 133
+size: 2948 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [auth, documentation, markdown, project/narad, typescript]
+---
+
+# API-md-md.md
+
+> Authentication / authorization module using **typescript** (133 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/API-md-md.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 133 |
+| **Size** | 2948 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/API-md.md"
+project: "narad"
+role: auth
+language: markdown
+frameworks: [typescript]
+lines: 95
+size: 2195 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [auth, documentation, markdown, project/narad, typescript]
+---
+
+# API-md.md
+
+> Authentication / authorization module using **typescript** (95 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/vishwakarma/API-md.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 95 |
+| **Size** | 2195 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/vishwakarma/docs/platform/API.md"
+project: "vishwakarma"
+role: auth
+language: markdown
+frameworks: [typescript]
+lines: 57
+size: 1447 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [auth, documentation, markdown, project/vishwakarma, typescript]
+---
+
+# API.md
+
+> Authentication / authorization module using **typescript** (57 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `vishwakarma/docs/platform/API.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 57 |
+| **Size** | 1447 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+# API Documentation
+
+## Services
+
+### AGI Nexus API
+Base URL: `https://vishwakarma-agi.pages.dev/api`
+
+**POST /chat**
+Send a message to the AGI.
+- Request: `{ message: string, session_id?: string }`
+- Response: `{ reply: string, session_id: string }`
+- Errors: 400 (invalid input), 500 (thinking/connect error)
+
+**GET /health**
+Service health check.
+- Response: `{ status: "ok", service: "agi-nexus", checks: {...} }`
+- Status: 200 (ok), 503 (error)
+
+---
+
+### SyncLedger API
+Base URL: `https://syncledger.pages.dev/api`
+
+**POST /auth/login**
+Authenticate user.
+- Request: `{ email: string, password: string }`
+- Response: `{ token: string, refreshToken: string, user: {...} }`
+- Errors: 401 (invalid credentials), 429 (too many attempts)
+
+**POST /businesses/:id/transactions**
+Create ledger transaction.
+- Headers: `Authorization: Bearer <token>`
+- Request: `{ type: "income|expense|...", amount: number, ... }`
+- Response: `{ id: string, ... }`
+- Errors: 401 (unauthorized), 400 (invalid input)
+
+**GET /health**
+Service health check.
+- Response: `{ status: "ok", service: "syncledger", checks: {...} }`
+
+---
+
+### Cloud Provisioning API
+Base URL: `https://vishwakarma.pages.dev/api`
+
+**GET /health**
+Service health check.
+- Response: `{ status: "ok", service: "vishwakarma" }`
+
+---
+
+### Gold SaaS Shield API
+Base URL: `https://gold-saas.pages.dev`
+
+**GET /health**
+Service health check.
+- Response: `{ status: "ok", service: "gold-saas-shield" }`
+
+```
+
+```
+
+```
+
+```
+
+```

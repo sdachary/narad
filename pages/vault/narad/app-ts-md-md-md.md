@@ -3,17 +3,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/app-ts-
 project: "narad"
 role: service
 language: markdown
-frameworks: [typescript, vite]
-lines: 1039
-size: 35444 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
-tags: [documentation, markdown, project/narad, service, typescript, vite]
+frameworks: [docker, typescript, vite]
+lines: 1055
+size: 36166 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docker, documentation, markdown, project/narad, service, typescript, vite]
 ---
 
 # app-ts-md-md.md
 
-> Service / API client module using **typescript, vite** (1039 lines).
+> Service / API client module using **docker, typescript, vite** (1055 lines).
 
 ## 📋 Metadata
 
@@ -22,10 +22,10 @@ tags: [documentation, markdown, project/narad, service, typescript, vite]
 | **Path** | `narad/pages/vault/narad/app-ts-md-md.md` |
 | **Role** | service |
 | **Language** | markdown |
-| **Frameworks** | typescript, vite |
-| **Lines** | 1039 |
-| **Size** | 35444 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Frameworks** | docker, typescript, vite |
+| **Lines** | 1055 |
+| **Size** | 36166 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -39,17 +39,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/app-ts-
 project: "narad"
 role: service
 language: markdown
-frameworks: [typescript, vite]
-lines: 1001
-size: 34663 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
-tags: [documentation, markdown, project/narad, service, typescript, vite]
+frameworks: [docker, typescript, vite]
+lines: 1017
+size: 35353 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docker, documentation, markdown, project/narad, service, typescript, vite]
 ---
 
 # app-ts-md.md
 
-> Service / API client module using **typescript, vite** (1001 lines).
+> Service / API client module using **docker, typescript, vite** (1017 lines).
 
 ## 📋 Metadata
 
@@ -58,10 +58,10 @@ tags: [documentation, markdown, project/narad, service, typescript, vite]
 | **Path** | `narad/pages/vault/narad/app-ts-md.md` |
 | **Role** | service |
 | **Language** | markdown |
-| **Frameworks** | typescript, vite |
-| **Lines** | 1001 |
-| **Size** | 34663 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Frameworks** | docker, typescript, vite |
+| **Lines** | 1017 |
+| **Size** | 35353 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -75,17 +75,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/chitragupta/a
 project: "narad"
 role: service
 language: markdown
-frameworks: [typescript, vite]
-lines: 963
-size: 33882 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [documentation, markdown, project/narad, service, typescript, vite]
+frameworks: [docker, typescript, vite]
+lines: 979
+size: 34540 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [docker, documentation, markdown, project/narad, service, typescript, vite]
 ---
 
 # app-ts.md
 
-> Service / API client module using **typescript, vite** (963 lines).
+> Service / API client module using **docker, typescript, vite** (979 lines).
 
 ## 📋 Metadata
 
@@ -94,10 +94,10 @@ tags: [documentation, markdown, project/narad, service, typescript, vite]
 | **Path** | `narad/pages/vault/chitragupta/app-ts.md` |
 | **Role** | service |
 | **Language** | markdown |
-| **Frameworks** | typescript, vite |
-| **Lines** | 963 |
-| **Size** | 33882 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Frameworks** | docker, typescript, vite |
+| **Lines** | 979 |
+| **Size** | 34540 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -111,17 +111,17 @@ source: "/home/runner/work/narad/narad/sync_temp/chitragupta/src/ts/app.ts"
 project: "chitragupta"
 role: service
 language: typescript
-frameworks: [typescript, vite]
-lines: 925
-size: 33113 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [code, project/chitragupta, service, typescript, vite]
+frameworks: [docker, typescript, vite]
+lines: 941
+size: 33738 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [code, docker, project/chitragupta, service, typescript, vite]
 ---
 
 # app.ts
 
-> Service / API client module using **typescript, vite** (925 lines).
+> Service / API client module using **docker, typescript, vite** (941 lines).
 
 ## 📋 Metadata
 
@@ -130,14 +130,14 @@ tags: [code, project/chitragupta, service, typescript, vite]
 | **Path** | `chitragupta/src/ts/app.ts` |
 | **Role** | service |
 | **Language** | typescript |
-| **Frameworks** | typescript, vite |
-| **Lines** | 925 |
-| **Size** | 33113 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Frameworks** | docker, typescript, vite |
+| **Lines** | 941 |
+| **Size** | 33738 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
-[[api-ts]], [[auth-ts]]
+[[api-ts]], [[auth-css]]
 
 ## 📄 Content
 
@@ -636,15 +636,15 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
 }
 
 function setLoading(loading: boolean) {
-  state.loading = loading;
-  const overlay = document.querySelector('.app-container');
-  if (overlay) {
-    if (loading) {
-      overlay.insertAdjacentHTML('afterbegin', '<div class="loading-overlay"><div class="spinner"></div></div>');
-    } else {
-      document.querySelector('.loading-overlay')?.remove();
+    state.loading = loading;
+    const overlay = document.querySelector('.app-container');
+    if (overlay) {
+        if (loading) {
+            overlay.insertAdjacentHTML('afterbegin', '<div class="loading-overlay"><div class="pulse-loader"></div></div>');
+        } else {
+            document.querySelector('.loading-overlay')?.remove();
+        }
     }
-  }
 }
 
 function exportTransactionsCSV() {
@@ -694,9 +694,25 @@ function setupEventListeners() {
       const target = (item as HTMLElement).dataset.target;
       if (!target) return;
 
-      document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
-      const targetView = document.getElementById(`view-${target}`);
-      if (targetView) targetView.classList.add('active');
+      // Remove active class from all views and add exiting class for animation
+      document.querySelectorAll('.view-container').forEach(v => {
+        v.classList.remove('active');
+        v.classList.add('exiting');
+      });
+
+      // Add active class to target view after a brief delay for exit animation
+      setTimeout(() => {
+        const targetView = document.getElementById(`view-${target}`);
+        if (targetView) {
+          targetView.classList.remove('exiting');
+          targetView.classList.add('active');
+        }
+        
+        // Remove exiting class from all views after animation completes
+        document.querySelectorAll('.view-container').forEach(v => {
+          v.classList.remove('exiting');
+        });
+      }, 300); // Match the exit animation duration
 
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       item.classList.add('active');
@@ -705,6 +721,7 @@ function setupEventListeners() {
       if (pageTitle) pageTitle.textContent = target.charAt(0).toUpperCase() + target.slice(1);
     });
   });
+}
 
   // Modals - FIX: Use .active class instead of display: flex
   const openModal = (id: string) => {
@@ -1046,23 +1063,22 @@ function setupEventListeners() {
     });
   });
 
-  // Chart export buttons
-  document.querySelectorAll('.export-chart-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const chartType = (e.currentTarget as HTMLElement).dataset.chart;
-      if (chartType) {
-        const canvas = document.getElementById(`chart-${chartType}`) as HTMLCanvasElement;
-        if (canvas) {
-          const link = document.createElement('a');
-          link.download = `${chartType}_chart_${new Date().toISOString().split('T')[0]}.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-          showToast('Chart exported successfully', 'success');
-        }
-      }
-    });
-  });
-}
+   // Chart export buttons
+   document.querySelectorAll('.export-chart-btn').forEach(btn => {
+     btn.addEventListener('click', (e) => {
+       const chartType = (e.currentTarget as HTMLElement).dataset.chart;
+       if (chartType) {
+         const canvas = document.getElementById(`chart-${chartType}`) as HTMLCanvasElement;
+         if (canvas) {
+           const link = document.createElement('a');
+           link.download = `${chartType}_chart_${new Date().toISOString().split('T')[0]}.png`;
+           link.href = canvas.toDataURL('image/png');
+           link.click();
+           showToast('Chart exported successfully', 'success');
+         }
+       }
+     });
+   });
 
 const formatMoney = (val: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(val);
 
