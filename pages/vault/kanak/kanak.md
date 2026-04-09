@@ -2,7 +2,7 @@
 type: project-index
 project: "kanak"
 source: "/home/runner/work/narad/narad/sync_temp/kanak"
-scanned: "2026-04-08 16:51"
+scanned: "2026-04-09 13:31"
 total_files: 23
 total_lines: 3962
 tags: [project/kanak, index]

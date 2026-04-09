@@ -6,8 +6,8 @@ language: html
 frameworks: []
 lines: 0
 size: 53759 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, html, page, project/kanak]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, html, page, project/kanak]
 | **Frameworks** | — |
 | **Lines** | 0 |
 | **Size** | 53759 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

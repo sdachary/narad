@@ -4,16 +4,16 @@ project: "narad"
 role: service
 language: javascript
 frameworks: [docker]
-lines: 40
-size: 1261 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+lines: 45
+size: 1519 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, docker, javascript, project/narad, service]
 ---
 
 # skills.js
 
-> Service / API client module using **docker** (40 lines).
+> Service / API client module using **docker** (45 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, docker, javascript, project/narad, service]
 | **Role** | service |
 | **Language** | javascript |
 | **Frameworks** | docker |
-| **Lines** | 40 |
-| **Size** | 1261 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Lines** | 45 |
+| **Size** | 1519 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -36,13 +36,18 @@ tags: [code, docker, javascript, project/narad, service]
 ```javascript
 /**
  * Skill Service - Fetches and parses Superpowers-style MD skills from GitHub.
+ * Supports custom skills via GitHub repo configuration.
  */
 
 const SUPERPOWERS_REPO = 'obra/superpowers';
 
 export async function fetchSkill(env, skillName) {
+    // Check for custom skills repo in env, fallback to default
+    const customRepo = env.SKILLS_REPO || SUPERPOWERS_REPO;
+    console.log(`[Skills] Fetching from GitHub: ${customRepo}/${skillName}`);
+    
     const GITHUB_TOKEN = env.GITHUB_TOKEN || env.SMRITI_SYNC_TOKEN;
-    const url = `https://api.github.com/repos/${SUPERPOWERS_REPO}/contents/skills/${skillName}.md`;
+    const url = `https://api.github.com/repos/${customRepo}/contents/skills/${skillName}.md`;
     
     const response = await fetch(url, {
         headers: {
