@@ -25,7 +25,7 @@ function initCharacterSelector() {
 
 // Mode Selector
 const MODE_KEY = 'narad_mode';
-let currentMode = localStorage.getItem(MODE_KEY) || 'casual';
+let currentMode = localStorage.getItem(MODE_KEY) || 'build';
 
 function initModeSelector() {
     const selector = document.getElementById('mode-selector');
@@ -67,13 +67,12 @@ function initModeSelector() {
             loadSessionsForCurrentMode();
             
             const modeNames = {
-                'casual': 'CASUAL MODE (Brainstorming)',
-                'rnd': 'R&D MODE (Strategic Planning)',
-                'build': 'BUILD MODE (Execution)'
+                'plan': 'PLAN (Read-only analysis)',
+                'build': 'BUILD (Full editing)'
             };
             
-            showToast(`State Shift: ${modeNames[currentMode]}`, 'info');
-            appendSystemMessage(`NARAD STATE SHIFT: ${currentMode.toUpperCase()} MODE ACTIVE.`);
+            showToast(`Mode: ${modeNames[currentMode]}`, 'info');
+            appendSystemMessage(`NARAD MODE: ${currentMode.toUpperCase()}`);
             
             setTimeout(() => {
                 document.body.classList.remove('mode-switching');
@@ -563,6 +562,22 @@ async function saveChatHistory() {
 // Command Registry (inspired by Claw Code)
 // ============================================
 const COMMAND_REGISTRY = {
+    // Mode commands
+    '/mode': {
+        name: 'Mode',
+        icon: '📊',
+        description: 'Switch between modes (plan, build)',
+        syntax: '/mode <mode>',
+        examples: ['/mode plan', '/mode build']
+    },
+    '/session': {
+        name: 'Session',
+        icon: '💬',
+        description: 'Manage sessions (new, list, switch, delete)',
+        syntax: '/session <action> [id]',
+        examples: ['/session new', '/session list', '/session switch abc123', '/session delete abc123']
+    },
+    
     // R&D Commands
     'last30days': {
         description: 'Run high-fidelity research on a topic across Reddit, HN, X, and YouTube',
@@ -761,6 +776,25 @@ const COMMAND_REGISTRY = {
 function parseCommand(input) {
     const trimmed = input.trim();
     
+    // Check for mode switch: /mode plan, /mode build
+    const modeMatch = trimmed.match(/^\/mode\s+(plan|build)$/i);
+    if (modeMatch) {
+        return {
+            type: 'mode_switch',
+            mode: modeMatch[1].toLowerCase()
+        };
+    }
+    
+    // Check for session command: /session new, /session list, etc.
+    const sessionMatch = trimmed.match(/^\/session\s+(\w+)(?:\s+(\w+))?$/i);
+    if (sessionMatch) {
+        return {
+            type: 'session_action',
+            action: sessionMatch[1].toLowerCase(),
+            sessionId: sessionMatch[2] || null
+        };
+    }
+    
     // Check for parallel execution: /dev+reviewer:
     const parallelMatch = trimmed.match(/^\/([a-zA-Z]+)\+([a-zA-Z]+):\s*(.*)$/);
     if (parallelMatch) {
@@ -829,19 +863,48 @@ function parseCommand(input) {
 }
 
 function getCommandHelp() {
-    let help = 'Available Commands:\n\n';
-    help += 'Single Agent:\n';
+    let help = '# Available Commands\n\n';
+    help += '## Mode & Session\n';
+    help += '  /mode <plan|build>  # Switch between plan/build mode\n';
+    help += '  /session <action>   # Manage sessions (new|list|switch|delete)\n\n';
+    help += '## Agents\n';
     for (const [key, cmd] of Object.entries(COMMAND_REGISTRY)) {
-        help += `  ${cmd.icon} /${key}: ${cmd.description}\n`;
+        if (cmd.icon) help += `  ${cmd.icon} /${key}: ${cmd.description}\n`;
     }
-    help += '\nParallel Execution:\n';
-    help += '  /agent1+agent2: <task>  # Run two agents in parallel\n';
-    help += '\nChain Execution:\n';
-    help += '  /chain:agent1->agent2: <task>  # Run agents sequentially\n';
-    help += '\nOther Commands:\n';
-    help += '  /help [command]  # Get help for a command\n';
-    help += '  /agents  # List all available agents';
+    help += '\n## Execution\n';
+    help += '  /agent1+agent2: <task>  # Parallel execution\n';
+    help += '  /chain:agent1->agent2: <task>  # Chain execution\n\n';
+    help += '## Help\n';
+    help += '  /help [command]  # Get help\n';
+    help += '  /agents  # List agents';
     return help;
+}
+
+// Handle session commands
+async function handleSessionCommand(action, sessionId) {
+    const sessions = await getModeSessions();
+    
+    switch (action) {
+        case 'new':
+            const newId = await createNewSession();
+            return `Created new session: ${newId}`;
+        case 'list':
+            if (sessions.length === 0) return 'No sessions found.';
+            return '## Sessions\n\n' + sessions.map((s, i) => 
+                `${i + 1}. ${s}${s === sessionId ? ' (current)' : ''}`
+            ).join('\n');
+        case 'switch':
+            if (!sessionId) return 'Please specify session ID: /session switch <id>';
+            if (!sessions.includes(sessionId)) return `Session ${sessionId} not found.`;
+            await switchSession(sessionId);
+            return `Switched to session: ${sessionId}`;
+        case 'delete':
+            if (!sessionId) return 'Please specify session ID: /session delete <id>';
+            await deleteSession(sessionId);
+            return `Deleted session: ${sessionId}`;
+        default:
+            return `Unknown action: ${action}. Use: new, list, switch, delete`;
+    }
 }
 
 function showCommandHelp(agent) {
@@ -1496,6 +1559,32 @@ async function handleSubmit(e) {
             agentList += `${cmd.icon} **/${key}** - ${cmd.name}\n${cmd.description}\n\n`;
         }
         addRichMessage(agentList, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle mode command
+    if (parsed.type === 'mode_switch') {
+        const newMode = parsed.mode;
+        currentMode = newMode;
+        localStorage.setItem(MODE_KEY, currentMode);
+        document.body.setAttribute('data-mode', currentMode);
+        
+        // Update UI mode chips
+        const chips = document.querySelectorAll('.mode-chip');
+        chips.forEach(chip => {
+            chip.classList.toggle('active', chip.getAttribute('data-mode') === currentMode);
+        });
+        
+        appendSystemMessage(`Mode changed to: ${currentMode.toUpperCase()}`);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle session command
+    if (parsed.type === 'session_action') {
+        const result = await handleSessionCommand(parsed.action, parsed.sessionId);
+        addRichMessage(result, 'assistant', true);
         userInput.value = '';
         return;
     }
