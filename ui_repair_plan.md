@@ -149,10 +149,11 @@ Given we're using the Orchestrator framework, we should:
 1. **Start with Phase 1** to establish a usable baseline quickly
 2. **Use parallel execution** where possible (e.g., visual design and critical fixes can partially overlap)
 3. **Leverage appropriate skills** for each phase:
-   - `frontend-design` for visual improvements
-   - `ui-ux-pro-max` for interaction patterns and component design
-   - `minimalist-editorial-interfaces` for content-focused areas like chat
-   - `design-taste-frontend` for overall aesthetic decisions
+   - `/dev` or `/frontend:` for frontend implementation (uses `frontend-design` skill)
+   - `/reviewer` or `/uiux:` for UI/UX review (uses `ui-ux-pro-max` skill)
+   - `/minimalist:` for content-focused design areas (uses `minimalist-editorial-interfaces` skill)
+   - `/writer` for documentation
+   - `/architect:` for system design decisions
 4. **Create reusable components** that can be shared across different views
 5. **Implement feature flags** to safely roll out changes
 6. **Establish a component library** or design system approach
