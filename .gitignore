@@ -16,7 +16,7 @@ pages/node_modules/
 
 # Smriti Knowledge Graph (large files - generated on deploy)
 pages/smriti_graph.*
-pages/vault/
+smriti/smriti_graph.*
 
 # Logs
 logs/
