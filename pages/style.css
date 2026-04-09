@@ -1,39 +1,42 @@
 /* Narad - OpenCode CLI TUI Style */
 
 /* ============================================
-   OpenCode-inspired Terminal UI
+   OpenCode Default Theme
    ============================================ */
 :root {
-    /* OpenCode TUI Color Palette */
+    /* GitHub-style dark (OpenCode default) */
     --bg-deep: #0d1117;
     --bg-primary: #161b22;
     --bg-elevated: #21262d;
     --bg-surface: #30363d;
     --bg-hover: #484f58;
     
-    /* Text */
+    /* Text - GitHub dark */
     --text-primary: #e6edf3;
     --text-secondary: #8b949e;
     --text-muted: #6e7681;
     --text-dim: #484f58;
     
-    /* OpenCode Orange Accent */
-    --accent: #f97316;
-    --accent-dim: #c2410c;
-    --accent-bright: #fb923c;
+    /* OpenCode accent - blue primary */
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb;
+    --accent-bright: #79c0ff;
     
-    /* Semantic */
+    /* Semantic - GitHub colors */
     --success: #3fb950;
     --error: #f85149;
     --warning: #d29922;
     --info: #58a6ff;
     
     /* User/Assistant */
-    --user-msg: #1f6feb;
+    --user-msg: #238636;
     --user-msg-text: #ffffff;
     
-    /* Typography - Pure monospace */
-    --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+    /* Typing indicator */
+    --typing: #8b949e;
+    
+    /* Typography - System monospace */
+    --font-mono: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', monospace;
     
     /* Spacing */
     --space-xs: 4px;
@@ -55,7 +58,7 @@
     --transition: 120ms ease;
 }
 
-/* Light mode */
+/* Light mode - GitHub light */
 [data-theme="light"] {
     --bg-deep: #ffffff;
     --bg-primary: #f6f8fa;
@@ -66,9 +69,10 @@
     --text-secondary: #656d76;
     --text-muted: #8c959f;
     --text-dim: #bfc4cc;
-    --accent: #ea580c;
-    --accent-dim: #c2410c;
-    --user-msg: #0969da;
+    --accent: #0969da;
+    --accent-dim: #0550ae;
+    --user-msg: #1a7f37;
+    --typing: #656d76;
 }
 
 /* ============================================
