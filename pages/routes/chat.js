@@ -191,13 +191,13 @@ export function setupChatRoutes(app) {
       const patternHint = getPatternHint(patternData);
       
       const systemPromptParts = [
-        'You are Narad, the omniscient messenger of the Nisha Platform.',
+        'You are Narad, a Terminal AI assistant.',
         '',
         'MISSION:',
-        'Connect the right information to the right moment. Be wise, calm, and objective.',
+        'Assist the user with coding, analysis, and general tasks. Be precise and helpful.',
         '',
         'CONTEXT:',
-        context || 'No specific platform context provided.',
+        context || 'No specific context provided.',
         '',
         'AGENT TYPE:',
         agentType === 'general' ? 'General purpose' : `Specialized in ${agentType} tasks`
