@@ -3,17 +3,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/DEPLOYM
 project: "narad"
 role: docs
 language: markdown
-frameworks: [cloudflare-workers, docker, github-actions]
-lines: 215
-size: 6095 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
-tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown, project/narad]
+frameworks: [cloudflare-workers]
+lines: 186
+size: 3846 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [cloudflare-workers, docs, documentation, markdown, project/narad]
 ---
 
 # DEPLOYMENT-md-md-md.md
 
-> Documentation using **cloudflare-workers, docker, github-actions** (215 lines).
+> Documentation using **cloudflare-workers** (186 lines).
 
 ## 📋 Metadata
 
@@ -22,10 +22,10 @@ tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown
 | **Path** | `narad/pages/vault/narad/DEPLOYMENT-md-md-md.md` |
 | **Role** | docs |
 | **Language** | markdown |
-| **Frameworks** | cloudflare-workers, docker, github-actions |
-| **Lines** | 215 |
-| **Size** | 6095 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 186 |
+| **Size** | 3846 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -39,17 +39,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/DEPLOYM
 project: "narad"
 role: docs
 language: markdown
-frameworks: [cloudflare-workers, docker, github-actions]
-lines: 177
-size: 5217 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
-tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown, project/narad]
+frameworks: [cloudflare-workers]
+lines: 148
+size: 3064 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [cloudflare-workers, docs, documentation, markdown, project/narad]
 ---
 
 # DEPLOYMENT-md-md.md
 
-> Documentation using **cloudflare-workers, docker, github-actions** (177 lines).
+> Documentation using **cloudflare-workers** (148 lines).
 
 ## 📋 Metadata
 
@@ -58,9 +58,45 @@ tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown
 | **Path** | `narad/pages/vault/narad/DEPLOYMENT-md-md.md` |
 | **Role** | docs |
 | **Language** | markdown |
-| **Frameworks** | cloudflare-workers, docker, github-actions |
-| **Lines** | 177 |
-| **Size** | 5217 bytes |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 148 |
+| **Size** | 3064 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/DEPLOYMENT-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [cloudflare-workers]
+lines: 110
+size: 2279 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [cloudflare-workers, docs, documentation, markdown, project/narad]
+---
+
+# DEPLOYMENT-md.md
+
+> Documentation using **cloudflare-workers** (110 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/vishwakarma/DEPLOYMENT-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 110 |
+| **Size** | 2279 bytes |
 | **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
@@ -71,32 +107,32 @@ tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/DEPLOYMENT-md.md"
-project: "narad"
+source: "/home/runner/work/narad/narad/sync_temp/vishwakarma/docs/platform/DEPLOYMENT.md"
+project: "vishwakarma"
 role: docs
 language: markdown
-frameworks: [cloudflare-workers, docker, github-actions]
-lines: 139
-size: 4348 bytes
+frameworks: [cloudflare-workers]
+lines: 72
+size: 1502 bytes
 last_modified: "2026-04-09 14:38"
 scanned: "2026-04-09 14:39"
-tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown, project/narad]
+tags: [cloudflare-workers, docs, documentation, markdown, project/vishwakarma]
 ---
 
-# DEPLOYMENT-md.md
+# DEPLOYMENT.md
 
-> Documentation using **cloudflare-workers, docker, github-actions** (139 lines).
+> Documentation using **cloudflare-workers** (72 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/narad/DEPLOYMENT-md.md` |
+| **Path** | `vishwakarma/docs/platform/DEPLOYMENT.md` |
 | **Role** | docs |
 | **Language** | markdown |
-| **Frameworks** | cloudflare-workers, docker, github-actions |
-| **Lines** | 139 |
-| **Size** | 4348 bytes |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 72 |
+| **Size** | 1502 bytes |
 | **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
@@ -106,143 +142,78 @@ tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown
 ## 📄 Content
 
 ```markdown
----
-source: "/home/runner/work/narad/narad/sync_temp/narad/DEPLOYMENT.md"
-project: "narad"
-role: docs
-language: markdown
-frameworks: [cloudflare-workers, docker, github-actions]
-lines: 101
-size: 3524 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown, project/narad]
----
+# Deployment Guide
 
-# DEPLOYMENT.md
+## Prerequisites
+- Cloudflare account with Pages project
+- Wrangler CLI installed (npm install -g wrangler)
+- All environment variables set
 
-> Documentation using **cloudflare-workers, docker, github-actions** (101 lines).
+## Pre-Deployment Checklist
+- [ ] All .env.example files filled out
+- [ ] Secrets set up via Cloudflare dashboard
+- [ ] Database migrations run
+- [ ] Tests passing locally
+- [ ] Build succeeds: npm run build
+- [ ] No secrets in git (verify: git log --all --oneline -S "GROQ" -S "API_KEY")
 
-## 📋 Metadata
+## Deployment Steps
 
-| Property | Value |
-|----------|-------|
-| **Path** | `narad/DEPLOYMENT.md` |
-| **Role** | docs |
-| **Language** | markdown |
-| **Frameworks** | cloudflare-workers, docker, github-actions |
-| **Lines** | 101 |
-| **Size** | 3524 bytes |
-| **Modified** | 2026-04-09 13:31 |
+### 1. Set Up Secrets
+See [SECRETS_SETUP.md](./SECRETS_SETUP.md)
 
-## 🔗 Related Files
+### 2. Deploy Each Service
 
-—
-
-## 📄 Content
-
-```markdown
-# Narad Cloud-First Deployment Guide
-
-This guide details how to deploy the Narad Neural Workspace to Cloudflare Pages with full GitHub Actions integration for the "Zero-Laptop" development experience.
-
----
-
-## ☁️ 1. Cloudflare Pages Setup
-
-### 📦 Deployment
-1.  Clone the repository and enter the directory.
-2.  Deploy the `pages/` directory:
-    ```bash
-    npx wrangler pages deploy pages --project-name narad
-    ```
-
-### 🗄️ Persistence (KV)
-Narad uses Cloudflare KV for cross-device session synchronization.
-1.  Go to the **Cloudflare Dashboard** > **Workers & Pages** > **KV**.
-2.  Create a new namespace named `NARAD_DATA`.
-3.  In your Pages project settings, go to **Settings** > **Functions** > **KV namespace bindings**.
-4.  Bind `NARAD_DATA` to the `NARAD_DATA` namespace you created.
-
-### 🤖 AI Workers Binding
-1.  In your Pages project settings, go to **Settings** > **Functions** > **AI bindings**.
-2.  Add a binding named `AI`.
-
-### 🔑 Environment Variables
-Add these under **Settings** > **Variables and Secrets**:
-
-| Variable | Description |
-|----------|-------------|
-| `GROQ_API_KEY` | (Required) Primary inference for Narad |
-| `SMRITI_SYNC_TOKEN` | GitHub PAT with `repo` scope for background tasks |
-| `SERPER_API_KEY` | Required for `/search` and `/last30days` |
-| `FIRECRAWL_API_KEY` | (Optional) For high-fidelity web scraping |
-| `ENVIRONMENT` | Set to `production` |
-| `PRIMARY_MODEL` | Set to `llama-3.3-70b-versatile` |
-
----
-
-## 🐙 2. GitHub Integration
-
-### 🛡️ Repository Secrets
-For the "Cloud Builder" and "Smriti Sync" to work, you must add secrets to your Narad repository:
-1.  Go to **Settings** > **Secrets and variables** > **Actions**.
-2.  Add `SMRITI_SYNC_TOKEN`: Your Personal Access Token (Classic) with `repo` permissions.
-
-### 🏗️ Background Builder (narad-builder.yml)
-To enable the `/build` command, you need a workflow in your repository (or target repository) that listens for the `narad_build` event.
-
-**Example `.github/workflows/narad-builder.yml`**:
-```yaml
-name: Narad Cloud Builder
-on:
-  repository_dispatch:
-    types: [narad_build]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Architect Project
-        run: |
-          mkdir -p projects/${{ github.event.client_payload.projectName }}
-          echo "Architecting: ${{ github.event.client_payload.prompt }}"
-          # Add logic to call AI or script to generate files
-      - name: Commit & Push
-        run: |
-          git config user.name "Narad Neural Kernel"
-          git config user.email "narad@sdachary.org"
-          git add .
-          git commit -m "build: architected ${{ github.event.client_payload.projectName }}"
-          git push
+**AGI Service:**
+```bash
+cd services/agi
+wrangler pages deploy
 ```
 
----
+**SyncLedger:**
+```bash
+cd services/syncledger
+npm run build
+wrangler pages deploy dist
+```
 
-## 🔄 3. Smriti Sync (Multi-Repo)
-To sync knowledge from other repositories into Narad:
-1.  Add the `SMRITI_SYNC_TOKEN` to your other repo as well.
-2.  Add a workflow to the other repo:
-    ```yaml
-    on: [push]
-    jobs:
-      sync:
-        runs-on: ubuntu-latest
-        steps:
-          - run: |
-              curl -X POST https://api.github.com/repos/YOUR_USER/narad/dispatches \
-              -H "Authorization: token ${{ secrets.SMRITI_SYNC_TOKEN }}" \
-              -d '{"event_type": "smriti_update"}'
-    ```
+**Cloud Provisioning:**
+```bash
+cd services/vishwakarma
+wrangler pages deploy pages
+```
 
----
+**Gold SaaS:**
+```bash
+cd services/saas
+npm run build
+wrangler pages deploy
+```
 
-## ✅ Post-Deployment Verification
-- Open your Narad URL (`https://narad.pages.dev`).
-- Type `/health` to verify service status.
-- Try `/last30days AI Agents` to test the research engine.
-- Create a new session in the sidebar to test KV persistence.
+### 3. Verify Deployments
+```bash
+curl https://vishwakarma-agi.pages.dev/health
+curl https://syncledger.pages.dev/api/health
+curl https://gold-saas.pages.dev/health
+curl https://vishwakarma.pages.dev/health
+```
+All should return 200 OK with `{ status: "ok" }`.
+
+### 4. Health Checks
+- Open each service in browser
+- Verify no console errors
+- Test primary workflows
+
+### 5. Monitor
+- Watch error logs in Sentry
+- Check Cloudflare Analytics
+- Monitor uptime via UptimeRobot
+
+## Rollback
+1. Go to Cloudflare Dashboard → Pages
+2. Select service
+3. Go to Deployments
+4. Click "Rollback" on previous version
 
 ```
 

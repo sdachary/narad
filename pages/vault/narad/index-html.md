@@ -4,16 +4,16 @@ project: "narad"
 role: page
 language: html
 frameworks: []
-lines: 82
-size: 3887 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+lines: 86
+size: 4092 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [code, html, page, project/narad]
 ---
 
 # index.html
 
-> Web page (82 lines).
+> Web page (86 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, html, page, project/narad]
 | **Role** | page |
 | **Language** | html |
 | **Frameworks** | — |
-| **Lines** | 82 |
-| **Size** | 3887 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Lines** | 86 |
+| **Size** | 4092 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -87,13 +87,16 @@ tags: [code, html, page, project/narad]
         <footer class="terminal-footer">
             <form id="chat-form" class="input-line">
                 <span class="prompt">></span>
-                <textarea id="user-input" placeholder="Message or /command..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
+                <textarea id="user-input" placeholder="Type / for commands..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
                 <div class="input-controls">
                     <button type="submit" id="send-btn" class="icon-btn">
                         <i data-lucide="send"></i>
                     </button>
                 </div>
             </form>
+            <div id="command-palette" class="command-palette">
+                <div class="command-list"></div>
+            </div>
         </footer>
     </div>
 
@@ -101,6 +104,7 @@ tags: [code, html, page, project/narad]
     <div id="chat-search-overlay" class="search-overlay" style="display:none;">
         <div class="search-container">
             <input type="text" id="chat-search-input" placeholder="Search messages...">
+            <button id="search-close-btn" class="header-btn">✕</button>
         </div>
     </div>
 

@@ -6,8 +6,8 @@ language: css
 frameworks: [tailwind]
 lines: 26
 size: 488 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [code, css, project/unnati, style, tailwind]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, css, project/unnati, style, tailwind]
 | **Frameworks** | tailwind |
 | **Lines** | 26 |
 | **Size** | 488 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

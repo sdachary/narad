@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 183
 size: 4863 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docker, documentation, markdown, project/narad, service]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, documentation, markdown, project/narad, service]
 | **Frameworks** | docker |
 | **Lines** | 183 |
 | **Size** | 4863 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [docker]
 lines: 145
 size: 4112 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docker, documentation, markdown, project/narad, service]
 ---
 
@@ -61,7 +61,7 @@ tags: [docker, documentation, markdown, project/narad, service]
 | **Frameworks** | docker |
 | **Lines** | 145 |
 | **Size** | 4112 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [docker]
 lines: 107
 size: 3370 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docker, documentation, markdown, project/narad, service]
 ---
 
@@ -97,7 +97,7 @@ tags: [docker, documentation, markdown, project/narad, service]
 | **Frameworks** | docker |
 | **Lines** | 107 |
 | **Size** | 3370 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: javascript
 frameworks: [docker]
 lines: 69
 size: 2637 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, docker, javascript, project/narad, service]
 ---
 
@@ -133,7 +133,7 @@ tags: [code, docker, javascript, project/narad, service]
 | **Frameworks** | docker |
 | **Lines** | 69 |
 | **Size** | 2637 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

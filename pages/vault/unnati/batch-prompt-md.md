@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 357
 size: 13725 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [config, docker, documentation, markdown, project/unnati]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, docker, documentation, markdown, project/unnati]
 | **Frameworks** | docker |
 | **Lines** | 357 |
 | **Size** | 13725 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

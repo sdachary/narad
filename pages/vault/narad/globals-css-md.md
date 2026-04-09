@@ -1,13 +1,13 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/globals-css.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/globals-css.md"
 project: "narad"
 role: docs
 language: markdown
 frameworks: [tailwind]
 lines: 64
-size: 1158 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 1156 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad, tailwind]
 ---
 
@@ -19,13 +19,13 @@ tags: [docs, documentation, markdown, project/narad, tailwind]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/job-hunt-app/globals-css.md` |
+| **Path** | `narad/pages/vault/unnati/globals-css.md` |
 | **Role** | docs |
 | **Language** | markdown |
 | **Frameworks** | tailwind |
 | **Lines** | 64 |
-| **Size** | 1158 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 1156 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -35,16 +35,16 @@ tags: [docs, documentation, markdown, project/narad, tailwind]
 
 ```markdown
 ---
-source: "/home/deepak/Work/job-hunt-app/src/app/globals.css"
-project: "job-hunt-app"
+source: "/home/runner/work/narad/narad/sync_temp/unnati/src/app/globals.css"
+project: "unnati"
 role: style
 language: css
 frameworks: [tailwind]
 lines: 26
 size: 488 bytes
-last_modified: "2026-04-06 23:40"
-scanned: "2026-04-06 23:40"
-tags: [code, css, project/job-hunt-app, style, tailwind]
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [code, css, project/unnati, style, tailwind]
 ---
 
 # globals.css
@@ -55,13 +55,13 @@ tags: [code, css, project/job-hunt-app, style, tailwind]
 
 | Property | Value |
 |----------|-------|
-| **Path** | `job-hunt-app/src/app/globals.css` |
+| **Path** | `unnati/src/app/globals.css` |
 | **Role** | style |
 | **Language** | css |
 | **Frameworks** | tailwind |
 | **Lines** | 26 |
 | **Size** | 488 bytes |
-| **Modified** | 2026-04-06 23:40 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 

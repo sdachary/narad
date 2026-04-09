@@ -4,16 +4,16 @@ project: "narad"
 role: style
 language: css
 frameworks: []
-lines: 517
-size: 9669 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+lines: 572
+size: 10706 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [code, css, project/narad, style]
 ---
 
 # style.css
 
-> Stylesheet (517 lines).
+> Stylesheet (572 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, css, project/narad, style]
 | **Role** | style |
 | **Language** | css |
 | **Frameworks** | — |
-| **Lines** | 517 |
-| **Size** | 9669 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Lines** | 572 |
+| **Size** | 10706 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -550,5 +550,60 @@ body {
     background: var(--bg-tertiary);
     border-radius: 3px;
     margin-left: var(--space-sm);
+}
+
+/* Command Palette */
+.command-palette {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: var(--space-lg);
+    right: var(--space-lg);
+    max-height: 300px;
+    overflow-y: auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    margin-bottom: var(--space-sm);
+}
+
+.command-palette.visible {
+    display: block;
+}
+
+.command-list {
+    padding: var(--space-sm);
+}
+
+.command-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 100ms ease;
+}
+
+.command-item:hover,
+.command-item.selected {
+    background: var(--bg-tertiary);
+}
+
+.command-name {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+}
+
+.command-name span {
+    color: var(--accent);
+}
+
+.command-desc {
+    font-size: 11px;
+    color: var(--text-muted);
 }
 ```
