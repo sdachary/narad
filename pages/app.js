@@ -1068,6 +1068,9 @@ async function init() {
     
     // Initialize mode selector
     initModeSelector();
+    
+    // Initialize user preferences
+    initPreferences();
 
     // Sidebar Toggle — wired here so DOM is guaranteed ready
     const sidebar = document.getElementById('sidebar');
@@ -1550,6 +1553,22 @@ function stopSearch() {
 }
 
 // Keyboard shortcuts
+const FONT_SIZE_KEY = 'narad_font_size';
+const LAYOUT_DENSITY_KEY = 'narad_layout_density';
+
+function initPreferences() {
+    const savedSize = localStorage.getItem(FONT_SIZE_KEY) || 'medium';
+    const savedDensity = localStorage.getItem(LAYOUT_DENSITY_KEY) || 'comfortable';
+    applyPreferences(savedSize, savedDensity);
+}
+
+function applyPreferences(size, density) {
+    document.documentElement.setAttribute('data-font-size', size);
+    document.documentElement.setAttribute('data-layout-density', density);
+    localStorage.setItem(FONT_SIZE_KEY, size);
+    localStorage.setItem(LAYOUT_DENSITY_KEY, density);
+}
+
 window.addEventListener('keydown', (e) => {
     // CMD+K to clear
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -1573,6 +1592,25 @@ window.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 't') {
         e.preventDefault();
         toggleTheme();
+    }
+    
+    // CMD+/- to adjust font size
+    if ((e.metaKey || e.ctrlKey) && (e.key === '=' || e.key === '+')) {
+        e.preventDefault();
+        const current = localStorage.getItem(FONT_SIZE_KEY) || 'medium';
+        const sizes = ['small', 'medium', 'large'];
+        const idx = sizes.indexOf(current);
+        const newSize = sizes[Math.min(idx + 1, sizes.length - 1)];
+        applyPreferences(newSize, localStorage.getItem(LAYOUT_DENSITY_KEY) || 'comfortable');
+    }
+    
+    if ((e.metaKey || e.ctrlKey) && e.key === '-') {
+        e.preventDefault();
+        const current = localStorage.getItem(FONT_SIZE_KEY) || 'medium';
+        const sizes = ['small', 'medium', 'large'];
+        const idx = sizes.indexOf(current);
+        const newSize = sizes[Math.max(idx - 1, 0)];
+        applyPreferences(newSize, localStorage.getItem(LAYOUT_DENSITY_KEY) || 'comfortable');
     }
 });
 
