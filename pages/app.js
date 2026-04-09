@@ -412,7 +412,7 @@ async function createNewSession() {
     const chatMessages = document.getElementById('chat-messages');
     if (chatMessages) {
         chatMessages.innerHTML = '';
-        addMessage('Neural Channel Initialized. How can I assist you?', 'assistant');
+        addMessage('Type a message or command... (/help for commands)', 'assistant');
     }
     await renderSidebar();
 }
@@ -1641,7 +1641,7 @@ function stopSearch() {
     showToast('Process terminated', 'warning');
 }
 
-// Keyboard shortcuts
+// Keyboard shortcuts - OpenCode style
 const FONT_SIZE_KEY = 'narad_font_size';
 const LAYOUT_DENSITY_KEY = 'narad_layout_density';
 
@@ -1659,19 +1659,36 @@ function applyPreferences(size, density) {
 }
 
 window.addEventListener('keydown', (e) => {
-    // CMD+K to clear
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    // Tab to toggle between Plan/Build mode (like OpenCode)
+    if (e.key === 'Tab' && !e.shiftKey && document.activeElement !== userInput) {
         e.preventDefault();
-        clearHistory();
+        const newMode = currentMode === 'build' ? 'plan' : 'build';
+        currentMode = newMode;
+        localStorage.setItem(MODE_KEY, currentMode);
+        document.body.setAttribute('data-mode', currentMode);
+        appendSystemMessage(`Mode: ${currentMode.toUpperCase()}`);
     }
     
-    // Ctrl+C to stop
+    // Escape to close search/overlays
+    if (e.key === 'Escape') {
+        if (searchOverlay && searchOverlay.style.display !== 'none') {
+            closeSearch();
+        }
+    }
+    
+    // Ctrl+C to stop streaming
     if (e.ctrlKey && e.key === 'c' && isStreaming) {
         e.preventDefault();
         stopSearch();
     }
     
-    // CMD+F to search
+    // CMD+K to clear (keep for compatibility)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        clearHistory();
+    }
+    
+    // CMD+F to search (keep for compatibility)
     if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
         e.preventDefault();
         openSearch();
