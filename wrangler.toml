@@ -13,3 +13,4 @@ binding = "AI"
 [vars]
 ENVIRONMENT = "production"
 PRIMARY_MODEL = "llama-3.3-70b-versatile"
+SKILLS_REPO = "sdachary/narad"
