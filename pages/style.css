@@ -693,9 +693,16 @@ body[data-mode="build"] {
     line-height: 1.7;
 }
 
+/* Visual hierarchy for content */
+.message-content p { margin: 0 0 var(--space-3); }
+.message-content p:last-child { margin-bottom: 0; }
+
 .message-content strong {
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-weight: 600;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1px 4px;
+    border-radius: 3px;
 }
 
 .message-content em {
@@ -704,7 +711,7 @@ body[data-mode="build"] {
 }
 
 .message-content code {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.25);
     color: var(--text-secondary);
     padding: 2px 6px;
     border-radius: var(--radius-sm);
@@ -713,14 +720,15 @@ body[data-mode="build"] {
 }
 
 .message-content pre {
-    background: rgba(0, 0, 0, 0.2);
-    color: var(--text-secondary);
-    padding: var(--space-2);
+    background: rgba(0, 0, 0, 0.35);
+    color: var(--text-primary);
+    padding: var(--space-3);
     border-radius: var(--radius-md);
     overflow-x: auto;
     font-family: var(--font-mono);
-    font-size: 0.9em;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.85em;
+    border: 1px solid var(--glass-border);
+    margin: var(--space-3) 0;
 }
 
 .terminal-footer {
@@ -1024,6 +1032,76 @@ textarea#user-input {
     }
 }
 
+/* Keyboard Accessibility */
+*:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+[role="button"]:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+}
+
+/* Skip to main content link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--text-primary);
+    color: var(--terminal-bg);
+    padding: 8px 16px;
+    z-index: 10000;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Mobile Touch Improvements */
+@media (pointer: coarse) {
+    button,
+    .header-btn,
+    .icon-btn,
+    .mode-chip,
+    .smriti-pill-btn,
+    .character-select,
+    [role="button"] {
+        min-height: 44px;
+        min-width: 44px;
+        touch-action: manipulation;
+    }
+    
+    .mode-chip,
+    .smriti-pill-btn {
+        padding: 10px 14px;
+    }
+    
+    textarea#user-input {
+        min-height: 48px;
+    }
+}
+
+/* Ensure adequate touch targets on mobile */
+@media (max-width: 768px) {
+    .header-btn,
+    .icon-btn {
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .mode-chip {
+        min-height: 36px;
+        padding: 8px 12px;
+    }
+}
+
 /* Theme Toggle */
 #theme-toggle-btn {
     font-size: 16px;
@@ -1092,6 +1170,68 @@ textarea#user-input {
 @keyframes typingBounce {
     0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
     40% { transform: scale(1); opacity: 1; }
+}
+
+/* Loading State */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-muted);
+    padding: var(--space-3) var(--space-4);
+    font-size: 13px;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--text-muted);
+    border-top-color: var(--text-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0.05) 25%, 
+        rgba(255,255,255,0.1) 50%, 
+        rgba(255,255,255,0.05) 75%);
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+    height: 14px;
+    margin: var(--space-2) 0;
+}
+
+.skeleton-text.short { width: 40%; }
+.skeleton-text.medium { width: 70%; }
+.skeleton-text.long { width: 100%; }
+
+/* Error State */
+.error-message {
+    background: rgba(255, 95, 86, 0.1);
+    border: 1px solid var(--red);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin: var(--space-2) 0;
+}
+
+.error-message p {
+    color: var(--red);
+    margin: 0;
 }
 
 /* Message Reactions */
