@@ -1,0 +1,422 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/graph-html-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 384
+size: 9784 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# graph-html-md-md.md
+
+> Documentation (384 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/graph-html-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 384 |
+| **Size** | 9784 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/graph-html-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 346
+size: 9093 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# graph-html-md.md
+
+> Documentation (346 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/graph-html-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 346 |
+| **Size** | 9093 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/graph-html.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 308
+size: 8411 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# graph-html.md
+
+> Documentation (308 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/graph-html.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 308 |
+| **Size** | 8411 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/graph.html"
+project: "narad"
+role: page
+language: html
+frameworks: []
+lines: 270
+size: 7792 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [code, html, page, project/narad]
+---
+
+# graph.html
+
+> Web page (270 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/graph.html` |
+| **Role** | page |
+| **Language** | html |
+| **Frameworks** | — |
+| **Lines** | 270 |
+| **Size** | 7792 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smriti | Knowledge Observatory</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Graph Engines (CDN) -->
+    <script src="https://unpkg.com/three"></script>
+    <script src="https://unpkg.com/3d-force-graph"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            background-color: #0d1117;
+            color: #eee;
+            overflow: hidden;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        #graph-container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .graph-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .graph-controls {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1001;
+            pointer-events: auto;
+        }
+
+        .obs-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-secondary, #ffb000);
+            text-shadow: 0 0 10px rgba(255, 176, 0, 0.4);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .obs-title .obs-icon {
+            width: 12px;
+            height: 12px;
+            background: var(--text-secondary, #ffb000);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--text-secondary);
+        }
+
+        .obs-subtitle {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toggle-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            font-weight: 700;
+        }
+
+        .toggle-btn.active {
+            border-color: var(--text-secondary, #ffb000);
+            color: var(--text-secondary, #ffb000);
+            box-shadow: 0 0 15px rgba(255, 176, 0, 0.4);
+        }
+
+        .speed-selector {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 11px;
+            cursor: pointer;
+            outline: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .speed-selector:hover {
+            border-color: #666;
+        }
+
+        #back-btn {
+            background: rgba(255, 95, 86, 0.1);
+            border-color: #ff5f56;
+            color: #ff5f56;
+        }
+
+        #back-btn:hover {
+            background: #ff5f56;
+            color: white;
+        }
+
+        /* Interactive Preview Bubble */
+        #node-preview {
+            position: absolute;
+            left: 20px;
+            bottom: 80px;
+            width: 320px;
+            background: rgba(13, 17, 23, 0.85);
+            border: 1px solid rgba(255, 176, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 2000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        #node-preview.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .preview-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            flex-grow: 1;
+        }
+
+        .preview-body {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .preview-footer {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-btn {
+            background: rgba(255, 176, 0, 0.1);
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .preview-btn:hover {
+            background: var(--text-secondary);
+            color: #0d1117;
+        }
+
+        .node-label {
+            font-size: 11px;
+            padding: 2px 6px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 4px;
+            pointer-events: none;
+            border: 1px solid #333;
+            color: #00ff00;
+            white-space: nowrap;
+        }
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #0d1117;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading-screen">
+        <div class="obs-title"><div class="obs-icon"></div> SMRITI</div>
+        <div class="loading-text">RECALLING MEMORIES...</div>
+    </div>
+
+    <div class="graph-overlay">
+        <div class="obs-title"><div class="obs-icon"></div> SMRITI</div>
+        <div class="obs-subtitle">Knowledge Observatory</div>
+    </div>
+
+    <div class="graph-controls">
+        <select id="speed-select" class="speed-selector" title="Animation Speed">
+            <option value="1000">Fast Reveal</option>
+            <option value="3000">Smooth Reveal</option>
+            <option value="5000">Meditative (5s)</option>
+            <option value="10000" selected>Deep Meditation (10s)</option>
+        </select>
+        <button id="back-btn" class="toggle-btn" onclick="window.location.href='/'">RETURN TO NARAD</button>
+    </div>
+
+    <div id="node-preview" class="preview-bubble">
+        <div class="preview-header">
+            <div id="preview-icon" class="obs-icon"></div>
+            <div id="preview-title" class="preview-title">PROJECT_NAME</div>
+        </div>
+        <div id="preview-body" class="preview-body">
+            This project represents your deep knowledge base. Initializing visualization...
+        </div>
+        <div class="preview-footer">
+            <button id="enter-node" class="preview-btn">ENTER NODE</button>
+            <button id="close-preview" class="preview-btn" style="border-color: #666; color: #666; background: transparent;">CLOSE</button>
+        </div>
+    </div>
+
+    <div id="graph-container"></div>
+
+    <script src="graph.js"></script>
+</body>
+</html>
+
+```
+
+```
+
+```
+
+```

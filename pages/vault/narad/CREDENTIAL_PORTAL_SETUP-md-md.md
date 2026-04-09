@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker]
 lines: 314
 size: 8468 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [cloudflare-workers, docker, docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, docker, docs, documentation, markdown, project/narad]
 | **Frameworks** | cloudflare-workers, docker |
 | **Lines** | 314 |
 | **Size** | 8468 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker]
 lines: 276
 size: 7635 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [cloudflare-workers, docker, docs, documentation, markdown, project/vishwakarma]
 ---
 
@@ -61,7 +61,7 @@ tags: [cloudflare-workers, docker, docs, documentation, markdown, project/vishwa
 | **Frameworks** | cloudflare-workers, docker |
 | **Lines** | 276 |
 | **Size** | 7635 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

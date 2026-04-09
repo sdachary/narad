@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, vite]
 lines: 174
 size: 7566 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, docker, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, docker, documentation, markdown, project/narad, vite]
 | **Frameworks** | docker, vite |
 | **Lines** | 174 |
 | **Size** | 7566 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -38,7 +38,7 @@ tags: [config, docker, documentation, markdown, project/narad, vite]
 type: project-index
 project: "unnati"
 source: "/home/runner/work/narad/narad/sync_temp/unnati"
-scanned: "2026-04-09 13:31"
+scanned: "2026-04-09 14:39"
 total_files: 124
 total_lines: 16861
 tags: [project/unnati, index]
@@ -147,8 +147,8 @@ tags: [project/unnati, index]
 - [[cv-template-html]] — `career-ops/templates/cv-template.html`
 
 ### 🛤️ Route (2)
-- [[route-ts]] — `src/app/api/jobs/refine/route.ts`
 - [[route-ts]] — `src/app/api/career-ops/route.ts`
+- [[route-ts]] — `src/app/api/jobs/refine/route.ts`
 
 ### 📜 Script (3)
 - [[batch-runner-sh]] — `career-ops/batch/batch-runner.sh`
@@ -188,18 +188,18 @@ tags: [project/unnati, index]
 - [[prompts-ts]] — `src/lib/ai/prompts.ts`
 - [[question-generator-ts]] — `src/lib/interview/question-generator.ts`
 - [[remotive-ts]] — `src/lib/jobs/remotive.ts`
-- [[route-ts]] — `src/app/api/ai-cache/route.ts`
 - [[route-ts]] — `src/app/api/resume/upload/route.ts`
-- [[route-ts]] — `src/app/api/ai/route.ts`
-- [[route-ts]] — `src/app/api/jobs/search/route.ts`
-- [[route-ts]] — `src/app/api/profile/route.ts`
-- [[route-ts]] — `src/app/api/profile/preferences/route.ts`
-- [[route-ts]] — `src/app/api/hunt/toggle/route.ts`
-- [[route-ts]] — `src/app/api/pdf/resume/route.ts`
+- [[route-ts]] — `src/app/api/debug/db/route.ts`
 - [[route-ts]] — `src/app/api/notifications/route.ts`
 - [[route-ts]] — `src/app/api/notifications/unread-count/route.ts`
 - [[route-ts]] — `src/app/api/notifications/read/route.ts`
-- [[route-ts]] — `src/app/api/debug/db/route.ts`
+- [[route-ts]] — `src/app/api/hunt/toggle/route.ts`
+- [[route-ts]] — `src/app/api/profile/route.ts`
+- [[route-ts]] — `src/app/api/profile/preferences/route.ts`
+- [[route-ts]] — `src/app/api/ai/route.ts`
+- [[route-ts]] — `src/app/api/ai-cache/route.ts`
+- [[route-ts]] — `src/app/api/jobs/search/route.ts`
+- [[route-ts]] — `src/app/api/pdf/resume/route.ts`
 - [[route-ts]] — `src/app/api/applications/route.ts`
 - [[route-ts]] — `src/app/api/applications/[id]/route.ts`
 - [[star-bank-ts]] — `src/lib/interview/star-bank.ts`

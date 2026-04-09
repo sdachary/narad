@@ -6,8 +6,8 @@ language: html
 frameworks: [docker, vite]
 lines: 501
 size: 20936 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:38"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [code, docker, html, project/chitragupta, service, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, docker, html, project/chitragupta, service, vite]
 | **Frameworks** | docker, vite |
 | **Lines** | 501 |
 | **Size** | 20936 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

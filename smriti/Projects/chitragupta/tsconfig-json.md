@@ -6,8 +6,8 @@ language: json
 frameworks: [vite]
 lines: 21
 size: 564 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:38"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [code, config, json, project/chitragupta, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, config, json, project/chitragupta, vite]
 | **Frameworks** | vite |
 | **Lines** | 21 |
 | **Size** | 564 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

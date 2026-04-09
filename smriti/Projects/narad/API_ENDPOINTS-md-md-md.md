@@ -6,8 +6,8 @@ language: markdown
 frameworks: [vite]
 lines: 104
 size: 2632 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [auth, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 104 |
 | **Size** | 2632 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [vite]
 lines: 66
 size: 1873 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [auth, documentation, markdown, project/narad, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [auth, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 66 |
 | **Size** | 1873 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [vite]
 lines: 28
 size: 1137 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [auth, documentation, markdown, project/chitragupta, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [auth, documentation, markdown, project/chitragupta, vite]
 | **Frameworks** | vite |
 | **Lines** | 28 |
 | **Size** | 1137 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

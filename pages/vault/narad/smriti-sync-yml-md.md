@@ -4,16 +4,16 @@ project: "narad"
 role: config
 language: markdown
 frameworks: [docker, github-actions]
-lines: 141
-size: 4511 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+lines: 145
+size: 4712 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, docker, documentation, github-actions, markdown, project/narad]
 ---
 
 # smriti-sync-yml.md
 
-> Configuration file for the project using **docker, github-actions** (141 lines).
+> Configuration file for the project using **docker, github-actions** (145 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [config, docker, documentation, github-actions, markdown, project/narad]
 | **Role** | config |
 | **Language** | markdown |
 | **Frameworks** | docker, github-actions |
-| **Lines** | 141 |
-| **Size** | 4511 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Lines** | 145 |
+| **Size** | 4712 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -40,16 +40,16 @@ project: "narad"
 role: config
 language: yaml
 frameworks: [docker, github-actions]
-lines: 103
-size: 3723 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+lines: 108
+size: 3924 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, config, docker, github-actions, project/narad, yaml]
 ---
 
 # smriti-sync.yml
 
-> Configuration file for the project using **docker, github-actions** (103 lines).
+> Configuration file for the project using **docker, github-actions** (108 lines).
 
 ## 📋 Metadata
 
@@ -59,9 +59,9 @@ tags: [code, config, docker, github-actions, project/narad, yaml]
 | **Role** | config |
 | **Language** | yaml |
 | **Frameworks** | docker, github-actions |
-| **Lines** | 103 |
-| **Size** | 3723 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Lines** | 108 |
+| **Size** | 3924 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -73,6 +73,9 @@ tags: [code, config, docker, github-actions, project/narad, yaml]
 name: Smriti Brain Sync
 
 on:
+  push:
+    branches:
+      - main
   repository_dispatch:
     types: [smriti_update]
   workflow_dispatch:
@@ -94,6 +97,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - name: 🛰️ Checkout Narad
         uses: actions/checkout@v4
@@ -146,13 +150,13 @@ jobs:
       - name: 📊 Generate Stats Report
         run: |
           # Extract metadata from generated graph
-          if [ -f pages/smriti_graph.json ]; then
+          if [ -f smriti/smriti_graph.json ]; then
             echo "=== Smriti Graph Report ==="
-            echo "Node Count: $(jq '.metadata.nodeCount // .nodes | length' pages/smriti_graph.json)"
-            echo "Header Nodes: $(jq '.metadata.headerCount // 0' pages/smriti_graph.json)"
-            echo "Link Count: $(jq '.metadata.linkCount // .links | length' pages/smriti_graph.json)"
-            echo "Tags: $(jq '.metadata.tagCount // 0' pages/smriti_graph.json)"
-            echo "Generated: $(jq -r '.metadata.generated // "N/A"' pages/smriti_graph.json)"
+            echo "Node Count: $(jq '.metadata.nodeCount // .nodes | length' smriti/smriti_graph.json)"
+            echo "Header Nodes: $(jq '.metadata.headerCount // 0' smriti/smriti_graph.json)"
+            echo "Link Count: $(jq '.metadata.linkCount // .links | length' smriti/smriti_graph.json)"
+            echo "Tags: $(jq '.metadata.tagCount // 0' smriti/smriti_graph.json)"
+            echo "Generated: $(jq -r '.metadata.generated // "N/A"' smriti/smriti_graph.json)"
           fi
 
       - name: 🚀 Commit and Push Knowledge
@@ -160,20 +164,20 @@ jobs:
           git config --local user.email "narad-bot@github.com"
           git config --local user.name "Narad (Smriti Bot)"
           
-          # Sync to web-accessible vault
+          # Sync to web-accessible vault (smaller than full graph files)
           mkdir -p pages/vault
           cp -r smriti/Projects/* pages/vault/
           
-          # Check for changes
-          if git diff --quiet -- pages/smriti_graph.json pages/vault/; then
+          # Check for changes in smriti projects and vault only
+          # (smriti_graph.* are gitignored to avoid Pages 25MB limit)
+          if git diff --quiet -- smriti/ pages/vault/; then
             echo "No changes to commit"
           else
-            git add smriti/Projects/ smriti/.obsidian/graph.json pages/smriti_graph.json pages/vault/
-            git commit -m "🧠 Smriti: Automated knowledge & web-vault refresh [skip ci]"
+            git add smriti/Projects/ smriti/.obsidian/graph.json pages/vault/
+            git commit -m "🧠 Smriti: Automated knowledge sync [skip ci]"
             git push
             echo "✅ Changes pushed successfully"
           fi
-
 ```
 
 ```

@@ -3,17 +3,17 @@ source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/package
 project: "narad"
 role: config
 language: markdown
-frameworks: []
-lines: 89
-size: 1613 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
-tags: [config, documentation, markdown, project/narad]
+frameworks: [tailwind]
+lines: 107
+size: 2133 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, documentation, markdown, project/narad, tailwind]
 ---
 
 # package-json-md.md
 
-> Configuration file for the project (89 lines).
+> Configuration file for the project using **tailwind** (107 lines).
 
 ## 📋 Metadata
 
@@ -22,9 +22,45 @@ tags: [config, documentation, markdown, project/narad]
 | **Path** | `narad/pages/vault/narad/package-json-md.md` |
 | **Role** | config |
 | **Language** | markdown |
-| **Frameworks** | — |
-| **Lines** | 89 |
-| **Size** | 1613 bytes |
+| **Frameworks** | tailwind |
+| **Lines** | 107 |
+| **Size** | 2133 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/package-json.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [tailwind]
+lines: 69
+size: 1365 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, markdown, project/narad, tailwind]
+---
+
+# package-json.md
+
+> Configuration file for the project using **tailwind** (69 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/job-hunt-app/package-json.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | tailwind |
+| **Lines** | 69 |
+| **Size** | 1365 bytes |
 | **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
@@ -35,69 +71,33 @@ tags: [config, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/package-json.md"
-project: "narad"
-role: config
-language: markdown
-frameworks: []
-lines: 51
-size: 901 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
-tags: [config, documentation, markdown, project/narad]
----
-
-# package-json.md
-
-> Configuration file for the project (51 lines).
-
-## 📋 Metadata
-
-| Property | Value |
-|----------|-------|
-| **Path** | `narad/pages/vault/unnati/package-json.md` |
-| **Role** | config |
-| **Language** | markdown |
-| **Frameworks** | — |
-| **Lines** | 51 |
-| **Size** | 901 bytes |
-| **Modified** | 2026-04-09 13:31 |
-
-## 🔗 Related Files
-
-—
-
-## 📄 Content
-
-```markdown
----
-source: "/home/runner/work/narad/narad/sync_temp/unnati/docker/package.json"
-project: "unnati"
+source: "/home/deepak/Work/job-hunt-app/package.json"
+project: "job-hunt-app"
 role: config
 language: json
-frameworks: []
-lines: 13
-size: 243 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
-tags: [code, config, json, project/unnati]
+frameworks: [tailwind]
+lines: 31
+size: 677 bytes
+last_modified: "2026-04-06 23:42"
+scanned: "2026-04-06 23:42"
+tags: [code, config, json, project/job-hunt-app, tailwind]
 ---
 
 # package.json
 
-> Configuration file for the project (13 lines).
+> Configuration file for the project using **tailwind** (31 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `unnati/docker/package.json` |
+| **Path** | `job-hunt-app/package.json` |
 | **Role** | config |
 | **Language** | json |
-| **Frameworks** | — |
-| **Lines** | 13 |
-| **Size** | 243 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Frameworks** | tailwind |
+| **Lines** | 31 |
+| **Size** | 677 bytes |
+| **Modified** | 2026-04-06 23:42 |
 
 ## 🔗 Related Files
 
@@ -107,16 +107,34 @@ tags: [code, config, json, project/unnati]
 
 ```json
 {
-  "name": "unnati-worker",
-  "version": "1.0.0",
-  "main": "worker.js",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
-    "playwright": "^1.40.1",
-    "dotenv": "^16.3.1"
-  },
+  "name": "job-hunt-app",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "node worker.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "lucide-react": "^1.7.0",
+    "next": "16.2.2",
+    "prisma": "^5.22.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.72.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
 

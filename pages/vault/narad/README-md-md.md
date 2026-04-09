@@ -1,30 +1,66 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/README-md.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/README-md.md"
 project: "narad"
-role: docs
+role: auth
 language: markdown
-frameworks: [docker]
-lines: 74
-size: 2121 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
-tags: [docker, docs, documentation, markdown, project/narad]
+frameworks: [cloudflare-workers]
+lines: 122
+size: 4105 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [auth, cloudflare-workers, documentation, markdown, project/narad]
 ---
 
 # README-md.md
 
-> Documentation using **docker** (74 lines).
+> Authentication / authorization module using **cloudflare-workers** (122 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/job-hunt-app/README-md.md` |
-| **Role** | docs |
+| **Path** | `narad/pages/vault/vishwakarma/README-md.md` |
+| **Role** | auth |
 | **Language** | markdown |
-| **Frameworks** | docker |
-| **Lines** | 74 |
-| **Size** | 2121 bytes |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 122 |
+| **Size** | 4105 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/vishwakarma/docs/platform/README.md"
+project: "vishwakarma"
+role: auth
+language: markdown
+frameworks: [cloudflare-workers]
+lines: 84
+size: 3316 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [auth, cloudflare-workers, documentation, markdown, project/vishwakarma]
+---
+
+# README.md
+
+> Authentication / authorization module using **cloudflare-workers** (84 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `vishwakarma/docs/platform/README.md` |
+| **Role** | auth |
+| **Language** | markdown |
+| **Frameworks** | cloudflare-workers |
+| **Lines** | 84 |
+| **Size** | 3316 bytes |
 | **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
@@ -34,78 +70,90 @@ tags: [docker, docs, documentation, markdown, project/narad]
 ## 📄 Content
 
 ```markdown
+# vishwakarma-platform
+
+A unified platform for business automation, private cloud management, and AGI orchestration.
+
+## Core Services
+
+| Service | Component | Deployment | Description |
+|---------|-----------|------------|-------------|
+| **Gold SaaS** | `services/saas` | Pages + Worker | Business management: inventory, orders, billing. |
+| **Cloud Provisioning** | `services/vishwakarma` | Pages + Worker | OCI Infrastructure Management & Control Plane. |
+| **AGI Nexus** | `services/agi` | **Edge Worker** | Dedicated "Ai Bhaina" Nexus Space with Neural Moods & RAG. |
+| **Sync Ledger** | `services/syncledger` | Edge Worker | Optimized financial ledger with native Edge hashing. |
+| **Narad** | `narad` (repo) | **OCI VM** | R&D Intelligence Brain & Telegram Bot Interface. |
+
 ---
-source: "/home/deepak/Work/job-hunt-app/README.md"
-project: "job-hunt-app"
-role: docs
-language: markdown
-frameworks: [docker]
-lines: 36
-size: 1450 bytes
-last_modified: "2026-04-06 23:40"
-scanned: "2026-04-06 23:40"
-tags: [docker, docs, documentation, markdown, project/job-hunt-app]
----
 
-# README.md
+## Repository Structure
 
-> Documentation using **docker** (36 lines).
-
-## 📋 Metadata
-
-| Property | Value |
-|----------|-------|
-| **Path** | `job-hunt-app/README.md` |
-| **Role** | docs |
-| **Language** | markdown |
-| **Frameworks** | docker |
-| **Lines** | 36 |
-| **Size** | 1450 bytes |
-| **Modified** | 2026-04-06 23:40 |
-
-## 🔗 Related Files
-
-—
-
-## 📄 Content
-
-```markdown
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+vishwakarma-platform/
+│
+├── services/
+│   ├── agi/                       ← [NEW] STANDALONE AGI
+│   │   └── pages/_worker.js       ← Unified Nexus UI + API
+│   │
+│   ├── syncledger/                ← [OPTIMIZED] LEDGER
+│   │   └── pages/_worker.js       ← Unified Ledger + Native Auth
+│   │
+│   ├── saas/                      ← CLIENT-FACING (Gold SaaS)
+│   │   ├── pages/                 ← Dashboard, Inventory, Orders
+│   │   └── worker/                ← CORS proxy
+│   │
+│   ├── vishwakarma/            ← OPERATOR-ONLY (Cloud Ops)
+│   │   ├── pages/                 ← OCI Management Dashboard
+│   │   └── terraform/             ← OCI Infrastructure
+│   ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Service Highlights
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. AGI Nexus Space (`services/agi`)
+- **Neural Moods**: Switchable particle environments (Nexus, Vortex, Pulse, Nebula).
+- **Persistent Memory**: Qdrant-backed Vector DB for idea recall and RAG.
+- **Telegram Bot**: Webhook integration for persistence beyond the browser.
+- **Checkpoints**: Session state stored in Cloudflare KV (`AGENT_MEMORY`) for resiliency.
 
-## Learn More
+### 2. Sync Ledger (`services/syncledger`)
+- **Edge-Native Hashing**: Uses Web Crypto **PBKDF2** for sub-millisecond logins, resolving the 1102 CPU limit issues.
+- **Unified Structure**: Front-to-back logic inside a single `_worker.js`.
+- **Legacy Migration**: Automated detection of heavy bcrypt hashes with graceful migration prompts.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Cloud Provisioning (`services/vishwakarma`)
+- **Infrastructure**: Automated OCI VM provisioning via Terraform (NextCloud, Pi-hole).
+- **Control Plane**: Dedicated dashboard for lifecycle management.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technical Reference: Checkpoints
+Checkpoints ensure that long-running AGI tasks or sessions are never lost.
+- **Storage**: Cloudflare KV (`AGENT_MEMORY`).
+- **Keys**: `agi:session:{sessionId}`.
+- **Payload**: Includes last message, thinking state, and timestamp.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## GitHub Secrets & Env Vars
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Secret / Var | Service | Purpose |
+|--------------|---------|---------|
+| `AGENT_MEMORY` | AGI | KV Binding for session persistence |
+| `SUPABASE_URL` | SyncLedger | Ledger Database |
+| `TELEGRAM_BOT_TOKEN` | AGI | Bot interaction |
+| `OPENROUTER_API_KEY` | AGI | Fallback Inference |
+
+## Local Development
+Both AGI and SyncLedger can be run with:
+```bash
+cd services/[service]/pages && wrangler dev
+```
+
+## License
+Proprietary — Vishwakarma Platform
 
 ```
 

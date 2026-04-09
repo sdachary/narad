@@ -4,16 +4,16 @@ project: "narad"
 role: config
 language: markdown
 frameworks: [vite]
-lines: 103
-size: 2511 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+lines: 104
+size: 2549 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
 # chitragupta-md.md
 
-> Configuration file for the project using **vite** (103 lines).
+> Configuration file for the project using **vite** (104 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Role** | config |
 | **Language** | markdown |
 | **Frameworks** | vite |
-| **Lines** | 103 |
-| **Size** | 2511 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Lines** | 104 |
+| **Size** | 2549 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -40,16 +40,16 @@ project: "narad"
 role: config
 language: markdown
 frameworks: [vite]
-lines: 65
-size: 1764 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+lines: 66
+size: 1802 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
 # chitragupta.md
 
-> Configuration file for the project using **vite** (65 lines).
+> Configuration file for the project using **vite** (66 lines).
 
 ## 📋 Metadata
 
@@ -59,9 +59,9 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Role** | config |
 | **Language** | markdown |
 | **Frameworks** | vite |
-| **Lines** | 65 |
-| **Size** | 1764 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Lines** | 66 |
+| **Size** | 1802 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -74,9 +74,9 @@ tags: [config, documentation, markdown, project/narad, vite]
 type: project-index
 project: "chitragupta"
 source: "/home/runner/work/narad/narad/sync_temp/chitragupta"
-scanned: "2026-04-08 16:51"
-total_files: 25
-total_lines: 5246
+scanned: "2026-04-09 13:31"
+total_files: 26
+total_lines: 6425
 tags: [project/chitragupta, index]
 ---
 
@@ -86,20 +86,21 @@ tags: [project/chitragupta, index]
 
 | Metric | Value |
 |--------|-------|
-| **Total Files** | 25 |
-| **Code Files** | 21 |
+| **Total Files** | 26 |
+| **Code Files** | 22 |
 | **Doc Files** | 4 |
-| **Total Lines** | 5,246 |
+| **Total Lines** | 6,425 |
 | **Tech Stack** | `cloudflare-workers`, `docker`, `typescript`, `vite` |
 | **Source** | `/home/runner/work/narad/narad/sync_temp/chitragupta` |
 
 ## 📂 Files by Role
 
-### 🔐 Auth (6)
+### 🔐 Auth (7)
 - [[API_ENDPOINTS-md]] — `docs/API_ENDPOINTS.md`
 - [[api-ts]] — `src/ts/api.ts`
 - [[auth-ts]] — `src/ts/auth.ts`
 - [[budgets-js]] — `pages/services/budgets.js`
+- [[landing-html]] — `landing.html`
 - [[login-html]] — `login.html`
 - [[signup-html]] — `signup.html`
 

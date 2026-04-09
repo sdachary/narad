@@ -5,9 +5,9 @@ role: page
 language: html
 frameworks: [docker, typescript]
 lines: 153
-size: 9271 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+size: 9148 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [code, docker, html, page, project/narad, typescript]
 ---
 
@@ -24,8 +24,8 @@ tags: [code, docker, html, page, project/narad, typescript]
 | **Language** | html |
 | **Frameworks** | docker, typescript |
 | **Lines** | 153 |
-| **Size** | 9271 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Size** | 9148 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -51,7 +51,7 @@ tags: [code, docker, html, page, project/narad, typescript]
     <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github-dark.min.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github-dark.min.css"></noscript>
     <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js" defer></script>
@@ -86,7 +86,7 @@ tags: [code, docker, html, page, project/narad, typescript]
             <button id="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle sidebar navigation" role="button" tabindex="0">
                 <i data-lucide="menu" aria-hidden="true"></i>
             </button>
-            <div class="terminal-title">Narad @ macOS — zsh</div>
+            <div class="terminal-title">narad</div>
             
             <div class="header-right">
                 <button id="theme-toggle-btn" class="header-btn" title="Toggle Theme" aria-label="Toggle dark/light theme" role="button" tabindex="0">

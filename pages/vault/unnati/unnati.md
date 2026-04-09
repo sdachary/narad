@@ -2,7 +2,7 @@
 type: project-index
 project: "unnati"
 source: "/home/runner/work/narad/narad/sync_temp/unnati"
-scanned: "2026-04-09 14:39"
+scanned: "2026-04-09 14:46"
 total_files: 124
 total_lines: 16861
 tags: [project/unnati, index]
@@ -111,8 +111,8 @@ tags: [project/unnati, index]
 - [[cv-template-html]] — `career-ops/templates/cv-template.html`
 
 ### 🛤️ Route (2)
-- [[route-ts]] — `src/app/api/career-ops/route.ts`
 - [[route-ts]] — `src/app/api/jobs/refine/route.ts`
+- [[route-ts]] — `src/app/api/career-ops/route.ts`
 
 ### 📜 Script (3)
 - [[batch-runner-sh]] — `career-ops/batch/batch-runner.sh`
@@ -152,18 +152,18 @@ tags: [project/unnati, index]
 - [[prompts-ts]] — `src/lib/ai/prompts.ts`
 - [[question-generator-ts]] — `src/lib/interview/question-generator.ts`
 - [[remotive-ts]] — `src/lib/jobs/remotive.ts`
+- [[route-ts]] — `src/app/api/ai-cache/route.ts`
 - [[route-ts]] — `src/app/api/resume/upload/route.ts`
-- [[route-ts]] — `src/app/api/debug/db/route.ts`
+- [[route-ts]] — `src/app/api/ai/route.ts`
+- [[route-ts]] — `src/app/api/jobs/search/route.ts`
+- [[route-ts]] — `src/app/api/profile/route.ts`
+- [[route-ts]] — `src/app/api/profile/preferences/route.ts`
+- [[route-ts]] — `src/app/api/hunt/toggle/route.ts`
+- [[route-ts]] — `src/app/api/pdf/resume/route.ts`
 - [[route-ts]] — `src/app/api/notifications/route.ts`
 - [[route-ts]] — `src/app/api/notifications/unread-count/route.ts`
 - [[route-ts]] — `src/app/api/notifications/read/route.ts`
-- [[route-ts]] — `src/app/api/hunt/toggle/route.ts`
-- [[route-ts]] — `src/app/api/profile/route.ts`
-- [[route-ts]] — `src/app/api/profile/preferences/route.ts`
-- [[route-ts]] — `src/app/api/ai/route.ts`
-- [[route-ts]] — `src/app/api/ai-cache/route.ts`
-- [[route-ts]] — `src/app/api/jobs/search/route.ts`
-- [[route-ts]] — `src/app/api/pdf/resume/route.ts`
+- [[route-ts]] — `src/app/api/debug/db/route.ts`
 - [[route-ts]] — `src/app/api/applications/route.ts`
 - [[route-ts]] — `src/app/api/applications/[id]/route.ts`
 - [[star-bank-ts]] — `src/lib/interview/star-bank.ts`

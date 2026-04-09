@@ -6,8 +6,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 271
 size: 9919 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad, react, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad, react, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 271 |
 | **Size** | 9919 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 233
 size: 9125 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad, react, typescript]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad, react, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 233 |
 | **Size** | 9125 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: tsx
 frameworks: [react, typescript]
 lines: 193
 size: 8301 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, component, project/social-blueprint-ai, react, tsx, typescript]
 ---
 
@@ -99,7 +99,7 @@ tags: [code, component, project/social-blueprint-ai, react, tsx, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 193 |
 | **Size** | 8301 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

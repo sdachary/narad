@@ -6,8 +6,8 @@ language: html
 frameworks: [docker]
 lines: 285
 size: 15294 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:38"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [auth, code, docker, html, project/kanak]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, code, docker, html, project/kanak]
 | **Frameworks** | docker |
 | **Lines** | 285 |
 | **Size** | 15294 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

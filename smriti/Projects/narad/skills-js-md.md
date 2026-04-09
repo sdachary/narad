@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 83
 size: 2236 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docker, documentation, markdown, project/narad, service]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, documentation, markdown, project/narad, service]
 | **Frameworks** | docker |
 | **Lines** | 83 |
 | **Size** | 2236 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: javascript
 frameworks: [docker]
 lines: 45
 size: 1519 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [code, docker, javascript, project/narad, service]
 ---
 
@@ -61,7 +61,7 @@ tags: [code, docker, javascript, project/narad, service]
 | **Frameworks** | docker |
 | **Lines** | 45 |
 | **Size** | 1519 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
