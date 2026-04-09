@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker]
 lines: 323
 size: 15981 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, docker, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, docker, documentation, markdown, project/narad]
 | **Frameworks** | docker |
 | **Lines** | 323 |
 | **Size** | 15981 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: html
 frameworks: [docker]
 lines: 285
 size: 15294 bytes
-last_modified: "2026-04-09 15:19"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [auth, code, docker, html, project/kanak]
 ---
 
@@ -61,7 +61,7 @@ tags: [auth, code, docker, html, project/kanak]
 | **Frameworks** | docker |
 | **Lines** | 285 |
 | **Size** | 15294 bytes |
-| **Modified** | 2026-04-09 15:19 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

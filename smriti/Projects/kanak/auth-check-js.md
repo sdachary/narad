@@ -6,8 +6,8 @@ language: javascript
 frameworks: []
 lines: 82
 size: 3004 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, code, javascript, project/kanak]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, code, javascript, project/kanak]
 | **Frameworks** | — |
 | **Lines** | 82 |
 | **Size** | 3004 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

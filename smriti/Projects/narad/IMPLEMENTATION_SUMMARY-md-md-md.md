@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker, vite]
 lines: 350
 size: 8767 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [cloudflare-workers, config, docker, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, config, docker, documentation, markdown, project/nara
 | **Frameworks** | cloudflare-workers, docker, vite |
 | **Lines** | 350 |
 | **Size** | 8767 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker, vite]
 lines: 312
 size: 7863 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [cloudflare-workers, config, docker, documentation, markdown, project/narad, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [cloudflare-workers, config, docker, documentation, markdown, project/nara
 | **Frameworks** | cloudflare-workers, docker, vite |
 | **Lines** | 312 |
 | **Size** | 7863 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker, vite]
 lines: 275
 size: 6982 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [cloudflare-workers, config, docker, documentation, markdown, project/chitragupta, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [cloudflare-workers, config, docker, documentation, markdown, project/chit
 | **Frameworks** | cloudflare-workers, docker, vite |
 | **Lines** | 275 |
 | **Size** | 6982 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 

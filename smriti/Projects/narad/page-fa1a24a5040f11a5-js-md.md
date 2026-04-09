@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, react]
 lines: 38
 size: 13659 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [docker, docs, documentation, markdown, project/narad, react]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, docs, documentation, markdown, project/narad, react]
 | **Frameworks** | docker, react |
 | **Lines** | 38 |
 | **Size** | 13659 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

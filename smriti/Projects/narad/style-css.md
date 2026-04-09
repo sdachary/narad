@@ -6,8 +6,8 @@ language: css
 frameworks: []
 lines: 572
 size: 10706 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [code, css, project/narad, style]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, css, project/narad, style]
 | **Frameworks** | — |
 | **Lines** | 572 |
 | **Size** | 10706 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

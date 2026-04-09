@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers]
 lines: 80
 size: 2919 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [cloudflare-workers, docs, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, docs, documentation, markdown, project/narad]
 | **Frameworks** | cloudflare-workers |
 | **Lines** | 80 |
 | **Size** | 2919 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

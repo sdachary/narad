@@ -6,8 +6,8 @@ language: markdown
 frameworks: [vite]
 lines: 1388
 size: 29664 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Frameworks** | vite |
 | **Lines** | 1388 |
 | **Size** | 29664 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [vite]
 lines: 1350
 size: 28910 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Frameworks** | vite |
 | **Lines** | 1350 |
 | **Size** | 28910 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [vite]
 lines: 1312
 size: 28165 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Frameworks** | vite |
 | **Lines** | 1312 |
 | **Size** | 28165 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: [vite]
 lines: 1274
 size: 27417 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [documentation, markdown, project/narad, service, vite]
 ---
 
@@ -133,7 +133,7 @@ tags: [documentation, markdown, project/narad, service, vite]
 | **Frameworks** | vite |
 | **Lines** | 1274 |
 | **Size** | 27417 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -150,8 +150,8 @@ language: css
 frameworks: [vite]
 lines: 1236
 size: 26715 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:38"
 tags: [code, css, project/chitragupta, service, vite]
 ---
 
@@ -169,7 +169,7 @@ tags: [code, css, project/chitragupta, service, vite]
 | **Frameworks** | vite |
 | **Lines** | 1236 |
 | **Size** | 26715 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

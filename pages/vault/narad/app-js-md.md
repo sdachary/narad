@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 38
-size: 648 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+size: 650 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 38 |
-| **Size** | 648 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Size** | 650 bytes |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -41,9 +41,9 @@ role: page
 language: javascript
 frameworks: []
 lines: 0
-size: 96190 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 104653 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [code, javascript, page, project/narad]
 ---
 
@@ -60,8 +60,8 @@ tags: [code, javascript, page, project/narad]
 | **Language** | javascript |
 | **Frameworks** | — |
 | **Lines** | 0 |
-| **Size** | 96190 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 104653 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

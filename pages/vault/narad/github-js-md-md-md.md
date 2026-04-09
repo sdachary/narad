@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 169
 size: 4003 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 169 |
 | **Size** | 4003 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: []
 lines: 131
 size: 3292 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -61,7 +61,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 131 |
 | **Size** | 3292 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: []
 lines: 93
 size: 2593 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [documentation, markdown, project/narad, service]
 ---
 
@@ -97,7 +97,7 @@ tags: [documentation, markdown, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 93 |
 | **Size** | 2593 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: javascript
 frameworks: []
 lines: 55
 size: 1910 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [code, javascript, project/narad, service]
 ---
 
@@ -133,7 +133,7 @@ tags: [code, javascript, project/narad, service]
 | **Frameworks** | — |
 | **Lines** | 55 |
 | **Size** | 1910 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

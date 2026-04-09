@@ -6,8 +6,8 @@ language: markdown
 frameworks: [vite]
 lines: 28
 size: 1137 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, documentation, markdown, project/chitragupta, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/chitragupta, vite]
 | **Frameworks** | vite |
 | **Lines** | 28 |
 | **Size** | 1137 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

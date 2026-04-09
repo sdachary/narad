@@ -6,8 +6,8 @@ language: markdown
 frameworks: [vite]
 lines: 180
 size: 4052 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 180 |
 | **Size** | 4052 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [vite]
 lines: 142
 size: 3296 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 142 |
 | **Size** | 3296 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [vite]
 lines: 104
 size: 2549 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 104 |
 | **Size** | 2549 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: [vite]
 lines: 66
 size: 1802 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [config, documentation, markdown, project/narad, vite]
 ---
 
@@ -133,7 +133,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 | **Frameworks** | vite |
 | **Lines** | 66 |
 | **Size** | 1802 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -146,7 +146,7 @@ tags: [config, documentation, markdown, project/narad, vite]
 type: project-index
 project: "chitragupta"
 source: "/home/runner/work/narad/narad/sync_temp/chitragupta"
-scanned: "2026-04-09 13:31"
+scanned: "2026-04-09 14:38"
 total_files: 26
 total_lines: 6425
 tags: [project/chitragupta, index]

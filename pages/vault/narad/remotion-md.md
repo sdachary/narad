@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, tailwind]
 lines: 61
 size: 4240 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [docker, docs, documentation, markdown, project/narad, tailwind]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, docs, documentation, markdown, project/narad, tailwind]
 | **Frameworks** | docker, tailwind |
 | **Lines** | 61 |
 | **Size** | 4240 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

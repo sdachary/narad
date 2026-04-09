@@ -5,9 +5,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 190
-size: 3517 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+size: 3521 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -24,8 +24,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 190 |
-| **Size** | 3517 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Size** | 3521 bytes |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -41,9 +41,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 152
-size: 2787 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+size: 2791 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -60,8 +60,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 152 |
-| **Size** | 2787 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Size** | 2791 bytes |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -77,9 +77,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 114
-size: 2066 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+size: 2070 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -96,8 +96,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 114 |
-| **Size** | 2066 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Size** | 2070 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -113,9 +113,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 76
-size: 1357 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+size: 1361 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -132,8 +132,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 76 |
-| **Size** | 1357 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Size** | 1361 bytes |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -149,9 +149,9 @@ role: docs
 language: markdown
 frameworks: []
 lines: 38
-size: 659 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+size: 663 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad]
 ---
 
@@ -168,8 +168,8 @@ tags: [docs, documentation, markdown, project/narad]
 | **Language** | markdown |
 | **Frameworks** | — |
 | **Lines** | 38 |
-| **Size** | 659 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Size** | 663 bytes |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -185,9 +185,9 @@ role: page
 language: json
 frameworks: []
 lines: 0
-size: 213765 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+size: 10819982 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, json, page, project/narad]
 ---
 
@@ -204,8 +204,8 @@ tags: [code, json, page, project/narad]
 | **Language** | json |
 | **Frameworks** | — |
 | **Lines** | 0 |
-| **Size** | 213765 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Size** | 10819982 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

@@ -1,31 +1,31 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/tsconfig-json.md"
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/job-hunt-app/tsconfig-json.md"
 project: "narad"
 role: config
 language: markdown
 frameworks: []
-lines: 80
-size: 1364 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+lines: 72
+size: 1319 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [config, documentation, markdown, project/narad]
 ---
 
 # tsconfig-json.md
 
-> Configuration file for the project (80 lines).
+> Configuration file for the project (72 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `narad/pages/vault/unnati/tsconfig-json.md` |
+| **Path** | `narad/pages/vault/job-hunt-app/tsconfig-json.md` |
 | **Role** | config |
 | **Language** | markdown |
 | **Frameworks** | — |
-| **Lines** | 80 |
-| **Size** | 1364 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Lines** | 72 |
+| **Size** | 1319 bytes |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -35,33 +35,33 @@ tags: [config, documentation, markdown, project/narad]
 
 ```markdown
 ---
-source: "/home/runner/work/narad/narad/sync_temp/unnati/tsconfig.json"
-project: "unnati"
+source: "/home/deepak/Work/job-hunt-app/tsconfig.json"
+project: "job-hunt-app"
 role: config
 language: json
 frameworks: []
-lines: 42
-size: 717 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
-tags: [code, config, json, project/unnati]
+lines: 34
+size: 670 bytes
+last_modified: "2026-04-06 23:40"
+scanned: "2026-04-06 23:40"
+tags: [code, config, json, project/job-hunt-app]
 ---
 
 # tsconfig.json
 
-> Configuration file for the project (42 lines).
+> Configuration file for the project (34 lines).
 
 ## 📋 Metadata
 
 | Property | Value |
 |----------|-------|
-| **Path** | `unnati/tsconfig.json` |
+| **Path** | `job-hunt-app/tsconfig.json` |
 | **Role** | config |
 | **Language** | json |
 | **Frameworks** | — |
-| **Lines** | 42 |
-| **Size** | 717 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Lines** | 34 |
+| **Size** | 670 bytes |
+| **Modified** | 2026-04-06 23:40 |
 
 ## 🔗 Related Files
 
@@ -73,11 +73,7 @@ tags: [code, config, json, project/unnati]
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -87,7 +83,7 @@ tags: [code, config, json, project/unnati]
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -95,9 +91,7 @@ tags: [code, config, json, project/unnati]
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -108,9 +102,7 @@ tags: [code, config, json, project/unnati]
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
 
 ```

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers, vite]
 lines: 324
 size: 7979 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite
 | **Frameworks** | cloudflare-workers, vite |
 | **Lines** | 324 |
 | **Size** | 7979 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [cloudflare-workers, vite]
 lines: 286
 size: 7165 bytes
-last_modified: "2026-04-09 15:18"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite]
 ---
 
@@ -61,7 +61,7 @@ tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite
 | **Frameworks** | cloudflare-workers, vite |
 | **Lines** | 286 |
 | **Size** | 7165 bytes |
-| **Modified** | 2026-04-09 15:18 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [cloudflare-workers, vite]
 lines: 248
 size: 6360 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite]
 ---
 
@@ -97,7 +97,7 @@ tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite
 | **Frameworks** | cloudflare-workers, vite |
 | **Lines** | 248 |
 | **Size** | 6360 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: markdown
 frameworks: [cloudflare-workers, vite]
 lines: 210
 size: 5552 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite]
 ---
 
@@ -133,7 +133,7 @@ tags: [cloudflare-workers, documentation, markdown, project/narad, service, vite
 | **Frameworks** | cloudflare-workers, vite |
 | **Lines** | 210 |
 | **Size** | 5552 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -150,8 +150,8 @@ language: javascript
 frameworks: [cloudflare-workers, vite]
 lines: 173
 size: 4764 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:38"
 tags: [cloudflare-workers, code, javascript, project/chitragupta, service, vite]
 ---
 
@@ -169,7 +169,7 @@ tags: [cloudflare-workers, code, javascript, project/chitragupta, service, vite]
 | **Frameworks** | cloudflare-workers, vite |
 | **Lines** | 173 |
 | **Size** | 4764 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 

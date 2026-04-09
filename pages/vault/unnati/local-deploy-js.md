@@ -6,8 +6,8 @@ language: javascript
 frameworks: []
 lines: 352
 size: 11619 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [code, javascript, project/unnati, script]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, javascript, project/unnati, script]
 | **Frameworks** | — |
 | **Lines** | 352 |
 | **Size** | 11619 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

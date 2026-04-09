@@ -6,8 +6,8 @@ language: yaml
 frameworks: [cloudflare-workers, github-actions, vite]
 lines: 49
 size: 1189 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [cloudflare-workers, code, config, github-actions, project/social-blueprint-ai, vite, yaml]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, code, config, github-actions, project/social-blueprin
 | **Frameworks** | cloudflare-workers, github-actions, vite |
 | **Lines** | 49 |
 | **Size** | 1189 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

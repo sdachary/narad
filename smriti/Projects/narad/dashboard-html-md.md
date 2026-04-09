@@ -6,8 +6,8 @@ language: markdown
 frameworks: []
 lines: 311
 size: 12936 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [auth, documentation, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, documentation, markdown, project/narad]
 | **Frameworks** | — |
 | **Lines** | 311 |
 | **Size** | 12936 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: html
 frameworks: []
 lines: 274
 size: 12274 bytes
-last_modified: "2026-04-09 15:19"
-scanned: "2026-04-09 15:19"
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
 tags: [auth, code, html, project/kanak]
 ---
 
@@ -61,7 +61,7 @@ tags: [auth, code, html, project/kanak]
 | **Frameworks** | — |
 | **Lines** | 274 |
 | **Size** | 12274 bytes |
-| **Modified** | 2026-04-09 15:19 |
+| **Modified** | 2026-04-09 16:07 |
 
 ## 🔗 Related Files
 

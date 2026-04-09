@@ -2,7 +2,7 @@
 type: project-index
 project: "social-blueprint-ai"
 source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai"
-scanned: "2026-04-09 16:07"
+scanned: "2026-04-09 16:48"
 total_files: 37
 total_lines: 3480
 tags: [project/social-blueprint-ai, index]
@@ -29,8 +29,8 @@ tags: [project/social-blueprint-ai, index]
 - [[ERROR_CODES-md]] — `docs/ERROR_CODES.md`
 - [[Login-tsx]] — `src/pages/Login.tsx`
 - [[apiClient-ts]] — `src/lib/apiClient.ts`
-- [[auth-ts]] — `worker/src/auth.ts`
 - [[auth-ts]] — `src/lib/auth.ts`
+- [[auth-ts]] — `worker/src/auth.ts`
 - [[index-ts]] — `worker/src/index.ts`
 
 ### 🧩 Component (8)

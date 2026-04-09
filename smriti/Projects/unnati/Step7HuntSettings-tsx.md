@@ -6,8 +6,8 @@ language: tsx
 frameworks: [react, typescript]
 lines: 204
 size: 7920 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [code, config, project/unnati, react, tsx, typescript]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, config, project/unnati, react, tsx, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 204 |
 | **Size** | 7920 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 

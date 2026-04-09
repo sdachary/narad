@@ -4,16 +4,16 @@ project: "narad"
 role: config
 language: javascript
 frameworks: []
-lines: 169
-size: 5360 bytes
-last_modified: "2026-04-09 16:07"
-scanned: "2026-04-09 16:07"
+lines: 265
+size: 7978 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
 tags: [code, config, javascript, project/narad]
 ---
 
 # providers.js
 
-> Configuration file for the project (169 lines).
+> Configuration file for the project (265 lines).
 
 **Key exports:** `AI_PROVIDERS`, `PROVIDER_FEATURES`, `selectBestProvider`, `PROVIDER_FALLBACK_ORDER`
 
@@ -25,9 +25,9 @@ tags: [code, config, javascript, project/narad]
 | **Role** | config |
 | **Language** | javascript |
 | **Frameworks** | — |
-| **Lines** | 169 |
-| **Size** | 5360 bytes |
-| **Modified** | 2026-04-09 16:07 |
+| **Lines** | 265 |
+| **Size** | 7978 bytes |
+| **Modified** | 2026-04-09 16:48 |
 
 ## 🔗 Related Files
 
@@ -152,6 +152,102 @@ export const AI_PROVIDERS = {
       maxContext: 128000,
       speed: 'fast'
     }
+  },
+  cerebras: {
+    name: 'Cerebras',
+    apiKey: 'CEREBRAS_API_KEY',
+    endpoint: 'https://api.cerebras.ai/v1/chat/completions',
+    models: {
+      fast: 'llama-3.1-8b',
+      balanced: 'llama-3.3-70b',
+      strong: 'qwen3-235b'
+    },
+    defaultModel: 'llama-3.3-70b',
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: true,
+      json: true,
+      maxContext: 128000,
+      speed: 'fastest'
+    }
+  },
+  cloudflare: {
+    name: 'Cloudflare Workers AI',
+    apiKey: 'CF_API_TOKEN',
+    endpoint: 'https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run',
+    models: {
+      fast: '@cf/meta/llama-3.1-8b-instruct',
+      balanced: '@cf/meta/llama-3.3-70b-instruct',
+      strong: '@cf/qwen/qwen2.5-72b-instruct'
+    },
+    defaultModel: '@cf/meta/llama-3.3-70b-instruct',
+    isCloudflare: true,
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: false,
+      json: false,
+      maxContext: 128000,
+      speed: 'fast'
+    }
+  },
+  huggingface: {
+    name: 'HuggingFace',
+    apiKey: 'HF_API_KEY',
+    endpoint: 'https://api-inference.huggingface.co/v1/chat/completions',
+    models: {
+      fast: 'meta-llama/Llama-3.2-8B-Instruct',
+      balanced: 'meta-llama/Llama-3.3-70B-Instruct',
+      strong: 'Qwen/Qwen2.5-72B-Instruct'
+    },
+    defaultModel: 'meta-llama/Llama-3.3-70B-Instruct',
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: false,
+      json: true,
+      maxContext: 128000,
+      speed: 'medium'
+    }
+  },
+  github: {
+    name: 'GitHub Models',
+    apiKey: 'GITHUB_TOKEN',
+    endpoint: 'https://models.inference.ai.azure.com/v1/chat/completions',
+    models: {
+      fast: 'Llama-3.3-70B-Instruct',
+      balanced: 'GPT-4o',
+      strong: 'DeepSeek-R1'
+    },
+    defaultModel: 'Llama-3.3-70B-Instruct',
+    features: {
+      streaming: true,
+      vision: true,
+      functionCalls: true,
+      json: true,
+      maxContext: 128000,
+      speed: 'fast'
+    }
+  },
+  nvidia: {
+    name: 'NVIDIA NIM',
+    apiKey: 'NVIDIA_API_KEY',
+    endpoint: 'https://integrate.api.nvidia.com/v1/chat/completions',
+    models: {
+      fast: 'meta/llama-3.1-8b-instruct',
+      balanced: 'meta/llama-3.3-70b-instruct',
+      strong: 'deepseek-ai/deepseek-r1'
+    },
+    defaultModel: 'meta/llama-3.3-70b-instruct',
+    features: {
+      streaming: true,
+      vision: false,
+      functionCalls: true,
+      json: true,
+      maxContext: 128000,
+      speed: 'fast'
+    }
   }
 };
 
@@ -163,7 +259,7 @@ export const PROVIDER_FEATURES = {
   json: { requiredFor: 'structured_output', preferred: ['openai', 'groq', 'anthropic', 'gemini', 'mistral'] },
   longContext: { requiredFor: 'large_context', preferred: ['anthropic', 'gemini', 'openrouter', 'openai'] },
   fast: { requiredFor: 'quick_response', preferred: ['groq', 'gemini', 'openai', 'mistral'] },
-  free: { requiredFor: 'no_cost', preferred: ['openrouter'] }
+  free: { requiredFor: 'no_cost', preferred: ['cerebras', 'groq', 'cloudflare', 'openrouter', 'github', 'nvidia', 'huggingface'] }
 };
 
 // Smart provider selection based on task requirements
@@ -204,6 +300,6 @@ export function selectBestProvider(requirements = {}) {
   return scores[0]?.key || 'groq';
 }
 
-export const PROVIDER_FALLBACK_ORDER = ['groq', 'openrouter', 'mistral', 'gemini', 'openai', 'anthropic'];
+export const PROVIDER_FALLBACK_ORDER = ['groq', 'cerebras', 'cloudflare', 'openrouter', 'mistral', 'gemini', 'github', 'nvidia', 'huggingface', 'openai', 'anthropic'];
 
 ```
