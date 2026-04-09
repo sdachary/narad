@@ -412,7 +412,7 @@ async function createNewSession() {
     const chatMessages = document.getElementById('chat-messages');
     if (chatMessages) {
         chatMessages.innerHTML = '';
-        addMessage('Type a message or command... (/help for commands)', 'assistant');
+        addMessage('Hello! How can I help?', 'assistant');
     }
     await renderSidebar();
 }
@@ -1602,7 +1602,7 @@ async function handleSubmit(e) {
     sendToApi(validation.value);
 }
 
-// Clear chat history
+// Clear chat history (keep session)
 function clearHistory() {
     if (isStreaming) stopSearch();
     chatMessages.innerHTML = '';
@@ -1610,6 +1610,29 @@ function clearHistory() {
     sessionId = 'session_' + Date.now();
     localStorage.setItem('narad_session_id', sessionId);
     saveChatHistory();
+    addMessage('Hello! How can I help?', 'assistant');
+}
+
+// Clear ALL history and sessions (fresh start)
+function clearAllHistory() {
+    if (isStreaming) stopSearch();
+    chatMessages.innerHTML = '';
+    chatHistory = [];
+    // Clear all session storage
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('narad_') || key.includes('session'))) {
+            keysToRemove.push(key);
+        }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    // Also clear mode sessions
+    localStorage.removeItem('narad_mode_sessions');
+    // Start fresh
+    sessionId = 'session_' + Date.now();
+    localStorage.setItem('narad_session_id', sessionId);
+    addMessage('Hello! How can I help?', 'assistant');
 }
 
 // Stop current search/generation
@@ -1682,10 +1705,26 @@ window.addEventListener('keydown', (e) => {
         stopSearch();
     }
     
-    // CMD+K to clear (keep for compatibility)
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    // Ctrl+D to delete current session
+    if (e.ctrlKey && e.key === 'd' && !isStreaming) {
+        e.preventDefault();
+        if (confirm('Delete current session?')) {
+            deleteSession(sessionId);
+            clearHistory();
+            appendSystemMessage('Session deleted. Starting fresh.');
+        }
+    }
+    
+    // CMD+K to clear current chat (keep session)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k' && !e.shiftKey) {
         e.preventDefault();
         clearHistory();
+    }
+    
+    // CMD+Shift+K to clear ALL history (fresh start)
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'K') {
+        e.preventDefault();
+        clearAllHistory();
     }
     
     // CMD+F to search (keep for compatibility)
