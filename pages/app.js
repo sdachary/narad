@@ -733,6 +733,28 @@ const COMMAND_REGISTRY = {
         description: 'System design, architecture',
         syntax: '/architect: <design task>',
         examples: ['/architect: design a system']
+    },
+    // OpenCode Skills Integration
+    'frontend': {
+        name: 'Frontend Designer',
+        icon: '🎨',
+        description: 'Create production-grade frontend with distinctive aesthetics (uses frontend-design skill)',
+        syntax: '/frontend: <task>',
+        examples: ['/frontend: design a landing page', '/frontend: make the chat beautiful']
+    },
+    'uiux': {
+        name: 'UI/UX Expert',
+        icon: '✨',
+        description: 'Design interaction patterns, components, and user experiences (uses ui-ux-pro-max skill)',
+        syntax: '/uiux: <task>',
+        examples: ['/uiux: improve the chat interface', '/uiux: design a modal component']
+    },
+    'minimalist': {
+        name: 'Minimalist Designer',
+        icon: '◻️',
+        description: 'Create clean, editorial-first, content-focused interfaces (uses minimalist-editorial-interfaces skill)',
+        syntax: '/minimalist: <task>',
+        examples: ['/minimalist: redesign the settings page', '/minimalist: clean up the dashboard']
     }
 };
 
