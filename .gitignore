@@ -14,6 +14,10 @@ pages/node_modules/
 *.db-wal
 .wrangler/
 
+# Smriti Knowledge Graph (large files - generated on deploy)
+pages/smriti_graph.*
+pages/vault/
+
 # Logs
 logs/
 *.log
