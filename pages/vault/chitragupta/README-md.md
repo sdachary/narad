@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers]
 lines: 124
 size: 4172 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [cloudflare-workers, docs, documentation, markdown, project/chitragupta]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, docs, documentation, markdown, project/chitragupta]
 | **Frameworks** | cloudflare-workers |
 | **Lines** | 124 |
 | **Size** | 4172 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 

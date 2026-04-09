@@ -1,0 +1,191 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/applications-func-js-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 153
+size: 29495 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# applications-func-js-md-md-md.md
+
+> Configuration file for the project using **typescript** (153 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/applications-func-js-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 153 |
+| **Size** | 29495 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/applications-func-js-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 115
+size: 28686 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# applications-func-js-md-md.md
+
+> Configuration file for the project using **typescript** (115 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/applications-func-js-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 115 |
+| **Size** | 28686 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/applications-func-js-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 77
+size: 27889 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# applications-func-js-md.md
+
+> Configuration file for the project using **typescript** (77 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/applications-func-js-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 77 |
+| **Size** | 27889 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/applications-func-js.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 39
+size: 27099 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# applications-func-js.md
+
+> Configuration file for the project using **typescript** (39 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/applications-func-js.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 39 |
+| **Size** | 27099 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/deepak/Work/unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/functions/api/applications.func.js"
+project: "unnati"
+role: config
+language: javascript
+frameworks: [typescript]
+lines: 1
+size: 26238 bytes
+last_modified: "2026-04-07 17:53"
+scanned: "2026-04-07 17:53"
+tags: [code, config, javascript, project/unnati, typescript]
+---
+
+# applications.func.js
+
+> Configuration file for the project using **typescript** (1 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/functions/api/applications.func.js` |
+| **Role** | config |
+| **Language** | javascript |
+| **Frameworks** | typescript |
+| **Lines** | 1 |
+| **Size** | 26238 bytes |
+| **Modified** | 2026-04-07 17:53 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```javascript
+var Ae=Object.defineProperty;var Ue=Object.getOwnPropertyDescriptor;var qe=Object.getOwnPropertyNames;var Be=Object.prototype.hasOwnProperty;var He=(_,r)=>()=>(_&&(r=_(_=0)),r);var be=(_,r,K,k)=>{if(r&&typeof r=="object"||typeof r=="function")for(let m of qe(r))!Be.call(_,m)&&m!==K&&Ae(_,m,{get:()=>r[m],enumerable:!(k=Ue(r,m))||k.enumerable});return _},Ee=(_,r,K)=>(be(_,r,"default"),K&&be(K,r,"default"));var $e=_=>be(Ae({},"__esModule",{value:!0}),_);var ee={};import*as Yt from"async_hooks";var Te=He(()=>{Ee(ee,Yt)});import{__getNamedExports as Ge}from"../../../__next-on-pages-dist__/webpack/a2a01d6387f4582ac408232d99c6e00f.js";import{__getNamedExports as ze}from"../../../__next-on-pages-dist__/manifest/88a389dd6c068190adb2efc795e4063c.js";var P=globalThis.__nextOnPagesRoutesIsolation.getProxyFor("/api/applications"),e=Ge(P,P,P),Ve=e.__chunk_8335,Ke=e.__chunk_6487,Xe=e.__chunk_5521,Je=e.__chunk_5356,Qe=e.__chunk_9904,Ye=e.__chunk_9802,Ze=e.__chunk_9739,en=e.__chunk_9636,nn=e.__chunk_9633,tn=e.__chunk_9624,an=e.__chunk_9565,sn=e.__chunk_9456,cn=e.__chunk_9414,on=e.__chunk_8826,rn=e.__chunk_8749,_n=e.__chunk_8619,un=e.__chunk_8546,ln=e.__chunk_8512,dn=e.__chunk_8360,hn=e.__chunk_8327,pn=e.__chunk_8105,kn=e.__chunk_7707,mn=e.__chunk_7670,fn=e.__chunk_7668,gn=e.__chunk_7622,yn=e.__chunk_7581,xn=e.__chunk_7538,vn=e.__chunk_7521,bn=e.__chunk_7504,En=e.__chunk_7502,Rn=e.__chunk_7478,Sn=e.__chunk_7426,wn=e.__chunk_7382,Cn=e.__chunk_7329,On=e.__chunk_7316,jn=e.__chunk_7261,Mn=e.__chunk_7223,An=e.__chunk_7205,Tn=e.__chunk_6859,Nn=e.__chunk_6225,Pn=e.__chunk_6216,In=e.__chunk_6008,Dn=e.__chunk_5897,Fn=e.__chunk_5826,Wn=e.__chunk_5752,Ln=e.__chunk_5723,Un=e.__chunk_5638,qn=e.__chunk_5354,Bn=e.__chunk_5335,Hn=e.__chunk_5280,$n=e.__chunk_5209,Gn=e.__chunk_5182,zn=e.__chunk_5063,Vn=e.__chunk_5002,Kn=e.__chunk_4946,Xn=e.__chunk_4752,Jn=e.__chunk_4570,Qn=e.__chunk_4291,Yn=e.__chunk_4289,Zn=e.__chunk_4211,et=e.__chunk_4207,nt=e.__chunk_4182,tt=e.__chunk_4153,at=e.__chunk_4116,st=e.__chunk_4055,ct=e.__chunk_4023,ot=e.__chunk_3951,it=e.__chunk_3948,rt=e.__chunk_3911,_t=e.__chunk_3850,ut=e.__chunk_3682,lt=e.__chunk_3419,dt=e.__chunk_3373,ht=e.__chunk_3355,pt=e.__chunk_3207,kt=e.__chunk_3173,mt=e.__chunk_3114,ft=e.__chunk_2993,gt=e.__chunk_2890,yt=e.__chunk_2882,xt=e.__chunk_2831,vt=e.__chunk_2668,bt=e.__chunk_2605,Et=e.__chunk_2569,Rt=e.__chunk_2456,St=e.__chunk_2449,wt=e.__chunk_2398,Ct=e.__chunk_2392,Ot=e.__chunk_2058,jt=e.__chunk_1983,Mt=e.__chunk_1699,At=e.__chunk_1679,Tt=e.__chunk_1668,Nt=e.__chunk_1664,Pt=e.__chunk_1640,It=e.__chunk_1417,Dt=e.__chunk_1347,Ft=e.__chunk_1212,Wt=e.__chunk_1130,Lt=e.__chunk_1087,Ut=e.__chunk_882,qt=e.__chunk_857,Bt=e.__chunk_655,Ht=e.__chunk_622,$t=e.__chunk_460,Gt=e.__chunk_436,zt=e.__chunk_182,Vt=e.__chunk_86,Re=ze(P,P,P),Kt=Re.__NEXT_FONT_MANIFEST,Xt=Re.__REACT_LOADABLE_MANIFEST,Jt=Re.__RSC_SERVER_MANIFEST,na=((_,r,K)=>(r._ENTRIES={},_.__RSC_SERVER_MANIFEST=Jt,r.__RSC_MANIFEST=r.__RSC_MANIFEST||{},r.__RSC_MANIFEST["/api/applications/route"]={moduleLoading:{prefix:"/_next/"},ssrModuleMapping:{622:{"*":{id:"2146",name:"*",chunks:[],async:!1}},1959:{"*":{id:"1603",name:"*",chunks:[],async:!1}},2619:{"*":{id:"3991",name:"*",chunks:[],async:!1}},3886:{"*":{id:"5170",name:"*",chunks:[],async:!1}},4431:{"*":{id:"2263",name:"*",chunks:[],async:!1}},5278:{"*":{id:"8922",name:"*",chunks:[],async:!1}},7150:{"*":{id:"4160",name:"*",chunks:[],async:!1}},7989:{"*":{id:"8495",name:"*",chunks:[],async:!1}},8924:{"*":{id:"9234",name:"*",chunks:[],async:!1}},9547:{"*":{id:"1854",name:"*",chunks:[],async:!1}},9766:{"*":{id:"7526",name:"*",chunks:[],async:!1}}},edgeSSRModuleMapping:{},clientModules:{"/home/deepak/Work/unnati/node_modules/next/dist/client/components/builtin/global-error.js":{id:7150,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/builtin/global-error.js":{id:7150,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/client-page.js":{id:1959,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/client-page.js":{id:1959,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/client-segment.js":{id:7989,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/client-segment.js":{id:7989,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/http-access-fallback/error-boundary.js":{id:3886,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/http-access-fallback/error-boundary.js":{id:3886,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/layout-router.js":{id:9766,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/layout-router.js":{id:9766,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/metadata/async-metadata.js":{id:5278,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/metadata/async-metadata.js":{id:5278,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/render-from-template-context.js":{id:8924,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/render-from-template-context.js":{id:8924,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/lib/framework/boundary-components.js":{id:4431,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/lib/framework/boundary-components.js":{id:4431,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/lib/metadata/generate/icon-mark.js":{id:622,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/lib/metadata/generate/icon-mark.js":{id:622,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/app-dir/link.js":{id:2619,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/app-dir/link.js":{id:2619,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},'/home/deepak/Work/unnati/node_modules/next/font/google/target.css?{"path":"src/app/layout.tsx","import":"Geist","arguments":[{"variable":"--font-geist-sans","subsets":["latin"]}],"variableName":"geistSans"}':{id:6168,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},'/home/deepak/Work/unnati/node_modules/next/font/google/target.css?{"path":"src/app/layout.tsx","import":"Geist_Mono","arguments":[{"variable":"--font-geist-mono","subsets":["latin"]}],"variableName":"geistMono"}':{id:3944,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},"/home/deepak/Work/unnati/src/app/globals.css":{id:3673,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},"/home/deepak/Work/unnati/src/app/page.tsx":{id:9547,name:"*",chunks:["275","static/chunks/275-587834d0ceb05932.js","974","static/chunks/app/page-fa1a24a5040f11a5.js"],async:!1}},entryCSSFiles:{"/home/deepak/Work/unnati/src/":[],"/home/deepak/Work/unnati/src/app/layout":[{inlined:!1,path:"static/css/464d4656c4f3577c.css"}],"/home/deepak/Work/unnati/src/app/page":[],"/home/deepak/Work/unnati/src/app/api/applications/route":[]},rscModuleMapping:{622:{"*":{id:"1384",name:"*",chunks:[],async:!1}},1959:{"*":{id:"3597",name:"*",chunks:[],async:!1}},2619:{"*":{id:"5169",name:"*",chunks:[],async:!1}},3673:{"*":{id:"1135",name:"*",chunks:[],async:!1}},3886:{"*":{id:"9748",name:"*",chunks:[],async:!1}},4431:{"*":{id:"3041",name:"*",chunks:[],async:!1}},5278:{"*":{id:"7184",name:"*",chunks:[],async:!1}},7150:{"*":{id:"1170",name:"*",chunks:[],async:!1}},7989:{"*":{id:"6893",name:"*",chunks:[],async:!1}},8924:{"*":{id:"9576",name:"*",chunks:[],async:!1}},9547:{"*":{id:"967",name:"*",chunks:[],async:!1}},9766:{"*":{id:"6060",name:"*",chunks:[],async:!1}}},edgeRscModuleMapping:{}},r.__BUILD_MANIFEST={polyfillFiles:["static/chunks/polyfills-42372ed130431b0a.js"],devFiles:[],ampDevFiles:[],lowPriorityFiles:[],rootMainFiles:["static/chunks/webpack-b66e35ffe30362a3.js","static/chunks/4bd1b696-c023c6e3521b1417.js","static/chunks/255-e3bf15caf1f1e0f9.js","static/chunks/main-app-0b7d03ffd7dbc43b.js"],rootMainFilesTree:{},pages:{"/_app":["static/chunks/webpack-b66e35ffe30362a3.js","static/chunks/framework-de98b93a850cfc71.js","static/chunks/main-c4b3f36a491c2d1a.js","static/chunks/pages/_app-7d307437aca18ad4.js"],"/_error":["static/chunks/webpack-b66e35ffe30362a3.js","static/chunks/framework-de98b93a850cfc71.js","static/chunks/main-c4b3f36a491c2d1a.js","static/chunks/pages/_error-cb2a52f75f2162e2.js"]},ampFirstPages:[]},r.__BUILD_MANIFEST.lowPriorityFiles=["/static/WhVZeJAEWDqUCEmazhlet/_buildManifest.js",,"/static/WhVZeJAEWDqUCEmazhlet/_ssgManifest.js"],_.__REACT_LOADABLE_MANIFEST=Xt,_.__NEXT_FONT_MANIFEST=Kt,_.__INTERCEPTION_ROUTE_REWRITE_MANIFEST="[]",(()=>{"use strict";var k={},m={};function t(s){var u=m[s];if(u!==void 0)return u.exports;var o=m[s]={exports:{}},f=!0;try{k[s](o,o.exports,t),f=!1}finally{f&&delete m[s]}return o.exports}t.m=k,t.amdO={},(()=>{var s=[];t.O=(u,o,f,h)=>{if(o){h=h||0;for(var l=s.length;l>0&&s[l-1][2]>h;l--)s[l]=s[l-1];s[l]=[o,f,h];return}for(var g=1/0,l=0;l<s.length;l++){for(var[o,f,h]=s[l],x=!0,v=0;v<o.length;v++)(!1&h||g>=h)&&Object.keys(t.O).every(F=>t.O[F](o[v]))?o.splice(v--,1):(x=!1,h<g&&(g=h));if(x){s.splice(l--,1);var b=f();b!==void 0&&(u=b)}}return u}})(),t.n=s=>{var u=s&&s.__esModule?()=>s.default:()=>s;return t.d(u,{a:u}),u},t.d=(s,u)=>{for(var o in u)t.o(u,o)&&!t.o(s,o)&&Object.defineProperty(s,o,{enumerable:!0,get:u[o]})},t.e=()=>Promise.resolve(),t.g=function(){if(typeof r=="object")return r;try{return this||Function("return this")()}catch{if(typeof window=="object")return window}}(),t.o=(s,u)=>Object.prototype.hasOwnProperty.call(s,u),t.r=s=>{typeof Symbol<"u"&&Symbol.toStringTag&&Object.defineProperty(s,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(s,"__esModule",{value:!0})},(()=>{var s={149:0};t.O.j=f=>s[f]===0;var u=(f,h)=>{var l,g,[x,v,b]=h,I=0;if(x.some(B=>s[B]!==0)){for(l in v)t.o(v,l)&&(t.m[l]=v[l]);if(b)var X=b(t)}for(f&&f(h);I<x.length;I++)g=x[I],t.o(s,g)&&s[g]&&s[g][0](),s[g]=0;return t.O(X)},o=_.webpackChunk_N_E=_.webpackChunk_N_E||[];o.forEach(u.bind(null,0)),o.push=u.bind(null,o.push.bind(o))})()})(),(_.webpackChunk_N_E=_.webpackChunk_N_E||[]).push([[53],{86:Vt,182:zt,436:Gt,460:$t,622:Ht,655:Bt,857:qt,882:Ut,1087:Lt,1130:Wt,1212:Ft,1347:Dt,1417:It,1640:Pt,1664:Nt,1668:Tt,1679:At,1699:Mt,1983:jt,2058:Ot,2392:Ct,2398:wt,2449:St,2456:Rt,2569:Et,2605:bt,2668:vt,2831:xt,2882:yt,2890:gt,2993:ft,3114:mt,3173:kt,3207:pt,3355:ht,3373:dt,3419:lt,3682:ut,3850:_t,3911:rt,3948:it,3951:ot,4023:ct,4055:st,4116:at,4153:tt,4182:nt,4207:et,4211:Zn,4289:Yn,4291:Qn,4570:Jn,4752:Xn,4946:Kn,5002:Vn,5063:zn,5182:Gn,5209:$n,5280:Hn,5335:Bn,5354:qn,5638:Un,5723:Ln,5752:Wn,5826:Fn,5897:Dn,6008:In,6216:Pn,6225:Nn,6859:Tn,7205:An,7223:Mn,7261:jn,7316:On,7329:Cn,7382:wn,7426:Sn,7478:Rn,7502:En,7504:bn,7521:vn,7538:xn,7581:yn,7622:gn,7668:fn,7670:mn,7707:kn,8105:pn,8327:hn,8360:dn,8512:ln,8546:un,8619:_n,8749:rn,8826:on,9414:cn,9456:sn,9565:an,9624:tn,9633:nn,9636:en,9739:Ze,9802:Ye,9904:Qe}]),(_.webpackChunk_N_E=_.webpackChunk_N_E||[]).push([[179],{5356:Je,5521:Xe,6487:Ke,7393:(k,m,t)=>{"use strict";t.r(m),t.d(m,{ComponentMod:()=>Ne,default:()=>Pe});var s,u={};t.r(u),t.d(u,{GET:()=>n,POST:()=>i,runtime:()=>j});var o={};t.r(o),t.d(o,{handler:()=>R,patchFetch:()=>T,routeModule:()=>a,serverHooks:()=>A,workAsyncStorage:()=>E,workUnitAsyncStorage:()=>p});var f=t(4116),h=t(9739),l=t(8105),g=t(4182),x=t(1983),v=t(4752),b=t(5752),I=t(9414),X=t(4153),B=t(5280),H=t(1679),F=t(4570),ne=t(5897),J=t(8327),te=t(9565),de=t(3419),$=t(1212),ae=t(3355),M=t(5723),Q=t(7478);let j="edge";async function n(){return Q.Rp.json([{id:"1",companyName:"Example Co",jobTitle:"Software Engineer",status:"Applied",appliedAt:new Date().toISOString()}])}async function i(d){return Q.Rp.json({success:!1,error:"Database connectivity is being shifted to Supabase Edge Client. Currently unavailable."},{status:503})}var c=t(5356).Buffer;let a=new g.AppRouteRouteModule({definition:{kind:x.A.APP_ROUTE,page:"/api/applications/route",pathname:"/api/applications",filename:"route",bundlePath:"app/api/applications/route"},distDir:process.env.__NEXT_RELATIVE_DIST_DIR||"",relativeProjectDir:process.env.__NEXT_RELATIVE_PROJECT_DIR||"",resolvedPagePath:"/home/deepak/Work/unnati/src/app/api/applications/route.ts",nextConfigOutput:"",userland:u}),{workAsyncStorage:E,workUnitAsyncStorage:p,serverHooks:A}=a;function T(){return(0,v.V5)({workAsyncStorage:E,workUnitAsyncStorage:p})}async function R(d,y,W){var Se;let Y="/api/applications/route";Y==="/index"&&(Y="/");let we=await a.prepare(d,y,{srcPage:Y,multiZoneDraftMode:!1});if(!we)return y.statusCode=400,y.end("Bad Request"),W.waitUntil==null||W.waitUntil.call(W,Promise.resolve()),null;let{buildId:Ie,params:De,nextConfig:se,isDraftMode:he,prerenderManifest:z,routerServerContext:Ce,isOnDemandRevalidate:Z,revalidateOnlyGenerated:Oe,resolvedPathname:pe}=we,ke=(0,X.Y)(Y),D=!!(z.dynamicRoutes[ke]||z.routes[pe]);if(D&&!he){let C=!!z.routes[pe],V=z.dynamicRoutes[ke];if(V&&V.fallback===!1&&!C)throw new ae.G}let ce=null;!D||a.isDev||he||(ce=(ce=pe)==="/index"?"/":ce);let je=a.isDev===!0||!D,me=D&&!je,oe=d.method||"GET",ie=(0,I.EK)(),fe=ie.getActiveScopeSpan(),w={params:De,prerenderManifest:z,renderOpts:{experimental:{cacheComponents:!!se.experimental.cacheComponents,authInterrupts:!!se.experimental.authInterrupts},supportsDynamicResponse:je,incrementalCache:(0,b.Ny)(d,"incrementalCache"),cacheLifeProfiles:(Se=se.experimental)==null?void 0:Se.cacheLife,isRevalidate:me,waitUntil:W.waitUntil,onClose:C=>{y.on("close",C)},onAfterTaskError:void 0,onInstrumentationRequestError:(C,V,N)=>a.onRequestError(d,C,N,Ce)},sharedContext:{buildId:Ie}},re=new B.j(d),ge=new B.p(y),Fe=H.u_.fromNodeNextRequest(re,(0,H.SN)(y));try{let C=async N=>a.handle(Fe,w).finally(()=>{if(!N)return;N.setAttributes({"http.status_code":y.statusCode,"next.rsc":!1});let L=ie.getRootSpanAttributes();if(!L)return;if(L.get("next.span_type")!==F.Li.handleRequest)return void console.warn(`Unexpected root span type '${L.get("next.span_type")}'. Please report this Next.js issue https://github.com/vercel/next.js`);let U=L.get("next.route");if(U){let _e=`${oe} ${U}`;N.setAttributes({"next.route":U,"http.route":U,"next.span_name":_e}),N.updateName(_e)}else N.updateName(`${oe} ${d.url}`)}),V=async N=>{var L,U;let _e=async({previousCacheEntry:ye})=>{try{if(!(0,b.Ny)(d,"minimalMode")&&Z&&Oe&&!ye)return y.statusCode=404,y.setHeader("x-nextjs-cache","REVALIDATED"),y.end("This page could not be found"),null;let q=await C(N);d.fetchMetrics=w.renderOpts.fetchMetrics;let xe=w.renderOpts.pendingWaitUntil;xe&&W.waitUntil&&(W.waitUntil(xe),xe=void 0);let Me=w.renderOpts.collectedTags;if(!D)return await(0,J.I)(re,ge,q,w.renderOpts.pendingWaitUntil),null;{let ve=await q.blob(),le=(0,te.Cu)(q.headers);Me&&(le[$.VC]=Me),!le["content-type"]&&ve.type&&(le["content-type"]=ve.type);let We=w.renderOpts.collectedRevalidate!==void 0&&!(w.renderOpts.collectedRevalidate>=$.AR)&&w.renderOpts.collectedRevalidate,Le=w.renderOpts.collectedExpire===void 0||w.renderOpts.collectedExpire>=$.AR?void 0:w.renderOpts.collectedExpire;return{value:{kind:M.yD.APP_ROUTE,status:q.status,body:c.from(await ve.arrayBuffer()),headers:le},cacheControl:{revalidate:We,expire:Le}}}}catch(q){throw ye?.isStale&&await a.onRequestError(d,q,{routerKind:"App Router",routePath:Y,routeType:"route",revalidateReason:(0,ne.c)({isRevalidate:me,isOnDemandRevalidate:Z})},Ce),q}},O=await a.handleResponse({req:d,nextConfig:se,cacheKey:ce,routeKind:x.A.APP_ROUTE,isFallback:!1,prerenderManifest:z,isRoutePPREnabled:!1,isOnDemandRevalidate:Z,revalidateOnlyGenerated:Oe,responseGenerator:_e,waitUntil:W.waitUntil});if(!D)return null;if((O==null||(L=O.value)==null?void 0:L.kind)!==M.yD.APP_ROUTE)throw Object.defineProperty(Error(`Invariant: app-route received invalid cache entry ${O==null||(U=O.value)==null?void 0:U.kind}`),"__NEXT_ERROR_CODE",{value:"E701",enumerable:!1,configurable:!0});(0,b.Ny)(d,"minimalMode")||y.setHeader("x-nextjs-cache",Z?"REVALIDATED":O.isMiss?"MISS":O.isStale?"STALE":"HIT"),he&&y.setHeader("Cache-Control","private, no-cache, no-store, max-age=0, must-revalidate");let ue=(0,te.p$)(O.value.headers);return(0,b.Ny)(d,"minimalMode")&&D||ue.delete($.VC),!O.cacheControl||y.getHeader("Cache-Control")||ue.get("Cache-Control")||ue.set("Cache-Control",(0,de.B)(O.cacheControl)),await(0,J.I)(re,ge,new Response(O.value.body,{headers:ue,status:O.value.status||200})),null};fe?await V(fe):await ie.withPropagatedContext(d.headers,()=>ie.trace(F.Li.handleRequest,{spanName:`${oe} ${d.url}`,kind:I.v8.SERVER,attributes:{"http.method":oe,"http.target":d.url}},V))}catch(C){if(fe||C instanceof ae.G||await a.onRequestError(d,C,{routerKind:"App Router",routePath:ke,routeType:"route",revalidateReason:(0,ne.c)({isRevalidate:me,isOnDemandRevalidate:Z})}),D)throw C;return await(0,J.I)(re,ge,new Response(null,{status:500})),null}}let S=(s=_.__RSC_MANIFEST)==null?void 0:s["/api/applications/route"],G=(d=>d?JSON.parse(d):void 0)(_.__RSC_SERVER_MANIFEST);S&&G&&(0,h.fQ)({page:"/api/applications/route",clientReferenceManifest:S,serverActionsManifest:G,serverModuleMap:(0,f.e)({serverActionsManifest:G})});let Ne=o,Pe=l.s.wrap(a,{nextConfig:{env:{},webpack:null,eslint:{ignoreDuringBuilds:!1},typescript:{ignoreBuildErrors:!1,tsconfigPath:"tsconfig.json"},typedRoutes:!1,distDir:".next",cleanDistDir:!0,assetPrefix:"",cacheMaxMemorySize:52428800,configOrigin:"next.config.mjs",useFileSystemPublicRoutes:!0,generateEtags:!0,pageExtensions:["tsx","ts","jsx","js"],poweredByHeader:!0,compress:!0,images:{deviceSizes:[640,750,828,1080,1200,1920,2048,3840],imageSizes:[16,32,48,64,96,128,256,384],path:"/_next/image",loader:"default",loaderFile:"",domains:[],disableStaticImages:!1,minimumCacheTTL:60,formats:["image/webp"],dangerouslyAllowSVG:!1,contentSecurityPolicy:"script-src 'none'; frame-src 'none'; sandbox;",contentDispositionType:"attachment",remotePatterns:[],unoptimized:!1},devIndicators:{position:"bottom-left"},onDemandEntries:{maxInactiveAge:6e4,pagesBufferLength:5},amp:{canonicalBase:""},basePath:"",sassOptions:{},trailingSlash:!1,i18n:null,productionBrowserSourceMaps:!1,excludeDefaultMomentLocales:!0,serverRuntimeConfig:{},publicRuntimeConfig:{},reactProductionProfiling:!1,reactStrictMode:null,reactMaxHeadersLength:6e3,httpAgentOptions:{keepAlive:!0},logging:{},compiler:{},expireTime:31536e3,staticPageGenerationTimeout:60,modularizeImports:{"@mui/icons-material":{transform:"@mui/icons-material/{{member}}"},lodash:{transform:"lodash/{{member}}"}},outputFileTracingRoot:"/home/deepak/Work/unnati",experimental:{useSkewCookie:!1,cacheLife:{default:{stale:300,revalidate:900,expire:4294967294},seconds:{stale:30,revalidate:1,expire:60},minutes:{stale:300,revalidate:60,expire:3600},hours:{stale:300,revalidate:3600,expire:86400},days:{stale:300,revalidate:86400,expire:604800},weeks:{stale:300,revalidate:604800,expire:2592e3},max:{stale:300,revalidate:2592e3,expire:4294967294}},cacheHandlers:{},cssChunking:!0,multiZoneDraftMode:!1,appNavFailHandling:!1,prerenderEarlyExit:!0,serverMinification:!0,serverSourceMaps:!1,linkNoTouchStart:!1,caseSensitiveRoutes:!1,clientSegmentCache:!1,clientParamParsing:!1,dynamicOnHover:!1,preloadEntriesOnStart:!0,clientRouterFilter:!0,clientRouterFilterRedirects:!1,fetchCacheKeyPrefix:"",middlewarePrefetch:"flexible",optimisticClientCache:!0,manualClientBasePath:!1,cpus:7,memoryBasedWorkersCount:!1,imgOptConcurrency:null,imgOptTimeoutInSeconds:7,imgOptMaxInputPixels:268402689,imgOptSequentialRead:null,imgOptSkipMetadata:null,isrFlushToDisk:!0,workerThreads:!1,optimizeCss:!1,nextScriptWorkers:!1,scrollRestoration:!1,externalDir:!1,disableOptimizedLoading:!1,gzipSize:!0,craCompat:!1,esmExternals:!0,fullySpecified:!1,swcTraceProfiling:!1,forceSwcTransforms:!1,largePageDataBytes:128e3,typedEnv:!1,parallelServerCompiles:!1,parallelServerBuildTraces:!1,ppr:!1,authInterrupts:!1,webpackMemoryOptimizations:!1,optimizeServerReact:!0,viewTransition:!1,routerBFCache:!1,removeUncaughtErrorAndRejectionListeners:!1,validateRSCRequestHeaders:!1,staleTimes:{dynamic:0,static:300},serverComponentsHmrCache:!0,staticGenerationMaxConcurrency:8,staticGenerationMinPagesPerWorker:25,cacheComponents:!1,inlineCss:!1,useCache:!1,globalNotFound:!1,devtoolSegmentExplorer:!0,browserDebugInfoInTerminal:!1,optimizeRouterScrolling:!1,trustHostHeader:!0,optimizePackageImports:["lucide-react","date-fns","lodash-es","ramda","antd","react-bootstrap","ahooks","@ant-design/icons","@headlessui/react","@headlessui-float/react","@heroicons/react/20/solid","@heroicons/react/24/solid","@heroicons/react/24/outline","@visx/visx","@tremor/react","rxjs","@mui/material","@mui/icons-material","recharts","react-use","effect","@effect/schema","@effect/platform","@effect/platform-node","@effect/platform-browser","@effect/platform-bun","@effect/sql","@effect/sql-mssql","@effect/sql-mysql2","@effect/sql-pg","@effect/sql-sqlite-node","@effect/sql-sqlite-bun","@effect/sql-sqlite-wasm","@effect/sql-sqlite-react-native","@effect/rpc","@effect/rpc-http","@effect/typeclass","@effect/experimental","@effect/opentelemetry","@material-ui/core","@material-ui/icons","@tabler/icons-react","mui-core","react-icons/ai","react-icons/bi","react-icons/bs","react-icons/cg","react-icons/ci","react-icons/di","react-icons/fa","react-icons/fa6","react-icons/fc","react-icons/fi","react-icons/gi","react-icons/go","react-icons/gr","react-icons/hi","react-icons/hi2","react-icons/im","react-icons/io","react-icons/io5","react-icons/lia","react-icons/lib","react-icons/lu","react-icons/md","react-icons/pi","react-icons/ri","react-icons/rx","react-icons/si","react-icons/sl","react-icons/tb","react-icons/tfi","react-icons/ti","react-icons/vsc","react-icons/wi"]},htmlLimitedBots:"[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",bundlePagesRouterDependencies:!1,configFile:"/home/deepak/Work/unnati/next.config.mjs",configFileName:"next.config.mjs",turbopack:{root:"/home/deepak/Work/unnati"}}})},8335:Ve},k=>{k.O(0,[53],()=>k(k.s=7393));var m=k.O();(r._ENTRIES=typeof r._ENTRIES>"u"?{}:r._ENTRIES)["middleware_app/api/applications/route"]=m}]),function(){let k={exports:{},loaded:!1};return function(t,s){var u=Object.create,o=Object.defineProperty,f=Object.getOwnPropertyDescriptor,h=Object.getOwnPropertyNames,l=Object.getPrototypeOf,g=Object.prototype.hasOwnProperty,x=n=>o(n,"__esModule",{value:!0}),v=(n,i)=>{x(n);for(var c in i)o(n,c,{get:i[c],enumerable:!0})},b=(n,i,c)=>{if(i&&typeof i=="object"||typeof i=="function")for(let a of h(i))!g.call(n,a)&&a!=="default"&&o(n,a,{get:()=>i[a],enumerable:!(c=f(i,a))||c.enumerable});return n},I=n=>b(x(o(n!=null?u(l(n)):{},"default",n&&n.__esModule&&"default"in n?{get:()=>n.default,enumerable:!0}:{value:n,enumerable:!0})),n);v(s,{default:()=>ae});var X=I((Te(),$e(ee))),B="@next/request-context",H=Symbol.for(B),F=Symbol.for("internal.storage");function ne(){let n=r;if(!n[H]){let i=new X.AsyncLocalStorage,c={get:()=>i.getStore(),[F]:i};n[H]=c}return n[H]}var J=ne();function te(n,i){return J[F].run(n,i)}function de(n){let i={};return n&&n.forEach((c,a)=>{i[a]=c,a.toLowerCase()==="set-cookie"&&(i[a]=$(c))}),i}function $(n){let i=[],c=0,a,E,p,A,T;function R(){for(;c<n.length&&/\s/.test(n.charAt(c));)c+=1;return c<n.length}function S(){return E=n.charAt(c),E!=="="&&E!==";"&&E!==","}for(;c<n.length;){for(a=c,T=!1;R();)if(E=n.charAt(c),E===","){for(p=c,c+=1,R(),A=c;c<n.length&&S();)c+=1;c<n.length&&n.charAt(c)==="="?(T=!0,c=A,i.push(n.substring(a,p)),a=c):c=p+1}else c+=1;(!T||c>=n.length)&&i.push(n.substring(a,n.length))}return i}function ae(n){let i=n.staticRoutes.map(a=>({regexp:new RegExp(a.namedRegex),page:a.page})),c=n.dynamicRoutes?.map(a=>({regexp:new RegExp(a.namedRegex),page:a.page}))||[];return async function(a,E){let p=new URL(a.url).pathname,A={};if(n.nextConfig?.basePath&&p.startsWith(n.nextConfig.basePath)&&(p=p.replace(n.nextConfig.basePath,"")||"/"),n.nextConfig?.i18n)for(let R of n.nextConfig.i18n.locales){let S=new RegExp(`^/${R}($|/)`,"i");if(p.match(S)){p=p.replace(S,"/")||"/";break}}for(let R of i)if(R.regexp.exec(p)){A.name=R.page;break}if(!A.name){let R=Q(p);for(let S of c||[]){if(R&&!Q(S.page))continue;let G=S.regexp.exec(p);if(G){A={name:S.page,params:G.groups};break}}}let T=await te({waitUntil:E.waitUntil},()=>r._ENTRIES[`middleware_${n.name}`].default.call({},{request:{url:a.url,method:a.method,headers:de(a.headers),ip:M(a.headers,j.Ip),geo:{city:M(a.headers,j.City,!0),country:M(a.headers,j.Country,!0),latitude:M(a.headers,j.Latitude),longitude:M(a.headers,j.Longitude),region:M(a.headers,j.Region,!0)},nextConfig:n.nextConfig,page:A,body:a.body}}));return T.waitUntil&&E.waitUntil(T.waitUntil),T.response}}function M(n,i,c=!1){let a=n.get(i)||void 0;return c&&a?decodeURIComponent(a):a}function Q(n){return n==="/api"||n.startsWith("/api/")}var j;(function(n){n.City="x-vercel-ip-city",n.Country="x-vercel-ip-country",n.Ip="x-real-ip",n.Latitude="x-vercel-ip-latitude",n.Longitude="x-vercel-ip-longitude",n.Region="x-vercel-ip-country-region"})(j||(j={}))}(k,k.exports),k.exports}.call({}).default({name:"app/api/applications/route",staticRoutes:[{page:"/",regex:"^/(?:/)?$",routeKeys:{},namedRegex:"^/(?:/)?$"},{page:"/_not-found",regex:"^/_not\\-found(?:/)?$",routeKeys:{},namedRegex:"^/_not\\-found(?:/)?$"},{page:"/favicon.ico",regex:"^/favicon\\.ico(?:/)?$",routeKeys:{},namedRegex:"^/favicon\\.ico(?:/)?$"}],dynamicRoutes:[],nextConfig:{basePath:""}})))(P,P,P);export{na as default};
+
+```
+
+```
+
+```
+
+```
+
+```

@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, github-actions]
 lines: 484
 size: 23570 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docker, documentation, github-actions, markdown, project/narad, service]
 ---
 
@@ -25,7 +25,7 @@ tags: [docker, documentation, github-actions, markdown, project/narad, service]
 | **Frameworks** | docker, github-actions |
 | **Lines** | 484 |
 | **Size** | 23570 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: yaml
 frameworks: [docker, github-actions]
 lines: 446
 size: 22745 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:46"
 tags: [code, docker, github-actions, project/vishwakarma, service, yaml]
 ---
 
@@ -61,7 +61,7 @@ tags: [code, docker, github-actions, project/vishwakarma, service, yaml]
 | **Frameworks** | docker, github-actions |
 | **Lines** | 446 |
 | **Size** | 22745 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

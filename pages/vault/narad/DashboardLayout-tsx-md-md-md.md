@@ -6,8 +6,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 277
 size: 9577 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [docs, documentation, markdown, project/narad, react, typescript]
 ---
 
@@ -25,7 +25,7 @@ tags: [docs, documentation, markdown, project/narad, react, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 277 |
 | **Size** | 9577 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 239
 size: 8781 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
 tags: [docs, documentation, markdown, project/narad, react, typescript]
 ---
 
@@ -61,7 +61,7 @@ tags: [docs, documentation, markdown, project/narad, react, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 239 |
 | **Size** | 8781 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 
@@ -78,8 +78,8 @@ language: markdown
 frameworks: [react, typescript]
 lines: 201
 size: 7992 bytes
-last_modified: "2026-04-09 13:31"
-scanned: "2026-04-09 13:31"
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
 tags: [docs, documentation, markdown, project/narad, react, typescript]
 ---
 
@@ -97,7 +97,7 @@ tags: [docs, documentation, markdown, project/narad, react, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 201 |
 | **Size** | 7992 bytes |
-| **Modified** | 2026-04-09 13:31 |
+| **Modified** | 2026-04-09 14:38 |
 
 ## 🔗 Related Files
 
@@ -114,8 +114,8 @@ language: tsx
 frameworks: [react, typescript]
 lines: 162
 size: 7181 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, component, project/unnati, react, tsx, typescript]
 ---
 
@@ -135,7 +135,7 @@ tags: [code, component, project/unnati, react, tsx, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 162 |
 | **Size** | 7181 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

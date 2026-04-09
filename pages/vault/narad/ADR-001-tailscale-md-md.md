@@ -6,8 +6,8 @@ language: markdown
 frameworks: [docker, terraform]
 lines: 456
 size: 10833 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [deployment, docker, documentation, markdown, project/narad, terraform]
 ---
 
@@ -25,7 +25,7 @@ tags: [deployment, docker, documentation, markdown, project/narad, terraform]
 | **Frameworks** | docker, terraform |
 | **Lines** | 456 |
 | **Size** | 10833 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -42,8 +42,8 @@ language: markdown
 frameworks: [docker, terraform]
 lines: 418
 size: 9977 bytes
-last_modified: "2026-04-09 14:38"
-scanned: "2026-04-09 14:39"
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:46"
 tags: [deployment, docker, documentation, markdown, project/vishwakarma, terraform]
 ---
 
@@ -61,7 +61,7 @@ tags: [deployment, docker, documentation, markdown, project/vishwakarma, terrafo
 | **Frameworks** | docker, terraform |
 | **Lines** | 418 |
 | **Size** | 9977 bytes |
-| **Modified** | 2026-04-09 14:38 |
+| **Modified** | 2026-04-09 14:45 |
 
 ## 🔗 Related Files
 

@@ -4,16 +4,16 @@ project: "narad"
 role: style
 language: css
 frameworks: []
-lines: 772
-size: 15462 bytes
-last_modified: "2026-04-09 14:45"
-scanned: "2026-04-09 14:45"
+lines: 517
+size: 9669 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
 tags: [code, css, project/narad, style]
 ---
 
 # style.css
 
-> Stylesheet (772 lines).
+> Stylesheet (517 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, css, project/narad, style]
 | **Role** | style |
 | **Language** | css |
 | **Frameworks** | — |
-| **Lines** | 772 |
-| **Size** | 15462 bytes |
-| **Modified** | 2026-04-09 14:45 |
+| **Lines** | 517 |
+| **Size** | 9669 bytes |
+| **Modified** | 2026-04-09 15:18 |
 
 ## 🔗 Related Files
 
@@ -37,78 +37,60 @@ tags: [code, css, project/narad, style]
 /* Narad - OpenCode CLI TUI Style */
 
 /* ============================================
-   OpenCode-inspired Terminal UI
+   OpenCode Default Theme Colors
    ============================================ */
 :root {
-    /* OpenCode TUI Color Palette */
-    --bg-deep: #0d1117;
-    --bg-primary: #161b22;
-    --bg-elevated: #21262d;
-    --bg-surface: #30363d;
-    --bg-hover: #484f58;
+    /* GitHub dark (OpenCode default) */
+    --bg: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --border: #30363d;
     
     /* Text */
-    --text-primary: #e6edf3;
+    --text: #e6edf3;
     --text-secondary: #8b949e;
     --text-muted: #6e7681;
-    --text-dim: #484f58;
     
-    /* OpenCode Orange Accent */
-    --accent: #f97316;
-    --accent-dim: #c2410c;
-    --accent-bright: #fb923c;
+    /* Accent */
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
     
-    /* Semantic */
+    /* Status */
     --success: #3fb950;
     --error: #f85149;
-    --warning: #d29922;
-    --info: #58a6ff;
     
-    /* User/Assistant */
-    --user-msg: #1f6feb;
-    --user-msg-text: #ffffff;
+    /* User message */
+    --user-bg: #238636;
+    --user-text: #ffffff;
     
-    /* Typography - Pure monospace */
-    --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+    /* Font */
+    --font-mono: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
     
     /* Spacing */
-    --space-xs: 4px;
-    --space-sm: 8px;
+    --space: 8px;
+    --space-sm: 4px;
     --space-md: 12px;
     --space-lg: 16px;
-    --space-xl: 24px;
-    --space-2xl: 32px;
     
     /* Layout */
-    --header-height: 40px;
-    --input-height: 44px;
-    --sidebar-width: 220px;
-    
-    /* Effects */
-    --radius-sm: 2px;
-    --radius-md: 4px;
-    --radius-lg: 6px;
-    --transition: 120ms ease;
+    --header-height: 32px;
 }
 
-/* Light mode */
 [data-theme="light"] {
-    --bg-deep: #ffffff;
-    --bg-primary: #f6f8fa;
-    --bg-elevated: #eaeef2;
-    --bg-surface: #d0d7de;
-    --bg-hover: #d8dee4;
-    --text-primary: #1f2328;
+    --bg: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --bg-tertiary: #eaeef2;
+    --border: #d0d7de;
+    --text: #1f2328;
     --text-secondary: #656d76;
     --text-muted: #8c959f;
-    --text-dim: #bfc4cc;
-    --accent: #ea580c;
-    --accent-dim: #c2410c;
-    --user-msg: #0969da;
+    --accent: #0969da;
+    --accent-hover: #0550ae;
+    --user-bg: #1a7f37;
 }
 
 /* ============================================
-   Reset & Base
+   Reset
    ============================================ */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -123,23 +105,20 @@ html {
 
 body {
     font-family: var(--font-mono);
-    background: var(--bg-deep);
-    color: var(--text-primary);
+    background: var(--bg);
+    color: var(--text);
     height: 100vh;
     overflow: hidden;
-    -webkit-font-smoothing: antialiased;
 }
 
-/* Skip link */
 .skip-link {
     position: absolute;
     top: -40px;
     left: 0;
     background: var(--accent);
-    color: var(--bg-deep);
-    padding: var(--space-xs) var(--space-sm);
+    color: var(--bg);
+    padding: var(--space-sm);
     z-index: 9999;
-    font-size: 11px;
 }
 
 .skip-link:focus {
@@ -149,124 +128,39 @@ body {
 /* ============================================
    Layout
    ============================================ */
-.sidebar-layout {
+.terminal-window {
     display: flex;
+    flex-direction: column;
     height: 100vh;
 }
 
-.terminal-sidebar {
-    width: var(--sidebar-width);
-    background: var(--bg-primary);
-    border-right: 1px solid var(--bg-surface);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-}
-
-.terminal-sidebar.collapsed {
-    width: 0;
-    overflow: hidden;
-}
-
-.sidebar-header {
-    height: var(--header-height);
-    padding: 0 var(--space-sm);
-    border-bottom: 1px solid var(--bg-surface);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.sidebar-header h3 {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-.session-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: var(--space-xs);
-}
-
-.session-item {
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 12px;
-    transition: var(--transition);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.session-item:hover {
-    background: var(--bg-elevated);
-    color: var(--text-primary);
-}
-
-.session-item.active {
-    background: var(--bg-surface);
-    color: var(--accent);
-}
-
-.terminal-window {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-}
-
-/* ============================================
-   Header - Terminal style
-   ============================================ */
+/* Header */
 .terminal-header {
     height: var(--header-height);
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--bg-surface);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--space-md);
     flex-shrink: 0;
-    font-size: 12px;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-}
-
-.sidebar-toggle-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: var(--space-xs);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 14px;
-}
-
-.sidebar-toggle-btn:hover {
-    background: var(--bg-elevated);
-    color: var(--text-primary);
 }
 
 .terminal-title {
     font-size: 12px;
     color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .terminal-title::before {
-    content: '●';
-    color: var(--success);
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
     margin-right: var(--space-sm);
-    font-size: 8px;
+    vertical-align: middle;
 }
 
 .header-right {
@@ -279,94 +173,30 @@ body {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm, 4px);
     cursor: pointer;
-    transition: var(--transition);
-    font-size: 13px;
+    transition: all 120ms ease;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .header-btn:hover {
-    background: var(--bg-elevated);
-    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    color: var(--text);
 }
 
-/* Mode selector - Terminal style pills */
-.mode-selector {
-    display: flex;
-    gap: 1px;
-    background: var(--bg-elevated);
-    padding: 2px;
-    border-radius: var(--radius-sm);
-}
-
-.mode-chip {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: 3px 10px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: var(--transition);
-    letter-spacing: 0.3px;
-}
-
-.mode-chip:hover {
-    color: var(--text-secondary);
-}
-
-.mode-chip.active {
-    background: var(--bg-deep);
-    color: var(--accent);
-}
-
-/* Character select - Terminal dropdown */
-.character-select {
-    background: var(--bg-elevated);
-    border: 1px solid var(--bg-surface);
-    color: var(--text-primary);
-    padding: 4px 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.character-select:hover {
-    border-color: var(--text-muted);
-}
-
-.character-select:focus {
-    outline: none;
-    border-color: var(--accent);
-}
-
-/* Status badge */
 .status-badge {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    color: var(--text-muted);
     cursor: pointer;
-    padding: 4px 8px;
-    border-radius: var(--radius-sm);
-    transition: var(--transition);
-}
-
-.status-badge:hover {
-    background: var(--bg-elevated);
 }
 
 .status-dot {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--success);
 }
@@ -375,43 +205,15 @@ body {
     background: var(--error);
 }
 
-.status-dot.loading {
-    background: var(--warning);
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-
-/* Theme toggle */
-#theme-toggle-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: var(--space-xs);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 14px;
-}
-
-#theme-toggle-btn:hover {
-    background: var(--bg-elevated);
-    color: var(--accent);
-}
-
-/* ============================================
-   Chat Area - Terminal messages
-   ============================================ */
+/* Main content */
 .terminal-body {
     flex: 1;
     overflow-y: auto;
     padding: var(--space-lg);
-    background: var(--bg-deep);
+    background: var(--bg);
 }
 
+/* Messages */
 .message {
     display: flex;
     margin-bottom: var(--space-lg);
@@ -419,14 +221,14 @@ body {
 
 .message .prompt {
     font-size: 11px;
-    color: var(--text-dim);
+    color: var(--text-muted);
+    width: 60px;
     flex-shrink: 0;
-    width: 100px;
     padding-top: 2px;
 }
 
 .message.user .prompt {
-    color: var(--user-msg);
+    display: none;
 }
 
 .message-content {
@@ -436,31 +238,16 @@ body {
     line-height: 1.6;
 }
 
-/* User message */
-.message.user {
-    flex-direction: row-reverse;
-}
-
-.message.user .prompt {
-    display: none;
-}
-
 .message.user .message-content {
-    background: var(--user-msg);
-    color: var(--user-msg-text);
+    background: var(--user-bg);
+    color: var(--user-text);
     padding: var(--space-sm) var(--space-md);
-    border-radius: var(--radius-md);
-    max-width: 80%;
+    border-radius: 6px;
     display: inline-block;
+    max-width: 80%;
 }
 
-/* Assistant message */
-.message.assistant .message-content {
-    color: var(--text-primary);
-    padding: 0;
-}
-
-/* Content styling */
+/* Message content styling */
 .message-content p {
     margin-bottom: var(--space-sm);
 }
@@ -470,27 +257,26 @@ body {
 }
 
 .message-content code {
-    background: var(--bg-elevated);
-    padding: 1px 5px;
-    border-radius: 2px;
+    background: var(--bg-tertiary);
+    padding: 1px 4px;
+    border-radius: 3px;
     font-size: 0.95em;
     color: var(--accent);
 }
 
 .message-content pre {
-    background: var(--bg-primary);
-    border: 1px solid var(--bg-surface);
-    border-radius: var(--radius-md);
-    padding: var(--space-sm);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: var(--space-md);
     overflow-x: auto;
     margin: var(--space-sm) 0;
-    font-size: 12px;
 }
 
 .message-content pre code {
     background: transparent;
     padding: 0;
-    color: var(--text-primary);
+    color: var(--text);
 }
 
 .message-content a {
@@ -508,7 +294,7 @@ body {
     font-size: 1.1em;
     font-weight: 600;
     margin: var(--space-md) 0 var(--space-sm);
-    color: var(--text-primary);
+    color: var(--text);
 }
 
 .message-content ul,
@@ -517,8 +303,12 @@ body {
     margin: var(--space-sm) 0;
 }
 
+.message-content li {
+    margin-bottom: var(--space-sm);
+}
+
 .message-content blockquote {
-    border-left: 2px solid var(--bg-surface);
+    border-left: 2px solid var(--border);
     padding-left: var(--space-md);
     color: var(--text-secondary);
     margin: var(--space-sm) 0;
@@ -528,66 +318,37 @@ body {
     border-collapse: collapse;
     width: 100%;
     margin: var(--space-sm) 0;
-    font-size: 12px;
 }
 
 .message-content th,
 .message-content td {
-    border: 1px solid var(--bg-surface);
-    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--border);
+    padding: var(--space-sm);
     text-align: left;
 }
 
 .message-content th {
-    background: var(--bg-elevated);
+    background: var(--bg-tertiary);
     font-weight: 600;
 }
 
-/* Message actions */
-.message-actions {
-    display: none;
-    gap: var(--space-xs);
-    margin-top: var(--space-xs);
-}
-
-.message:hover .message-actions {
-    display: flex;
-}
-
-.message-action-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-dim);
-    font-size: 10px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 2px;
-    transition: var(--transition);
-}
-
-.message-action-btn:hover {
-    background: var(--bg-elevated);
-    color: var(--text-primary);
-}
-
-/* ============================================
-   Input Area - Terminal prompt
-   ============================================ */
+/* Footer / Input */
 .terminal-footer {
-    background: var(--bg-primary);
-    border-top: 1px solid var(--bg-surface);
-    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    padding: var(--space-md) var(--space-lg);
+    flex-shrink: 0;
 }
 
 .input-line {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    background: var(--bg-deep);
-    border: 1px solid var(--bg-surface);
-    border-radius: var(--radius-md);
-    padding: var(--space-xs) var(--space-sm);
-    transition: var(--transition);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: var(--space-sm) var(--space-md);
+    transition: border-color 120ms ease;
 }
 
 .input-line:focus-within {
@@ -596,7 +357,7 @@ body {
 
 .input-line .prompt {
     color: var(--accent);
-    font-size: 12px;
+    font-size: 13px;
     flex-shrink: 0;
 }
 
@@ -604,7 +365,7 @@ body {
     flex: 1;
     background: transparent;
     border: none;
-    color: var(--text-primary);
+    color: var(--text);
     font-family: var(--font-mono);
     font-size: 13px;
     resize: none;
@@ -615,59 +376,45 @@ body {
 }
 
 #user-input::placeholder {
-    color: var(--text-dim);
+    color: var(--text-muted);
 }
 
 .input-controls {
     display: flex;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
 }
 
 .icon-btn {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: var(--space-xs);
-    border-radius: var(--radius-sm);
+    padding: var(--space-sm);
+    border-radius: 4px;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 120ms ease;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .icon-btn:hover {
-    background: var(--bg-elevated);
-    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    color: var(--text);
 }
 
 #send-btn {
     background: var(--accent);
-    border: none;
-    color: var(--bg-deep);
+    color: #ffffff;
     width: 28px;
     height: 28px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-    flex-shrink: 0;
+    border-radius: 4px;
 }
 
 #send-btn:hover {
-    background: var(--accent-bright);
+    background: var(--accent-hover);
+    color: #ffffff;
 }
 
-#send-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* ============================================
-   Search Overlay
-   ============================================ */
+/* Search overlay */
 .search-overlay {
     position: fixed;
     top: 0;
@@ -678,28 +425,28 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 80px;
+    padding-top: 60px;
     z-index: 1000;
 }
 
 .search-container {
-    background: var(--bg-primary);
-    border: 1px solid var(--bg-surface);
-    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
     padding: var(--space-sm);
-    width: 480px;
+    width: 400px;
     max-width: 90%;
 }
 
 #chat-search-input {
     width: 100%;
-    background: var(--bg-deep);
-    border: 1px solid var(--bg-surface);
-    color: var(--text-primary);
-    padding: var(--space-sm);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: var(--space-sm) var(--space-md);
     font-family: var(--font-mono);
     font-size: 13px;
-    border-radius: var(--radius-sm);
+    border-radius: 4px;
 }
 
 #chat-search-input:focus {
@@ -707,18 +454,16 @@ body {
     border-color: var(--accent);
 }
 
-/* ============================================
-   Loading
-   ============================================ */
+/* Typing indicator */
 .typing-indicator {
     display: flex;
     gap: 4px;
-    padding: var(--space-xs) 0;
+    padding: var(--space-sm) 0;
 }
 
 .typing-indicator .dot {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     background: var(--text-muted);
     border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out;
@@ -733,9 +478,7 @@ body {
     40% { transform: scale(1); opacity: 1; }
 }
 
-/* ============================================
-   Scrollbar
-   ============================================ */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -745,12 +488,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--bg-surface);
+    background: var(--border);
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--bg-hover);
+    background: var(--text-muted);
 }
 
 /* Focus */
@@ -759,10 +502,8 @@ body {
     outline-offset: 1px;
 }
 
-/* ============================================
-   Responsive
-   ============================================ */
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 600px) {
     .terminal-header {
         padding: 0 var(--space-sm);
     }
@@ -771,17 +512,12 @@ body {
         padding: var(--space-md);
     }
     
+    .terminal-footer {
+        padding: var(--space-sm) var(--space-md);
+    }
+    
     .message .prompt {
         display: none;
-    }
-    
-    .mode-selector {
-        display: none;
-    }
-    
-    .character-select {
-        min-width: 80px;
-        font-size: 10px;
     }
     
     .message.user .message-content {
@@ -795,15 +531,24 @@ body {
 }
 
 .stop-btn.visible {
-    display: block;
+    display: flex;
 }
 
 #image-input,
 #image-upload-btn,
 #image-preview,
-#usage-ring,
 #clear-chat-btn,
 #voice-output-btn {
     display: none;
+}
+
+/* Mode indicator */
+.mode-indicator {
+    font-size: 10px;
+    color: var(--text-muted);
+    padding: 2px 8px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    margin-left: var(--space-sm);
 }
 ```

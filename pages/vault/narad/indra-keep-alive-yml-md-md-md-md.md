@@ -1,0 +1,205 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/indra-keep-alive-yml-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [github-actions]
+lines: 167
+size: 3539 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [config, documentation, github-actions, markdown, project/narad]
+---
+
+# indra-keep-alive-yml-md-md-md.md
+
+> Configuration file for the project using **github-actions** (167 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/indra-keep-alive-yml-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | github-actions |
+| **Lines** | 167 |
+| **Size** | 3539 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/indra-keep-alive-yml-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [github-actions]
+lines: 129
+size: 2716 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, documentation, github-actions, markdown, project/narad]
+---
+
+# indra-keep-alive-yml-md-md.md
+
+> Configuration file for the project using **github-actions** (129 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/indra-keep-alive-yml-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | github-actions |
+| **Lines** | 129 |
+| **Size** | 2716 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/indra-keep-alive-yml-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [github-actions]
+lines: 91
+size: 1905 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, github-actions, markdown, project/narad]
+---
+
+# indra-keep-alive-yml-md.md
+
+> Configuration file for the project using **github-actions** (91 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/indra-keep-alive-yml-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | github-actions |
+| **Lines** | 91 |
+| **Size** | 1905 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/indra/indra-keep-alive-yml.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [github-actions]
+lines: 53
+size: 1103 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [config, documentation, github-actions, markdown, project/narad]
+---
+
+# indra-keep-alive-yml.md
+
+> Configuration file for the project using **github-actions** (53 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/indra/indra-keep-alive-yml.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | github-actions |
+| **Lines** | 53 |
+| **Size** | 1103 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/indra/.github/workflows/indra-keep-alive.yml"
+project: "indra"
+role: config
+language: yaml
+frameworks: [github-actions]
+lines: 15
+size: 337 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [code, config, github-actions, project/indra, yaml]
+---
+
+# indra-keep-alive.yml
+
+> Configuration file for the project using **github-actions** (15 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `indra/.github/workflows/indra-keep-alive.yml` |
+| **Role** | config |
+| **Language** | yaml |
+| **Frameworks** | github-actions |
+| **Lines** | 15 |
+| **Size** | 337 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```yaml
+name: Indra Keep-Alive
+
+on:
+  schedule:
+    - cron: '*/7 * * * *' # Every 7 minutes
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Indra
+        run: |
+          curl -s https://indra.onrender.com/healthz || curl -s https://indra.onrender.com/
+          echo "Ping sent to Indra at $(date)"
+
+```
+
+```
+
+```
+
+```
+
+```
