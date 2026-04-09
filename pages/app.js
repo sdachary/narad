@@ -770,7 +770,143 @@ const COMMAND_REGISTRY = {
         description: 'Create clean, editorial-first, content-focused interfaces (uses minimalist-editorial-interfaces skill)',
         syntax: '/minimalist: <task>',
         examples: ['/minimalist: redesign the settings page', '/minimalist: clean up the dashboard']
+    },
+    
+    // Agent Skills - Development Lifecycle Commands
+    '/spec': {
+        name: 'Spec Driven Development',
+        icon: '📝',
+        description: 'Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code',
+        syntax: '/spec <project description>',
+        examples: ['/spec a chat app with file upload']
+    },
+    '/plan': {
+        name: 'Planning & Task Breakdown',
+        icon: '📋',
+        description: 'Decompose specs into small, verifiable tasks with acceptance criteria and dependency ordering',
+        syntax: '/plan <from spec>',
+        examples: ['/plan based on current spec']
+    },
+    '/build': {
+        name: 'Incremental Implementation',
+        icon: '🔨',
+        description: 'Thin vertical slices - implement, test, verify, commit. Feature flags, safe defaults, rollback-friendly',
+        syntax: '/build <feature>',
+        examples: ['/build user authentication']
+    },
+    '/test': {
+        name: 'Test Driven Development',
+        icon: '🧪',
+        description: 'Red-Green-Refactor, test pyramid (80/15/5), test sizes, DAMP over DRY, Beyonce Rule',
+        syntax: '/test <feature>',
+        examples: ['/test login flow']
+    },
+    '/review': {
+        name: 'Code Review & Quality',
+        icon: '🔍',
+        description: 'Five-axis review, change sizing (~100 lines), severity labels (Nit/Optional/FYI), review speed norms',
+        syntax: '/review <code or PR>',
+        examples: ['/review recent changes']
+    },
+    '/code-simplify': {
+        name: 'Code Simplification',
+        icon: '✨',
+        description: "Chesterton's Fence, Rule of 500, reduce complexity while preserving exact behavior",
+        syntax: '/code-simplify',
+        examples: ['/code-simplify']
+    },
+    '/ship': {
+        name: 'Shipping & Launch',
+        icon: '🚀',
+        description: 'Pre-launch checklists, feature flag lifecycle, staged rollouts, rollback procedures, monitoring',
+        syntax: '/ship',
+        examples: ['/ship to production']
     }
+};
+
+// Skill context generators for agent-skills integration
+const SKILL_CONTEXTS = {
+    '/spec': `You are operating with SPEC-DRIVEN-DEVELOPMENT skill.
+Before writing any code, you MUST produce a PRD covering:
+- Objectives: Clear, measurable goals
+- Commands: CLI/API surface area
+- Structure: File organization, module boundaries
+- Code Style: Linting rules, naming conventions
+- Testing: Unit/E2E coverage targets, testing philosophy
+- Boundaries: What's NOT in scope
+
+Process: Explore requirements → Write spec → Get approval → Then implement.
+NEVER skip the spec phase.`,
+
+    '/plan': `You are operating with PLANNING-AND-TASK-BREAKDOWN skill.
+Decompose the spec into small, verifiable tasks:
+- Each task should be atomic (2-5 min to complete)
+- Include acceptance criteria for each task
+- Order by dependency (what can run in parallel, what blocks what)
+- Tag tasks by type: feature, refactor, test, docs, config
+
+Output: A task list with checkboxes.`,
+
+    '/build': `You are operating with INCREMENTAL-IMPLEMENTATION skill.
+Build in thin vertical slices:
+- Implement ONE small piece end-to-end (code + tests + verify)
+- Use feature flags for incomplete features
+- Safe defaults - fail gracefully if feature disabled
+- Commit after each verified slice
+- Keep changes under ~100 lines per commit
+
+NEVER implement multiple features in one go.`,
+
+    '/test': `You are operating with TEST-DRIVEN-DEVELOPMENT skill.
+Follow the Red-Green-Refactor cycle:
+- RED: Write failing test first
+- GREEN: Write minimal code to pass
+- REFACTOR: Improve without breaking tests
+
+Test pyramid: 80% unit, 15% integration, 5% E2E
+Test sizes: Use appropriate size (large for E2E, small for unit)
+DAMP over DRY: Tests should be readable over DRY
+Beyonce Rule: "If you liked it, you shoulda put a test on it"
+
+Browser testing: Use Playwright for browser scenarios.`,
+
+    '/review': `You are operating with CODE-REVIEW-AND-QUALITY skill.
+Perform five-axis review:
+1. Correctness: Does it work as intended?
+2. Security: Any vulnerabilities?
+3. Performance: Any regressions?
+4. Maintainability: Can others understand/extend?
+5. Accessibility: Works for all users?
+
+Change sizing: ~100 lines max per review
+Severity: Nit (fix later), Optional (consider), FYI (inform), Block (must fix)
+Review speed: <24 hours for non-blocking, <4 hours for blocking
+
+Split large changes into multiple PRs.`,
+
+    '/code-simplify': `You are operating with CODE-SIMPLIFICATION skill.
+Reduce complexity while preserving exact behavior:
+- Chesterton's Fence: Understand WHY before removing
+- Rule of 500: If function > 500 lines, break it up
+- Remove dead code, duplicate logic
+- Simplify conditionals, reduce nesting
+- Make intent obvious through naming
+
+Measure: Can a junior engineer understand this in 5 minutes?
+If not, simplify.`,
+
+    '/ship': `You are operating with SHIPPING-AND-LAUNCH skill.
+Pre-launch checklist:
+- Feature flags configured for rollback
+- Staged rollout plan (1% → 10% → 50% → 100%)
+- Monitoring/dashboards ready
+- Rollback procedure documented
+- Post-launch testing verified
+
+After launch:
+- Monitor error rates for 24 hours
+- Collect user feedback
+- Clean up feature flags`
 };
 
 function parseCommand(input) {
@@ -936,6 +1072,18 @@ function parseCommand(input) {
         }
     }
     
+    // Check for agent-skills commands
+    if (/^\/(spec|plan|build|test|review|code-simplify|ship)\s*(.*)$/i.test(trimmed)) {
+        const match = trimmed.match(/^\/(spec|plan|build|test|review|code-simplify|ship)\s*(.*)$/i);
+        const skill = match[1].toLowerCase();
+        return {
+            type: 'skill_command',
+            skill: skill,
+            message: match[2] || '',
+            skill_context: SKILL_CONTEXTS['/' + skill]
+        };
+    }
+    
     // No command detected, return original
     return {
         type: 'none',
@@ -1016,7 +1164,17 @@ const COMMANDS = [
     { name: 'unshare', desc: 'Unshare this session' },
     { name: 'compact', desc: 'Compact session context' },
     { name: 'summarize', desc: 'Summarize session' },
-    { name: 'themes', desc: 'List available themes' }
+    { name: 'themes', desc: 'List available themes' },
+    { name: 'spec', desc: 'Write PRD before code (Spec Driven Development)' },
+    { name: 'plan', desc: 'Break down into atomic tasks (Planning)' },
+    { name: 'build', desc: 'Implement in vertical slices (Incremental)' },
+    { name: 'test', desc: 'Red-Green-Refactor (Test Driven)' },
+    { name: 'review', desc: 'Five-axis code review (Quality Gate)' },
+    { name: 'code-simplify', desc: 'Reduce complexity, preserve behavior' },
+    { name: 'ship', desc: 'Pre-launch checklist, staged rollout' },
+    { name: 'cerebras', desc: 'Switch to Cerebras free provider' },
+    { name: 'cloudflare', desc: 'Switch to Cloudflare Workers AI' },
+    { name: 'github-models', desc: 'Switch to GitHub Models' }
 ];
 
 function showCommandPalette() {
@@ -1858,6 +2016,13 @@ Use \`Cmd+T\` to toggle.`;
         return;
     }
     
+    // Handle skill commands - just use the message as-is but with skill_context
+    if (parsed.type === 'skill_command') {
+        userInput.value = '';
+        sendToApi(parsed.message, parsed.skill_context);
+        return;
+    }
+    
     // Validate message input
     const validation = InputValidator.validate('message', message);
     if (!validation.valid) {
@@ -2250,7 +2415,7 @@ async function checkMultiAgent(message) {
 }
 
 // Send to API with CSRF protection
-async function sendToApi(message) {
+async function sendToApi(message, skillContext = null) {
     isStreaming = true;
     currentAbortController = new AbortController();
     const stopBtn = document.getElementById('stop-search-btn');
@@ -2293,6 +2458,9 @@ async function sendToApi(message) {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
+        // Determine effective skill_context: parameter takes precedence over activeSkill
+        const effectiveSkillContext = skillContext || (activeSkill ? activeSkill.content : null);
+
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
             headers,
@@ -2303,7 +2471,7 @@ async function sendToApi(message) {
                 session_id: sessionId,
                 agent_type,
                 character: selectedCharacter,
-                skill_context: activeSkill ? activeSkill.content : null
+                skill_context: effectiveSkillContext
             })
         });
         
