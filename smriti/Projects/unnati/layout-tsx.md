@@ -6,8 +6,8 @@ language: tsx
 frameworks: []
 lines: 37
 size: 856 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, component, project/unnati, tsx]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, component, project/unnati, tsx]
 | **Frameworks** | — |
 | **Lines** | 37 |
 | **Size** | 856 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

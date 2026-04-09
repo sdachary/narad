@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker, github-actions]
 lines: 101
 size: 3524 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, docker, docs, documentation, github-actions, markdown
 | **Frameworks** | cloudflare-workers, docker, github-actions |
 | **Lines** | 101 |
 | **Size** | 3524 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

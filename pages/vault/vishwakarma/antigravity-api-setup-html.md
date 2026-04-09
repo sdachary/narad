@@ -6,8 +6,8 @@ language: html
 frameworks: [docker]
 lines: 769
 size: 42566 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, deployment, docker, html, project/vishwakarma]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, deployment, docker, html, project/vishwakarma]
 | **Frameworks** | docker |
 | **Lines** | 769 |
 | **Size** | 42566 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

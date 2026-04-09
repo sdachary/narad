@@ -5,9 +5,9 @@ role: service
 language: html
 frameworks: [docker, vite]
 lines: 501
-size: 20967 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+size: 20936 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, docker, html, project/chitragupta, service, vite]
 ---
 
@@ -24,8 +24,8 @@ tags: [code, docker, html, project/chitragupta, service, vite]
 | **Language** | html |
 | **Frameworks** | docker, vite |
 | **Lines** | 501 |
-| **Size** | 20967 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Size** | 20936 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -45,7 +45,7 @@ tags: [code, docker, html, project/chitragupta, service, vite]
   <link rel="stylesheet" href="src/css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>

@@ -6,8 +6,8 @@ language: javascript
 frameworks: [docker]
 lines: 484
 size: 17969 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [auth, code, docker, javascript, project/narad]
 ---
 
@@ -27,7 +27,7 @@ tags: [auth, code, docker, javascript, project/narad]
 | **Frameworks** | docker |
 | **Lines** | 484 |
 | **Size** | 17969 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

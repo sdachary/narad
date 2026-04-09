@@ -6,8 +6,8 @@ language: javascript
 frameworks: [hono]
 lines: 720
 size: 21160 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [auth, code, hono, javascript, project/narad]
 ---
 
@@ -25,7 +25,7 @@ tags: [auth, code, hono, javascript, project/narad]
 | **Frameworks** | hono |
 | **Lines** | 720 |
 | **Size** | 21160 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

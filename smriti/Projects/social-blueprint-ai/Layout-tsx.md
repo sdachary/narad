@@ -6,8 +6,8 @@ language: tsx
 frameworks: []
 lines: 15
 size: 358 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, component, project/social-blueprint-ai, tsx]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, component, project/social-blueprint-ai, tsx]
 | **Frameworks** | — |
 | **Lines** | 15 |
 | **Size** | 358 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

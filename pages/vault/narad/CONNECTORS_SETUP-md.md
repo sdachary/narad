@@ -6,8 +6,8 @@ language: markdown
 frameworks: [cloudflare-workers, docker, vite]
 lines: 130
 size: 3563 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [cloudflare-workers, config, docker, documentation, markdown, project/narad, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, config, docker, documentation, markdown, project/nara
 | **Frameworks** | cloudflare-workers, docker, vite |
 | **Lines** | 130 |
 | **Size** | 3563 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

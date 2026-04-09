@@ -2,7 +2,7 @@
 type: project-index
 project: "indra"
 source: "/home/runner/work/narad/narad/sync_temp/indra"
-scanned: "2026-04-08 16:51"
+scanned: "2026-04-09 13:31"
 total_files: 4
 total_lines: 148
 tags: [project/indra, index]

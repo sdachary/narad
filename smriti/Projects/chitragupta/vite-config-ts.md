@@ -4,16 +4,16 @@ project: "chitragupta"
 role: config
 language: typescript
 frameworks: [vite]
-lines: 57
-size: 1785 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+lines: 58
+size: 1852 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, config, project/chitragupta, typescript, vite]
 ---
 
 # vite.config.ts
 
-> Configuration file for the project using **vite** (57 lines).
+> Configuration file for the project using **vite** (58 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, config, project/chitragupta, typescript, vite]
 | **Role** | config |
 | **Language** | typescript |
 | **Frameworks** | vite |
-| **Lines** | 57 |
-| **Size** | 1785 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Lines** | 58 |
+| **Size** | 1852 bytes |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 
@@ -43,7 +43,7 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icon-192.png', 'icon-512.png'],
+      includeAssets: ['icon-192.png', 'icon-512.png', '_redirects'],
       manifest: {
         name: 'Chitragupta - Business Ledger',
         short_name: 'Chitragupta',
@@ -87,6 +87,7 @@ export default defineConfig({
         login: resolve(__dirname, 'login.html'),
         signup: resolve(__dirname, 'signup.html'),
         invite: resolve(__dirname, 'invite-partner.html'),
+        landing: resolve(__dirname, 'landing.html'),
       },
     },
   },

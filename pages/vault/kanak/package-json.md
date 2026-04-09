@@ -6,8 +6,8 @@ language: json
 frameworks: [cloudflare-workers]
 lines: 12
 size: 289 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [cloudflare-workers, code, config, json, project/kanak]
 ---
 
@@ -25,7 +25,7 @@ tags: [cloudflare-workers, code, config, json, project/kanak]
 | **Frameworks** | cloudflare-workers |
 | **Lines** | 12 |
 | **Size** | 289 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

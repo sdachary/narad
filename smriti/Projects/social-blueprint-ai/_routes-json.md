@@ -6,8 +6,8 @@ language: json
 frameworks: []
 lines: 5
 size: 61 bytes
-last_modified: "2026-04-08 16:51"
-scanned: "2026-04-08 16:51"
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
 tags: [code, json, other, project/social-blueprint-ai]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, json, other, project/social-blueprint-ai]
 | **Frameworks** | — |
 | **Lines** | 5 |
 | **Size** | 61 bytes |
-| **Modified** | 2026-04-08 16:51 |
+| **Modified** | 2026-04-09 13:31 |
 
 ## 🔗 Related Files
 

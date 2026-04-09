@@ -2,9 +2,9 @@
 type: project-index
 project: "chitragupta"
 source: "/home/runner/work/narad/narad/sync_temp/chitragupta"
-scanned: "2026-04-08 16:51"
-total_files: 25
-total_lines: 5246
+scanned: "2026-04-09 13:31"
+total_files: 26
+total_lines: 6425
 tags: [project/chitragupta, index]
 ---
 
@@ -14,20 +14,21 @@ tags: [project/chitragupta, index]
 
 | Metric | Value |
 |--------|-------|
-| **Total Files** | 25 |
-| **Code Files** | 21 |
+| **Total Files** | 26 |
+| **Code Files** | 22 |
 | **Doc Files** | 4 |
-| **Total Lines** | 5,246 |
+| **Total Lines** | 6,425 |
 | **Tech Stack** | `cloudflare-workers`, `docker`, `typescript`, `vite` |
 | **Source** | `/home/runner/work/narad/narad/sync_temp/chitragupta` |
 
 ## 📂 Files by Role
 
-### 🔐 Auth (6)
+### 🔐 Auth (7)
 - [[API_ENDPOINTS-md]] — `docs/API_ENDPOINTS.md`
 - [[api-ts]] — `src/ts/api.ts`
 - [[auth-ts]] — `src/ts/auth.ts`
 - [[budgets-js]] — `pages/services/budgets.js`
+- [[landing-html]] — `landing.html`
 - [[login-html]] — `login.html`
 - [[signup-html]] — `signup.html`
 
