@@ -776,7 +776,7 @@ const COMMAND_REGISTRY = {
 function parseCommand(input) {
     const trimmed = input.trim();
     
-    // Check for mode switch: /mode plan, /mode build
+    // Check for /mode (switch between plan/build)
     const modeMatch = trimmed.match(/^\/mode\s+(plan|build)$/i);
     if (modeMatch) {
         return {
@@ -785,13 +785,38 @@ function parseCommand(input) {
         };
     }
     
-    // Check for session command: /session new, /session list, etc.
+    // Check for /session or /sessions (list sessions)
+    if (/^\/sessions?\s*$/i.test(trimmed)) {
+        return {
+            type: 'session_action',
+            action: 'list',
+            sessionId: null
+        };
+    }
+    
+    // Check for /session with action: /session new, /session list, etc.
     const sessionMatch = trimmed.match(/^\/session\s+(\w+)(?:\s+(\w+))?$/i);
     if (sessionMatch) {
         return {
             type: 'session_action',
             action: sessionMatch[1].toLowerCase(),
             sessionId: sessionMatch[2] || null
+        };
+    }
+    
+    // Check for /help or /?
+    if (/^\/(help|\?)\s*(.*)$/i.test(trimmed)) {
+        const match = trimmed.match(/^\/(help|\?)\s*(.*)$/i);
+        return {
+            type: 'help',
+            message: match[2] || ''
+        };
+    }
+    
+    // Check for /agents or /list
+    if (/^\/(agents|list)\s*$/i.test(trimmed)) {
+        return {
+            type: 'agent_list'
         };
     }
     
@@ -886,24 +911,29 @@ async function handleSessionCommand(action, sessionId) {
     
     switch (action) {
         case 'new':
+        case 'create':
             const newId = await createNewSession();
-            return `Created new session: ${newId}`;
+            return `**Session created**: ${newId}`;
         case 'list':
-            if (sessions.length === 0) return 'No sessions found.';
-            return '## Sessions\n\n' + sessions.map((s, i) => 
-                `${i + 1}. ${s}${s === sessionId ? ' (current)' : ''}`
+        case 'ls':
+            if (sessions.length === 0) return 'No sessions found. Use `/session new` to create one.';
+            return '**Sessions:**\n\n' + sessions.map((s, i) => 
+                `\`${i + 1}.\` ${s}`
             ).join('\n');
         case 'switch':
-            if (!sessionId) return 'Please specify session ID: /session switch <id>';
-            if (!sessions.includes(sessionId)) return `Session ${sessionId} not found.`;
+        case 'change':
+            if (!sessionId) return 'Usage: `/session switch <session-id>`';
+            if (!sessions.includes(sessionId)) return `Session "${sessionId}" not found.`;
             await switchSession(sessionId);
-            return `Switched to session: ${sessionId}`;
+            return `**Switched to session**: ${sessionId}`;
         case 'delete':
-            if (!sessionId) return 'Please specify session ID: /session delete <id>';
+        case 'remove':
+        case 'rm':
+            if (!sessionId) return 'Usage: `/session delete <session-id>`';
             await deleteSession(sessionId);
-            return `Deleted session: ${sessionId}`;
+            return `**Deleted session**: ${sessionId}`;
         default:
-            return `Unknown action: ${action}. Use: new, list, switch, delete`;
+            return `**Commands:**\n- \`/session new\` - Create new session\n- \`/session list\` - List sessions\n- \`/session switch <id>\` - Switch to session\n- \`/session delete <id>\` - Delete session`;
     }
 }
 
@@ -1536,24 +1566,6 @@ async function handleSubmit(e) {
     // Parse command syntax
     const parsed = parseCommand(message);
     
-    // Handle help and list commands locally
-    if (parsed.type === 'help') {
-        const helpText = showCommandHelp(parsed.message.trim() || null);
-        addRichMessage(helpText, 'assistant', true);
-        userInput.value = '';
-        return;
-    }
-    
-    if (parsed.type === 'agent_list') {
-        let agentList = '# Available Agents\n\n';
-        for (const [key, cmd] of Object.entries(COMMAND_REGISTRY)) {
-            agentList += `${cmd.icon} **/${key}** - ${cmd.name}\n${cmd.description}\n\n`;
-        }
-        addRichMessage(agentList, 'assistant', true);
-        userInput.value = '';
-        return;
-    }
-    
     // Handle mode command
     if (parsed.type === 'mode_switch') {
         const newMode = parsed.mode;
@@ -1576,6 +1588,25 @@ async function handleSubmit(e) {
     if (parsed.type === 'session_action') {
         const result = await handleSessionCommand(parsed.action, parsed.sessionId);
         addRichMessage(result, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle help command locally
+    if (parsed.type === 'help') {
+        const helpText = showCommandHelp(parsed.message.trim() || null);
+        addRichMessage(helpText, 'assistant', true);
+        userInput.value = '';
+        return;
+    }
+    
+    // Handle agent list locally
+    if (parsed.type === 'agent_list') {
+        let agentList = '# Available Agents\n\n';
+        for (const [key, cmd] of Object.entries(COMMAND_REGISTRY)) {
+            if (cmd.icon) agentList += `${cmd.icon} /${key}: ${cmd.description}\n`;
+        }
+        addRichMessage(agentList, 'assistant', true);
         userInput.value = '';
         return;
     }
