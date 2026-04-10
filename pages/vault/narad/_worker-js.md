@@ -4,16 +4,16 @@ project: "narad"
 role: auth
 language: javascript
 frameworks: [hono]
-lines: 720
-size: 21160 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+lines: 725
+size: 21327 bytes
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [auth, code, hono, javascript, project/narad]
 ---
 
 # _worker.js
 
-> Authentication / authorization module using **hono** (720 lines).
+> Authentication / authorization module using **hono** (725 lines).
 
 ## 📋 Metadata
 
@@ -23,13 +23,13 @@ tags: [auth, code, hono, javascript, project/narad]
 | **Role** | auth |
 | **Language** | javascript |
 | **Frameworks** | hono |
-| **Lines** | 720 |
-| **Size** | 21160 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Lines** | 725 |
+| **Size** | 21327 bytes |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 
-[[characters-js]], [[chat-js]], [[errors-js]], [[github-js]], [[health-js]], [[index-js]], [[mcp-js]], [[memory-js]], [[rag-js]], [[ragDocuments-js]], [[research-js]], [[search-js]], [[security-js]], [[sessionSync-js]], [[skills-js]], [[sqlite-memory-js]], [[verification-js]]
+[[characters-js]], [[chat-js]], [[errors-js]], [[github-js]], [[health-js]], [[hermes-gateway-js]], [[index-js]], [[mcp-js]], [[memory-js]], [[rag-js]], [[ragDocuments-js]], [[research-js]], [[search-js]], [[security-js]], [[sessionSync-js]], [[skills-js]], [[sqlite-memory-js]], [[verification-js]]
 
 ## 📄 Content
 
@@ -54,6 +54,7 @@ import { syncSessions, getSessions, saveSessionHistory, getSessionHistory, delet
 import { triggerGitHubDispatch, analyzeGitHubRepo } from './services/github.js';
 import { runLast30DaysResearch } from './services/research.js';
 import { fetchSkill } from './services/skills.js';
+import { handleHermesWebhook } from './services/hermes-gateway.js';
 
 const app = new Hono();
 
@@ -95,6 +96,10 @@ app.use('*', async (c, next) => {
 setupHealthRoutes(app);
 setupChatRoutes(app);
 setupErrorRoutes(app);
+
+app.all('/api/hermes-webhook', async (c) => {
+  return handleHermesWebhook(c.req.raw, c.env);
+});
 
 app.get('/api/warehouse', async (c) => {
   const agents = {};

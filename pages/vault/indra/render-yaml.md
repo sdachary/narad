@@ -6,8 +6,8 @@ language: yaml
 frameworks: []
 lines: 53
 size: 1582 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, config, project/indra, yaml]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, config, project/indra, yaml]
 | **Frameworks** | — |
 | **Lines** | 53 |
 | **Size** | 1582 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

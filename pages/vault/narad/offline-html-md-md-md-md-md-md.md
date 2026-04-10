@@ -1,0 +1,328 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/offline-html-md-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 290
+size: 5931 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# offline-html-md-md-md-md-md.md
+
+> Documentation (290 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/offline-html-md-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 290 |
+| **Size** | 5931 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/offline-html-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 252
+size: 5207 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# offline-html-md-md-md-md.md
+
+> Documentation (252 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/offline-html-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 252 |
+| **Size** | 5207 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/offline-html-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 214
+size: 4492 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# offline-html-md-md-md.md
+
+> Documentation (214 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/offline-html-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 214 |
+| **Size** | 4492 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/offline-html-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 176
+size: 3786 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# offline-html-md-md.md
+
+> Documentation (176 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/offline-html-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 176 |
+| **Size** | 3786 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/offline-html-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 138
+size: 3089 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# offline-html-md.md
+
+> Documentation (138 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/offline-html-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 138 |
+| **Size** | 3089 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/chitragupta/offline-html.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 100
+size: 2389 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# offline-html.md
+
+> Documentation (100 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/chitragupta/offline-html.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 100 |
+| **Size** | 2389 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/chitragupta/public/offline.html"
+project: "chitragupta"
+role: page
+language: html
+frameworks: []
+lines: 63
+size: 1741 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [code, html, page, project/chitragupta]
+---
+
+# offline.html
+
+> Web page (63 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `chitragupta/public/offline.html` |
+| **Role** | page |
+| **Language** | html |
+| **Frameworks** | — |
+| **Lines** | 63 |
+| **Size** | 1741 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Chitragupta</title>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+        }
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+        p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #4f46e5;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="icon">📡</div>
+        <h1>You're Offline</h1>
+        <p>It looks like you've lost your internet connection. Some features may be unavailable until you're back online.</p>
+        <a href="/" class="btn">Try Again</a>
+    </div>
+</body>
+</html>
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```

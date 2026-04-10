@@ -1,0 +1,292 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/supabase-postgres-best-practices-md-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker]
+lines: 254
+size: 6552 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docker, docs, documentation, markdown, project/narad]
+---
+
+# supabase-postgres-best-practices-md-md-md-md-md.md
+
+> Documentation using **docker** (254 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/supabase-postgres-best-practices-md-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 254 |
+| **Size** | 6552 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/supabase-postgres-best-practices-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker]
+lines: 216
+size: 5734 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docker, docs, documentation, markdown, project/narad]
+---
+
+# supabase-postgres-best-practices-md-md-md-md.md
+
+> Documentation using **docker** (216 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/supabase-postgres-best-practices-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 216 |
+| **Size** | 5734 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/supabase-postgres-best-practices-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker]
+lines: 178
+size: 4925 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docker, docs, documentation, markdown, project/narad]
+---
+
+# supabase-postgres-best-practices-md-md-md.md
+
+> Documentation using **docker** (178 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/supabase-postgres-best-practices-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 178 |
+| **Size** | 4925 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/supabase-postgres-best-practices-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker]
+lines: 140
+size: 4125 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docker, docs, documentation, markdown, project/narad]
+---
+
+# supabase-postgres-best-practices-md-md.md
+
+> Documentation using **docker** (140 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/supabase-postgres-best-practices-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 140 |
+| **Size** | 4125 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/supabase-postgres-best-practices-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker]
+lines: 102
+size: 3334 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [docker, docs, documentation, markdown, project/narad]
+---
+
+# supabase-postgres-best-practices-md.md
+
+> Documentation using **docker** (102 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/supabase-postgres-best-practices-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 102 |
+| **Size** | 3334 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/skills/supabase-postgres-best-practices.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker]
+lines: 64
+size: 2577 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [docker, docs, documentation, markdown, project/narad]
+---
+
+# supabase-postgres-best-practices.md
+
+> Documentation using **docker** (64 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/skills/supabase-postgres-best-practices.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker |
+| **Lines** | 64 |
+| **Size** | 2577 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+name: supabase-postgres-best-practices
+description: Postgres performance optimization and best practices from Supabase. Use this skill when writing, reviewing, or optimizing Postgres queries, schema designs, or database configurations.
+license: MIT
+metadata:
+  author: supabase
+  version: "1.1.0"
+  organization: Supabase
+  date: January 2026
+  abstract: Comprehensive Postgres performance optimization guide for developers using Supabase and Postgres. Contains performance rules across 8 categories, prioritized by impact from critical (query performance, connection management) to incremental (advanced features). Each rule includes detailed explanations, incorrect vs. correct SQL examples, query plan analysis, and specific performance metrics to guide automated optimization and code generation.
+---
+
+# Supabase Postgres Best Practices
+
+Comprehensive performance optimization guide for Postgres, maintained by Supabase. Contains rules across 8 categories, prioritized by impact to guide automated query optimization and schema design.
+
+## When to Apply
+
+Reference these guidelines when:
+- Writing SQL queries or designing schemas
+- Implementing indexes or query optimization
+- Reviewing database performance issues
+- Configuring connection pooling or scaling
+- Optimizing for Postgres-specific features
+- Working with Row-Level Security (RLS)
+
+## Rule Categories by Priority
+
+| Priority | Category | Impact | Prefix |
+|----------|----------|--------|--------|
+| 1 | Query Performance | CRITICAL | `query-` |
+| 2 | Connection Management | CRITICAL | `conn-` |
+| 3 | Security & RLS | CRITICAL | `security-` |
+| 4 | Schema Design | HIGH | `schema-` |
+| 5 | Concurrency & Locking | MEDIUM-HIGH | `lock-` |
+| 6 | Data Access Patterns | MEDIUM | `data-` |
+| 7 | Monitoring & Diagnostics | LOW-MEDIUM | `monitor-` |
+| 8 | Advanced Features | LOW | `advanced-` |
+
+## How to Use
+
+Read individual rule files for detailed explanations and SQL examples:
+
+```
+references/query-missing-indexes.md
+references/schema-partial-indexes.md
+references/_sections.md
+```
+
+Each rule file contains:
+- Brief explanation of why it matters
+- Incorrect SQL example with explanation
+- Correct SQL example with explanation
+- Optional EXPLAIN output or metrics
+- Additional context and references
+- Supabase-specific notes (when applicable)
+
+## References
+
+- https://www.postgresql.org/docs/current/
+- https://supabase.com/docs
+- https://wiki.postgresql.org/wiki/Performance_Optimization
+- https://supabase.com/docs/guides/database/overview
+- https://supabase.com/docs/guides/auth/row-level-security
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```

@@ -1,0 +1,270 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/frontend-design-md-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, typescript]
+lines: 232
+size: 8397 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docker, docs, documentation, markdown, project/narad, typescript]
+---
+
+# frontend-design-md-md-md-md-md.md
+
+> Documentation using **docker, typescript** (232 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/frontend-design-md-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, typescript |
+| **Lines** | 232 |
+| **Size** | 8397 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/frontend-design-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, typescript]
+lines: 194
+size: 7582 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docker, docs, documentation, markdown, project/narad, typescript]
+---
+
+# frontend-design-md-md-md-md.md
+
+> Documentation using **docker, typescript** (194 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/frontend-design-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, typescript |
+| **Lines** | 194 |
+| **Size** | 7582 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/frontend-design-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, typescript]
+lines: 156
+size: 6776 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docker, docs, documentation, markdown, project/narad, typescript]
+---
+
+# frontend-design-md-md-md.md
+
+> Documentation using **docker, typescript** (156 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/frontend-design-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, typescript |
+| **Lines** | 156 |
+| **Size** | 6776 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/frontend-design-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, typescript]
+lines: 118
+size: 5979 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docker, docs, documentation, markdown, project/narad, typescript]
+---
+
+# frontend-design-md-md.md
+
+> Documentation using **docker, typescript** (118 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/frontend-design-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, typescript |
+| **Lines** | 118 |
+| **Size** | 5979 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/frontend-design-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, typescript]
+lines: 80
+size: 5194 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [docker, docs, documentation, markdown, project/narad, typescript]
+---
+
+# frontend-design-md.md
+
+> Documentation using **docker, typescript** (80 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/frontend-design-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, typescript |
+| **Lines** | 80 |
+| **Size** | 5194 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/skills/frontend-design.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, typescript]
+lines: 42
+size: 4440 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [docker, docs, documentation, markdown, project/narad, typescript]
+---
+
+# frontend-design.md
+
+> Documentation using **docker, typescript** (42 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/skills/frontend-design.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, typescript |
+| **Lines** | 42 |
+| **Size** | 4440 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+name: frontend-design
+description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.
+license: Complete terms in LICENSE.txt
+---
+
+This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
+
+The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+
+## Design Thinking
+
+Before coding, understand the context and commit to a BOLD aesthetic direction:
+- **Purpose**: What problem does this interface solve? Who uses it?
+- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.
+- **Constraints**: Technical requirements (framework, performance, accessibility).
+- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?
+
+**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism and refined minimalism both work - the key is intentionality, not intensity.
+
+Then implement working code (HTML/CSS/JS, React, Vue, etc.) that is:
+- Production-grade and functional
+- Visually striking and memorable
+- Cohesive with a clear aesthetic point-of-view
+- Meticulously refined in every detail
+
+## Frontend Aesthetics Guidelines
+
+Focus on:
+- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.
+- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.
+- **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.
+- **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.
+- **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.
+
+NEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.
+
+Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.
+
+**IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
+
+Remember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
