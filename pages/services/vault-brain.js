@@ -1,9 +1,10 @@
 import { getStore } from './memory.js';
-import { searchRAG, addDocumentToRAG } from './rag.js';
+import { searchRAG, addDocumentToRAG, initializeRAGIndex } from './rag.js';
 
 const VAULT_INDEX_KEY = 'vault:brain:index';
 const BRAIN_INSIGHTS_KEY = 'vault:brain:insights';
 const BRAIN_SUMMARY_KEY = 'vault:brain:summary';
+const VAULT_CACHE_PREFIX = 'vault:cache:';
 
 const PROJECT_KEYWORDS = {
   narad: ['chat', 'ai', 'assistant', 'telegram', 'bot', 'cloudflare', 'gateway'],
@@ -48,11 +49,7 @@ export async function indexVaultFile(env, project, path, content, name) {
   const index = await initializeVaultBrain(env);
   
   if (!index.projects[project]) {
-    index.projects[project] = {
-      files: [],
-      lastIndexed: null,
-      docCount: 0
-    };
+    index.projects[project] = { files: [], lastIndexed: null, docCount: 0 };
   }
   
   const existing = index.projects[project].files.find(f => f.path === path);
@@ -199,15 +196,56 @@ export async function queryBrain(env, query, options = {}) {
   };
 }
 
+export async function searchVaultFiles(env, query, options = {}) {
+  const { project, limit = 10 } = options;
+  const index = await initializeVaultBrain(env);
+  
+  const results = await searchRAG(env, query, { topK: limit, hybridMode: true });
+  
+  return {
+    query,
+    results: results.results.map(r => ({
+      title: r.title,
+      path: r.metadata?.path || r.source,
+      project: r.metadata?.project,
+      excerpt: r.content?.slice(0, 200) || '',
+      score: r.score
+    })),
+    total: results.results.length
+  };
+}
+
+export async function getAllInsights(env, options = {}) {
+  const { category, limit = 20 } = options;
+  const index = await initializeVaultBrain(env);
+  const ragIndex = await initializeRAGIndex(env);
+  
+  const insights = ragIndex.documents
+    .filter(doc => doc.source === 'conversation' || doc.metadata?.type === 'insight')
+    .slice(0, limit);
+  
+  return {
+    insights: insights.map(i => ({
+      title: i.title,
+      content: i.content,
+      category: i.metadata?.category,
+      createdAt: i.createdAt
+    })),
+    total: insights.length
+  };
+}
+
 export async function getBrainStats(env) {
   const index = await initializeVaultBrain(env);
   const summary = await getStore(env).get(BRAIN_SUMMARY_KEY);
+  const ragIndex = await initializeRAGIndex(env);
   
   return {
     projects: PROJECT_KEYWORDS,
     totalDocs: index.docCount,
     lastFullScan: index.lastFullScan,
     initialized: index.initialized,
+    ragDocCount: ragIndex.docCount,
     summary: summary ? JSON.parse(summary) : null,
     byProject: Object.entries(index.projects).map(([name, data]) => ({
       project: name,
@@ -224,10 +262,33 @@ export async function getBrainSystemPrompt(env) {
 
 CURRENT BRAIN STATE:
 - ${stats.totalDocs} documents indexed
+- ${stats.ragDocCount} RAG entries
 - Projects: ${Object.keys(stats.projects).join(', ')}
 - Last scan: ${stats.lastFullScan || 'never'}
 
 Use the brain to find relevant context before answering.`;
+}
+
+export async function formatBrainStatus(stats) {
+  const lines = [
+    '🧠 NARAD BRAIN STATUS',
+    '═'.repeat(30),
+    '',
+    `📊 Total Documents: ${stats.totalDocs}`,
+    `📚 RAG Entries: ${stats.ragDocCount}`,
+    `🔄 Last Scan: ${stats.lastFullScan || 'Never'}`,
+    `🚀 Initialized: ${stats.initialized || 'No'}`,
+    '',
+    '📁 PROJECTS:',
+    ...stats.byProject.map(p => `  • ${p.project}: ${p.docCount} docs, ${p.files} files`),
+    ''
+  ];
+  
+  if (stats.summary?.capability) {
+    lines.push(`✨ ${stats.summary.capability}`);
+  }
+  
+  return lines.join('\n');
 }
 
 function extractKeywords(text) {

@@ -3,6 +3,7 @@ import { cors } from 'hono/cors';
 import { ALLOWED_ORIGINS } from './config/index.js';
 import { setupHealthRoutes } from './routes/health.js';
 import { setupChatRoutes } from './routes/chat.js';
+import { setupBrainRoutes } from './routes/brain.js';
 import { setupErrorRoutes } from './routes/errors.js';
 import { csrfManager } from './services/security.js';
 import { getStore, getUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, clearSemanticMemory, getEmbeddingBudget, generateEmbedding, storeSemanticMemory, searchSemanticMemory } from './services/memory.js';
@@ -59,6 +60,7 @@ app.use('*', async (c, next) => {
 
 setupHealthRoutes(app);
 setupChatRoutes(app);
+setupBrainRoutes(app);
 setupErrorRoutes(app);
 
 app.all('/api/hermes-webhook', async (c) => {
