@@ -43,9 +43,9 @@ export async function handleHermesWebhook(request, env) {
     try {
       const payload = await request.json();
       
-      // Verify webhook secret
+      // Verify webhook secret (skip if not configured)
       const secret = request.headers.get('X-Telegram-Bot-Api-Secret-Token');
-      if (secret !== env.TELEGRAM_WEBHOOK_SECRET) {
+      if (env.TELEGRAM_WEBHOOK_SECRET && secret !== env.TELEGRAM_WEBHOOK_SECRET) {
         console.warn('[Hermes] Unauthorized webhook attempt');
         return new Response('Unauthorized', { status: 401 });
       }
