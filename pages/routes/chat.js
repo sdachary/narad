@@ -1,6 +1,7 @@
 import { checkRateLimit, validateCSRF, ValidationSchemas } from '../services/security.js';
 import { getStore, getUsage, addUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, getLastAssistantMessage } from '../services/memory.js';
 import { getAvailableProviders, getProviderConfig, selectProviderAndModel } from '../services/ai.js';
+import { getProjectContext, queryBrain, getBrainStats } from '../services/vault-brain.js';
 import { AI_PROVIDERS } from '../config/providers.js';
 import { DAILY_LIMITS } from '../config/index.js';
 import { ALL_AGENTS, WAREHOUSE_INDEX, WAREHOUSE_AGENTS, SUBAGENTS } from '../config/agents.js';
@@ -125,7 +126,15 @@ export function setupChatRoutes(app) {
       }
       
       const body = await c.req.json();
-      const { message, history, context, session_id, agent_type, force_provider, skill_context } = body;
+      const { message, history, context, session_id, agent_type, force_provider, skill_context, project } = body;
+      
+      let projectContext = '';
+      if (session_id && session_id.startsWith('new_')) {
+        const loaded = await getProjectContext(c.env, project || 'narad');
+        if (loaded.context) {
+          projectContext = loaded.context;
+        }
+      }
       
       const messageValidation = ValidationSchemas.message.validate(message);
       if (!messageValidation.valid) {
@@ -279,6 +288,19 @@ export function setupChatRoutes(app) {
         systemPromptParts.push('');
         systemPromptParts.push('BEHAVIORAL PROTOCOL (CRITICAL):');
         systemPromptParts.push(skill_context);
+      }
+      
+      const brainContext = await queryBrain(env, message, { topK: 2 });
+      if (brainContext.results && brainContext.results.length > 0) {
+        systemPromptParts.push('\nRELEVANT KNOWLEDGE FROM BRAIN:');
+        brainContext.results.forEach(r => {
+          systemPromptParts.push(`- ${r.title}: ${r.content.slice(0, 300)}...`);
+        });
+      }
+      
+      if (projectContext) {
+        systemPromptParts.push('\nPROJECT STARTUP CONTEXT:');
+        systemPromptParts.push(projectContext.slice(0, 500));
       }
       
       const systemPrompt = systemPromptParts.join('\n');
