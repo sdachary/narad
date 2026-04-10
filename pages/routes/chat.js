@@ -1,7 +1,7 @@
 import { checkRateLimit, validateCSRF, ValidationSchemas } from '../services/security.js';
 import { getStore, getUsage, addUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, getLastAssistantMessage } from '../services/memory.js';
 import { getAvailableProviders, getProviderConfig, selectProviderAndModel } from '../services/ai.js';
-import { getProjectContext, queryBrain, getBrainStats } from '../services/vault-brain.js';
+import { getProjectContext, queryBrain, getBrainStats, getBrainSystemPrompt, learnFromConversation } from '../services/vault-brain.js';
 import { AI_PROVIDERS } from '../config/providers.js';
 import { DAILY_LIMITS } from '../config/index.js';
 import { ALL_AGENTS, WAREHOUSE_INDEX, WAREHOUSE_AGENTS, SUBAGENTS } from '../config/agents.js';
@@ -199,8 +199,10 @@ export function setupChatRoutes(app) {
       const patternData = await getPattern(c.env, queryHash);
       const patternHint = getPatternHint(patternData);
       
+      const brainPrompt = await getBrainSystemPrompt(c.env);
+      
       const systemPromptParts = [
-        'You are Narad, a Terminal AI assistant.',
+        brainPrompt,
         '',
         'MISSION:',
         'Assist the user with coding, analysis, and general tasks. Be precise and helpful.',
@@ -421,6 +423,8 @@ export function setupChatRoutes(app) {
             { role: 'assistant', text: reply, agentType: agentType, queryHash: queryHash }
           ];
           await saveChatHistory(c.env, session_id, newHistory);
+          
+          await learnFromConversation(c.env, message, reply, { agentType, sessionId: session_id });
           
           return c.json({ 
             reply, 
