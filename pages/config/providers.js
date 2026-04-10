@@ -272,31 +272,41 @@ export const PROVIDER_ROUTING = {
     debugging: 'anthropic',
     research: 'gemini',
     deployment: 'groq',
-    simple: 'deepseek',
+    simple: 'openrouter',
     default: 'groq'
   },
   
   // Cost per 1M tokens (approximate)
   costWeights: {
     groq: 0.10,
+    openrouter: 0.20,
     deepseek: 0.15,
     mistral: 0.40,
     openai: 3.00,
     anthropic: 3.00,
     gemini: 0.50,
     cloudflare: 0.00,
-    cerebras: 0.00
+    cerebras: 0.00,
+    github: 0.00,
+    nvidia: 0.00,
+    huggingface: 0.00
   },
   
   // Quality score (0-1)
   qualityWeights: {
     groq: 0.50,
+    openrouter: 0.70,
     deepseek: 0.60,
     mistral: 0.65,
     openai: 0.90,
     anthropic: 0.95,
     gemini: 0.80,
     cloudflare: 0.45,
+    cerebras: 0.55,
+    github: 0.75,
+    nvidia: 0.75,
+    huggingface: 0.65
+  },
     cerebras: 0.55
   },
   
