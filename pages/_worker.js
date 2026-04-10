@@ -65,6 +65,10 @@ app.all('/api/hermes-webhook', async (c) => {
   return handleHermesWebhook(c.req.raw, c.env);
 });
 
+app.get('/api/hermes-config', async (c) => {
+  return handleHermesConfig(c.req.raw, c.env);
+});
+
 app.get('/api/warehouse', async (c) => {
   const agents = {};
   for (const [id, config] of Object.entries(WAREHOUSE_INDEX)) {
