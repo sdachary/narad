@@ -263,3 +263,49 @@ export function selectBestProvider(requirements = {}) {
 }
 
 export const PROVIDER_FALLBACK_ORDER = ['groq', 'cerebras', 'cloudflare', 'openrouter', 'mistral', 'gemini', 'github', 'nvidia', 'huggingface', 'openai', 'anthropic'];
+
+// Provider routing configuration for intelligent model selection
+export const PROVIDER_ROUTING = {
+  // Default routing by task type
+  taskRouting: {
+    coding: 'anthropic',
+    debugging: 'anthropic',
+    research: 'gemini',
+    deployment: 'groq',
+    simple: 'deepseek',
+    default: 'groq'
+  },
+  
+  // Cost per 1M tokens (approximate)
+  costWeights: {
+    groq: 0.10,
+    deepseek: 0.15,
+    mistral: 0.40,
+    openai: 3.00,
+    anthropic: 3.00,
+    gemini: 0.50,
+    cloudflare: 0.00,
+    cerebras: 0.00
+  },
+  
+  // Quality score (0-1)
+  qualityWeights: {
+    groq: 0.50,
+    deepseek: 0.60,
+    mistral: 0.65,
+    openai: 0.90,
+    anthropic: 0.95,
+    gemini: 0.80,
+    cloudflare: 0.45,
+    cerebras: 0.55
+  },
+  
+  // Keywords for task classification
+  keywords: {
+    coding: ['code', 'function', 'implement', 'class', 'export', 'import', 'write'],
+    debugging: ['debug', 'error', 'bug', 'fix', 'crash', 'exception', 'trace'],
+    research: ['research', 'explain', 'analyze', 'compare', 'document', 'architecture'],
+    deployment: ['deploy', 'docker', 'kubernetes', 'build', 'release', 'publish'],
+    simple: ['what', 'how', 'when', 'where', 'who', 'list', 'show']
+  }
+};
