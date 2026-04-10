@@ -43,6 +43,9 @@
                 <button id="clear-history-btn" class="header-btn" title="Clear (Cmd+K)" aria-label="Clear chat" role="button" tabindex="0">
                     <i data-lucide="trash-2"></i>
                 </button>
+                <button id="brain-stats-btn" class="header-btn" title="Brain Stats" aria-label="Brain Stats" role="button" tabindex="0">
+                    <i data-lucide="brain"></i>
+                </button>
                 <button id="stop-search-btn" class="header-btn stop-btn" title="Stop (Ctrl+C)" aria-label="Stop" role="button" tabindex="0">
                     <i data-lucide="square"></i>
                 </button>
@@ -95,6 +98,23 @@
         <div id="image-preview"></div>
         <button id="clear-chat-btn"></button>
         <button id="voice-output-btn"></button>
+    </div>
+
+    <!-- Brain Stats Modal -->
+    <div id="brain-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i data-lucide="brain"></i> Narad Brain</h2>
+                <button id="brain-close-btn" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="brain-stats-content">
+                <div class="brain-loading">Loading brain stats...</div>
+            </div>
+            <div class="modal-footer">
+                <button id="brain-refresh-btn" class="btn">Refresh</button>
+                <button id="brain-insights-btn" class="btn">View Insights</button>
+            </div>
+        </div>
     </div>
 
     <script src="app.js" type="module" defer></script>

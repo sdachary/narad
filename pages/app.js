@@ -2248,6 +2248,23 @@ if (stopSearchBtn) {
     stopSearchBtn.addEventListener('click', stopSearch);
 }
 
+const brainStatsBtn = document.getElementById('brain-stats-btn');
+if (brainStatsBtn) {
+    brainStatsBtn.addEventListener('click', showBrainModal);
+}
+
+const brainModal = document.getElementById('brain-modal');
+if (brainModal) {
+    document.getElementById('brain-close-btn')?.addEventListener('click', () => {
+        brainModal.style.display = 'none';
+    });
+    document.getElementById('brain-refresh-btn')?.addEventListener('click', loadBrainStats);
+    document.getElementById('brain-insights-btn')?.addEventListener('click', loadBrainInsights);
+    brainModal.addEventListener('click', (e) => {
+        if (e.target === brainModal) brainModal.style.display = 'none';
+    });
+}
+
 // Show error message to user
 function showError(message) {
     const errorDiv = document.createElement('div');
@@ -2442,6 +2459,91 @@ function addRichMessage(text, type = 'assistant', allowHtml = false) {
 function escapeHtml(text) {
     const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// Brain Stats Modal Functions
+async function showBrainModal() {
+    const modal = document.getElementById('brain-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        await loadBrainStats();
+    }
+}
+
+async function loadBrainStats() {
+    const content = document.getElementById('brain-stats-content');
+    if (!content) return;
+    
+    content.innerHTML = '<div class="brain-loading">Loading brain stats...</div>';
+    
+    try {
+        const response = await fetch(`${API_BASE}/api/brain/stats`);
+        const data = await response.json();
+        
+        const stats = data.stats || {};
+        content.innerHTML = `
+            <div class="brain-stats-grid">
+                <div class="brain-stat-card">
+                    <div class="brain-stat-label">Total Docs</div>
+                    <div class="brain-stat-value">${stats.totalDocs || 0}</div>
+                </div>
+                <div class="brain-stat-card">
+                    <div class="brain-stat-label">RAG Entries</div>
+                    <div class="brain-stat-value">${stats.ragDocCount || 0}</div>
+                </div>
+                <div class="brain-stat-card">
+                    <div class="brain-stat-label">Projects</div>
+                    <div class="brain-stat-value">${Object.keys(stats.projects || {}).length}</div>
+                </div>
+                <div class="brain-stat-card">
+                    <div class="brain-stat-label">Last Scan</div>
+                    <div class="brain-stat-value" style="font-size: 14px;">${stats.lastFullScan ? new Date(stats.lastFullScan).toLocaleDateString() : 'Never'}</div>
+                </div>
+            </div>
+            ${stats.byProject?.length ? `
+            <div class="brain-project-list">
+                <h3>Projects</h3>
+                ${stats.byProject.map(p => `
+                    <div class="brain-project-item">
+                        <span>${p.project}</span>
+                        <span>${p.docCount} docs, ${p.files} files</span>
+                    </div>
+                `).join('')}
+            </div>
+            ` : ''}
+        `;
+    } catch (e) {
+        content.innerHTML = `<div class="brain-loading">Error: ${e.message}</div>`;
+    }
+}
+
+async function loadBrainInsights() {
+    const content = document.getElementById('brain-stats-content');
+    if (!content) return;
+    
+    content.innerHTML = '<div class="brain-loading">Loading insights...</div>';
+    
+    try {
+        const response = await fetch(`${API_BASE}/api/brain/insights?limit=20`);
+        const data = await response.json();
+        
+        if (!data.insights || data.insights.length === 0) {
+            content.innerHTML = '<div class="brain-loading">No insights learned yet.</div>';
+            return;
+        }
+        
+        content.innerHTML = `
+            <h3>Learned Insights (${data.total})</h3>
+            ${data.insights.map(i => `
+                <div class="insight-item">
+                    <div class="insight-title">${escapeHtml(i.title)}</div>
+                    <div class="insight-meta">Category: ${i.category || 'general'} | ${i.createdAt ? new Date(i.createdAt).toLocaleDateString() : ''}</div>
+                </div>
+            `).join('')}
+        `;
+    } catch (e) {
+        content.innerHTML = `<div class="brain-loading">Error: ${e.message}</div>`;
+    }
 }
 
 // Check if message is a multi-agent request
