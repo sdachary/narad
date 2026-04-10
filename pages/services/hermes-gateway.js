@@ -10,6 +10,27 @@ const COOLDOWN_MS = 2000; // 2 second cooldown
 // Worker start time for uptime calculation (CF Workers compatible)
 const WORKER_START_TIME = Date.now();
 
+// Get or create webhook secret automatically
+async function getWebhookSecret(env) {
+  // If env secret is set, use it
+  if (env.TELEGRAM_WEBHOOK_SECRET) {
+    return env.TELEGRAM_WEBHOOK_SECRET;
+  }
+  
+  // Try to get from KV (using NARAD_DATA), generate if not exists
+  if (env.NARAD_DATA) {
+    let config = await env.NARAD_DATA.get('hermes_webhook_secret');
+    if (!config) {
+      config = crypto.randomUUID();
+      await env.NARAD_DATA.put('hermes_webhook_secret', config);
+      console.log('[Hermes] Auto-generated webhook secret');
+    }
+    return config;
+  }
+  
+  return null;
+}
+
 function checkRateLimit(userId) {
   const now = Date.now();
   const lastRequest = userRateLimits.get(userId) || 0;
@@ -43,11 +64,13 @@ export async function handleHermesWebhook(request, env) {
     try {
       const payload = await request.json();
       
-      // Verify webhook secret (skip if not configured)
+      // Verify webhook secret (auto-generate if not configured)
       const secret = request.headers.get('X-Telegram-Bot-Api-Secret-Token');
-      if (env.TELEGRAM_WEBHOOK_SECRET && secret !== env.TELEGRAM_WEBHOOK_SECRET) {
+      const expectedSecret = await getWebhookSecret(env);
+      if (expectedSecret && secret !== expectedSecret) {
         console.warn('[Hermes] Unauthorized webhook attempt');
         return new Response('Unauthorized', { status: 401 });
+      }
       }
       
       // Process incoming message
@@ -60,6 +83,23 @@ export async function handleHermesWebhook(request, env) {
       console.error('[Hermes] Error processing webhook:', err);
       return new Response('Error', { status: 500 });
     }
+  }
+  
+  return new Response('Method not allowed', { status: 405 });
+}
+
+// Admin endpoint to get/set webhook secret
+async function handleHermesConfig(request, env) {
+  const secret = await getWebhookSecret(env);
+  
+  if (request.method === 'GET') {
+    return new Response(JSON.stringify({ 
+      webhook_secret: secret,
+      bot_token_set: !!env.TELEGRAM_BOT_TOKEN,
+      kv_bound: !!env.HERMES_CONFIG
+    }, null, 2), {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
   
   return new Response('Method not allowed', { status: 405 });
