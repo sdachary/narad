@@ -1,7 +1,7 @@
 import { checkRateLimit, validateCSRF, ValidationSchemas } from '../services/security.js';
 import { getStore, getUsage, addUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, getLastAssistantMessage } from '../services/memory.js';
 import { getAvailableProviders, getProviderConfig, selectProviderAndModel } from '../services/ai.js';
-import { getProjectContext, queryBrain, getBrainStats, getBrainSystemPrompt, learnFromConversation } from '../services/vault-brain.js';
+import { getProjectContext, queryBrain, getBrainStats, getBrainSystemPrompt, formatBrainStatus, searchVaultFiles, getAllInsights, learnFromConversation } from '../services/vault-brain.js';
 import { AI_PROVIDERS } from '../config/providers.js';
 import { DAILY_LIMITS } from '../config/index.js';
 import { ALL_AGENTS, WAREHOUSE_INDEX, WAREHOUSE_AGENTS, SUBAGENTS } from '../config/agents.js';
@@ -273,6 +273,27 @@ export function setupChatRoutes(app) {
       const searchTriggers = ['news', 'who is', 'latest', 'what is', 'current', 'event', 'result', 'where'];
       const shouldSearch = lowerMessage.startsWith('/search') || 
                          (searchTriggers.some(t => lowerMessage.includes(t)) && !lowerMessage.includes('price') && !lowerMessage.includes('share'));
+      
+      if (lowerMessage.startsWith('/brain')) {
+        const brainArgs = lowerMessage.replace(/^\/brain\s*/, '').split(' ');
+        if (brainArgs[0] === '' || brainArgs[0] === 'status') {
+          const stats = await getBrainStats(c.env);
+          return c.json({ reply: await formatBrainStatus(stats), session_id, metadata: { command: 'brain' } });
+        } else if (brainArgs[0] === 'search' || brainArgs[0] === 'find') {
+          const query = brainArgs.slice(1).join(' ');
+          const results = await searchVaultFiles(c.env, query);
+          const reply = results.results.length === 0 
+            ? `No results for "${query}"`
+            : results.results.map(r => `• ${r.title}\n  ${r.excerpt}\n  Score: ${r.score.toFixed(2)}`).join('\n\n');
+          return c.json({ reply, session_id, metadata: { command: 'brain-search', query } });
+        } else if (brainArgs[0] === 'insights') {
+          const insights = await getAllInsights(c.env, { limit: 10 });
+          const reply = insights.insights.length === 0
+            ? 'No insights learned yet.'
+            : insights.insights.map(i => `• ${i.title}\n  Category: ${i.category}`).join('\n\n');
+          return c.json({ reply, session_id, metadata: { command: 'brain-insights' } });
+        }
+      }
       
       if (shouldSearch) {
         const searchQuery = lowerMessage.replace(/^\/search\s*/, '');
