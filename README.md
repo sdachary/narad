@@ -2,7 +2,7 @@
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-**Narad** is a private R&D intelligence brain for the [Nisha Platform](https://github.com/sdachary/nisha). Deployed as a serverless Cloudflare Worker.
+**Narad** is a private R&D intelligence brain deployed as a serverless Cloudflare Pages app.
 
 ---
 
@@ -11,9 +11,8 @@
 | **Truth Verification** | 0.95 threshold AI response validation |
 | **Neural Workspace** | Mode-based (Casual, R&D, Build) session management (NEW) |
 | **Cloud Persistence** | Device-independent KV-based session sync (NEW) |
-| **Research Intel** | High-fidelity platform scans via `/last30days` (NEW) |
-| **GitHub Builder** | Background codebase generation via `/build`, `/upgrade` (NEW) |
-| **Superpowers** | Engineering protocols via `/skill [tdd|brainstorm]` (NEW) |
+| **Telegram Bot** | Hermes Gateway - control Narad via Telegram (NEW) |
+| **Smart Routing** | Intelligent provider selection by task type (NEW) |
 
 ---
 
@@ -104,6 +103,72 @@ npx wrangler pages deploy pages --project-name narad
 /dev+reviewer: task         # Parallel execution
 /chain:dev->writer->reviewer: build feature  # Sequential chain
 ```
+
+---
+
+## 🤖 Telegram Bot (Hermes Gateway)
+
+Control Narad from Telegram with these commands:
+
+| Command | Description |
+|---------|-------------|
+| `/start` | Welcome message |
+| `/ask <prompt>` | Chat with Narad AI |
+| `/status` | Service status |
+| `/help` | Help message |
+| `/file list [path]` | List directory |
+| `/file read <path>` | Read file |
+
+### Setup
+
+1. **Create bot**: Message [@BotFather](https://t.me/BotFather) on Telegram
+2. **Set webhook**:
+```bash
+curl -X POST "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook" \
+  -d "url=https://narad-7hc.pages.dev/api/hermes-webhook"
+```
+
+### Auto-Configuration
+
+- Webhook secret auto-generates if not set
+- Bot token can be set via `TELEGRAM_BOT_TOKEN` secret or uses default
+- Rate limit: 1 second between requests
+
+---
+
+## ⚡ Smart Provider Routing
+
+Narad automatically selects the best AI provider based on task type:
+
+| Task Type | Keywords | Provider | Model |
+|-----------|----------|----------|-------|
+| `coding` | code, function, implement | anthropic | balanced |
+| `debugging` | debug, error, bug, fix | anthropic | strong |
+| `research` | explain, analyze, compare | gemini | balanced |
+| `deployment` | deploy, docker, build | groq | balanced |
+| `simple` | what, how, when, list | openrouter | fast |
+
+### Force Specific Provider
+
+```javascript
+POST /api/chat
+{
+  "message": "Explain this code",
+  "agentType": "research"  // Forces gemini
+}
+```
+
+### Provider Weights
+
+| Provider | Cost/1M | Quality |
+|----------|---------|---------|
+| groq | $0.10 | 0.50 |
+| openrouter | $0.20 | 0.70 |
+| deepseek | $0.15 | 0.60 |
+| mistral | $0.40 | 0.65 |
+| gemini | $0.50 | 0.80 |
+| openai | $3.00 | 0.90 |
+| anthropic | $3.00 | 0.95 |
 
 ---
 
