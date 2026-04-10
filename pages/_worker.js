@@ -18,6 +18,7 @@ import { syncSessions, getSessions, saveSessionHistory, getSessionHistory, delet
 import { triggerGitHubDispatch, analyzeGitHubRepo } from './services/github.js';
 import { runLast30DaysResearch } from './services/research.js';
 import { fetchSkill } from './services/skills.js';
+import { handleHermesWebhook } from './services/hermes-gateway.js';
 
 const app = new Hono();
 
@@ -59,6 +60,10 @@ app.use('*', async (c, next) => {
 setupHealthRoutes(app);
 setupChatRoutes(app);
 setupErrorRoutes(app);
+
+app.all('/api/hermes-webhook', async (c) => {
+  return handleHermesWebhook(c.req.raw, c.env);
+});
 
 app.get('/api/warehouse', async (c) => {
   const agents = {};

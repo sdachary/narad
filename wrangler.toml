@@ -14,3 +14,9 @@ binding = "AI"
 ENVIRONMENT = "production"
 PRIMARY_MODEL = "llama-3.3-70b-versatile"
 SKILLS_REPO = "sdachary/narad"
+
+# Hermes Gateway Configuration
+[secrets]
+telegram_bot_token = "Telegram Bot Token - add via wrangler secret put"
+telegram_webhook_secret = "Webhook secret for verification"
+narad_api_token = "API token for Narad service"
