@@ -18,7 +18,7 @@ import { syncSessions, getSessions, saveSessionHistory, getSessionHistory, delet
 import { triggerGitHubDispatch, analyzeGitHubRepo } from './services/github.js';
 import { runLast30DaysResearch } from './services/research.js';
 import { fetchSkill } from './services/skills.js';
-import { handleHermesWebhook, handleHermesConfig } from './services/hermes-gateway.js';
+import { handleHermesWebhook } from './services/hermes-gateway.js';
 
 const app = new Hono();
 
