@@ -49,6 +49,11 @@
         </main>
 
         <footer class="terminal-footer">
+            <!-- Processing Indicator -->
+            <div id="processing-indicator" class="processing-indicator" style="display: none;">
+                <span class="spinner">⠋</span>
+                <span class="processing-status">Processing...</span>
+            </div>
             <form id="chat-form" class="input-line">
                 <span class="prompt">></span>
                 <textarea id="user-input" placeholder="Type / for commands..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
