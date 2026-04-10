@@ -307,8 +307,6 @@ export const PROVIDER_ROUTING = {
     nvidia: 0.75,
     huggingface: 0.65
   },
-    cerebras: 0.55
-  },
   
   // Keywords for task classification
   keywords: {
