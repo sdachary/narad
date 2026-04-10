@@ -258,8 +258,8 @@ async function listDirectory(path, env) {
 
 async function sendToNarad(prompt, env) {
   try {
-    // Call existing Narad AI service using the AI binding or URL
-    const naradUrl = env.NARAD_API_URL || 'https://narad.ai';
+    // Use self-reference for Cloudflare Pages
+    const naradUrl = 'https://narad-7hc.pages.dev';
     const apiToken = env.NARAD_API_TOKEN;
     
     const requestBody = {
