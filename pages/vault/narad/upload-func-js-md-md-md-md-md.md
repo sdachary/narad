@@ -1,0 +1,229 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/upload-func-js-md-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 191
+size: 31313 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# upload-func-js-md-md-md-md.md
+
+> Configuration file for the project using **typescript** (191 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/upload-func-js-md-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 191 |
+| **Size** | 31313 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/upload-func-js-md-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 153
+size: 30513 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# upload-func-js-md-md-md.md
+
+> Configuration file for the project using **typescript** (153 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/upload-func-js-md-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 153 |
+| **Size** | 30513 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/upload-func-js-md-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 115
+size: 29722 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# upload-func-js-md-md.md
+
+> Configuration file for the project using **typescript** (115 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/upload-func-js-md-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 115 |
+| **Size** | 29722 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/upload-func-js-md.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 77
+size: 28943 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# upload-func-js-md.md
+
+> Configuration file for the project using **typescript** (77 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/upload-func-js-md.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 77 |
+| **Size** | 28943 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/upload-func-js.md"
+project: "narad"
+role: config
+language: markdown
+frameworks: [typescript]
+lines: 39
+size: 28171 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [config, documentation, markdown, project/narad, typescript]
+---
+
+# upload-func-js.md
+
+> Configuration file for the project using **typescript** (39 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/upload-func-js.md` |
+| **Role** | config |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 39 |
+| **Size** | 28171 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/deepak/Work/unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/functions/api/resume/upload.func.js"
+project: "unnati"
+role: config
+language: javascript
+frameworks: [typescript]
+lines: 1
+size: 27314 bytes
+last_modified: "2026-04-07 17:53"
+scanned: "2026-04-07 17:53"
+tags: [code, config, javascript, project/unnati, typescript]
+---
+
+# upload.func.js
+
+> Configuration file for the project using **typescript** (1 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/functions/api/resume/upload.func.js` |
+| **Role** | config |
+| **Language** | javascript |
+| **Frameworks** | typescript |
+| **Lines** | 1 |
+| **Size** | 27314 bytes |
+| **Modified** | 2026-04-07 17:53 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```javascript
+var Te=Object.defineProperty;var qe=Object.getOwnPropertyDescriptor;var Be=Object.getOwnPropertyNames;var $e=Object.prototype.hasOwnProperty;var ze=(_,i)=>()=>(_&&(i=_(_=0)),i);var Ce=(_,i,ee,m)=>{if(i&&typeof i=="object"||typeof i=="function")for(let f of Be(i))!$e.call(_,f)&&f!==ee&&Te(_,f,{get:()=>i[f],enumerable:!(m=qe(i,f))||m.enumerable});return _},Ne=(_,i,ee)=>(Ce(_,i,"default"),ee&&Ce(ee,i,"default"));var He=_=>Ce(Te({},"__esModule",{value:!0}),_);var se={};import*as ta from"async_hooks";var Pe=ze(()=>{Ne(se,ta)});import{__getNamedExports as Ge}from"../../../../__next-on-pages-dist__/webpack/a2a01d6387f4582ac408232d99c6e00f.js";import{__getNamedExports as Ve}from"../../../../__next-on-pages-dist__/webpack/4df22a7090abd8ee1a23a2de813e315f.js";import{__getNamedExports as Ke}from"../../../../__next-on-pages-dist__/manifest/88a389dd6c068190adb2efc795e4063c.js";var w=globalThis.__nextOnPagesRoutesIsolation.getProxyFor("/api/resume/upload"),e=Ge(w,w,w),Xe=e.__chunk_8335,Je=e.__chunk_6487,Ze=e.__chunk_5521,Qe=e.__chunk_5356,Ye=e.__chunk_9904,en=e.__chunk_9802,nn=e.__chunk_9739,tn=e.__chunk_9636,an=e.__chunk_9633,sn=e.__chunk_9624,on=e.__chunk_9565,cn=e.__chunk_9456,rn=e.__chunk_9414,_n=e.__chunk_8826,un=e.__chunk_8749,ln=e.__chunk_8619,dn=e.__chunk_8546,hn=e.__chunk_8512,pn=e.__chunk_8360,kn=e.__chunk_8327,mn=e.__chunk_8105,fn=e.__chunk_7707,gn=e.__chunk_7670,yn=e.__chunk_7668,xn=e.__chunk_7622,vn=e.__chunk_7581,bn=e.__chunk_7538,Rn=e.__chunk_7521,En=e.__chunk_7504,wn=e.__chunk_7502,Sn=e.__chunk_7478,Cn=e.__chunk_7426,Nn=e.__chunk_7382,On=e.__chunk_7329,jn=e.__chunk_7316,Mn=e.__chunk_7261,An=e.__chunk_7223,Tn=e.__chunk_7205,Pn=e.__chunk_6859,In=e.__chunk_6225,Dn=e.__chunk_6216,Fn=e.__chunk_6008,Wn=e.__chunk_5897,Ln=e.__chunk_5826,Un=e.__chunk_5752,qn=e.__chunk_5723,Bn=e.__chunk_5638,$n=e.__chunk_5354,zn=e.__chunk_5335,Hn=e.__chunk_5280,Gn=e.__chunk_5209,Vn=e.__chunk_5182,Kn=e.__chunk_5063,Xn=e.__chunk_5002,Jn=e.__chunk_4946,Zn=e.__chunk_4752,Qn=e.__chunk_4570,Yn=e.__chunk_4291,et=e.__chunk_4289,nt=e.__chunk_4211,tt=e.__chunk_4207,at=e.__chunk_4182,st=e.__chunk_4153,ot=e.__chunk_4116,ct=e.__chunk_4055,rt=e.__chunk_4023,_t=e.__chunk_3951,it=e.__chunk_3948,ut=e.__chunk_3911,lt=e.__chunk_3850,dt=e.__chunk_3682,ht=e.__chunk_3419,pt=e.__chunk_3373,kt=e.__chunk_3355,mt=e.__chunk_3207,ft=e.__chunk_3173,gt=e.__chunk_3114,yt=e.__chunk_2993,xt=e.__chunk_2890,vt=e.__chunk_2882,bt=e.__chunk_2831,Rt=e.__chunk_2668,Et=e.__chunk_2605,wt=e.__chunk_2569,St=e.__chunk_2456,Ct=e.__chunk_2449,Nt=e.__chunk_2398,Ot=e.__chunk_2392,jt=e.__chunk_2058,Mt=e.__chunk_1983,At=e.__chunk_1699,Tt=e.__chunk_1679,Pt=e.__chunk_1668,It=e.__chunk_1664,Dt=e.__chunk_1640,Ft=e.__chunk_1417,Wt=e.__chunk_1347,Lt=e.__chunk_1212,Ut=e.__chunk_1130,qt=e.__chunk_1087,Bt=e.__chunk_882,$t=e.__chunk_857,zt=e.__chunk_655,Ht=e.__chunk_622,Gt=e.__chunk_460,Vt=e.__chunk_436,Kt=e.__chunk_182,Xt=e.__chunk_86,Ie=Ve(w,w,w),Jt=Ie.__chunk_4518,Zt=Ie.__chunk_7008,Oe=Ke(w,w,w),Qt=Oe.__NEXT_FONT_MANIFEST,Yt=Oe.__REACT_LOADABLE_MANIFEST,ea=Oe.__RSC_SERVER_MANIFEST,ca=((_,i,ee)=>(i._ENTRIES={},_.__RSC_SERVER_MANIFEST=ea,i.__RSC_MANIFEST=i.__RSC_MANIFEST||{},i.__RSC_MANIFEST["/api/resume/upload/route"]={moduleLoading:{prefix:"/_next/"},ssrModuleMapping:{622:{"*":{id:"2146",name:"*",chunks:[],async:!1}},1959:{"*":{id:"1603",name:"*",chunks:[],async:!1}},2619:{"*":{id:"3991",name:"*",chunks:[],async:!1}},3886:{"*":{id:"5170",name:"*",chunks:[],async:!1}},4431:{"*":{id:"2263",name:"*",chunks:[],async:!1}},5278:{"*":{id:"8922",name:"*",chunks:[],async:!1}},7150:{"*":{id:"4160",name:"*",chunks:[],async:!1}},7989:{"*":{id:"8495",name:"*",chunks:[],async:!1}},8924:{"*":{id:"9234",name:"*",chunks:[],async:!1}},9547:{"*":{id:"1854",name:"*",chunks:[],async:!1}},9766:{"*":{id:"7526",name:"*",chunks:[],async:!1}}},edgeSSRModuleMapping:{},clientModules:{"/home/deepak/Work/unnati/node_modules/next/dist/client/components/builtin/global-error.js":{id:7150,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/builtin/global-error.js":{id:7150,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/client-page.js":{id:1959,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/client-page.js":{id:1959,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/client-segment.js":{id:7989,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/client-segment.js":{id:7989,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/http-access-fallback/error-boundary.js":{id:3886,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/http-access-fallback/error-boundary.js":{id:3886,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/layout-router.js":{id:9766,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/layout-router.js":{id:9766,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/metadata/async-metadata.js":{id:5278,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/metadata/async-metadata.js":{id:5278,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/components/render-from-template-context.js":{id:8924,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/components/render-from-template-context.js":{id:8924,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/lib/framework/boundary-components.js":{id:4431,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/lib/framework/boundary-components.js":{id:4431,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/lib/metadata/generate/icon-mark.js":{id:622,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/lib/metadata/generate/icon-mark.js":{id:622,name:"*",chunks:[],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/client/app-dir/link.js":{id:2619,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},"/home/deepak/Work/unnati/node_modules/next/dist/esm/client/app-dir/link.js":{id:2619,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},'/home/deepak/Work/unnati/node_modules/next/font/google/target.css?{"path":"src/app/layout.tsx","import":"Geist","arguments":[{"variable":"--font-geist-sans","subsets":["latin"]}],"variableName":"geistSans"}':{id:6168,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},'/home/deepak/Work/unnati/node_modules/next/font/google/target.css?{"path":"src/app/layout.tsx","import":"Geist_Mono","arguments":[{"variable":"--font-geist-mono","subsets":["latin"]}],"variableName":"geistMono"}':{id:3944,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},"/home/deepak/Work/unnati/src/app/globals.css":{id:3673,name:"*",chunks:["177","static/chunks/app/layout-ed980458e08a7de8.js"],async:!1},"/home/deepak/Work/unnati/src/app/page.tsx":{id:9547,name:"*",chunks:["275","static/chunks/275-587834d0ceb05932.js","974","static/chunks/app/page-fa1a24a5040f11a5.js"],async:!1}},entryCSSFiles:{"/home/deepak/Work/unnati/src/":[],"/home/deepak/Work/unnati/src/app/layout":[{inlined:!1,path:"static/css/464d4656c4f3577c.css"}],"/home/deepak/Work/unnati/src/app/page":[],"/home/deepak/Work/unnati/src/app/api/resume/upload/route":[]},rscModuleMapping:{622:{"*":{id:"1384",name:"*",chunks:[],async:!1}},1959:{"*":{id:"3597",name:"*",chunks:[],async:!1}},2619:{"*":{id:"5169",name:"*",chunks:[],async:!1}},3673:{"*":{id:"1135",name:"*",chunks:[],async:!1}},3886:{"*":{id:"9748",name:"*",chunks:[],async:!1}},4431:{"*":{id:"3041",name:"*",chunks:[],async:!1}},5278:{"*":{id:"7184",name:"*",chunks:[],async:!1}},7150:{"*":{id:"1170",name:"*",chunks:[],async:!1}},7989:{"*":{id:"6893",name:"*",chunks:[],async:!1}},8924:{"*":{id:"9576",name:"*",chunks:[],async:!1}},9547:{"*":{id:"967",name:"*",chunks:[],async:!1}},9766:{"*":{id:"6060",name:"*",chunks:[],async:!1}}},edgeRscModuleMapping:{}},i.__BUILD_MANIFEST={polyfillFiles:["static/chunks/polyfills-42372ed130431b0a.js"],devFiles:[],ampDevFiles:[],lowPriorityFiles:[],rootMainFiles:["static/chunks/webpack-b66e35ffe30362a3.js","static/chunks/4bd1b696-c023c6e3521b1417.js","static/chunks/255-e3bf15caf1f1e0f9.js","static/chunks/main-app-0b7d03ffd7dbc43b.js"],rootMainFilesTree:{},pages:{"/_app":["static/chunks/webpack-b66e35ffe30362a3.js","static/chunks/framework-de98b93a850cfc71.js","static/chunks/main-c4b3f36a491c2d1a.js","static/chunks/pages/_app-7d307437aca18ad4.js"],"/_error":["static/chunks/webpack-b66e35ffe30362a3.js","static/chunks/framework-de98b93a850cfc71.js","static/chunks/main-c4b3f36a491c2d1a.js","static/chunks/pages/_error-cb2a52f75f2162e2.js"]},ampFirstPages:[]},i.__BUILD_MANIFEST.lowPriorityFiles=["/static/WhVZeJAEWDqUCEmazhlet/_buildManifest.js",,"/static/WhVZeJAEWDqUCEmazhlet/_ssgManifest.js"],_.__REACT_LOADABLE_MANIFEST=Yt,_.__NEXT_FONT_MANIFEST=Qt,_.__INTERCEPTION_ROUTE_REWRITE_MANIFEST="[]",(()=>{"use strict";var m={},f={};function t(s){var u=f[s];if(u!==void 0)return u.exports;var c=f[s]={exports:{}},g=!0;try{m[s](c,c.exports,t),g=!1}finally{g&&delete f[s]}return c.exports}t.m=m,t.amdO={},(()=>{var s=[];t.O=(u,c,g,p)=>{if(c){p=p||0;for(var h=s.length;h>0&&s[h-1][2]>p;h--)s[h]=s[h-1];s[h]=[c,g,p];return}for(var x=1/0,h=0;h<s.length;h++){for(var[c,g,p]=s[h],v=!0,b=0;b<c.length;b++)(!1&p||x>=p)&&Object.keys(t.O).every(B=>t.O[B](c[b]))?c.splice(b--,1):(v=!1,p<x&&(x=p));if(v){s.splice(h--,1);var R=g();R!==void 0&&(u=R)}}return u}})(),t.n=s=>{var u=s&&s.__esModule?()=>s.default:()=>s;return t.d(u,{a:u}),u},t.d=(s,u)=>{for(var c in u)t.o(u,c)&&!t.o(s,c)&&Object.defineProperty(s,c,{enumerable:!0,get:u[c]})},t.e=()=>Promise.resolve(),t.g=function(){if(typeof i=="object")return i;try{return this||Function("return this")()}catch{if(typeof window=="object")return window}}(),t.o=(s,u)=>Object.prototype.hasOwnProperty.call(s,u),t.r=s=>{typeof Symbol<"u"&&Symbol.toStringTag&&Object.defineProperty(s,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(s,"__esModule",{value:!0})},(()=>{var s={149:0};t.O.j=g=>s[g]===0;var u=(g,p)=>{var h,x,[v,b,R]=p,L=0;if(v.some(K=>s[K]!==0)){for(h in b)t.o(b,h)&&(t.m[h]=b[h]);if(R)var ne=R(t)}for(g&&g(p);L<v.length;L++)x=v[L],t.o(s,x)&&s[x]&&s[x][0](),s[x]=0;return t.O(ne)},c=_.webpackChunk_N_E=_.webpackChunk_N_E||[];c.forEach(u.bind(null,0)),c.push=u.bind(null,c.push.bind(c))})()})(),(_.webpackChunk_N_E=_.webpackChunk_N_E||[]).push([[53],{86:Xt,182:Kt,436:Vt,460:Gt,622:Ht,655:zt,857:$t,882:Bt,1087:qt,1130:Ut,1212:Lt,1347:Wt,1417:Ft,1640:Dt,1664:It,1668:Pt,1679:Tt,1699:At,1983:Mt,2058:jt,2392:Ot,2398:Nt,2449:Ct,2456:St,2569:wt,2605:Et,2668:Rt,2831:bt,2882:vt,2890:xt,2993:yt,3114:gt,3173:ft,3207:mt,3355:kt,3373:pt,3419:ht,3682:dt,3850:lt,3911:ut,3948:it,3951:_t,4023:rt,4055:ct,4116:ot,4153:st,4182:at,4207:tt,4211:nt,4289:et,4291:Yn,4570:Qn,4752:Zn,4946:Jn,5002:Xn,5063:Kn,5182:Vn,5209:Gn,5280:Hn,5335:zn,5354:$n,5638:Bn,5723:qn,5752:Un,5826:Ln,5897:Wn,6008:Fn,6216:Dn,6225:In,6859:Pn,7205:Tn,7223:An,7261:Mn,7316:jn,7329:On,7382:Nn,7426:Cn,7478:Sn,7502:wn,7504:En,7521:Rn,7538:bn,7581:vn,7622:xn,7668:yn,7670:gn,7707:fn,8105:mn,8327:kn,8360:pn,8512:hn,8546:dn,8619:ln,8749:un,8826:_n,9414:rn,9456:cn,9565:on,9624:sn,9633:an,9636:tn,9739:nn,9802:en,9904:Ye}]),(_.webpackChunk_N_E=_.webpackChunk_N_E||[]).push([[8],{7008:Zt}]),(_.webpackChunk_N_E=_.webpackChunk_N_E||[]).push([[809],{4518:Jt,5356:Qe,5521:Ze,6267:(m,f,t)=>{"use strict";t.r(f),t.d(f,{ComponentMod:()=>De,default:()=>Fe});var s,u={};t.r(u),t.d(u,{POST:()=>r,runtime:()=>n});var c={};t.r(c),t.d(c,{handler:()=>S,patchFetch:()=>D,routeModule:()=>a,serverHooks:()=>I,workAsyncStorage:()=>E,workUnitAsyncStorage:()=>k});var g=t(4116),p=t(9739),h=t(8105),x=t(4182),v=t(1983),b=t(4752),R=t(5752),L=t(9414),ne=t(4153),K=t(5280),X=t(1679),B=t(4570),oe=t(5897),te=t(8327),ce=t(9565),ge=t(3419),J=t(1212),re=t(3355),P=t(5723),$=t(7478),y=t(4518);let n="edge";async function r(l){try{if(!y.N)return $.Rp.json({error:"Supabase not initialized. Check your environment variables."},{status:500});let d=(await l.formData()).get("file");if(!d)return $.Rp.json({error:"No file provided"},{status:400});let{data:N,error:ae}=await y.N.storage.from("resumes").list();if(ae)console.error("Storage list error:",ae);else if(N){let z=N.reduce((A,F)=>A+(F.metadata?.size||0),0);if(z>31457280){let A=[...N].sort((T,ue)=>new Date(T.created_at||0).getTime()-new Date(ue.created_at||0).getTime()),F=[];for(let T of A){if(z<=25165824)break;F.push(T.name),z-=T.metadata?.size||0}F.length>0&&(await y.N.storage.from("resumes").remove(F),console.log(`Auto-cleanup: Removed ${F.length} old resumes.`))}}let U=`${Date.now()}-${d.name.replace(/[^a-zA-Z0-0.]/g,"_")}`,_e=await d.arrayBuffer(),{data:je,error:ie}=await y.N.storage.from("resumes").upload(U,_e,{contentType:d.type,upsert:!1});if(ie)throw ie;let{data:{publicUrl:Q}}=y.N.storage.from("resumes").getPublicUrl(U);return $.Rp.json({url:Q})}catch(d){return console.error("Upload error:",d),$.Rp.json({error:d.message||"Upload failed"},{status:500})}}var o=t(5356).Buffer;let a=new x.AppRouteRouteModule({definition:{kind:v.A.APP_ROUTE,page:"/api/resume/upload/route",pathname:"/api/resume/upload",filename:"route",bundlePath:"app/api/resume/upload/route"},distDir:process.env.__NEXT_RELATIVE_DIST_DIR||"",relativeProjectDir:process.env.__NEXT_RELATIVE_PROJECT_DIR||"",resolvedPagePath:"/home/deepak/Work/unnati/src/app/api/resume/upload/route.ts",nextConfigOutput:"",userland:u}),{workAsyncStorage:E,workUnitAsyncStorage:k,serverHooks:I}=a;function D(){return(0,b.V5)({workAsyncStorage:E,workUnitAsyncStorage:k})}async function S(l,d,N){var ae;let U="/api/resume/upload/route";U==="/index"&&(U="/");let _e=await a.prepare(l,d,{srcPage:U,multiZoneDraftMode:!1});if(!_e)return d.statusCode=400,d.end("Bad Request"),N.waitUntil==null||N.waitUntil.call(N,Promise.resolve()),null;let{buildId:je,params:ie,nextConfig:Q,isDraftMode:z,prerenderManifest:A,routerServerContext:F,isOnDemandRevalidate:T,revalidateOnlyGenerated:ue,resolvedPathname:ye}=_e,xe=(0,ne.Y)(U),q=!!(A.dynamicRoutes[xe]||A.routes[ye]);if(q&&!z){let j=!!A.routes[ye],Y=A.dynamicRoutes[xe];if(Y&&Y.fallback===!1&&!j)throw new re.G}let le=null;!q||a.isDev||z||(le=(le=ye)==="/index"?"/":le);let Me=a.isDev===!0||!q,ve=q&&!Me,de=l.method||"GET",he=(0,L.EK)(),be=he.getActiveScopeSpan(),O={params:ie,prerenderManifest:A,renderOpts:{experimental:{cacheComponents:!!Q.experimental.cacheComponents,authInterrupts:!!Q.experimental.authInterrupts},supportsDynamicResponse:Me,incrementalCache:(0,R.Ny)(l,"incrementalCache"),cacheLifeProfiles:(ae=Q.experimental)==null?void 0:ae.cacheLife,isRevalidate:ve,waitUntil:N.waitUntil,onClose:j=>{d.on("close",j)},onAfterTaskError:void 0,onInstrumentationRequestError:(j,Y,W)=>a.onRequestError(l,j,W,F)},sharedContext:{buildId:je}},pe=new K.j(l),Re=new K.p(d),We=X.u_.fromNodeNextRequest(pe,(0,X.SN)(d));try{let j=async W=>a.handle(We,O).finally(()=>{if(!W)return;W.setAttributes({"http.status_code":d.statusCode,"next.rsc":!1});let H=he.getRootSpanAttributes();if(!H)return;if(H.get("next.span_type")!==B.Li.handleRequest)return void console.warn(`Unexpected root span type '${H.get("next.span_type")}'. Please report this Next.js issue https://github.com/vercel/next.js`);let G=H.get("next.route");if(G){let ke=`${de} ${G}`;W.setAttributes({"next.route":G,"http.route":G,"next.span_name":ke}),W.updateName(ke)}else W.updateName(`${de} ${l.url}`)}),Y=async W=>{var H,G;let ke=async({previousCacheEntry:Ee})=>{try{if(!(0,R.Ny)(l,"minimalMode")&&T&&ue&&!Ee)return d.statusCode=404,d.setHeader("x-nextjs-cache","REVALIDATED"),d.end("This page could not be found"),null;let V=await j(W);l.fetchMetrics=O.renderOpts.fetchMetrics;let we=O.renderOpts.pendingWaitUntil;we&&N.waitUntil&&(N.waitUntil(we),we=void 0);let Ae=O.renderOpts.collectedTags;if(!q)return await(0,te.I)(pe,Re,V,O.renderOpts.pendingWaitUntil),null;{let Se=await V.blob(),fe=(0,ce.Cu)(V.headers);Ae&&(fe[J.VC]=Ae),!fe["content-type"]&&Se.type&&(fe["content-type"]=Se.type);let Le=O.renderOpts.collectedRevalidate!==void 0&&!(O.renderOpts.collectedRevalidate>=J.AR)&&O.renderOpts.collectedRevalidate,Ue=O.renderOpts.collectedExpire===void 0||O.renderOpts.collectedExpire>=J.AR?void 0:O.renderOpts.collectedExpire;return{value:{kind:P.yD.APP_ROUTE,status:V.status,body:o.from(await Se.arrayBuffer()),headers:fe},cacheControl:{revalidate:Le,expire:Ue}}}}catch(V){throw Ee?.isStale&&await a.onRequestError(l,V,{routerKind:"App Router",routePath:U,routeType:"route",revalidateReason:(0,oe.c)({isRevalidate:ve,isOnDemandRevalidate:T})},F),V}},M=await a.handleResponse({req:l,nextConfig:Q,cacheKey:le,routeKind:v.A.APP_ROUTE,isFallback:!1,prerenderManifest:A,isRoutePPREnabled:!1,isOnDemandRevalidate:T,revalidateOnlyGenerated:ue,responseGenerator:ke,waitUntil:N.waitUntil});if(!q)return null;if((M==null||(H=M.value)==null?void 0:H.kind)!==P.yD.APP_ROUTE)throw Object.defineProperty(Error(`Invariant: app-route received invalid cache entry ${M==null||(G=M.value)==null?void 0:G.kind}`),"__NEXT_ERROR_CODE",{value:"E701",enumerable:!1,configurable:!0});(0,R.Ny)(l,"minimalMode")||d.setHeader("x-nextjs-cache",T?"REVALIDATED":M.isMiss?"MISS":M.isStale?"STALE":"HIT"),z&&d.setHeader("Cache-Control","private, no-cache, no-store, max-age=0, must-revalidate");let me=(0,ce.p$)(M.value.headers);return(0,R.Ny)(l,"minimalMode")&&q||me.delete(J.VC),!M.cacheControl||d.getHeader("Cache-Control")||me.get("Cache-Control")||me.set("Cache-Control",(0,ge.B)(M.cacheControl)),await(0,te.I)(pe,Re,new Response(M.value.body,{headers:me,status:M.value.status||200})),null};be?await Y(be):await he.withPropagatedContext(l.headers,()=>he.trace(B.Li.handleRequest,{spanName:`${de} ${l.url}`,kind:L.v8.SERVER,attributes:{"http.method":de,"http.target":l.url}},Y))}catch(j){if(be||j instanceof re.G||await a.onRequestError(l,j,{routerKind:"App Router",routePath:xe,routeType:"route",revalidateReason:(0,oe.c)({isRevalidate:ve,isOnDemandRevalidate:T})}),q)throw j;return await(0,te.I)(pe,Re,new Response(null,{status:500})),null}}let C=(s=_.__RSC_MANIFEST)==null?void 0:s["/api/resume/upload/route"],Z=(l=>l?JSON.parse(l):void 0)(_.__RSC_SERVER_MANIFEST);C&&Z&&(0,p.fQ)({page:"/api/resume/upload/route",clientReferenceManifest:C,serverActionsManifest:Z,serverModuleMap:(0,g.e)({serverActionsManifest:Z})});let De=c,Fe=h.s.wrap(a,{nextConfig:{env:{},webpack:null,eslint:{ignoreDuringBuilds:!1},typescript:{ignoreBuildErrors:!1,tsconfigPath:"tsconfig.json"},typedRoutes:!1,distDir:".next",cleanDistDir:!0,assetPrefix:"",cacheMaxMemorySize:52428800,configOrigin:"next.config.mjs",useFileSystemPublicRoutes:!0,generateEtags:!0,pageExtensions:["tsx","ts","jsx","js"],poweredByHeader:!0,compress:!0,images:{deviceSizes:[640,750,828,1080,1200,1920,2048,3840],imageSizes:[16,32,48,64,96,128,256,384],path:"/_next/image",loader:"default",loaderFile:"",domains:[],disableStaticImages:!1,minimumCacheTTL:60,formats:["image/webp"],dangerouslyAllowSVG:!1,contentSecurityPolicy:"script-src 'none'; frame-src 'none'; sandbox;",contentDispositionType:"attachment",remotePatterns:[],unoptimized:!1},devIndicators:{position:"bottom-left"},onDemandEntries:{maxInactiveAge:6e4,pagesBufferLength:5},amp:{canonicalBase:""},basePath:"",sassOptions:{},trailingSlash:!1,i18n:null,productionBrowserSourceMaps:!1,excludeDefaultMomentLocales:!0,serverRuntimeConfig:{},publicRuntimeConfig:{},reactProductionProfiling:!1,reactStrictMode:null,reactMaxHeadersLength:6e3,httpAgentOptions:{keepAlive:!0},logging:{},compiler:{},expireTime:31536e3,staticPageGenerationTimeout:60,modularizeImports:{"@mui/icons-material":{transform:"@mui/icons-material/{{member}}"},lodash:{transform:"lodash/{{member}}"}},outputFileTracingRoot:"/home/deepak/Work/unnati",experimental:{useSkewCookie:!1,cacheLife:{default:{stale:300,revalidate:900,expire:4294967294},seconds:{stale:30,revalidate:1,expire:60},minutes:{stale:300,revalidate:60,expire:3600},hours:{stale:300,revalidate:3600,expire:86400},days:{stale:300,revalidate:86400,expire:604800},weeks:{stale:300,revalidate:604800,expire:2592e3},max:{stale:300,revalidate:2592e3,expire:4294967294}},cacheHandlers:{},cssChunking:!0,multiZoneDraftMode:!1,appNavFailHandling:!1,prerenderEarlyExit:!0,serverMinification:!0,serverSourceMaps:!1,linkNoTouchStart:!1,caseSensitiveRoutes:!1,clientSegmentCache:!1,clientParamParsing:!1,dynamicOnHover:!1,preloadEntriesOnStart:!0,clientRouterFilter:!0,clientRouterFilterRedirects:!1,fetchCacheKeyPrefix:"",middlewarePrefetch:"flexible",optimisticClientCache:!0,manualClientBasePath:!1,cpus:7,memoryBasedWorkersCount:!1,imgOptConcurrency:null,imgOptTimeoutInSeconds:7,imgOptMaxInputPixels:268402689,imgOptSequentialRead:null,imgOptSkipMetadata:null,isrFlushToDisk:!0,workerThreads:!1,optimizeCss:!1,nextScriptWorkers:!1,scrollRestoration:!1,externalDir:!1,disableOptimizedLoading:!1,gzipSize:!0,craCompat:!1,esmExternals:!0,fullySpecified:!1,swcTraceProfiling:!1,forceSwcTransforms:!1,largePageDataBytes:128e3,typedEnv:!1,parallelServerCompiles:!1,parallelServerBuildTraces:!1,ppr:!1,authInterrupts:!1,webpackMemoryOptimizations:!1,optimizeServerReact:!0,viewTransition:!1,routerBFCache:!1,removeUncaughtErrorAndRejectionListeners:!1,validateRSCRequestHeaders:!1,staleTimes:{dynamic:0,static:300},serverComponentsHmrCache:!0,staticGenerationMaxConcurrency:8,staticGenerationMinPagesPerWorker:25,cacheComponents:!1,inlineCss:!1,useCache:!1,globalNotFound:!1,devtoolSegmentExplorer:!0,browserDebugInfoInTerminal:!1,optimizeRouterScrolling:!1,trustHostHeader:!0,optimizePackageImports:["lucide-react","date-fns","lodash-es","ramda","antd","react-bootstrap","ahooks","@ant-design/icons","@headlessui/react","@headlessui-float/react","@heroicons/react/20/solid","@heroicons/react/24/solid","@heroicons/react/24/outline","@visx/visx","@tremor/react","rxjs","@mui/material","@mui/icons-material","recharts","react-use","effect","@effect/schema","@effect/platform","@effect/platform-node","@effect/platform-browser","@effect/platform-bun","@effect/sql","@effect/sql-mssql","@effect/sql-mysql2","@effect/sql-pg","@effect/sql-sqlite-node","@effect/sql-sqlite-bun","@effect/sql-sqlite-wasm","@effect/sql-sqlite-react-native","@effect/rpc","@effect/rpc-http","@effect/typeclass","@effect/experimental","@effect/opentelemetry","@material-ui/core","@material-ui/icons","@tabler/icons-react","mui-core","react-icons/ai","react-icons/bi","react-icons/bs","react-icons/cg","react-icons/ci","react-icons/di","react-icons/fa","react-icons/fa6","react-icons/fc","react-icons/fi","react-icons/gi","react-icons/go","react-icons/gr","react-icons/hi","react-icons/hi2","react-icons/im","react-icons/io","react-icons/io5","react-icons/lia","react-icons/lib","react-icons/lu","react-icons/md","react-icons/pi","react-icons/ri","react-icons/rx","react-icons/si","react-icons/sl","react-icons/tb","react-icons/tfi","react-icons/ti","react-icons/vsc","react-icons/wi"]},htmlLimitedBots:"[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",bundlePagesRouterDependencies:!1,configFile:"/home/deepak/Work/unnati/next.config.mjs",configFileName:"next.config.mjs",turbopack:{root:"/home/deepak/Work/unnati"}}})},6487:Je,8335:Xe},m=>{m.O(0,[53,8],()=>m(m.s=6267));var f=m.O();(i._ENTRIES=typeof i._ENTRIES>"u"?{}:i._ENTRIES)["middleware_app/api/resume/upload/route"]=f}]),function(){let m={exports:{},loaded:!1};return function(t,s){var u=Object.create,c=Object.defineProperty,g=Object.getOwnPropertyDescriptor,p=Object.getOwnPropertyNames,h=Object.getPrototypeOf,x=Object.prototype.hasOwnProperty,v=n=>c(n,"__esModule",{value:!0}),b=(n,r)=>{v(n);for(var o in r)c(n,o,{get:r[o],enumerable:!0})},R=(n,r,o)=>{if(r&&typeof r=="object"||typeof r=="function")for(let a of p(r))!x.call(n,a)&&a!=="default"&&c(n,a,{get:()=>r[a],enumerable:!(o=g(r,a))||o.enumerable});return n},L=n=>R(v(c(n!=null?u(h(n)):{},"default",n&&n.__esModule&&"default"in n?{get:()=>n.default,enumerable:!0}:{value:n,enumerable:!0})),n);b(s,{default:()=>re});var ne=L((Pe(),He(se))),K="@next/request-context",X=Symbol.for(K),B=Symbol.for("internal.storage");function oe(){let n=i;if(!n[X]){let r=new ne.AsyncLocalStorage,o={get:()=>r.getStore(),[B]:r};n[X]=o}return n[X]}var te=oe();function ce(n,r){return te[B].run(n,r)}function ge(n){let r={};return n&&n.forEach((o,a)=>{r[a]=o,a.toLowerCase()==="set-cookie"&&(r[a]=J(o))}),r}function J(n){let r=[],o=0,a,E,k,I,D;function S(){for(;o<n.length&&/\s/.test(n.charAt(o));)o+=1;return o<n.length}function C(){return E=n.charAt(o),E!=="="&&E!==";"&&E!==","}for(;o<n.length;){for(a=o,D=!1;S();)if(E=n.charAt(o),E===","){for(k=o,o+=1,S(),I=o;o<n.length&&C();)o+=1;o<n.length&&n.charAt(o)==="="?(D=!0,o=I,r.push(n.substring(a,k)),a=o):o=k+1}else o+=1;(!D||o>=n.length)&&r.push(n.substring(a,n.length))}return r}function re(n){let r=n.staticRoutes.map(a=>({regexp:new RegExp(a.namedRegex),page:a.page})),o=n.dynamicRoutes?.map(a=>({regexp:new RegExp(a.namedRegex),page:a.page}))||[];return async function(a,E){let k=new URL(a.url).pathname,I={};if(n.nextConfig?.basePath&&k.startsWith(n.nextConfig.basePath)&&(k=k.replace(n.nextConfig.basePath,"")||"/"),n.nextConfig?.i18n)for(let S of n.nextConfig.i18n.locales){let C=new RegExp(`^/${S}($|/)`,"i");if(k.match(C)){k=k.replace(C,"/")||"/";break}}for(let S of r)if(S.regexp.exec(k)){I.name=S.page;break}if(!I.name){let S=$(k);for(let C of o||[]){if(S&&!$(C.page))continue;let Z=C.regexp.exec(k);if(Z){I={name:C.page,params:Z.groups};break}}}let D=await ce({waitUntil:E.waitUntil},()=>i._ENTRIES[`middleware_${n.name}`].default.call({},{request:{url:a.url,method:a.method,headers:ge(a.headers),ip:P(a.headers,y.Ip),geo:{city:P(a.headers,y.City,!0),country:P(a.headers,y.Country,!0),latitude:P(a.headers,y.Latitude),longitude:P(a.headers,y.Longitude),region:P(a.headers,y.Region,!0)},nextConfig:n.nextConfig,page:I,body:a.body}}));return D.waitUntil&&E.waitUntil(D.waitUntil),D.response}}function P(n,r,o=!1){let a=n.get(r)||void 0;return o&&a?decodeURIComponent(a):a}function $(n){return n==="/api"||n.startsWith("/api/")}var y;(function(n){n.City="x-vercel-ip-city",n.Country="x-vercel-ip-country",n.Ip="x-real-ip",n.Latitude="x-vercel-ip-latitude",n.Longitude="x-vercel-ip-longitude",n.Region="x-vercel-ip-country-region"})(y||(y={}))}(m,m.exports),m.exports}.call({}).default({name:"app/api/resume/upload/route",staticRoutes:[{page:"/",regex:"^/(?:/)?$",routeKeys:{},namedRegex:"^/(?:/)?$"},{page:"/_not-found",regex:"^/_not\\-found(?:/)?$",routeKeys:{},namedRegex:"^/_not\\-found(?:/)?$"},{page:"/favicon.ico",regex:"^/favicon\\.ico(?:/)?$",routeKeys:{},namedRegex:"^/favicon\\.ico(?:/)?$"}],dynamicRoutes:[],nextConfig:{basePath:""}})))(w,w,w);export{ca as default};
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```

@@ -6,8 +6,8 @@ language: html
 frameworks: []
 lines: 13
 size: 297 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, html, page, project/social-blueprint-ai]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, html, page, project/social-blueprint-ai]
 | **Frameworks** | — |
 | **Lines** | 13 |
 | **Size** | 297 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

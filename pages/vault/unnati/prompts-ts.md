@@ -6,8 +6,8 @@ language: typescript
 frameworks: [docker, typescript]
 lines: 70
 size: 2405 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, docker, project/unnati, typescript, utility]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, docker, project/unnati, typescript, utility]
 | **Frameworks** | docker, typescript |
 | **Lines** | 70 |
 | **Size** | 2405 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

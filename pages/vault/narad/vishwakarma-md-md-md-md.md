@@ -1,0 +1,221 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/vishwakarma-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 183
+size: 4634 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# vishwakarma-md-md-md.md
+
+> Documentation (183 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/vishwakarma-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 183 |
+| **Size** | 4634 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/vishwakarma-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 145
+size: 3931 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# vishwakarma-md-md.md
+
+> Documentation (145 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/vishwakarma-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 145 |
+| **Size** | 3931 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/vishwakarma-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 107
+size: 3237 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# vishwakarma-md.md
+
+> Documentation (107 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/vishwakarma-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 107 |
+| **Size** | 3237 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/vishwakarma/vishwakarma.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 69
+size: 2543 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# vishwakarma.md
+
+> Documentation (69 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/vishwakarma/vishwakarma.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 69 |
+| **Size** | 2543 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+type: project-index
+project: "vishwakarma"
+source: "/home/runner/work/narad/narad/sync_temp/vishwakarma"
+scanned: "2026-04-09 14:39"
+total_files: 33
+total_lines: 7454
+tags: [project/vishwakarma, index]
+---
+
+# 🗂️ vishwakarma
+
+## 📊 Overview
+
+| Metric | Value |
+|--------|-------|
+| **Total Files** | 33 |
+| **Code Files** | 16 |
+| **Doc Files** | 17 |
+| **Total Lines** | 7,454 |
+| **Tech Stack** | `cloudflare-workers`, `docker`, `github-actions`, `terraform`, `typescript` |
+| **Source** | `/home/runner/work/narad/narad/sync_temp/vishwakarma` |
+
+## 📂 Files by Role
+
+### 🔐 Auth (7)
+- [[API-md]] — `docs/platform/API.md`
+- [[FEATURES-md]] — `FEATURES.md`
+- [[README-md]] — `docs/platform/README.md`
+- [[SSH_KEY_RETRIEVAL-md]] — `docs/SSH_KEY_RETRIEVAL.md`
+- [[audit-v2-html]] — `docs/platform/audits/audit-v2.html`
+- [[credential-portal-html]] — `pages/credential-portal.html`
+- [[rbac-js]] — `pages/services/rbac.js`
+
+### ⚙️ Config (5)
+- [[agi-service-proposal-md]] — `docs/platform/strategy/agi-service-proposal.md`
+- [[cloudflare-cleanup-yml]] — `.github/workflows/cloudflare-cleanup.yml`
+- [[destroy-client-yml]] — `.github/workflows/destroy-client.yml`
+- [[swarm-js]] — `pages/services/swarm.js`
+- [[whitelabel-js]] — `pages/services/whitelabel.js`
+
+### 🚀 Deployment (2)
+- [[ADR-001-tailscale-md]] — `docs/platform/decisions/ADR-001-tailscale.md`
+- [[antigravity-api-setup-html]] — `docs/platform/dev-setup/antigravity-api-setup.html`
+
+### 📖 Docs (9)
+- [[CLIENT_GUIDE-md]] — `docs/CLIENT_GUIDE.md`
+- [[CLOUDFLARE_ZT_SETUP-md]] — `docs/CLOUDFLARE_ZT_SETUP.md`
+- [[CREDENTIAL_PORTAL_SETUP-md]] — `docs/CREDENTIAL_PORTAL_SETUP.md`
+- [[DEPLOYMENT-md]] — `docs/platform/DEPLOYMENT.md`
+- [[HANDOFF-md]] — `docs/platform/HANDOFF.md`
+- [[PRODUCTION_CHECKLIST-md]] — `docs/platform/PRODUCTION_CHECKLIST.md`
+- [[README-md]] — `README.md`
+- [[RUNBOOK-md]] — `docs/platform/RUNBOOK.md`
+- [[agents-js]] — `pages/config/agents.js`
+
+### 📄 Page (5)
+- [[_worker-js]] — `pages/_worker.js`
+- [[download-html]] — `pages/download.html`
+- [[index-html]] — `pages/index.html`
+- [[provision-html]] — `pages/provision.html`
+- [[restore-html]] — `pages/restore.html`
+
+### 🌐 Service (5)
+- [[CHECKPOINT-md]] — `CHECKPOINT.md`
+- [[MONITORING_SETUP-md]] — `docs/platform/MONITORING_SETUP.md`
+- [[SECRETS_SETUP-md]] — `docs/platform/SECRETS_SETUP.md`
+- [[mle-star-js]] — `pages/services/mle-star.js`
+- [[provision-client-yml]] — `.github/workflows/provision-client.yml`
+
+```
+
+```
+
+```
+
+```

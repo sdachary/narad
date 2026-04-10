@@ -6,8 +6,8 @@ language: tsx
 frameworks: [react, vite]
 lines: 18
 size: 471 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, component, project/social-blueprint-ai, react, tsx, vite]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, component, project/social-blueprint-ai, react, tsx, vite]
 | **Frameworks** | react, vite |
 | **Lines** | 18 |
 | **Size** | 471 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

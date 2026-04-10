@@ -1,0 +1,214 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/generator-ts-md-md-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: []
+lines: 176
+size: 3857 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [documentation, markdown, project/narad, utility]
+---
+
+# generator-ts-md-md-md.md
+
+> Utility / helper module (176 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/generator-ts-md-md-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 176 |
+| **Size** | 3857 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/generator-ts-md-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: []
+lines: 138
+size: 3132 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [documentation, markdown, project/narad, utility]
+---
+
+# generator-ts-md-md.md
+
+> Utility / helper module (138 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/generator-ts-md-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 138 |
+| **Size** | 3132 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/generator-ts-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: []
+lines: 100
+size: 2416 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [documentation, markdown, project/narad, utility]
+---
+
+# generator-ts-md.md
+
+> Utility / helper module (100 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/generator-ts-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 100 |
+| **Size** | 2416 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/generator-ts.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: []
+lines: 62
+size: 1710 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [documentation, markdown, project/narad, utility]
+---
+
+# generator-ts.md
+
+> Utility / helper module (62 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/generator-ts.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 62 |
+| **Size** | 1710 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/unnati/src/lib/pdf/generator.ts"
+project: "unnati"
+role: utility
+language: typescript
+frameworks: []
+lines: 24
+size: 996 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [code, project/unnati, typescript, utility]
+---
+
+# generator.ts
+
+> Utility / helper module (24 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/src/lib/pdf/generator.ts` |
+| **Role** | utility |
+| **Language** | typescript |
+| **Frameworks** | — |
+| **Lines** | 24 |
+| **Size** | 996 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+[[beam-ts]], [[browser-print-ts]]
+
+## 📄 Content
+
+```typescript
+import { getResumePrintTemplate, getCoverLetterPrintTemplate, ResumeData, CoverLetterData } from './browser-print';
+import { generatePDFWithBeam, PDFOptions } from './beam';
+
+export type { ResumeData, CoverLetterData };
+
+export async function generateResumePDF(data: ResumeData): Promise<ArrayBuffer> {
+  const html = getResumePrintTemplate(data);
+  return generatePDFWithBeam(html);
+}
+
+export async function generateCoverLetterPDF(data: CoverLetterData): Promise<ArrayBuffer> {
+  const html = getCoverLetterPrintTemplate(data);
+  return generatePDFWithBeam(html);
+}
+
+export async function generateResumePDFWithOptions(data: ResumeData, options: PDFOptions): Promise<ArrayBuffer> {
+  const html = getResumePrintTemplate(data);
+  return generatePDFWithBeam(html, options);
+}
+
+export async function generateCoverLetterPDFWithOptions(data: CoverLetterData, options: PDFOptions): Promise<ArrayBuffer> {
+  const html = getCoverLetterPrintTemplate(data);
+  return generatePDFWithBeam(html, options);
+}
+
+```
+
+```
+
+```
+
+```
+
+```
