@@ -319,6 +319,38 @@ body {
     border-color: var(--accent);
 }
 
+/* Processing Indicator */
+.processing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+}
+
+.processing-indicator .spinner {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    animation: spinner 1s steps(4) infinite;
+    color: var(--accent);
+}
+
+.processing-indicator .processing-status {
+    color: var(--text-muted);
+}
+
+@keyframes spinner {
+    0% { opacity: 1; }
+    25% { opacity: 0.7; }
+    50% { opacity: 0.4; }
+    75% { opacity: 0.7; }
+}
+
 .input-line .prompt {
     color: var(--accent);
     font-size: 13px;

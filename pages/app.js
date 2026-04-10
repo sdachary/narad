@@ -241,6 +241,45 @@ function hideTypingIndicator() {
     if (existing) existing.remove();
 }
 
+// Processing indicator (spinner below input)
+const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸'];
+let spinnerInterval = null;
+
+function showProcessingIndicator(status = 'Processing...') {
+    const indicator = document.getElementById('processing-indicator');
+    if (indicator) {
+        indicator.style.display = 'flex';
+        indicator.querySelector('.processing-status').textContent = status;
+        
+        // Start spinner animation
+        let frame = 0;
+        const spinnerEl = indicator.querySelector('.spinner');
+        spinnerInterval = setInterval(() => {
+            spinnerEl.textContent = SPINNER_FRAMES[frame];
+            frame = (frame + 1) % SPINNER_FRAMES.length;
+        }, 250);
+    }
+}
+
+function updateProcessingStatus(status) {
+    const indicator = document.getElementById('processing-indicator');
+    if (indicator) {
+        indicator.querySelector('.processing-status').textContent = status;
+    }
+}
+
+function hideProcessingIndicator() {
+    const indicator = document.getElementById('processing-indicator');
+    if (indicator) {
+        indicator.style.display = 'none';
+        indicator.querySelector('.spinner').textContent = '⠋';
+    }
+    if (spinnerInterval) {
+        clearInterval(spinnerInterval);
+        spinnerInterval = null;
+    }
+}
+
 // Markdown and syntax highlighting (loaded via CDN or fallback)
 const { marked, hljs } = window;
 
@@ -2461,6 +2500,9 @@ async function sendToApi(message, skillContext = null) {
         // Determine effective skill_context: parameter takes precedence over activeSkill
         const effectiveSkillContext = skillContext || (activeSkill ? activeSkill.content : null);
 
+        // Show processing indicator
+        showProcessingIndicator('Sending request...');
+
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
             headers,
@@ -2477,6 +2519,9 @@ async function sendToApi(message, skillContext = null) {
         
         // Remove searching indicator
         if (searchingEl) searchingEl.remove();
+        
+        // Hide processing indicator
+        hideProcessingIndicator();
 
         // Show typing indicator
         showTypingIndicator();
@@ -2562,6 +2607,7 @@ async function sendToApi(message, skillContext = null) {
         }
     } catch (error) {
         hideTypingIndicator();
+        hideProcessingIndicator();
         if (stopBtn) stopBtn.style.display = 'none';
         if (error.name === 'AbortError') {
             console.log('Fetch aborted');
@@ -2572,6 +2618,7 @@ async function sendToApi(message, skillContext = null) {
         isStreaming = false;
     } finally {
         hideTypingIndicator();
+        hideProcessingIndicator();
         currentAbortController = null;
     }
 }
