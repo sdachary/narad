@@ -1,435 +1,91 @@
-# Narad v2
+# Narad
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-**Narad** is a private R&D intelligence brain deployed as a serverless Cloudflare Pages app.
+**Narad** is an AI terminal assistant deployed as a serverless Cloudflare Pages app.
 
 ---
 
-## What's New (April 2026)
+## Features
 
-| **Truth Verification** | 0.95 threshold AI response validation |
-| **Neural Workspace** | Mode-based (Casual, R&D, Build) session management (NEW) |
-| **Cloud Persistence** | Device-independent KV-based session sync (NEW) |
-| **Telegram Bot** | Hermes Gateway - control Narad via Telegram (NEW) |
-| **Smart Routing** | Intelligent provider selection by task type (NEW) |
+### 🤖 Multi-Agent System
+8 specialized agents for different tasks:
 
----
+| Agent | Icon | Use For |
+|-------|------|---------|
+| dev | ⚡ | Git, test, build, npm, code |
+| reviewer | 🔍 | Code review, security audit |
+| debugger | 🔧 | Debugging, troubleshooting |
+| api | 🔌 | REST/GraphQL, endpoints |
+| database | 🗄️ | SQL, queries, migrations |
+| infrastructure | 🚀 | Docker, K8s, CI/CD |
+| security | 🔒 | Auth, JWT, OAuth |
+| writer | ✍️ | Documentation, README |
 
-## Architecture
-
-``┌─────────────────────────────────────────────────────────┐
-│                    USER INTERFACES                      │
-│     Web UI (narad.pages.dev)  │  Telegram Bot           │
-└───────────────────────────────┼─────────────────────────┘
-                                │
-┌───────────────────────────────▼─────────────────────────┐
-│              CLOUDFLARE WORKER (Serverless)             │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │ /api/chat │ /api/sessions/* │ /api/research/*      │ │
-│  │ /api/github/* │ /api/skills/*   │ /api/mcp/*       │ │
-│  └─────────────────────────────────────────────────────┘ │
-│                          │                               │
-│  ┌───────────────────────▼────────────────────────────┐ │
-│  │       NEURAL WORKSPACE & CLOUD SYNC                │ │
-│  │   Multi-Session (KV) │ Mode Isolation (Build/R&D)  │ │
-│  │   GitHub Dispatch Bridge (Background Build)         │ │
-│  └────────────────────────────────────────────────────┘ │
-│                          │                               │
-│  ┌───────────────────────▼────────────────────────────┐ │
-│  │     SMRITI: KNOWLEDGE BASE & RESEARCH              │ │
-│  │  Graph View │ Platform Research (last30days)       │ │
-│  │  Cross-Repo Sync │ Multi-Agent Warehouse           │ │
-│  └────────────────────────────────────────────────────┘ │
-│                          │                               │
-│  ┌───────────────────────▼────────────────────────────┐ │
-│  │     AI PROVIDERS & PERSISTENCE                     │ │
-│  │  Llama 3.3 (70B) │ Groq │ Narad_Data (KV)         │ │
-│  └────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
+### Multi-Agent Syntax
+```bash
+/dev: fix this bug              # Single agent
+/dev+reviewer: review this       # Parallel execution  
+/chain:dev->writer->reviewer: build feature  # Sequential
 ```
+
+### 🎨 Modern UI
+- Syntax highlighting for code blocks
+- Dark/Light theme toggle
+- Keyboard shortcuts (⌘K, ⌘T, Ctrl+C)
+
+### 🌐 Web Search
+Integrated search via Serper and Firecrawl.
+
+### 📚 Knowledge Base (RAG)
+Add and search documents:
+```bash
+POST /api/rag/add - Add document
+POST /api/rag/search - Search knowledge
+GET /api/rag/stats - View stats
+```
+
+---
+
+## Telegram Bot (Hermes Gateway)
+
+Control Narad from Telegram:
+
+| Command | Description |
+|---------|-------------|
+| `/start` | Welcome message |
+| `/ask <prompt>` | Chat with Narad |
+| `/status` | Service status |
+| `/help` | Help |
+
+### Setup
+```bash
+curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
+  -d "url=https://narad-7hc.pages.dev/api/hermes-webhook"
+```
+
+---
+
+## Smart Provider Routing
+
+Auto-selects best AI provider by task:
+
+| Task | Provider |
+|------|----------|
+| coding | anthropic |
+| debugging | anthropic |
+| research | gemini |
+| deployment | groq |
+| simple | openrouter |
 
 ---
 
 ## Quick Start
 
 ```bash
-# Clone
-git clone https://github.com/sdachary/narad.git ~/narad
-cd ~/narad
-
-# Deploy
+git clone https://github.com/sdachary/narad.git
+cd narad
 npx wrangler pages deploy pages --project-name narad
-```
-
----
-
-## Features
-
-### 🎨 Modern UI
-- **Syntax Highlighting** - Code blocks with highlight.js (JS, Python, Bash, JSON, CSS, SQL)
-- **Markdown Rendering** - Tables, lists, headers, formatted code
-- **Theme Toggle** - Dark/Light mode (⌘T or click moon icon)
-- **Responsive** - Works on desktop and mobile
-
-### ⌨️ Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `⌘K` / `Ctrl+K` | Clear chat |
-| `⌘F` / `Ctrl+F` | Search messages |
-| `⌘T` / `Ctrl+T` | Toggle theme |
-| `Ctrl+C` | Stop generation |
-
-### 🤖 Agent Warehouse
-
-8 agents optimized for daily use:
-
-| Agent | Icon | Priority | Description |
-|-------|------|----------|-------------|
-| dev | ⚡ | Daily | Git, test, build, npm |
-| reviewer | 🔍 | Daily | Code review, security |
-| debugger | 🔧 | Daily | Debugging, troubleshooting |
-| api | 🔌 | Specialized | REST/GraphQL, OpenAPI |
-| database | 🗄️ | Specialized | SQL, migrations |
-| infrastructure | 🚀 | Specialized | Docker, K8s, CI/CD |
-| security | 🔒 | Specialized | Auth, JWT, OAuth |
-| writer | ✍️ | Specialized | Docs, README |
-
-### Multi-Agent Syntax
-
-```bash
-/dev: fix this bug          # Single agent
-/dev+reviewer: task         # Parallel execution
-/chain:dev->writer->reviewer: build feature  # Sequential chain
-```
-
----
-
-## 🤖 Telegram Bot (Hermes Gateway)
-
-Control Narad from Telegram with these commands:
-
-| Command | Description |
-|---------|-------------|
-| `/start` | Welcome message |
-| `/ask <prompt>` | Chat with Narad AI |
-| `/status` | Service status |
-| `/help` | Help message |
-| `/file list [path]` | List directory |
-| `/file read <path>` | Read file |
-
-### Setup
-
-1. **Create bot**: Message [@BotFather](https://t.me/BotFather) on Telegram
-2. **Set webhook**:
-```bash
-curl -X POST "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook" \
-  -d "url=https://narad-7hc.pages.dev/api/hermes-webhook"
-```
-
-### Auto-Configuration
-
-- Webhook secret auto-generates if not set
-- Bot token can be set via `TELEGRAM_BOT_TOKEN` secret or uses default
-- Rate limit: 1 second between requests
-
----
-
-## ⚡ Smart Provider Routing
-
-Narad automatically selects the best AI provider based on task type:
-
-| Task Type | Keywords | Provider | Model |
-|-----------|----------|----------|-------|
-| `coding` | code, function, implement | anthropic | balanced |
-| `debugging` | debug, error, bug, fix | anthropic | strong |
-| `research` | explain, analyze, compare | gemini | balanced |
-| `deployment` | deploy, docker, build | groq | balanced |
-| `simple` | what, how, when, list | openrouter | fast |
-
-### Force Specific Provider
-
-```javascript
-POST /api/chat
-{
-  "message": "Explain this code",
-  "agentType": "research"  // Forces gemini
-}
-```
-
-### Provider Weights
-
-| Provider | Cost/1M | Quality |
-|----------|---------|---------|
-| groq | $0.10 | 0.50 |
-| openrouter | $0.20 | 0.70 |
-| deepseek | $0.15 | 0.60 |
-| mistral | $0.40 | 0.65 |
-| gemini | $0.50 | 0.80 |
-| openai | $3.00 | 0.90 |
-| anthropic | $3.00 | 0.95 |
-
----
-
-## 🔍 RAG (Retrieval-Augmented Generation)
-
-### Add Documents to Knowledge Base
-
-```bash
-curl -X POST https://narad.pages.dev/api/rag/add \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Project Documentation",
-    "content": "This project uses Next.js 14 with TypeScript...",
-    "source": "manual"
-  }'
-```
-
-### Search Knowledge Base
-
-```bash
-curl -X POST https://narad.pages.dev/api/rag/search \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "How to configure the project?",
-    "topK": 5,
-    "hybridMode": true
-  }'
-```
-
-### Get RAG Stats
-
-```bash
-curl https://narad.pages.dev/api/rag/stats
-```
-
----
-
-## 🌐 Web Search
-
-### Single Provider Search
-
-```bash
-# Serper (Google)
-curl -X POST https://narad.pages.dev/api/search \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "latest AI news 2026",
-    "provider": "serper",
-    "limit": 10
-  }'
-
-# Firecrawl
-curl -X POST https://narad.pages.dev/api/search \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "react documentation",
-    "provider": "firecrawl",
-    "limit": 5
-  }'
-```
-
-### Multi-Provider Search
-
-```bash
-curl -X POST https://narad.pages.dev/api/search/multi \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "cloudflare workers tutorial",
-    "providers": ["serper", "firecrawl"],
-    "limit": 10
-  }'
-```
-
-### Scrape URL
-
-```bash
-curl -X POST https://narad.pages.dev/api/search/scrape \
-  -H "Content-Type: application/json" \
-  -d '{
-    "url": "https://example.com/page"
-  }'
-```
-
----
-
-## 🔗 MCP Connectors
-
-### Connect to Services
-
-```bash
-# GitHub
-curl -X POST https://narad.pages.dev/api/mcp/connect \
-  -H "Content-Type: application/json" \
-  -d '{"connectorType": "github", "config": {}}'
-
-# Notion
-curl -X POST https://narad.pages.dev/api/mcp/connect \
-  -H "Content-Type: application/json" \
-  -d '{"connectorType": "notion", "config": {"databaseId": "xxx"}}'
-
-# Slack
-curl -X POST https://narad.pages.dev/api/mcp/connect \
-  -H "Content-Type: application/json" \
-  -d '{"connectorType": "slack", "config": {}}'
-```
-
-### Query Connector
-
-```bash
-curl -X POST https://narad.pages.dev/api/mcp/query \
-  -H "Content-Type: application/json" \
-  -d '{
-    "connectorId": "github:123456789",
-    "query": {"owner": "sdachary", "repo": "nisha", "query": "function"}
-  }'
-```
-
-### List Available Connectors
-
-```bash
-curl https://narad.pages.dev/api/mcp/connectors
-```
-
----
-
-## ✅ Truth Verification
-
-### Verify AI Response
-
-```bash
-curl -X POST https://narad.pages.dev/api/verification/verify \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "What is the capital of France?",
-    "result": "Paris is the capital of France.",
-    "threshold": 0.95
-  }'
-```
-
-### Get Verification Stats
-
-```bash
-curl https://narad.pages.dev/api/verification/stats
-```
-
-### Verification History
-
-```bash
-curl "https://narad.pages.dev/api/verification/history?limit=50"
-```
-
----
-
-## 💾 Memory System
-
-### Save Memory
-
-```bash
-curl -X POST https://narad.pages.dev/api/memory/save \
-  -H "Content-Type: application/json" \
-  -d '{
-    "key": "important-note",
-    "content": "User prefers dark mode",
-    "type": "preference",
-    "importance": 8
-  }'
-```
-
-### Search Memories
-
-```bash
-curl -X POST https://narad.pages.dev/api/memory/search \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "preferences",
-    "type": "preference",
-    "limit": 10
-  }'
-```
-
-### Get Memory Stats
-
-```bash
-curl https://narad.pages.dev/api/memory/stats
-```
-
----
-
-## 🧠 Smriti (Knowledge Base)
-
-**Smriti** ("Memory") is Narad's internal brain. It consists of refined Markdown notes from all your projects, organized into a searchable and visualizable vault.
-
-### 🛰️ Graph View
-Visualize your entire codebase as a dynamic knowledge graph. Nodes represent files/projects, and edges represent dependencies and wikilinks. Accessible via the **🛰️** button in the Narad UI.
-
-### 📖 Markdown Reader
-Read project documentation, design specs, and refined notes directly in the terminal interface with full Markdown support.
-
----
-
-## 🔄 Smriti Sync Guide (Multi-Repo Setup)
-
-To allow Narad to automatically "remember" changes from your other repositories, follow these steps:
-
-### 1. Generate GitHub Token
-1. Go to **GitHub Settings** > **Developer Settings** > **Personal Access Tokens**.
-2. Generate a new token (classic) with `repo` scope.
-3. Save it securely.
-
-### 2. Add Secrets to Narad Repo
-1. In your **Narad repository**, go to **Settings** > **Secrets and variables** > **Actions**.
-2. Add a new repository secret called `SMRITI_SYNC_TOKEN` and paste your token value.
-
-### 3. Configure Project Repos
-For each project you want to sync (e.g., *Vishwakarma*):
-1. In that project's repo, create `.github/workflows/sync-to-narad.yml`.
-2. Add the following action:
-   ```yaml
-   on:
-     push:
-       branches: [main, master]
-   jobs:
-     sync:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Trigger Narad Brain Sync
-           run: |
-             curl -X POST https://api.github.com/repos/YOUR_USERNAME/narad/dispatches \
-             -H "Authorization: token ${{ secrets.SMRITI_SYNC_TOKEN }}" \
-             -H "Accept: application/vnd.github.v3+json" \
-             -d '{"event_type": "smriti_update"}'
-   ```
-
-### 4. Trigger Sync
-The brain will automatically refresh every time you push to a project repository. You can also trigger it manually via the Actions tab in the Narad repo.
-
----
-
-## ⚡ Neural Workspace (Zero-Laptop Development)
-
-Narad v2 is architected for **Device-Independent** development.
-
-### 🧠 Mode Partitioning
-- **Casual Mode**: General questions, quick ideas, no persistent memory.
-- **R&D Mode**: High-fidelity research, planning, and strategy.
-- **Build Mode**: Dedicated project scaffolding and end-to-end codebase generation.
-
-### 🏠 Multi-Session Storage
-Use the **Neural Sidebar** to manage multiple independent chat sessions. All sessions are synced to the cloud (**Cloudflare KV**), ensuring you can pick up where you left off on any device.
-
-### 🏗️ GitHub Cloud Builder
-Trigger background builds with the `/build` and `/upgrade` commands. These dispatch events to GitHub Actions, allowing Narad to "work in the background" even if your browser is closed.
-
----
-
-## 🔍 Advanced Research (last30days)
-
-Narad includes the `last30days` skill for tracking community trends and synthesising briefings.
-
-```bash
-/last30days AI Agents   # Scans Reddit, HN, X, and YouTube for latest news
 ```
 
 ---
@@ -438,79 +94,42 @@ Narad includes the `last30days` skill for tracking community trends and synthesi
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/chat` | POST | Send message |
-| `/api/sessions/sync` | POST | Sync sessions to KV |
-| `/api/sessions/history/:id` | GET/POST | Fetch/Save history |
-| `/api/github/dispatch` | POST | Trigger background build |
-| `/api/research/last30days` | POST | Run platform research |
-| `/api/skills/:name` | GET | Fetch behavioral skill |
-| `/api/health` | GET | Health status |
-| `/api/memory/store` | POST | Store memory |
-| `/api/memory/search` | POST | Search memory |
-| `/api/multi-agent` | POST | Multi-agent execution |
-| `/api/usage` | GET | Token usage |
-| `/api/feedback` | POST | Submit feedback |
-| `/api/rag/add` | POST | Add document |
-| `/api/rag/search` | POST | Search RAG |
-| `/api/rag/stats` | GET | RAG stats |
-| `/api/search` | POST | Web search |
-| `/api/search/multi` | POST | Multi-provider search |
-| `/api/search/scrape` | POST | Scrape URL |
-| `/api/mcp/connect` | POST | Connect MCP |
-| `/api/mcp/query` | POST | Query connector |
-| `/api/mcp/connectors` | GET | List connectors |
-| `/api/verification/verify` | POST | Verify truth |
-| `/api/verification/stats` | GET | Verification stats |
-| `/api/memory/save` | POST | Save memory |
-| `/api/memory/search` | POST | Search memories |
+| `/api/chat` | POST | Chat with AI |
+| `/api/chat/history/:id` | GET | Chat history |
+| `/api/sessions/:mode` | GET | List sessions |
+| `/api/warehouse` | GET | Agent warehouse |
+| `/api/skills/:name` | GET | Get skill info |
+| `/api/mcp/connectors` | GET | MCP connectors |
+| `/api/rag/search` | POST | Search knowledge |
+| `/api/hermes-webhook` | POST | Telegram webhook |
 
 ---
 
 ## Environment Variables
 
 | Variable | Required | Description |
-|----------|----------|-------------|
+|----------|-----------|-------------|
 | `GROQ_API_KEY` | ✅ | Groq API key |
+| `ANTHROPIC_API_KEY` | Optional | Anthropic |
+| `OPENAI_API_KEY` | Optional | OpenAI |
+| `GEMINI_API_KEY` | Optional | Gemini |
+| `OPENROUTER_API_KEY` | Optional | OpenRouter |
 | `TELEGRAM_BOT_TOKEN` | Optional | Telegram bot |
-| `TELEGRAM_CHAT_ID` | Optional | Telegram chat ID |
-| `OPENROUTER_API_KEY` | Optional | Fallback models |
-| `SERPER_API_KEY` | Optional | Serper web search |
-| `FIRECRAWL_API_KEY` | Optional | Firecrawl search/scrape |
-| `AI` | Optional | Workers AI binding |
-
-### Required for RAG
-- `AI` - Workers AI binding for vector embeddings
-
-### Required for Web Search (choose one or both)
-- `SERPER_API_KEY` - Get at [serper.dev](https://serper.dev)
-- `FIRECRAWL_API_KEY` - Get at [firecrawl.dev](https://firecrawl.dev)
-
-### Required for MCP Connectors
-- GitHub: `GITHUB_API_KEY`
-- Notion: `NOTION_API_KEY`
-- Slack: `SLACK_BOT_TOKEN`
-
----
-
-## Security
-
-| Protection | Status |
-|------------|--------|
-| XSS Prevention | ✅ DOMPurify + safe DOM APIs |
-| CSRF Protection | ✅ Token validation |
-| Rate Limiting | ✅ 60 req/min |
-| Security Headers | ✅ CSP, X-Frame-Options |
 
 ---
 
 ## Tech Stack
 
-- **Runtime**: Cloudflare Workers
+- **Runtime**: Cloudflare Workers/Pages
 - **Framework**: Hono
-- **AI**: Groq, OpenRouter, Mistral, Gemini
+- **AI**: Groq, Anthropic, OpenAI, Gemini
 - **Frontend**: Vanilla JS, CSS Variables
-- **Build**: Wrangler v4
 
 ---
 
-*Proprietary — Nisha Platform*
+## Security
+
+- XSS Prevention (DOMPurify)
+- CSRF Protection
+- Rate Limiting (60 req/min)
+- Security Headers (CSP, X-Frame-Options)
