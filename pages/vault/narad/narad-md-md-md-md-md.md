@@ -1,0 +1,725 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/narad-md-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, vite]
+lines: 687
+size: 35598 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docker, docs, documentation, markdown, project/narad, vite]
+---
+
+# narad-md-md-md-md.md
+
+> Documentation using **docker, vite** (687 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/narad-md-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, vite |
+| **Lines** | 687 |
+| **Size** | 35598 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/narad-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, vite]
+lines: 649
+size: 34844 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docker, docs, documentation, markdown, project/narad, vite]
+---
+
+# narad-md-md-md.md
+
+> Documentation using **docker, vite** (649 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/narad-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, vite |
+| **Lines** | 649 |
+| **Size** | 34844 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/narad-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, vite]
+lines: 611
+size: 34099 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docker, docs, documentation, markdown, project/narad, vite]
+---
+
+# narad-md-md.md
+
+> Documentation using **docker, vite** (611 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/narad-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, vite |
+| **Lines** | 611 |
+| **Size** | 34099 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/narad-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, vite]
+lines: 573
+size: 33363 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docker, docs, documentation, markdown, project/narad, vite]
+---
+
+# narad-md.md
+
+> Documentation using **docker, vite** (573 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/narad-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, vite |
+| **Lines** | 573 |
+| **Size** | 33363 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/narad.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: [docker, vite]
+lines: 535
+size: 32636 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [docker, docs, documentation, markdown, project/narad, vite]
+---
+
+# narad.md
+
+> Documentation using **docker, vite** (535 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/narad.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | docker, vite |
+| **Lines** | 535 |
+| **Size** | 32636 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+type: project-index
+project: "narad"
+source: "/home/runner/work/narad/narad/sync_temp/narad"
+scanned: "2026-04-09 13:31"
+total_files: 487
+total_lines: 86880
+tags: [project/narad, index]
+---
+
+# 🗂️ narad
+
+## 📊 Overview
+
+| Metric | Value |
+|--------|-------|
+| **Total Files** | 487 |
+| **Code Files** | 36 |
+| **Doc Files** | 451 |
+| **Total Lines** | 86,880 |
+| **Tech Stack** | `ansible`, `cloudflare-workers`, `docker`, `github-actions`, `hono`, `react`, `tailwind`, `terraform`, `typescript`, `vite` |
+| **Source** | `/home/runner/work/narad/narad/sync_temp/narad` |
+
+## 📂 Files by Role
+
+### 🔐 Auth (64)
+- [[API-md-md]] — `pages/vault/social-blueprint-ai/API-md.md`
+- [[API-md-md]] — `pages/vault/vishwakarma/API-md.md`
+- [[API_ENDPOINTS-md-md]] — `pages/vault/chitragupta/API_ENDPOINTS-md.md`
+- [[App-tsx-md]] — `pages/vault/social-blueprint-ai/App-tsx.md`
+- [[ERROR_CODES-md-md]] — `pages/vault/social-blueprint-ai/ERROR_CODES-md.md`
+- [[FEATURES-md-md]] — `pages/vault/vishwakarma/FEATURES-md.md`
+- [[Login-tsx-md]] — `pages/vault/social-blueprint-ai/Login-tsx.md`
+- [[PRODUCTION_REFINEMENT_STANDARD-md-md]] — `pages/vault/_root/PRODUCTION_REFINEMENT_STANDARD-md.md`
+- [[README-md-md]] — `pages/vault/narad/README-md.md`
+- [[README-md-md]] — `pages/vault/vishwakarma/README-md.md`
+- [[README-md]] — `README.md`
+- [[SSH_KEY_RETRIEVAL-md-md]] — `pages/vault/vishwakarma/SSH_KEY_RETRIEVAL-md.md`
+- [[_worker-js-md]] — `pages/vault/narad/_worker-js.md`
+- [[_worker-js]] — `pages/_worker.js`
+- [[admin-html-md]] — `pages/vault/kanak/admin-html.md`
+- [[ai-js]] — `pages/services/ai.js`
+- [[api-ts-md]] — `pages/vault/chitragupta/api-ts.md`
+- [[apiClient-ts-md]] — `pages/vault/social-blueprint-ai/apiClient-ts.md`
+- [[audit-v2-html-md]] — `pages/vault/vishwakarma/audit-v2-html.md`
+- [[auth-check-js-md]] — `pages/vault/kanak/auth-check-js.md`
+- [[auth-ts-md]] — `pages/vault/chitragupta/auth-ts.md`
+- [[auth-ts-md]] — `pages/vault/social-blueprint-ai/auth-ts.md`
+- [[batch-md-md]] — `pages/vault/career-ops/batch-md.md`
+- [[batch-md-md]] — `pages/vault/unnati/batch-md.md`
+- [[billing-html-md]] — `pages/vault/kanak/billing-html.md`
+- [[budgets-js-md]] — `pages/vault/chitragupta/budgets-js.md`
+- [[chat-js-md]] — `pages/vault/narad/chat-js.md`
+- [[chat-js]] — `pages/routes/chat.js`
+- [[config-js-md]] — `pages/vault/kanak/config-js.md`
+- [[context-compression-md]] — `skills/context-compression.md`
+- [[context-degradation-md]] — `skills/context-degradation.md`
+- [[context-fundamentals-md]] — `skills/context-fundamentals.md`
+- [[credential-portal-html-md]] — `pages/vault/vishwakarma/credential-portal-html.md`
+- [[daily-tally-html-md]] — `pages/vault/kanak/daily-tally-html.md`
+- [[dashboard-html-md]] — `pages/vault/kanak/dashboard-html.md`
+- [[destroy-client-yml-md]] — `pages/vault/vishwakarma/destroy-client-yml.md`
+- [[filesystem-context-md]] — `skills/filesystem-context.md`
+- [[groq-ts-md]] — `pages/vault/unnati/groq-ts.md`
+- [[hosted-agents-md]] — `skills/hosted-agents.md`
+- [[index-ts-md]] — `pages/vault/social-blueprint-ai/index-ts.md`
+- [[inventory-html-md]] — `pages/vault/kanak/inventory-html.md`
+- [[ledger-html-md]] — `pages/vault/kanak/ledger-html.md`
+- [[login-html-md]] — `pages/vault/chitragupta/login-html.md`
+- [[login-html-md]] — `pages/vault/kanak/login-html.md`
+- [[memory-js-md]] — `pages/vault/narad/memory-js.md`
+- [[memory-js]] — `pages/services/memory.js`
+- [[notebooklm-md]] — `skills/notebooklm.md`
+- [[openrouter-ts-md]] — `pages/vault/unnati/openrouter-ts.md`
+- [[orchestrator-ts-md]] — `pages/vault/unnati/orchestrator-ts.md`
+- [[order-details-html-md]] — `pages/vault/kanak/order-details-html.md`
+- [[orders-html-md]] — `pages/vault/kanak/orders-html.md`
+- [[profile-html-md]] — `pages/vault/kanak/profile-html.md`
+- [[purchase-history-html-md]] — `pages/vault/kanak/purchase-history-html.md`
+- [[purchase-html-md]] — `pages/vault/kanak/purchase-html.md`
+- [[purchase-report-html-md]] — `pages/vault/kanak/purchase-report-html.md`
+- [[rbac-js-md]] — `pages/vault/vishwakarma/rbac-js.md`
+- [[receipt-html-md]] — `pages/vault/kanak/receipt-html.md`
+- [[reset-password-html-md]] — `pages/vault/kanak/reset-password-html.md`
+- [[security-js-md]] — `pages/vault/narad/security-js.md`
+- [[security-js]] — `pages/services/security.js`
+- [[signup-html-md]] — `pages/vault/chitragupta/signup-html.md`
+- [[skill-creator-md]] — `skills/skill-creator.md`
+- [[style-css-md]] — `pages/vault/narad/style-css.md`
+- [[workers-ai-ts-md]] — `pages/vault/unnati/workers-ai-ts.md`
+
+### ⚙️ Config (97)
+- [[-vc-config-json-md]] — `pages/vault/unnati/-vc-config-json.md`
+- [[ARCHITECTURE-md-md]] — `pages/vault/career-ops/ARCHITECTURE-md.md`
+- [[CONNECTORS_SETUP-md-md]] — `pages/vault/narad/CONNECTORS_SETUP-md.md`
+- [[CONNECTORS_SETUP-md]] — `pages/config/CONNECTORS_SETUP.md`
+- [[DATA_CONTRACT-md-md]] — `pages/vault/career-ops/DATA_CONTRACT-md.md`
+- [[FUNDING-yml-md]] — `pages/vault/career-ops/FUNDING-yml.md`
+- [[IMPLEMENTATION_SUMMARY-md-md]] — `pages/vault/chitragupta/IMPLEMENTATION_SUMMARY-md.md`
+- [[Pricing-tsx-md]] — `pages/vault/social-blueprint-ai/Pricing-tsx.md`
+- [[Reports-tsx-md]] — `pages/vault/social-blueprint-ai/Reports-tsx.md`
+- [[SETUP-md-md]] — `pages/vault/unnati/SETUP-md.md`
+- [[StatusUpdate-tsx-md]] — `pages/vault/unnati/StatusUpdate-tsx.md`
+- [[Step7HuntSettings-tsx-md]] — `pages/vault/unnati/Step7HuntSettings-tsx.md`
+- [[_not-found-prerender-config-json-md]] — `pages/vault/unnati/_not-found-prerender-config-json.md`
+- [[_not-found-rsc-prerender-config-json-md]] — `pages/vault/unnati/_not-found-rsc-prerender-config-json.md`
+- [[_profile-template-md-md]] — `pages/vault/career-ops/_profile-template-md.md`
+- [[_profile-template-md-md]] — `pages/vault/unnati/_profile-template-md.md`
+- [[agi-service-proposal-md-md]] — `pages/vault/vishwakarma/agi-service-proposal-md.md`
+- [[applications-func-js-md]] — `pages/vault/unnati/applications-func-js.md`
+- [[batch-prompt-md-md]] — `pages/vault/career-ops/batch-prompt-md.md`
+- [[batch-prompt-md-md]] — `pages/vault/unnati/batch-prompt-md.md`
+- [[bug_report-yml-md]] — `pages/vault/career-ops/bug_report-yml.md`
+- [[builds-json-md]] — `pages/vault/unnati/builds-json.md`
+- [[career-ops-func-js-md]] — `pages/vault/unnati/career-ops-func-js.md`
+- [[characters-js]] — `pages/config/characters.js`
+- [[chitragupta-md]] — `pages/vault/chitragupta/chitragupta.md`
+- [[claude-api-md]] — `skills/claude-api.md`
+- [[config-json-md]] — `pages/vault/unnati/config-json.md`
+- [[config-ts-md]] — `pages/vault/social-blueprint-ai/config-ts.md`
+- [[connectors-js-md]] — `pages/vault/narad/connectors-js.md`
+- [[connectors-js]] — `pages/config/connectors.js`
+- [[deploy-yml-md]] — `pages/vault/social-blueprint-ai/deploy-yml.md`
+- [[docker-compose-yml-md]] — `pages/vault/unnati/docker-compose-yml.md`
+- [[docx-md]] — `skills/docx.md`
+- [[env-ts-md]] — `pages/vault/unnati/env-ts.md`
+- [[favicon-ico-prerender-config-json-md]] — `pages/vault/unnati/favicon-ico-prerender-config-json.md`
+- [[feature_request-yml-md]] — `pages/vault/career-ops/feature_request-yml.md`
+- [[index-js-md]] — `pages/vault/unnati/index-js.md`
+- [[index-prerender-config-json-md]] — `pages/vault/unnati/index-prerender-config-json.md`
+- [[index-rsc-prerender-config-json-md]] — `pages/vault/unnati/index-rsc-prerender-config-json.md`
+- [[index-js]] — `pages/config/index.js`
+- [[indra-keep-alive-yml-md]] — `pages/vault/indra/indra-keep-alive-yml.md`
+- [[kanak-md]] — `pages/vault/kanak/kanak.md`
+- [[layout-ed980458e08a7de8-js-md]] — `pages/vault/unnati/layout-ed980458e08a7de8-js.md`
+- [[mcp-builder-md]] — `skills/mcp-builder.md`
+- [[next-config-ts-md]] — `pages/vault/job-hunt-app/next-config-ts.md`
+- [[next-env-d-ts-md]] — `pages/vault/job-hunt-app/next-env-d-ts.md`
+- [[next-env-d-ts-md]] — `pages/vault/unnati/next-env-d-ts.md`
+- [[nisha-chitragupta-md]] — `pages/vault/nisha-chitragupta/nisha-chitragupta.md`
+- [[nisha-saas-md]] — `pages/vault/nisha-saas/nisha-saas.md`
+- [[obsidian-bases-md]] — `skills/obsidian-bases.md`
+- [[package-json-md]] — `pages/vault/chitragupta/package-json.md`
+- [[package-json-md]] — `pages/vault/job-hunt-app/package-json.md`
+- [[package-json-md]] — `pages/vault/narad/package-json.md`
+- [[package-json-md]] — `pages/vault/kanak/package-json.md`
+- [[package-json-md]] — `pages/vault/social-blueprint-ai/package-json.md`
+- [[package-json-md]] — `pages/vault/career-ops/package-json.md`
+- [[package-json-md]] — `pages/vault/unnati/package-json.md`
+- [[package-json]] — `package.json`
+- [[planning-with-files-md]] — `skills/planning-with-files.md`
+- [[profile-example-yml-md]] — `pages/vault/career-ops/profile-example-yml.md`
+- [[profile-example-yml-md]] — `pages/vault/unnati/profile-example-yml.md`
+- [[profile-func-js-md]] — `pages/vault/unnati/profile-func-js.md`
+- [[profile-yml-md]] — `pages/vault/career-ops/profile-yml.md`
+- [[profile-yml-md]] — `pages/vault/unnati/profile-yml.md`
+- [[providers-js-md]] — `pages/vault/narad/providers-js.md`
+- [[providers-js]] — `pages/config/providers.js`
+- [[rag-js-md]] — `pages/vault/narad/rag-js.md`
+- [[rag-js]] — `pages/services/rag.js`
+- [[rate-limit-ts-md]] — `pages/vault/unnati/rate-limit-ts.md`
+- [[refine-func-js-md]] — `pages/vault/unnati/refine-func-js.md`
+- [[render-yaml-md]] — `pages/vault/n8n/render-yaml.md`
+- [[render-yaml-md]] — `pages/vault/indra/render-yaml.md`
+- [[scan-md-md]] — `pages/vault/career-ops/scan-md.md`
+- [[scan-md-md]] — `pages/vault/unnati/scan-md.md`
+- [[search-func-js-md]] — `pages/vault/unnati/search-func-js.md`
+- [[smriti-sync-yml-md]] — `pages/vault/narad/smriti-sync-yml.md`
+- [[smriti-sync-yml]] — `.github/workflows/smriti-sync.yml`
+- [[social-blueprint-ai-md]] — `pages/vault/social-blueprint-ai/social-blueprint-ai.md`
+- [[sqlite-memory-js-md]] — `pages/vault/narad/sqlite-memory-js.md`
+- [[sqlite-memory-js]] — `pages/services/sqlite-memory.js`
+- [[states-yml-md]] — `pages/vault/career-ops/states-yml.md`
+- [[states-yml-md]] — `pages/vault/unnati/states-yml.md`
+- [[subagent-driven-development-md]] — `skills/subagent-driven-development.md`
+- [[test-driven-development-md]] — `skills/test-driven-development.md`
+- [[toggle-func-js-md]] — `pages/vault/unnati/toggle-func-js.md`
+- [[tsconfig-json-md]] — `pages/vault/chitragupta/tsconfig-json.md`
+- [[tsconfig-json-md]] — `pages/vault/job-hunt-app/tsconfig-json.md`
+- [[tsconfig-json-md]] — `pages/vault/social-blueprint-ai/tsconfig-json.md`
+- [[tsconfig-json-md]] — `pages/vault/unnati/tsconfig-json.md`
+- [[unnati-md]] — `pages/vault/unnati/unnati.md`
+- [[upload-func-js-md]] — `pages/vault/unnati/upload-func-js.md`
+- [[using-git-worktrees-md]] — `skills/using-git-worktrees.md`
+- [[utils-js-md]] — `pages/vault/kanak/utils-js.md`
+- [[vite-config-ts-md]] — `pages/vault/chitragupta/vite-config-ts.md`
+- [[vite-config-ts-md]] — `pages/vault/social-blueprint-ai/vite-config-ts.md`
+- [[whitelabel-js-md]] — `pages/vault/vishwakarma/whitelabel-js.md`
+- [[worker-js-md]] — `pages/vault/unnati/worker-js.md`
+
+### 🚀 Deployment (1)
+- [[ADR-001-tailscale-md-md]] — `pages/vault/vishwakarma/ADR-001-tailscale-md.md`
+
+### 📖 Docs (223)
+- [[-eslintrc-json-md]] — `pages/vault/unnati/-eslintrc-json.md`
+- [[255-e3bf15caf1f1e0f9-js-md]] — `pages/vault/unnati/255-e3bf15caf1f1e0f9-js.md`
+- [[275-587834d0ceb05932-js-md]] — `pages/vault/unnati/275-587834d0ceb05932-js.md`
+- [[404-html-md]] — `pages/vault/unnati/404-html.md`
+- [[404-rsc-json-md]] — `pages/vault/unnati/404-rsc-json.md`
+- [[464d4656c4f3577c-css-md]] — `pages/vault/unnati/464d4656c4f3577c-css.md`
+- [[4bd1b696-c023c6e3521b1417-js-md]] — `pages/vault/unnati/4bd1b696-c023c6e3521b1417-js.md`
+- [[4df22a7090abd8ee1a23a2de813e315f-js-md]] — `pages/vault/unnati/4df22a7090abd8ee1a23a2de813e315f-js.md`
+- [[500-html-md]] — `pages/vault/unnati/500-html.md`
+- [[88a389dd6c068190adb2efc795e4063c-js-md]] — `pages/vault/unnati/88a389dd6c068190adb2efc795e4063c-js.md`
+- [[AGENTS-md-md]] — `pages/vault/_root/AGENTS-md.md`
+- [[BrandKit-tsx-md]] — `pages/vault/social-blueprint-ai/BrandKit-tsx.md`
+- [[CLAUDE-md-md]] — `pages/vault/career-ops/CLAUDE-md.md`
+- [[CLAUDE-md-md]] — `pages/vault/unnati/CLAUDE-md.md`
+- [[CLIENT_GUIDE-md-md]] — `pages/vault/vishwakarma/CLIENT_GUIDE-md.md`
+- [[CLOUDFLARE_ZT_SETUP-md-md]] — `pages/vault/vishwakarma/CLOUDFLARE_ZT_SETUP-md.md`
+- [[CONTRIBUTING-md-md]] — `pages/vault/career-ops/CONTRIBUTING-md.md`
+- [[CREDENTIAL_PORTAL_SETUP-md-md]] — `pages/vault/vishwakarma/CREDENTIAL_PORTAL_SETUP-md.md`
+- [[CUSTOMIZATION-md-md]] — `pages/vault/career-ops/CUSTOMIZATION-md.md`
+- [[CoverLetterGenerator-tsx-md]] — `pages/vault/unnati/CoverLetterGenerator-tsx.md`
+- [[DEPLOYMENT-md-md]] — `pages/vault/chitragupta/DEPLOYMENT-md.md`
+- [[DEPLOYMENT-md-md]] — `pages/vault/narad/DEPLOYMENT-md.md`
+- [[DEPLOYMENT-md-md]] — `pages/vault/unnati/DEPLOYMENT-md.md`
+- [[DEPLOYMENT-md-md]] — `pages/vault/vishwakarma/DEPLOYMENT-md.md`
+- [[DEPLOYMENT-md]] — `DEPLOYMENT.md`
+- [[DashboardLayout-tsx-md]] — `pages/vault/unnati/DashboardLayout-tsx.md`
+- [[ELIZA_FEATURES-md-md]] — `pages/vault/narad/ELIZA_FEATURES-md.md`
+- [[ELIZA_FEATURES-md]] — `docs/ELIZA_FEATURES.md`
+- [[ErrorBoundary-tsx-md]] — `pages/vault/social-blueprint-ai/ErrorBoundary-tsx.md`
+- [[FEATURES-md-md]] — `pages/vault/narad/FEATURES-md.md`
+- [[FEATURES-md]] — `FEATURES.md`
+- [[GUIDE-md-md]] — `pages/vault/social-blueprint-ai/GUIDE-md.md`
+- [[HANDOFF-md-md]] — `pages/vault/vishwakarma/HANDOFF-md.md`
+- [[Header-tsx-md]] — `pages/vault/job-hunt-app/Header-tsx.md`
+- [[Header-tsx-md]] — `pages/vault/unnati/Header-tsx.md`
+- [[JobCard-tsx-md]] — `pages/vault/unnati/JobCard-tsx.md`
+- [[JobFilters-tsx-md]] — `pages/vault/unnati/JobFilters-tsx.md`
+- [[Layout-tsx-md]] — `pages/vault/social-blueprint-ai/Layout-tsx.md`
+- [[MatchAnalysis-tsx-md]] — `pages/vault/unnati/MatchAnalysis-tsx.md`
+- [[OnboardingWizard-tsx-md]] — `pages/vault/unnati/OnboardingWizard-tsx.md`
+- [[PRODUCTION_CHECKLIST-md-md]] — `pages/vault/vishwakarma/PRODUCTION_CHECKLIST-md.md`
+- [[PdfCommons-js-md]] — `pages/vault/narad/PdfCommons-js.md`
+- [[QuestionCard-tsx-md]] — `pages/vault/unnati/QuestionCard-tsx.md`
+- [[README-md-md]] — `pages/vault/chitragupta/README-md.md`
+- [[README-md-md]] — `pages/vault/n8n/README-md.md`
+- [[README-md-md]] — `pages/vault/job-hunt-app/README-md.md`
+- [[README-md-md]] — `pages/vault/kanak/README-md.md`
+- [[README-md-md]] — `pages/vault/social-blueprint-ai/README-md.md`
+- [[README-md-md]] — `pages/vault/career-ops/README-md.md`
+- [[README-md-md]] — `pages/vault/indra/README-md.md`
+- [[README-md-md]] — `pages/vault/unnati/README-md.md`
+- [[README-md]] — `pages/vault/README.md`
+- [[RUNBOOK-md-md]] — `pages/vault/vishwakarma/RUNBOOK-md.md`
+- [[SETUP-md-md]] — `pages/vault/career-ops/SETUP-md.md`
+- [[SKILL-md-md]] — `pages/vault/career-ops/SKILL-md.md`
+- [[Sidebar-tsx-md]] — `pages/vault/unnati/Sidebar-tsx.md`
+- [[Step1Roles-tsx-md]] — `pages/vault/unnati/Step1Roles-tsx.md`
+- [[Step2Location-tsx-md]] — `pages/vault/unnati/Step2Location-tsx.md`
+- [[Step5Experience-tsx-md]] — `pages/vault/unnati/Step5Experience-tsx.md`
+- [[Step6Resume-tsx-md]] — `pages/vault/unnati/Step6Resume-tsx.md`
+- [[Step8Launch-tsx-md]] — `pages/vault/unnati/Step8Launch-tsx.md`
+- [[_app-7d307437aca18ad4-js-md]] — `pages/vault/unnati/_app-7d307437aca18ad4-js.md`
+- [[_app-rsc-json-md]] — `pages/vault/unnati/_app-rsc-json.md`
+- [[_buildManifest-js-md]] — `pages/vault/unnati/_buildManifest-js.md`
+- [[_document-rsc-json-md]] — `pages/vault/unnati/_document-rsc-json.md`
+- [[_error-cb2a52f75f2162e2-js-md]] — `pages/vault/unnati/_error-cb2a52f75f2162e2-js.md`
+- [[_error-rsc-json-md]] — `pages/vault/unnati/_error-rsc-json.md`
+- [[_not-found-html-md]] — `pages/vault/unnati/_not-found-html.md`
+- [[_not-found-prerender-fallback-html-md]] — `pages/vault/unnati/_not-found-prerender-fallback-html.md`
+- [[_routes-json-md]] — `pages/vault/social-blueprint-ai/_routes-json.md`
+- [[_routes-json-md]] — `pages/vault/unnati/_routes-json.md`
+- [[_shared-md-md]] — `pages/vault/career-ops/_shared-md.md`
+- [[_shared-md-md]] — `pages/vault/unnati/_shared-md.md`
+- [[_ssgManifest-js-md]] — `pages/vault/unnati/_ssgManifest-js.md`
+- [[_worker-js-md]] — `pages/vault/chitragupta/_worker-js.md`
+- [[_worker-js-md]] — `pages/vault/vishwakarma/_worker-js.md`
+- [[a2a01d6387f4582ac408232d99c6e00f-js-md]] — `pages/vault/unnati/a2a01d6387f4582ac408232d99c6e00f-js.md`
+- [[adaptor-js-md]] — `pages/vault/unnati/adaptor-js.md`
+- [[advanced-evaluation-md]] — `skills/advanced-evaluation.md`
+- [[agents-js-md]] — `pages/vault/narad/agents-js.md`
+- [[agents-js-md]] — `pages/vault/vishwakarma/agents-js.md`
+- [[agents-js]] — `pages/config/agents.js`
+- [[ai-js-md]] — `pages/vault/narad/ai-js.md`
+- [[algorithmic-art-md]] — `skills/algorithmic-art.md`
+- [[angebot-md-md]] — `pages/vault/career-ops/angebot-md.md`
+- [[angebot-md-md]] — `pages/vault/unnati/angebot-md.md`
+- [[antigravity-api-setup-html-md]] — `pages/vault/vishwakarma/antigravity-api-setup-html.md`
+- [[app-js-md]] — `pages/vault/narad/app-js.md`
+- [[apply-md-md]] — `pages/vault/career-ops/apply-md.md`
+- [[apply-md-md]] — `pages/vault/unnati/apply-md.md`
+- [[article-digest-example-md-md]] — `pages/vault/career-ops/article-digest-example-md.md`
+- [[auth-css-md]] — `pages/vault/chitragupta/auth-css.md`
+- [[auto-pipeline-md-md]] — `pages/vault/career-ops/auto-pipeline-md.md`
+- [[auto-pipeline-md-md]] — `pages/vault/unnati/auto-pipeline-md.md`
+- [[bdi-mental-states-md]] — `skills/bdi-mental-states.md`
+- [[bewerben-md-md]] — `pages/vault/career-ops/bewerben-md.md`
+- [[bewerben-md-md]] — `pages/vault/unnati/bewerben-md.md`
+- [[brainstorming-md]] — `skills/brainstorming.md`
+- [[brand-guidelines-md]] — `skills/brand-guidelines.md`
+- [[build-diagnostics-json-md]] — `pages/vault/unnati/build-diagnostics-json.md`
+- [[canvas-design-md]] — `skills/canvas-design.md`
+- [[characters-js-md]] — `pages/vault/narad/characters-js.md`
+- [[cli_traces-json-md]] — `pages/vault/unnati/cli_traces-json.md`
+- [[cloudflare-cleanup-yml-md]] — `pages/vault/vishwakarma/cloudflare-cleanup-yml.md`
+- [[composition-patterns-md]] — `skills/composition-patterns.md`
+- [[context-optimization-md]] — `skills/context-optimization.md`
+- [[cover-letter-ts-md]] — `pages/vault/unnati/cover-letter-ts.md`
+- [[cv-example-md-md]] — `pages/vault/career-ops/cv-example-md.md`
+- [[cv-template-html-md]] — `pages/vault/career-ops/cv-template-html.md`
+- [[cv-template-html-md]] — `pages/vault/unnati/cv-template-html.md`
+- [[deep-md-md]] — `pages/vault/career-ops/deep-md.md`
+- [[deep-md-md]] — `pages/vault/unnati/deep-md.md`
+- [[defuddle-md]] — `skills/defuddle.md`
+- [[doc-coauthoring-md]] — `skills/doc-coauthoring.md`
+- [[download-html-md]] — `pages/vault/vishwakarma/download-html.md`
+- [[evaluation-md]] — `skills/evaluation.md`
+- [[executing-plans-md]] — `skills/executing-plans.md`
+- [[finishing-a-development-branch-md]] — `skills/finishing-a-development-branch.md`
+- [[framework-de98b93a850cfc71-js-md]] — `pages/vault/unnati/framework-de98b93a850cfc71-js.md`
+- [[framework-json-md]] — `pages/vault/unnati/framework-json.md`
+- [[frontend-design-md]] — `skills/frontend-design.md`
+- [[globals-css-md]] — `pages/vault/job-hunt-app/globals-css.md`
+- [[globals-css-md]] — `pages/vault/unnati/globals-css.md`
+- [[graph-html-md]] — `pages/vault/narad/graph-html.md`
+- [[graph-js-md]] — `pages/vault/narad/graph-js.md`
+- [[highcharts_file_2-js-md]] — `pages/vault/narad/highcharts_file_2-js.md`
+- [[index-css-md]] — `pages/vault/social-blueprint-ai/index-css.md`
+- [[index-html-md]] — `pages/vault/kanak/index-html.md`
+- [[index-html-md]] — `pages/vault/social-blueprint-ai/index-html.md`
+- [[index-html-md]] — `pages/vault/unnati/index-html.md`
+- [[index-html-md]] — `pages/vault/vishwakarma/index-html.md`
+- [[index-js-md]] — `pages/vault/narad/index-js.md`
+- [[index-prerender-fallback-html-md]] — `pages/vault/unnati/index-prerender-fallback-html.md`
+- [[indra-md]] — `pages/vault/indra/indra.md`
+- [[internal-comms-md]] — `skills/internal-comms.md`
+- [[json-canvas-md]] — `skills/json-canvas.md`
+- [[kv-js-md]] — `pages/vault/unnati/kv-js.md`
+- [[layout-tsx-md]] — `pages/vault/job-hunt-app/layout-tsx.md`
+- [[layout-tsx-md]] — `pages/vault/unnati/layout-tsx.md`
+- [[main-app-0b7d03ffd7dbc43b-js-md]] — `pages/vault/unnati/main-app-0b7d03ffd7dbc43b-js.md`
+- [[main-c4b3f36a491c2d1a-js-md]] — `pages/vault/unnati/main-c4b3f36a491c2d1a-js.md`
+- [[main-tsx-md]] — `pages/vault/social-blueprint-ai/main-tsx.md`
+- [[manifest-json-md]] — `pages/vault/chitragupta/manifest-json.md`
+- [[manifest-json-md]] — `pages/vault/narad/manifest-json.md`
+- [[memory-systems-md]] — `skills/memory-systems.md`
+- [[metadata-json-md]] — `pages/vault/social-blueprint-ai/metadata-json.md`
+- [[minimalist-editorial-interfaces-md]] — `skills/minimalist-editorial-interfaces.md`
+- [[minimalist-skill-md]] — `skills/minimalist-skill.md`
+- [[multi-agent-patterns-md]] — `skills/multi-agent-patterns.md`
+- [[narad-md]] — `pages/vault/narad/narad.md`
+- [[nisha-n8n-md]] — `pages/vault/nisha-n8n/nisha-n8n.md`
+- [[nisha-vishwakarma-md]] — `pages/vault/nisha-vishwakarma/nisha-vishwakarma.md`
+- [[nisha-md]] — `pages/vault/nisha.md`
+- [[nisha-md]] — `pages/vault/nisha/nisha.md`
+- [[no-nodejs_compat-html-md]] — `pages/vault/unnati/no-nodejs_compat-html.md`
+- [[nop-build-log-json-md]] — `pages/vault/unnati/nop-build-log-json.md`
+- [[not-found-txt-md]] — `pages/vault/unnati/not-found-txt.md`
+- [[obsidian-cli-md]] — `skills/obsidian-cli.md`
+- [[obsidian-markdown-md]] — `skills/obsidian-markdown.md`
+- [[oferta-md-md]] — `pages/vault/career-ops/oferta-md.md`
+- [[oferta-md-md]] — `pages/vault/unnati/oferta-md.md`
+- [[ofertas-md-md]] — `pages/vault/career-ops/ofertas-md.md`
+- [[ofertas-md-md]] — `pages/vault/unnati/ofertas-md.md`
+- [[offline-html-md]] — `pages/vault/chitragupta/offline-html.md`
+- [[output-skill-md]] — `skills/output-skill.md`
+- [[page-c7f5713daae36b4d-js-md]] — `pages/vault/unnati/page-c7f5713daae36b4d-js.md`
+- [[page-fa1a24a5040f11a5-js-md]] — `pages/vault/unnati/page-fa1a24a5040f11a5-js.md`
+- [[page-tsx-md]] — `pages/vault/job-hunt-app/page-tsx.md`
+- [[page-tsx-md]] — `pages/vault/unnati/page-tsx.md`
+- [[pdf-md-md]] — `pages/vault/career-ops/pdf-md.md`
+- [[pdf-md-md]] — `pages/vault/unnati/pdf-md.md`
+- [[pdf-md]] — `skills/pdf.md`
+- [[pipeline-md-md]] — `pages/vault/career-ops/pipeline-md.md`
+- [[pipeline-md-md]] — `pages/vault/unnati/pipeline-md.md`
+- [[polyfills-42372ed130431b0a-js-md]] — `pages/vault/unnati/polyfills-42372ed130431b0a-js.md`
+- [[portals-example-yml-md]] — `pages/vault/career-ops/portals-example-yml.md`
+- [[portals-example-yml-md]] — `pages/vault/unnati/portals-example-yml.md`
+- [[portals-yml-md]] — `pages/vault/career-ops/portals-yml.md`
+- [[portals-yml-md]] — `pages/vault/unnati/portals-yml.md`
+- [[pptx-md]] — `skills/pptx.md`
+- [[project-development-md]] — `skills/project-development.md`
+- [[project-json-md]] — `pages/vault/unnati/project-json.md`
+- [[project-md-md]] — `pages/vault/career-ops/project-md.md`
+- [[project-md-md]] — `pages/vault/unnati/project-md.md`
+- [[prompts-ts-md]] — `pages/vault/unnati/prompts-ts.md`
+- [[provision-html-md]] — `pages/vault/vishwakarma/provision-html.md`
+- [[ragDocuments-js-md]] — `pages/vault/narad/ragDocuments-js.md`
+- [[react-best-practices-md]] — `skills/react-best-practices.md`
+- [[react-native-skills-md]] — `skills/react-native-skills.md`
+- [[reader-html-md]] — `pages/vault/narad/reader-html.md`
+- [[reader-js-md]] — `pages/vault/narad/reader-js.md`
+- [[receiving-code-review-md]] — `skills/receiving-code-review.md`
+- [[remotion-md]] — `skills/remotion.md`
+- [[requesting-code-review-md]] — `skills/requesting-code-review.md`
+- [[restore-html-md]] — `pages/vault/vishwakarma/restore-html.md`
+- [[robots-txt-md]] — `pages/vault/social-blueprint-ai/robots-txt.md`
+- [[route-1221fddf2e04eee8-js-md]] — `pages/vault/unnati/route-1221fddf2e04eee8-js.md`
+- [[sample-report-md-md]] — `pages/vault/career-ops/sample-report-md.md`
+- [[slack-gif-creator-md]] — `skills/slack-gif-creator.md`
+- [[smriti_graph-json-md]] — `pages/vault/narad/smriti_graph-json.md`
+- [[soft-skill-md]] — `skills/soft-skill.md`
+- [[story-bank-md-md]] — `pages/vault/career-ops/story-bank-md.md`
+- [[supabase-postgres-best-practices-md]] — `skills/supabase-postgres-best-practices.md`
+- [[swarm-js-md]] — `pages/vault/vishwakarma/swarm-js.md`
+- [[taste-skill-md]] — `skills/taste-skill.md`
+- [[theme-factory-md]] — `skills/theme-factory.md`
+- [[tool-design-md]] — `skills/tool-design.md`
+- [[tracker-md-md]] — `pages/vault/career-ops/tracker-md.md`
+- [[tracker-md-md]] — `pages/vault/unnati/tracker-md.md`
+- [[training-md-md]] — `pages/vault/career-ops/training-md.md`
+- [[training-md-md]] — `pages/vault/unnati/training-md.md`
+- [[ui-ux-pro-max-md]] — `skills/ui-ux-pro-max.md`
+- [[using-superpowers-md]] — `skills/using-superpowers.md`
+- [[verification-before-completion-md]] — `skills/verification-before-completion.md`
+- [[vishwakarma-md]] — `pages/vault/vishwakarma/vishwakarma.md`
+- [[web-artifacts-builder-md]] — `skills/web-artifacts-builder.md`
+- [[web-design-guidelines-md]] — `skills/web-design-guidelines.md`
+- [[webpack-b66e35ffe30362a3-js-md]] — `pages/vault/unnati/webpack-b66e35ffe30362a3-js.md`
+- [[workflows-json-md]] — `pages/vault/n8n/workflows-json.md`
+- [[workflows-json-md]] — `pages/vault/indra/workflows-json.md`
+- [[writing-plans-md]] — `skills/writing-plans.md`
+- [[writing-skills-md]] — `skills/writing-skills.md`
+- [[xlsx-md]] — `skills/xlsx.md`
+
+### 🔌 Middleware (2)
+- [[Step4Sectors-tsx-md]] — `pages/vault/unnati/Step4Sectors-tsx.md`
+- [[middleware-ts-md]] — `pages/vault/unnati/middleware-ts.md`
+
+### 📄 Page (11)
+- [[PdfCommons-js]] — `pages/resources/PdfCommons.js`
+- [[app-js]] — `pages/app.js`
+- [[graph-html]] — `pages/graph.html`
+- [[graph-js]] — `pages/graph.js`
+- [[highcharts_file_2-js]] — `pages/resources/highcharts_file_2.js`
+- [[index-html]] — `pages/index.html`
+- [[manifest-json]] — `pages/manifest.json`
+- [[ragDocuments-js]] — `pages/services/ragDocuments.js`
+- [[reader-html]] — `pages/reader.html`
+- [[reader-js]] — `pages/reader.js`
+- [[smriti_graph-json]] — `pages/smriti_graph.json`
+
+### 🛤️ Route (3)
+- [[QuickActions-tsx-md]] — `pages/vault/unnati/QuickActions-tsx.md`
+- [[errors-js-md]] — `pages/vault/narad/errors-js.md`
+- [[errors-js]] — `pages/routes/errors.js`
+
+### 📜 Script (5)
+- [[batch-runner-sh-md]] — `pages/vault/career-ops/batch-runner-sh.md`
+- [[batch-runner-sh-md]] — `pages/vault/unnati/batch-runner-sh.md`
+- [[local-deploy-js-md]] — `pages/vault/unnati/local-deploy-js.md`
+- [[local-deploy-sh-md]] — `pages/vault/unnati/local-deploy-sh.md`
+- [[webapp-testing-md]] — `skills/webapp-testing.md`
+
+### 🌐 Service (46)
+- [[Audit-tsx-md]] — `pages/vault/social-blueprint-ai/Audit-tsx.md`
+- [[CHECKPOINT-md-md]] — `pages/vault/vishwakarma/CHECKPOINT-md.md`
+- [[Landing-tsx-md]] — `pages/vault/social-blueprint-ai/Landing-tsx.md`
+- [[MONITORING_SETUP-md-md]] — `pages/vault/vishwakarma/MONITORING_SETUP-md.md`
+- [[SECRETS_SETUP-md-md]] — `pages/vault/vishwakarma/SECRETS_SETUP-md.md`
+- [[STAREditor-tsx-md]] — `pages/vault/unnati/STAREditor-tsx.md`
+- [[Step3CompanyType-tsx-md]] — `pages/vault/unnati/Step3CompanyType-tsx.md`
+- [[[[path]]-js-md]] — `pages/vault/kanak/[[path]]-js.md`
+- [[_health-js-md]] — `pages/vault/chitragupta/_health-js.md`
+- [[app-ts-md]] — `pages/vault/chitragupta/app-ts.md`
+- [[cache-api-js-md]] — `pages/vault/unnati/cache-api-js.md`
+- [[charts-ts-md]] — `pages/vault/chitragupta/charts-ts.md`
+- [[contacto-md-md]] — `pages/vault/career-ops/contacto-md.md`
+- [[contacto-md-md]] — `pages/vault/unnati/contacto-md.md`
+- [[cv-md-md]] — `pages/vault/career-ops/cv-md.md`
+- [[external-js-md]] — `pages/vault/narad/external-js.md`
+- [[external-js]] — `pages/services/external.js`
+- [[geminiService-ts-md]] — `pages/vault/social-blueprint-ai/geminiService-ts.md`
+- [[github-js-md]] — `pages/vault/narad/github-js.md`
+- [[github-js]] — `pages/services/github.js`
+- [[handler-ts-md]] — `pages/vault/unnati/handler-ts.md`
+- [[health-js-md]] — `pages/vault/narad/health-js.md`
+- [[health-js]] — `pages/routes/health.js`
+- [[index-html-md]] — `pages/vault/chitragupta/index-html.md`
+- [[index-html-md]] — `pages/vault/narad/index-html.md`
+- [[invite-partner-html-md]] — `pages/vault/chitragupta/invite-partner-html.md`
+- [[invoice-js-md]] — `pages/vault/chitragupta/invoice-js.md`
+- [[mcp-js-md]] — `pages/vault/narad/mcp-js.md`
+- [[mcp-js]] — `pages/services/mcp.js`
+- [[mle-star-js-md]] — `pages/vault/vishwakarma/mle-star-js.md`
+- [[provision-client-yml-md]] — `pages/vault/vishwakarma/provision-client-yml.md`
+- [[reports-js-md]] — `pages/vault/chitragupta/reports-js.md`
+- [[research-js-md]] — `pages/vault/narad/research-js.md`
+- [[research-js]] — `pages/services/research.js`
+- [[search-js-md]] — `pages/vault/narad/search-js.md`
+- [[search-js]] — `pages/services/search.js`
+- [[sessionSync-js-md]] — `pages/vault/narad/sessionSync-js.md`
+- [[sessionSync-js]] — `pages/services/sessionSync.js`
+- [[skills-js-md]] — `pages/vault/narad/skills-js.md`
+- [[skills-js]] — `pages/services/skills.js`
+- [[styles-css-md]] — `pages/vault/chitragupta/styles-css.md`
+- [[sw-js-md]] — `pages/vault/chitragupta/sw-js.md`
+- [[systematic-debugging-md]] — `skills/systematic-debugging.md`
+- [[terms-html-md]] — `pages/vault/kanak/terms-html.md`
+- [[verification-js-md]] — `pages/vault/narad/verification-js.md`
+- [[verification-js]] — `pages/services/verification.js`
+
+### 🎨 Style (1)
+- [[style-css]] — `pages/style.css`
+
+### 🧪 Test (1)
+- [[dispatching-parallel-agents-md]] — `skills/dispatching-parallel-agents.md`
+
+### 🔧 Utility (33)
+- [[Dashboard-tsx-md]] — `pages/vault/social-blueprint-ai/Dashboard-tsx.md`
+- [[GridPlanner-tsx-md]] — `pages/vault/social-blueprint-ai/GridPlanner-tsx.md`
+- [[JobDetails-tsx-md]] — `pages/vault/unnati/JobDetails-tsx.md`
+- [[Sidebar-tsx-md]] — `pages/vault/social-blueprint-ai/Sidebar-tsx.md`
+- [[StatsCards-tsx-md]] — `pages/vault/unnati/StatsCards-tsx.md`
+- [[Strategy-tsx-md]] — `pages/vault/social-blueprint-ai/Strategy-tsx.md`
+- [[activities-ts-md]] — `pages/vault/unnati/activities-ts.md`
+- [[adzuna-ts-md]] — `pages/vault/unnati/adzuna-ts.md`
+- [[ai-cache-ts-md]] — `pages/vault/unnati/ai-cache-ts.md`
+- [[api-tests-ts-md]] — `pages/vault/unnati/api-tests-ts.md`
+- [[beam-ts-md]] — `pages/vault/unnati/beam-ts.md`
+- [[browser-print-ts-md]] — `pages/vault/unnati/browser-print-ts.md`
+- [[cleanup-ts-md]] — `pages/vault/unnati/cleanup-ts.md`
+- [[db-test-ts-md]] — `pages/vault/unnati/db-test-ts.md`
+- [[dedupe-ts-md]] — `pages/vault/unnati/dedupe-ts.md`
+- [[extract-text-ts-md]] — `pages/vault/unnati/extract-text-ts.md`
+- [[generator-ts-md]] — `pages/vault/unnati/generator-ts.md`
+- [[index-ts-md]] — `pages/vault/unnati/index-ts.md`
+- [[matcher-ts-md]] — `pages/vault/unnati/matcher-ts.md`
+- [[notification-triggers-ts-md]] — `pages/vault/unnati/notification-triggers-ts.md`
+- [[pdf-ts-md]] — `pages/vault/social-blueprint-ai/pdf-ts.md`
+- [[prisma-ts-md]] — `pages/vault/unnati/prisma-ts.md`
+- [[processor-ts-md]] — `pages/vault/unnati/processor-ts.md`
+- [[question-generator-ts-md]] — `pages/vault/unnati/question-generator-ts.md`
+- [[remotive-ts-md]] — `pages/vault/unnati/remotive-ts.md`
+- [[route-ts-md]] — `pages/vault/unnati/route-ts.md`
+- [[star-bank-ts-md]] — `pages/vault/unnati/star-bank-ts.md`
+- [[status-workflow-ts-md]] — `pages/vault/unnati/status-workflow-ts.md`
+- [[supabase-ts-md]] — `pages/vault/unnati/supabase-ts.md`
+- [[timeline-ts-md]] — `pages/vault/unnati/timeline-ts.md`
+- [[types-ts-md]] — `pages/vault/unnati/types-ts.md`
+- [[utils-ts-md]] — `pages/vault/social-blueprint-ai/utils-ts.md`
+- [[worker-ts-md]] — `pages/vault/unnati/worker-ts.md`
+
+```
+
+```
+
+```
+
+```
+
+```

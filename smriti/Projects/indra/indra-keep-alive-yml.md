@@ -6,8 +6,8 @@ language: yaml
 frameworks: [github-actions]
 lines: 15
 size: 337 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, config, github-actions, project/indra, yaml]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, config, github-actions, project/indra, yaml]
 | **Frameworks** | github-actions |
 | **Lines** | 15 |
 | **Size** | 337 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

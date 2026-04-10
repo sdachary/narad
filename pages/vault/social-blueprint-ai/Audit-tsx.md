@@ -6,8 +6,8 @@ language: tsx
 frameworks: [react, typescript]
 lines: 713
 size: 35632 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, project/social-blueprint-ai, react, service, tsx, typescript]
 ---
 
@@ -27,7 +27,7 @@ tags: [code, project/social-blueprint-ai, react, service, tsx, typescript]
 | **Frameworks** | react, typescript |
 | **Lines** | 713 |
 | **Size** | 35632 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

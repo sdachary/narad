@@ -6,8 +6,8 @@ language: yaml
 frameworks: [docker, github-actions]
 lines: 446
 size: 22745 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, docker, github-actions, project/vishwakarma, service, yaml]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, docker, github-actions, project/vishwakarma, service, yaml]
 | **Frameworks** | docker, github-actions |
 | **Lines** | 446 |
 | **Size** | 22745 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

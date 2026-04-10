@@ -1,0 +1,273 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/react-native-skills-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 235
+size: 6571 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# react-native-skills-md-md-md.md
+
+> Documentation (235 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/react-native-skills-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 235 |
+| **Size** | 6571 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/react-native-skills-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 197
+size: 5844 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# react-native-skills-md-md.md
+
+> Documentation (197 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/react-native-skills-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 197 |
+| **Size** | 5844 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/react-native-skills-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 159
+size: 5126 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# react-native-skills-md.md
+
+> Documentation (159 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/react-native-skills-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 159 |
+| **Size** | 5126 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/skills/react-native-skills.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 121
+size: 4439 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# react-native-skills.md
+
+> Documentation (121 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/skills/react-native-skills.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 121 |
+| **Size** | 4439 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+name: vercel-react-native-skills
+description:
+  React Native and Expo best practices for building performant mobile apps. Use
+  when building React Native components, optimizing list performance,
+  implementing animations, or working with native modules. Triggers on tasks
+  involving React Native, Expo, mobile performance, or native platform APIs.
+license: MIT
+metadata:
+  author: vercel
+  version: '1.0.0'
+---
+
+# React Native Skills
+
+Comprehensive best practices for React Native and Expo applications. Contains
+rules across multiple categories covering performance, animations, UI patterns,
+and platform-specific optimizations.
+
+## When to Apply
+
+Reference these guidelines when:
+
+- Building React Native or Expo apps
+- Optimizing list and scroll performance
+- Implementing animations with Reanimated
+- Working with images and media
+- Configuring native modules or fonts
+- Structuring monorepo projects with native dependencies
+
+## Rule Categories by Priority
+
+| Priority | Category         | Impact   | Prefix               |
+| -------- | ---------------- | -------- | -------------------- |
+| 1        | List Performance | CRITICAL | `list-performance-`  |
+| 2        | Animation        | HIGH     | `animation-`         |
+| 3        | Navigation       | HIGH     | `navigation-`        |
+| 4        | UI Patterns      | HIGH     | `ui-`                |
+| 5        | State Management | MEDIUM   | `react-state-`       |
+| 6        | Rendering        | MEDIUM   | `rendering-`         |
+| 7        | Monorepo         | MEDIUM   | `monorepo-`          |
+| 8        | Configuration    | LOW      | `fonts-`, `imports-` |
+
+## Quick Reference
+
+### 1. List Performance (CRITICAL)
+
+- `list-performance-virtualize` - Use FlashList for large lists
+- `list-performance-item-memo` - Memoize list item components
+- `list-performance-callbacks` - Stabilize callback references
+- `list-performance-inline-objects` - Avoid inline style objects
+- `list-performance-function-references` - Extract functions outside render
+- `list-performance-images` - Optimize images in lists
+- `list-performance-item-expensive` - Move expensive work outside items
+- `list-performance-item-types` - Use item types for heterogeneous lists
+
+### 2. Animation (HIGH)
+
+- `animation-gpu-properties` - Animate only transform and opacity
+- `animation-derived-value` - Use useDerivedValue for computed animations
+- `animation-gesture-detector-press` - Use Gesture.Tap instead of Pressable
+
+### 3. Navigation (HIGH)
+
+- `navigation-native-navigators` - Use native stack and native tabs over JS navigators
+
+### 4. UI Patterns (HIGH)
+
+- `ui-expo-image` - Use expo-image for all images
+- `ui-image-gallery` - Use Galeria for image lightboxes
+- `ui-pressable` - Use Pressable over TouchableOpacity
+- `ui-safe-area-scroll` - Handle safe areas in ScrollViews
+- `ui-scrollview-content-inset` - Use contentInset for headers
+- `ui-menus` - Use native context menus
+- `ui-native-modals` - Use native modals when possible
+- `ui-measure-views` - Use onLayout, not measure()
+- `ui-styling` - Use StyleSheet.create or Nativewind
+
+### 5. State Management (MEDIUM)
+
+- `react-state-minimize` - Minimize state subscriptions
+- `react-state-dispatcher` - Use dispatcher pattern for callbacks
+- `react-state-fallback` - Show fallback on first render
+- `react-compiler-destructure-functions` - Destructure for React Compiler
+- `react-compiler-reanimated-shared-values` - Handle shared values with compiler
+
+### 6. Rendering (MEDIUM)
+
+- `rendering-text-in-text-component` - Wrap text in Text components
+- `rendering-no-falsy-and` - Avoid falsy && for conditional rendering
+
+### 7. Monorepo (MEDIUM)
+
+- `monorepo-native-deps-in-app` - Keep native dependencies in app package
+- `monorepo-single-dependency-versions` - Use single versions across packages
+
+### 8. Configuration (LOW)
+
+- `fonts-config-plugin` - Use config plugins for custom fonts
+- `imports-design-system-folder` - Organize design system imports
+- `js-hoist-intl` - Hoist Intl object creation
+
+## How to Use
+
+Read individual rule files for detailed explanations and code examples:
+
+```
+rules/list-performance-virtualize.md
+rules/animation-gpu-properties.md
+```
+
+Each rule file contains:
+
+- Brief explanation of why it matters
+- Incorrect code example with explanation
+- Correct code example with explanation
+- Additional context and references
+
+## Full Compiled Document
+
+For the complete guide with all rules expanded: `AGENTS.md`
+
+```
+
+```
+
+```
+
+```
