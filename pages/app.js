@@ -1539,6 +1539,12 @@ async function init() {
     if (clearChatBtn) {
         clearChatBtn.addEventListener('click', clearChat);
     }
+    
+    // New session button in sidebar
+    const newSessionBtn = document.getElementById('new-session-btn');
+    if (newSessionBtn) {
+        newSessionBtn.addEventListener('click', () => createNewSession());
+    }
 
     // Auto update usage ring every 30 seconds
     setInterval(updateUsageRing, 30000);

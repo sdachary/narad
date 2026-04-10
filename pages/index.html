@@ -19,6 +19,17 @@
     <a href="#user-input" class="skip-link">Skip to input</a>
     
     <div class="terminal-window">
+        <!-- Session Sidebar -->
+        <aside class="session-sidebar" id="session-sidebar">
+            <div class="sidebar-header">
+                <span>Sessions</span>
+                <button class="new-session-btn" id="new-session-btn" title="New Session">
+                    <i data-lucide="plus"></i>
+                </button>
+            </div>
+            <div class="session-list" id="session-list"></div>
+        </aside>
+        
         <header class="terminal-header">
             <div class="terminal-title">narad</div>
             
@@ -54,7 +65,7 @@
                 <span class="spinner">⠋</span>
                 <span class="processing-status">Processing...</span>
             </div>
-            <form id="chat-form" class="input-line">
+            <form id="chat-form" class="input-line" onclick="if(this.querySelector('#user-input').value === '') { showCommandPalette(); }">
                 <span class="prompt">></span>
                 <textarea id="user-input" placeholder="Type / for commands..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
                 <div class="input-controls">
