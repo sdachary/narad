@@ -1,4 +1,4 @@
-import { AI_PROVIDERS, PROVIDER_FALLBACK_ORDER } from '../config/providers.js';
+import { AI_PROVIDERS, PROVIDER_FALLBACK_ORDER, PROVIDER_ROUTING } from '../config/providers.js';
 import { getCharacter, getCharacterSystemPrompt } from '../config/characters.js';
 
 export function getAvailableProviders(env) {
@@ -18,43 +18,55 @@ export function getProviderConfig(env, providerName) {
   return { ...provider, apiKey };
 }
 
+// Classify a message into a task type based on keywords
+export function classifyTask(message) {
+  const lower = message.toLowerCase();
+  
+  for (const [taskType, keywords] of Object.entries(PROVIDER_ROUTING.keywords)) {
+    if (keywords.some(k => lower.includes(k))) {
+      return taskType;
+    }
+  }
+  return 'simple';
+}
+
+// Select optimal provider based on task type and available providers
+export function selectOptimalProvider(taskType, availableProviders) {
+  // 1. Try task-specific routing
+  const taskProvider = PROVIDER_ROUTING.taskRouting[taskType];
+  if (taskProvider && availableProviders.includes(taskProvider)) {
+    return taskProvider;
+  }
+  
+  // 2. Fallback to default
+  const defaultProvider = PROVIDER_ROUTING.taskRouting.default;
+  if (availableProviders.includes(defaultProvider)) {
+    return defaultProvider;
+  }
+  
+  // 3. Return first available
+  return availableProviders[0];
+}
+
 export function selectProviderAndModel(agentType, message, availableProviders, character = null) {
-  const lowerMessage = message.toLowerCase();
+  // Use agentType if provided, otherwise classify from message
+  const taskType = agentType || classifyTask(message);
   const available = availableProviders || PROVIDER_FALLBACK_ORDER;
+  
+  const provider = selectOptimalProvider(taskType, available);
+  const providerConfig = AI_PROVIDERS[provider];
+  
+  // Select model based on task type
+  const modelType = taskType === 'debugging' ? 'strong' : 
+                    taskType === 'simple' ? 'fast' : 'balanced';
   
   const characterInfo = character ? getCharacter(character) : null;
   
-  if (agentType === 'coding' || lowerMessage.includes('code') || lowerMessage.includes('function') || lowerMessage.includes('implement')) {
-    const provider = available.find(p => ['groq', 'mistral', 'openrouter'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced, character: characterInfo };
-  }
-  
-  if (agentType === 'debugging' || lowerMessage.includes('debug') || lowerMessage.includes('error') || lowerMessage.includes('fix')) {
-    const provider = available.find(p => ['openai', 'anthropic', 'gemini'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced, character: characterInfo };
-  }
-  
-  if (agentType === 'research' || lowerMessage.includes('research') || lowerMessage.includes('explain') || lowerMessage.includes('analysis')) {
-    const provider = available.find(p => ['anthropic', 'gemini', 'openai'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.balanced, character: characterInfo };
-  }
-  
-  if (agentType === 'testing' || lowerMessage.includes('test') || lowerMessage.includes('spec')) {
-    const provider = available.find(p => ['anthropic', 'openai', 'mistral'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.strong, character: characterInfo };
-  }
-  
-  if (agentType === 'deployment' || lowerMessage.includes('deploy') || lowerMessage.includes('docker') || lowerMessage.includes('kubernetes')) {
-    const provider = available.find(p => ['groq', 'mistral', 'openrouter', 'gemini'].includes(p));
-    if (provider) return { provider, model: AI_PROVIDERS[provider].models.fast, character: characterInfo };
-  }
-  
-  if (available.length > 0) {
-    const provider = available[0];
-    return { provider, model: AI_PROVIDERS[provider].defaultModel, character: characterInfo };
-  }
-  
-  return { provider: 'groq', model: AI_PROVIDERS.groq.defaultModel, character: characterInfo };
+  return { 
+    provider, 
+    model: providerConfig.models[modelType],
+    character: characterInfo
+  };
 }
 
 export async function callAI(messages, providerConfig, options = {}) {
