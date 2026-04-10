@@ -340,4 +340,4 @@ async function sendTelegramAction(chatId, action, env) {
   }
 }
 
-export default { handleHermesWebhook };
+export default { handleHermesWebhook, handleHermesConfig };
