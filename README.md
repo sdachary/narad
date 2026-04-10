@@ -2,11 +2,31 @@
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-**Narad** is an AI terminal assistant deployed as a serverless Cloudflare Pages app.
+**Narad** is an AI terminal assistant deployed as a serverless Cloudflare Pages app with a self-learning brain.
 
 ---
 
 ## Features
+
+### 🧠 Self-Learning Brain (Smriti)
+
+Narad learns from conversations and stores knowledge:
+
+| Feature | Description |
+|---------|-------------|
+| Auto-index | Indexes vault files on first use |
+| Context query | Searches knowledge before responding |
+| Learn from chat | Stores important conversations |
+| Insights | View learned items in modal |
+
+**Commands:**
+```bash
+/brain              # Show brain status
+/brain search <q>   # Search vault files
+/brain insights    # View learned insights
+```
+
+**Projects in Brain:** narad, vishwakarma, chitragupta, indra, smriti
 
 ### 🤖 Multi-Agent System
 8 specialized agents for different tasks:
@@ -25,7 +45,7 @@
 ### Multi-Agent Syntax
 ```bash
 /dev: fix this bug              # Single agent
-/dev+reviewer: review this       # Parallel execution  
+/dev+reviewer: review this     # Parallel execution  
 /chain:dev->writer->reviewer: build feature  # Sequential
 ```
 
@@ -33,17 +53,11 @@
 - Syntax highlighting for code blocks
 - Dark/Light theme toggle
 - Keyboard shortcuts (⌘K, ⌘T, Ctrl+C)
+- Processing spinner indicator
+- Session sidebar (create/switch/delete)
 
 ### 🌐 Web Search
 Integrated search via Serper and Firecrawl.
-
-### 📚 Knowledge Base (RAG)
-Add and search documents:
-```bash
-POST /api/rag/add - Add document
-POST /api/rag/search - Search knowledge
-GET /api/rag/stats - View stats
-```
 
 ---
 
@@ -88,6 +102,8 @@ cd narad
 npx wrangler pages deploy pages --project-name narad
 ```
 
+*Deployment via GitHub Actions (push to main triggers deploy)*
+
 ---
 
 ## API Endpoints
@@ -101,6 +117,9 @@ npx wrangler pages deploy pages --project-name narad
 | `/api/skills/:name` | GET | Get skill info |
 | `/api/mcp/connectors` | GET | MCP connectors |
 | `/api/rag/search` | POST | Search knowledge |
+| `/api/brain/stats` | GET | Brain status |
+| `/api/brain/search` | GET | Search vault |
+| `/api/brain/insights` | GET | View insights |
 | `/api/hermes-webhook` | POST | Telegram webhook |
 
 ---
