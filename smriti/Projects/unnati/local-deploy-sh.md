@@ -6,8 +6,8 @@ language: bash
 frameworks: [docker]
 lines: 482
 size: 14361 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [bash, code, docker, project/unnati, script]
 ---
 
@@ -25,7 +25,7 @@ tags: [bash, code, docker, project/unnati, script]
 | **Frameworks** | docker |
 | **Lines** | 482 |
 | **Size** | 14361 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

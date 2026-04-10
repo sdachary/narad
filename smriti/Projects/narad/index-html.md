@@ -4,16 +4,16 @@ project: "narad"
 role: page
 language: html
 frameworks: []
-lines: 86
-size: 4092 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+lines: 102
+size: 4898 bytes
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, html, page, project/narad]
 ---
 
 # index.html
 
-> Web page (86 lines).
+> Web page (102 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, html, page, project/narad]
 | **Role** | page |
 | **Language** | html |
 | **Frameworks** | — |
-| **Lines** | 86 |
-| **Size** | 4092 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Lines** | 102 |
+| **Size** | 4898 bytes |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 
@@ -55,6 +55,17 @@ tags: [code, html, page, project/narad]
     <a href="#user-input" class="skip-link">Skip to input</a>
     
     <div class="terminal-window">
+        <!-- Session Sidebar -->
+        <aside class="session-sidebar" id="session-sidebar">
+            <div class="sidebar-header">
+                <span>Sessions</span>
+                <button class="new-session-btn" id="new-session-btn" title="New Session">
+                    <i data-lucide="plus"></i>
+                </button>
+            </div>
+            <div class="session-list" id="session-list"></div>
+        </aside>
+        
         <header class="terminal-header">
             <div class="terminal-title">narad</div>
             
@@ -85,7 +96,12 @@ tags: [code, html, page, project/narad]
         </main>
 
         <footer class="terminal-footer">
-            <form id="chat-form" class="input-line">
+            <!-- Processing Indicator -->
+            <div id="processing-indicator" class="processing-indicator" style="display: none;">
+                <span class="spinner">⠋</span>
+                <span class="processing-status">Processing...</span>
+            </div>
+            <form id="chat-form" class="input-line" onclick="if(this.querySelector('#user-input').value === '') { showCommandPalette(); }">
                 <span class="prompt">></span>
                 <textarea id="user-input" placeholder="Type / for commands..." autocomplete="off" rows="1" aria-label="Type your message"></textarea>
                 <div class="input-controls">

@@ -6,8 +6,8 @@ language: yaml
 frameworks: [docker, github-actions]
 lines: 108
 size: 3924 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, config, docker, github-actions, project/narad, yaml]
 ---
 
@@ -25,7 +25,7 @@ tags: [code, config, docker, github-actions, project/narad, yaml]
 | **Frameworks** | docker, github-actions |
 | **Lines** | 108 |
 | **Size** | 3924 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 

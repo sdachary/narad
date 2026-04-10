@@ -4,18 +4,18 @@ project: "narad"
 role: config
 language: javascript
 frameworks: []
-lines: 265
-size: 7978 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+lines: 319
+size: 9333 bytes
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, config, javascript, project/narad]
 ---
 
 # providers.js
 
-> Configuration file for the project (265 lines).
+> Configuration file for the project (319 lines).
 
-**Key exports:** `AI_PROVIDERS`, `PROVIDER_FEATURES`, `selectBestProvider`, `PROVIDER_FALLBACK_ORDER`
+**Key exports:** `AI_PROVIDERS`, `PROVIDER_FEATURES`, `selectBestProvider`, `PROVIDER_FALLBACK_ORDER`, `PROVIDER_ROUTING`
 
 ## 📋 Metadata
 
@@ -25,9 +25,9 @@ tags: [code, config, javascript, project/narad]
 | **Role** | config |
 | **Language** | javascript |
 | **Frameworks** | — |
-| **Lines** | 265 |
-| **Size** | 7978 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Lines** | 319 |
+| **Size** | 9333 bytes |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 
@@ -301,5 +301,59 @@ export function selectBestProvider(requirements = {}) {
 }
 
 export const PROVIDER_FALLBACK_ORDER = ['groq', 'cerebras', 'cloudflare', 'openrouter', 'mistral', 'gemini', 'github', 'nvidia', 'huggingface', 'openai', 'anthropic'];
+
+// Provider routing configuration for intelligent model selection
+export const PROVIDER_ROUTING = {
+  // Default routing by task type
+  taskRouting: {
+    coding: 'anthropic',
+    debugging: 'anthropic',
+    research: 'gemini',
+    deployment: 'groq',
+    simple: 'openrouter',
+    default: 'groq'
+  },
+  
+  // Cost per 1M tokens (approximate)
+  costWeights: {
+    groq: 0.10,
+    openrouter: 0.20,
+    deepseek: 0.15,
+    mistral: 0.40,
+    openai: 3.00,
+    anthropic: 3.00,
+    gemini: 0.50,
+    cloudflare: 0.00,
+    cerebras: 0.00,
+    github: 0.00,
+    nvidia: 0.00,
+    huggingface: 0.00
+  },
+  
+  // Quality score (0-1)
+  qualityWeights: {
+    groq: 0.50,
+    openrouter: 0.70,
+    deepseek: 0.60,
+    mistral: 0.65,
+    openai: 0.90,
+    anthropic: 0.95,
+    gemini: 0.80,
+    cloudflare: 0.45,
+    cerebras: 0.55,
+    github: 0.75,
+    nvidia: 0.75,
+    huggingface: 0.65
+  },
+  
+  // Keywords for task classification
+  keywords: {
+    coding: ['code', 'function', 'implement', 'class', 'export', 'import', 'write'],
+    debugging: ['debug', 'error', 'bug', 'fix', 'crash', 'exception', 'trace'],
+    research: ['research', 'explain', 'analyze', 'compare', 'document', 'architecture'],
+    deployment: ['deploy', 'docker', 'kubernetes', 'build', 'release', 'publish'],
+    simple: ['what', 'how', 'when', 'where', 'who', 'list', 'show']
+  }
+};
 
 ```

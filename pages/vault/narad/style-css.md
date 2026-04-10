@@ -4,16 +4,16 @@ project: "narad"
 role: style
 language: css
 frameworks: []
-lines: 572
-size: 10706 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+lines: 687
+size: 13079 bytes
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [code, css, project/narad, style]
 ---
 
 # style.css
 
-> Stylesheet (572 lines).
+> Stylesheet (687 lines).
 
 ## 📋 Metadata
 
@@ -23,9 +23,9 @@ tags: [code, css, project/narad, style]
 | **Role** | style |
 | **Language** | css |
 | **Frameworks** | — |
-| **Lines** | 572 |
-| **Size** | 10706 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Lines** | 687 |
+| **Size** | 13079 bytes |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 
@@ -130,8 +130,91 @@ body {
    ============================================ */
 .terminal-window {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100vh;
+}
+
+/* Session Sidebar */
+.session-sidebar {
+    width: 220px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.session-sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.session-sidebar .new-session-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.session-sidebar .new-session-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--accent);
+}
+
+.session-sidebar .session-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-sm);
+}
+
+.session-sidebar .session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: all 120ms ease;
+}
+
+.session-sidebar .session-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.session-sidebar .session-item.active {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
+.session-sidebar .session-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 140px;
+}
+
+.session-sidebar .delete-session-btn {
+    opacity: 0;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.session-sidebar .session-item:hover .delete-session-btn {
+    opacity: 1;
 }
 
 /* Header */
@@ -353,6 +436,38 @@ body {
 
 .input-line:focus-within {
     border-color: var(--accent);
+}
+
+/* Processing Indicator */
+.processing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+}
+
+.processing-indicator .spinner {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    animation: spinner 1s steps(4) infinite;
+    color: var(--accent);
+}
+
+.processing-indicator .processing-status {
+    color: var(--text-muted);
+}
+
+@keyframes spinner {
+    0% { opacity: 1; }
+    25% { opacity: 0.7; }
+    50% { opacity: 0.4; }
+    75% { opacity: 0.7; }
 }
 
 .input-line .prompt {

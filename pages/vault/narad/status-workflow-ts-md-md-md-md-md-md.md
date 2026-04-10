@@ -1,0 +1,319 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/status-workflow-ts-md-md-md-md-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: [typescript]
+lines: 281
+size: 6315 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [documentation, markdown, project/narad, typescript, utility]
+---
+
+# status-workflow-ts-md-md-md-md-md.md
+
+> Utility / helper module using **typescript** (281 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/status-workflow-ts-md-md-md-md-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 281 |
+| **Size** | 6315 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/status-workflow-ts-md-md-md-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: [typescript]
+lines: 243
+size: 5504 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [documentation, markdown, project/narad, typescript, utility]
+---
+
+# status-workflow-ts-md-md-md-md.md
+
+> Utility / helper module using **typescript** (243 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/status-workflow-ts-md-md-md-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 243 |
+| **Size** | 5504 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/status-workflow-ts-md-md-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: [typescript]
+lines: 205
+size: 4702 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [documentation, markdown, project/narad, typescript, utility]
+---
+
+# status-workflow-ts-md-md-md.md
+
+> Utility / helper module using **typescript** (205 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/status-workflow-ts-md-md-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 205 |
+| **Size** | 4702 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/status-workflow-ts-md-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: [typescript]
+lines: 167
+size: 3909 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [documentation, markdown, project/narad, typescript, utility]
+---
+
+# status-workflow-ts-md-md.md
+
+> Utility / helper module using **typescript** (167 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/status-workflow-ts-md-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 167 |
+| **Size** | 3909 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/status-workflow-ts-md.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: [typescript]
+lines: 129
+size: 3125 bytes
+last_modified: "2026-04-09 14:38"
+scanned: "2026-04-09 14:39"
+tags: [documentation, markdown, project/narad, typescript, utility]
+---
+
+# status-workflow-ts-md.md
+
+> Utility / helper module using **typescript** (129 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/status-workflow-ts-md.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 129 |
+| **Size** | 3125 bytes |
+| **Modified** | 2026-04-09 14:38 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/status-workflow-ts.md"
+project: "narad"
+role: utility
+language: markdown
+frameworks: [typescript]
+lines: 91
+size: 2351 bytes
+last_modified: "2026-04-09 13:31"
+scanned: "2026-04-09 13:31"
+tags: [documentation, markdown, project/narad, typescript, utility]
+---
+
+# status-workflow-ts.md
+
+> Utility / helper module using **typescript** (91 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/status-workflow-ts.md` |
+| **Role** | utility |
+| **Language** | markdown |
+| **Frameworks** | typescript |
+| **Lines** | 91 |
+| **Size** | 2351 bytes |
+| **Modified** | 2026-04-09 13:31 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/unnati/src/lib/automation/status-workflow.ts"
+project: "unnati"
+role: utility
+language: typescript
+frameworks: [typescript]
+lines: 51
+size: 1492 bytes
+last_modified: "2026-04-08 16:51"
+scanned: "2026-04-08 16:51"
+tags: [code, project/unnati, typescript, utility]
+---
+
+# status-workflow.ts
+
+> Utility / helper module using **typescript** (51 lines).
+
+**Key exports:** `getValidTransitions`, `isValidTransition`, `STATUS_ORDER`, `getNextStatus`
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/src/lib/automation/status-workflow.ts` |
+| **Role** | utility |
+| **Language** | typescript |
+| **Frameworks** | typescript |
+| **Lines** | 51 |
+| **Size** | 1492 bytes |
+| **Modified** | 2026-04-08 16:51 |
+
+## 🔗 Related Files
+
+[[types-ts]]
+
+## 📄 Content
+
+```typescript
+import { ApplicationStatus } from '../types';
+
+export { ApplicationStatus };
+
+const TRANSITIONS: Record<ApplicationStatus, ApplicationStatus[]> = {
+  [ApplicationStatus.FOUND]: [
+    ApplicationStatus.APPLIED,
+    ApplicationStatus.REJECTED,
+  ],
+  [ApplicationStatus.APPLIED]: [
+    ApplicationStatus.VIEWED,
+    ApplicationStatus.INTERVIEW,
+    ApplicationStatus.REJECTED,
+  ],
+  [ApplicationStatus.VIEWED]: [
+    ApplicationStatus.INTERVIEW,
+    ApplicationStatus.REJECTED,
+  ],
+  [ApplicationStatus.INTERVIEW]: [
+    ApplicationStatus.OFFER,
+    ApplicationStatus.REJECTED,
+  ],
+  [ApplicationStatus.OFFER]: [
+    ApplicationStatus.REJECTED,
+  ],
+  [ApplicationStatus.REJECTED]: [],
+};
+
+export function getValidTransitions(currentStatus: ApplicationStatus): ApplicationStatus[] {
+  return TRANSITIONS[currentStatus] ?? [];
+}
+
+export function isValidTransition(from: ApplicationStatus, to: ApplicationStatus): boolean {
+  const validTransitions = TRANSITIONS[from];
+  return validTransitions?.includes(to) ?? false;
+}
+
+export const STATUS_ORDER: ApplicationStatus[] = [
+  ApplicationStatus.FOUND,
+  ApplicationStatus.APPLIED,
+  ApplicationStatus.VIEWED,
+  ApplicationStatus.INTERVIEW,
+  ApplicationStatus.OFFER,
+  ApplicationStatus.REJECTED,
+];
+
+export function getNextStatus(currentStatus: ApplicationStatus): ApplicationStatus | null {
+  const idx = STATUS_ORDER.indexOf(currentStatus);
+  if (idx === -1 || idx === STATUS_ORDER.length - 1) return null;
+  return STATUS_ORDER[idx + 1];
+}
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```

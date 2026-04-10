@@ -1,0 +1,191 @@
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/88a389dd6c068190adb2efc795e4063c-js-md-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 153
+size: 3645 bytes
+last_modified: "2026-04-09 16:48"
+scanned: "2026-04-09 16:48"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# 88a389dd6c068190adb2efc795e4063c-js-md-md-md.md
+
+> Documentation (153 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/88a389dd6c068190adb2efc795e4063c-js-md-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 153 |
+| **Size** | 3645 bytes |
+| **Modified** | 2026-04-09 16:48 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/88a389dd6c068190adb2efc795e4063c-js-md-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 115
+size: 2870 bytes
+last_modified: "2026-04-09 16:07"
+scanned: "2026-04-09 16:07"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# 88a389dd6c068190adb2efc795e4063c-js-md-md.md
+
+> Documentation (115 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/88a389dd6c068190adb2efc795e4063c-js-md-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 115 |
+| **Size** | 2870 bytes |
+| **Modified** | 2026-04-09 16:07 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/narad/88a389dd6c068190adb2efc795e4063c-js-md.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 77
+size: 2107 bytes
+last_modified: "2026-04-09 15:18"
+scanned: "2026-04-09 15:19"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# 88a389dd6c068190adb2efc795e4063c-js-md.md
+
+> Documentation (77 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/narad/88a389dd6c068190adb2efc795e4063c-js-md.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 77 |
+| **Size** | 2107 bytes |
+| **Modified** | 2026-04-09 15:18 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/runner/work/narad/narad/sync_temp/narad/pages/vault/unnati/88a389dd6c068190adb2efc795e4063c-js.md"
+project: "narad"
+role: docs
+language: markdown
+frameworks: []
+lines: 39
+size: 1351 bytes
+last_modified: "2026-04-09 14:45"
+scanned: "2026-04-09 14:45"
+tags: [docs, documentation, markdown, project/narad]
+---
+
+# 88a389dd6c068190adb2efc795e4063c-js.md
+
+> Documentation (39 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `narad/pages/vault/unnati/88a389dd6c068190adb2efc795e4063c-js.md` |
+| **Role** | docs |
+| **Language** | markdown |
+| **Frameworks** | — |
+| **Lines** | 39 |
+| **Size** | 1351 bytes |
+| **Modified** | 2026-04-09 14:45 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```markdown
+---
+source: "/home/deepak/Work/unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/manifest/88a389dd6c068190adb2efc795e4063c.js"
+project: "unnati"
+role: worker
+language: javascript
+frameworks: []
+lines: 1
+size: 506 bytes
+last_modified: "2026-04-07 17:53"
+scanned: "2026-04-07 17:53"
+tags: [code, javascript, project/unnati, worker]
+---
+
+# 88a389dd6c068190adb2efc795e4063c.js
+
+> Cloudflare Worker / background worker (1 lines).
+
+## 📋 Metadata
+
+| Property | Value |
+|----------|-------|
+| **Path** | `unnati/.vercel/output/static/_worker.js/__next-on-pages-dist__/manifest/88a389dd6c068190adb2efc795e4063c.js` |
+| **Role** | worker |
+| **Language** | javascript |
+| **Frameworks** | — |
+| **Lines** | 1 |
+| **Size** | 506 bytes |
+| **Modified** | 2026-04-07 17:53 |
+
+## 🔗 Related Files
+
+—
+
+## 📄 Content
+
+```javascript
+var _={},a=(e,E,t)=>(_.__NEXT_FONT_MANIFEST=e.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/home/deepak/Work/unnati/src/app/layout":["static/media/93f479601ee12b01-s.p.woff2","static/media/4cf2300e9c8272f7-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}',_.__REACT_LOADABLE_MANIFEST=e.__REACT_LOADABLE_MANIFEST="{}",_.__RSC_SERVER_MANIFEST=e.__RSC_SERVER_MANIFEST='{"node":{},"edge":{},"encryptionKey":"process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY"}',_);export{a as __getNamedExports};
+
+```
+
+```
+
+```
+
+```
+
+```

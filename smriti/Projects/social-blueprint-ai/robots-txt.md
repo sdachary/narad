@@ -6,8 +6,8 @@ language: text
 frameworks: []
 lines: 6
 size: 117 bytes
-last_modified: "2026-04-09 16:48"
-scanned: "2026-04-09 16:48"
+last_modified: "2026-04-10 16:04"
+scanned: "2026-04-10 16:04"
 tags: [documentation, other, project/social-blueprint-ai, text]
 ---
 
@@ -25,7 +25,7 @@ tags: [documentation, other, project/social-blueprint-ai, text]
 | **Frameworks** | — |
 | **Lines** | 6 |
 | **Size** | 117 bytes |
-| **Modified** | 2026-04-09 16:48 |
+| **Modified** | 2026-04-10 16:04 |
 
 ## 🔗 Related Files
 
