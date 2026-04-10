@@ -71,7 +71,6 @@ export async function handleHermesWebhook(request, env) {
         console.warn('[Hermes] Unauthorized webhook attempt');
         return new Response('Unauthorized', { status: 401 });
       }
-      }
       
       // Process incoming message
       if (payload.message) {
@@ -96,7 +95,7 @@ async function handleHermesConfig(request, env) {
     return new Response(JSON.stringify({ 
       webhook_secret: secret,
       bot_token_set: !!env.TELEGRAM_BOT_TOKEN,
-      kv_bound: !!env.HERMES_CONFIG
+      kv_bound: !!env.NARAD_DATA
     }, null, 2), {
       headers: { 'Content-Type': 'application/json' }
     });
