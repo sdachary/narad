@@ -7,9 +7,20 @@
 const userRateLimits = new Map();
 const COOLDOWN_MS = 2000; // 2 second cooldown
 
+// Worker start time for uptime calculation (CF Workers compatible)
+const WORKER_START_TIME = Date.now();
+
 function checkRateLimit(userId) {
   const now = Date.now();
   const lastRequest = userRateLimits.get(userId) || 0;
+  
+  // Prune old entries if Map is too large to prevent memory leak
+  if (userRateLimits.size > 1000) {
+    const threshold = now - 60000;
+    for (const [k, v] of userRateLimits) {
+      if (v < threshold) userRateLimits.delete(k);
+    }
+  }
   
   if (now - lastRequest < COOLDOWN_MS) {
     return false;
@@ -132,9 +143,9 @@ async function handleTelegramMessage(message, env) {
   } else if (text === '/status') {
     const status = {
       service: 'Hermes Gateway',
-      version: '1.0.1',
+      version: '1.0.2',
       status: 'active',
-      uptime: process.uptime ? `${Math.floor(process.uptime())}s` : 'N/A',
+      uptime: `${Math.floor((Date.now() - WORKER_START_TIME) / 1000)}s`,
       timestamp: new Date().toISOString(),
       providers: {
         narad: {
