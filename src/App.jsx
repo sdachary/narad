@@ -147,7 +147,7 @@ export default function App() {
   };
 
   return (
-    <div data-theme={theme} className="h-screen flex flex-col bg-chat-bg text-chat-text selection:bg-chat-accent/20">
+    <div data-theme={theme} className="h-screen flex flex-col selection:bg-chat-accent/20" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
       <Header
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -161,14 +161,14 @@ export default function App() {
       <div className="flex flex-1 overflow-hidden">
         <aside className={`
           fixed lg:relative inset-y-0 left-0 z-40
-          w-72 bg-chat-bg-secondary border-r border-chat-border
-          flex flex-col transform transition-all duration-300 ease-in-out
+          w-72 border-r flex flex-col transform transition-all duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-        `}>
+        `} style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
           <div className="p-4">
             <button
               onClick={handleNewSession}
-              className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-chat-accent text-white font-medium hover:bg-chat-accent-hover shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl text-white font-medium hover:opacity-90 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+              style={{ backgroundColor: 'var(--accent)' }}
             >
               <Plus size={18} />
               New Chat
