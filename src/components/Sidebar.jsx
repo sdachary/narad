@@ -23,10 +23,7 @@ export default function Sidebar({ sessions, currentSession, onNewSession, onSele
         {sessions.map((session) => (
           <div
             key={session.id}
-            onClick={() => {
-              onSelectSession(session.id);
-              if (window.innerWidth < 1024) onToggleSidebar();
-            }}
+            onClick={() => onSelectSession(session.id)}
             onMouseEnter={() => setHoveredSession(session.id)}
             onMouseLeave={() => setHoveredSession(null)}
             className="group flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200"

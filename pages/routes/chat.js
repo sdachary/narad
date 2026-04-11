@@ -313,7 +313,7 @@ export function setupChatRoutes(app) {
         systemPromptParts.push(skill_context);
       }
       
-      const brainContext = await queryBrain(env, message, { topK: 2 });
+      const brainContext = await queryBrain(c.env, message, { topK: 2 });
       if (brainContext.results && brainContext.results.length > 0) {
         systemPromptParts.push('\nRELEVANT KNOWLEDGE FROM BRAIN:');
         brainContext.results.forEach(r => {
