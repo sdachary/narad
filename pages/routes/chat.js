@@ -141,7 +141,9 @@ export function setupChatRoutes(app) {
         return c.json({ error: messageValidation.error }, 400);
       }
       
-      const sessionValidation = ValidationSchemas.sessionId.validate(session_id);
+      const sessionValidation = session_id 
+        ? ValidationSchemas.sessionId.validate(session_id)
+        : { valid: true, value: 'session_' + Date.now() };
       if (!sessionValidation.valid) {
         return c.json({ error: sessionValidation.error }, 400);
       }

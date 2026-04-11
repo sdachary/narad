@@ -107,7 +107,8 @@ export const ValidationSchemas = {
     pattern: /^[a-zA-Z0-9_-]{1,100}$/,
     validate: (value) => {
       if (!value || typeof value !== 'string') {
-        return { valid: false, error: 'Valid session_id is required' };
+        // Generate a default session_id if not provided
+        return { valid: true, value: 'session_' + Date.now() };
       }
       if (!ValidationSchemas.sessionId.pattern.test(value)) {
         return { valid: false, error: 'Invalid session_id format' };
