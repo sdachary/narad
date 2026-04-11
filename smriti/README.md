@@ -1,4 +1,4 @@
-# NeuBrain (Second Brain)
+# smriti (Second Brain)
 
 A local-first, app-independent repository for structured knowledge, project tracking, and AI-assisted brain dumping.
 
@@ -21,4 +21,4 @@ A local-first, app-independent repository for structured knowledge, project trac
 While this repository is compatible with Obsidian, it does not store Obsidian-specific configuration (like themes or plugin state) by default. This ensures you can switch to any other Markdown-based tool (e.g., Logseq, SilverBullet, or VS Code Foam) without friction.
 
 ---
-*Created and maintained as part of the NeuBrain ecosystem.*
+*Created and maintained as part of the smriti ecosystem.*
