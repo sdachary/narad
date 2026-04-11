@@ -49,12 +49,14 @@ Narad learns from conversations and stores knowledge:
 /chain:dev->writer->reviewer: build feature  # Sequential
 ```
 
-### 🎨 Modern UI
-- Syntax highlighting for code blocks
-- Dark/Light theme toggle
-- Keyboard shortcuts (⌘K, ⌘T, Ctrl+C)
-- Processing spinner indicator
-- Session sidebar (create/switch/delete)
+### 🎨 Serene Workspace UI
+- **Modern Aesthetic**: Clean, Claude-inspired "Serene" layout with a focus on whitespace and legibility.
+- **Centered Thread**: Focused chat environment with centered message bubbles.
+- **Glassmorphism**: Backdrop blur and translucency in header and input pill.
+- **Responsive Shell**: Collapsible sidebar drawer with smooth transitions for mobile and desktop.
+- **Syntax Highlighting**: Beautiful code blocks with high contrast.
+- **Dual Themes**: Hand-crafted Light and Dark modes.
+- **Keyboard Shortcuts**: (⌘K - Clear, ⌘T - Theme, Ctrl+C - Stop, / - Commands).
 
 ### 🌐 Web Search
 Integrated search via Serper and Firecrawl.
@@ -140,9 +142,9 @@ npx wrangler pages deploy pages --project-name narad
 ## Tech Stack
 
 - **Runtime**: Cloudflare Workers/Pages
-- **Framework**: Hono
+- **Framework**: Hono (Backend), React (Frontend)
+- **Styling**: Tailwind CSS, CSS Variables
 - **AI**: Groq, Anthropic, OpenAI, Gemini
-- **Frontend**: Vanilla JS, CSS Variables
 
 ---
 
