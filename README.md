@@ -2,7 +2,7 @@
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-**Narad** is an AI terminal assistant deployed as a serverless Cloudflare Pages app with a self-learning brain.
+**Narad** is a modern AI workspace and cognitive assistant deployed as a serverless Cloudflare Pages app with a self-learning brain.
 
 ---
 
@@ -19,11 +19,11 @@ Narad learns from conversations and stores knowledge:
 | Learn from chat | Stores important conversations |
 | Insights | View learned items in modal |
 
-**Commands:**
+**Commands (in Chat):**
 ```bash
 /brain              # Show brain status
 /brain search <q>   # Search vault files
-/brain insights    # View learned insights
+/brain insights     # View learned insights in modal
 ```
 
 **Projects in Brain:** narad, vishwakarma, chitragupta, indra, smriti
@@ -99,12 +99,21 @@ Auto-selects best AI provider by task:
 ## Quick Start
 
 ```bash
+# Clone the repository
 git clone https://github.com/sdachary/narad.git
 cd narad
-npx wrangler pages deploy pages --project-name narad
+
+# Install dependencies
+npm install
+
+# Build the project (React frontend + Hono backend)
+npm run build
+
+# Deploy to Cloudflare Pages
+npm run deploy
 ```
 
-*Deployment via GitHub Actions (push to main triggers deploy)*
+*Deployment via GitHub Actions: Pushing to the `main` branch triggers an automatic build and deployment.*
 
 ---
 
@@ -141,10 +150,12 @@ npx wrangler pages deploy pages --project-name narad
 
 ## Tech Stack
 
-- **Runtime**: Cloudflare Workers/Pages
-- **Framework**: Hono (Backend), React (Frontend)
-- **Styling**: Tailwind CSS, CSS Variables
-- **AI**: Groq, Anthropic, OpenAI, Gemini
+- **Frontend**: React 18, Tailwind CSS, Lucide Icons, Vite
+- **Backend**: Hono (Cloudflare Workers/Pages Functions)
+- **AI Engine**: Groq (Llama 3), Anthropic (Claude 3.5), OpenAI, Gemini
+- **Storage**: Cloudflare Workers KV (Session storage & RAG index)
+- **Styling**: Modern "Serene" Design System (Light/Dark glassmorphism)
+- **Security**: DOMPurify, CSRF tokens, Rate Limiting
 
 ---
 
