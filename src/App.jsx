@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Plus } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import { sendChat } from './lib/api';
 import Header from './components/Header';
@@ -126,7 +127,7 @@ export default function App() {
         messages: newMessages.slice(-10),
       });
       
-      const assistantMsg = { role: 'assistant', content: response.message };
+      const assistantMsg = { role: 'assistant', content: response.reply || response.message };
       setMessages([...newMessages, assistantMsg]);
       
       const updatedSessions = sessions.map(s => 
