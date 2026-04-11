@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { User, Copy, Check, Sparkles } from 'lucide-react';
 
-export default function ChatArea({ messages, isProcessing, appName = 'narad' }) {
+export default forwardRef(function ChatArea({ messages, isProcessing, appName = 'narad' }, ref) {
   const containerRef = useRef(null);
   const [copiedIdx, setCopiedIdx] = useState(null);
 
@@ -57,6 +57,7 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
         {messages.map((msg, idx) => (
           <div 
             key={idx} 
+            data-message-index={idx}
             className="group animate-in fade-in slide-in-from-bottom-2 duration-300"
           >
             <div className={`flex gap-4 lg:gap-6 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>

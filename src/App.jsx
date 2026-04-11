@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, PanelLeft } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import { sendChat } from './lib/api';
@@ -21,6 +21,7 @@ export default function App() {
   const [showSearch, setShowSearch] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const chatAreaRef = useRef(null);
 
   // Load sessions from localStorage
   useEffect(() => {
@@ -154,6 +155,15 @@ export default function App() {
     setIsProcessing(false);
   };
 
+  const scrollToMessage = (index) => {
+    const container = chatAreaRef.current;
+    if (!container) return;
+    const messageEl = container.querySelector(`[data-message-index="${index}"]`);
+    if (messageEl) {
+      messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   return (
     <div data-theme={theme} className="h-screen flex flex-col selection:bg-chat-accent/20" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
       <Header
@@ -211,6 +221,7 @@ export default function App() {
         
         <main className="flex-1 flex flex-col overflow-hidden">
           <ChatArea 
+            ref={chatAreaRef}
             messages={messages} 
             isProcessing={isProcessing} 
           />
@@ -231,7 +242,7 @@ export default function App() {
         <SearchOverlay 
           isOpen={showSearch} 
           onClose={() => setShowSearch(false)} 
-          onSearch={(q) => console.log('Search:', q)}
+          onNavigate={scrollToMessage}
           messages={messages}
         />
       </div>

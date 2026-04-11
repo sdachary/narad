@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { X, Search } from 'lucide-react';
 
-export default function SearchOverlay({ isOpen, onClose, onSearch, messages = [] }) {
+export default function SearchOverlay({ isOpen, onClose, onNavigate, messages = [] }) {
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -27,9 +27,11 @@ export default function SearchOverlay({ isOpen, onClose, onSearch, messages = []
   useEffect(() => {
     if (query.trim()) {
       const searchTerm = query.toLowerCase();
-      const found = messages.filter(msg => 
-        msg.content && msg.content.toLowerCase().includes(searchTerm)
-      );
+      const found = messages
+        .map((msg, idx) => ({ msg, idx }))
+        .filter(item => 
+          item.msg.content && item.msg.content.toLowerCase().includes(searchTerm)
+        );
       setResults(found);
     } else {
       setResults([]);
@@ -70,20 +72,20 @@ export default function SearchOverlay({ isOpen, onClose, onSearch, messages = []
         {/* Results */}
         {results.length > 0 && (
           <div className="max-h-64 overflow-y-auto p-2">
-            {results.map((msg, idx) => (
+            {results.map((item) => (
               <button
-                key={idx}
+                key={item.idx}
                 onClick={() => {
-                  onSearch(query);
+                  onNavigate(item.idx);
                   onClose();
                 }}
                 className="w-full text-left p-3 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
               >
                 <div className="text-[11px] uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
-                  {msg.role === 'user' ? 'You' : 'Assistant'}
+                  {item.msg.role === 'user' ? 'You' : 'Assistant'}
                 </div>
                 <div className="text-sm line-clamp-2" style={{ color: 'var(--text)' }}>
-                  {msg.content}
+                  {item.msg.content}
                 </div>
               </button>
             ))}
