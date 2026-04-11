@@ -177,17 +177,6 @@ export default function App() {
       />
       
       <div className="flex flex-1 overflow-hidden">
-        {/* Toggle button when sidebar is collapsed */}
-        {sidebarCollapsed && (
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="fixed left-4 top-20 z-30 p-2 rounded-xl border shadow-sm hover:scale-105 transition-all lg:hidden"
-            style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)', color: 'var(--text)' }}
-          >
-            <PanelLeft size={20} />
-          </button>
-        )}
-        
         <aside className={`
           fixed lg:relative inset-y-0 left-0 z-40
           w-72 border-r flex flex-col transform transition-all duration-300 ease-in-out
@@ -217,8 +206,6 @@ export default function App() {
             onNewSession={handleNewSession}
             onSelectSession={handleSelectSession}
             onDeleteSession={handleDeleteSession}
-            onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-            sidebarOpen={sidebarOpen}
           />
         </aside>
         

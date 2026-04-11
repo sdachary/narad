@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Plus, MessageSquare, Trash2, Menu } from 'lucide-react';
+import { Plus, MessageSquare, Trash2 } from 'lucide-react';
 
 const styles = {
-  toggle: { backgroundColor: 'var(--bg-secondary)', color: 'var(--text)', borderColor: 'var(--border)' },
   sessionDefault: { backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-secondary)' },
   sessionActive: { backgroundColor: 'var(--bg-message)', color: 'var(--text)', borderColor: 'var(--border)' },
   iconDefault: { opacity: 0.7 },
@@ -12,28 +11,11 @@ const styles = {
   error: { color: 'var(--error)' },
 };
 
-export default function Sidebar({ sessions, currentSession, onNewSession, onSelectSession, onDeleteSession, onToggleSidebar, sidebarOpen }) {
+export default function Sidebar({ sessions, currentSession, onNewSession, onSelectSession, onDeleteSession }) {
   const [hoveredSession, setHoveredSession] = useState(null);
 
   return (
     <>
-      {/* Mobile toggle */}
-      <button 
-        onClick={onToggleSidebar}
-        className="lg:hidden fixed top-3 left-4 z-50 p-2.5 rounded-xl border shadow-sm active:scale-95 transition-all"
-        style={styles.toggle}
-      >
-        <Menu size={20} />
-      </button>
-
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-[2px] z-30 transition-all"
-          onClick={onToggleSidebar}
-        />
-      )}
-
       <div className="flex-1 overflow-y-auto p-4 space-y-1.5">
         <div className="text-[11px] font-bold uppercase tracking-[0.1em] px-3 mb-3" style={styles.textMuted}>
           History
