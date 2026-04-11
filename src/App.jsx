@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, PanelLeft } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import { sendChat } from './lib/api';
 import Header from './components/Header';
@@ -20,6 +20,7 @@ export default function App() {
   const [showBrain, setShowBrain] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   // Load sessions from localStorage
   useEffect(() => {
@@ -156,22 +157,51 @@ export default function App() {
         onBrainStats={() => setShowBrain(true)}
         onStop={() => {}}
         isConnected={isConnected}
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleSidebar={() => {
+          if (sidebarCollapsed) {
+            setSidebarOpen(true);
+            setSidebarCollapsed(false);
+          } else {
+            setSidebarOpen(false);
+            setSidebarCollapsed(true);
+          }
+        }}
       />
       
       <div className="flex flex-1 overflow-hidden">
+        {/* Toggle button when sidebar is collapsed */}
+        {sidebarCollapsed && (
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="fixed left-4 top-20 z-30 p-2 rounded-xl border shadow-sm hover:scale-105 transition-all lg:hidden"
+            style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)', color: 'var(--text)' }}
+          >
+            <PanelLeft size={20} />
+          </button>
+        )}
+        
         <aside className={`
           fixed lg:relative inset-y-0 left-0 z-40
           w-72 border-r flex flex-col transform transition-all duration-300 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${!sidebarCollapsed ? 'translate-x-0 lg:translate-x-0' : sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:-translate-x-full'}
         `} style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
-          <div className="p-4">
+          <div className="p-4 flex items-center justify-between">
             <button
               onClick={handleNewSession}
-              className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl text-white font-medium hover:opacity-90 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+              className="flex-1 flex items-center justify-center gap-2 p-3 rounded-2xl text-white font-medium hover:opacity-90 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
               style={{ backgroundColor: 'var(--accent)' }}
             >
               <Plus size={18} />
               New Chat
+            </button>
+            <button
+              onClick={() => { setSidebarOpen(false); setSidebarCollapsed(true); }}
+              className="p-2 ml-2 rounded-lg border hover:bg-red-500/10 transition-all"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+              title="Collapse sidebar"
+            >
+              <PanelLeft size={18} className="rotate-180" />
             </button>
           </div>
           <Sidebar
