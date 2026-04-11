@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
-import { Bot, User, Copy, Check } from 'lucide-react';
+import { User, Copy, Check, Sparkles } from 'lucide-react';
 
 export default function ChatArea({ messages, isProcessing, appName = 'narad' }) {
   const containerRef = useRef(null);
@@ -43,8 +43,8 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
         {/* Welcome / empty state */}
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-            <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-2" style={{ backgroundColor: 'var(--accent)', opacity: 0.1, color: 'var(--accent)' }}>
-              <Bot size={32} />
+            <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-2" style={{ backgroundColor: 'var(--accent)' }}>
+              <Sparkles size={32} className="text-white" />
             </div>
             <h2 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>Welcome to {appName}</h2>
             <p className="max-w-sm" style={{ color: 'var(--text-secondary)' }}>
@@ -65,10 +65,10 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
                 className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm"
                 style={{ 
                   backgroundColor: msg.role === 'user' ? 'var(--text)' : 'var(--accent)', 
-                  color: msg.role === 'user' ? 'var(--bg)' : 'var(--accent)' 
+                  color: msg.role === 'user' ? 'var(--bg)' : '#fff' 
                 }}
               >
-                {msg.role === 'user' ? <User size={18} /> : <Bot size={18} />}
+                {msg.role === 'user' ? <User size={18} /> : <Sparkles size={18} />}
               </div>
 
               {/* Message Content Area */}
@@ -126,8 +126,8 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
         {/* Typing indicator */}
         {isProcessing && (
           <div className="flex gap-4 lg:gap-6 animate-pulse">
-            <div className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--accent)', opacity: 0.1, color: 'var(--accent)' }}>
-              <Bot size={18} />
+            <div className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--accent)' }}>
+              <Sparkles size={18} className="text-white" />
             </div>
             <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl" style={{ backgroundColor: 'var(--bg-tertiary)', opacity: 0.5 }}>
               <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'var(--accent)', opacity: 0.4, animationDelay: '0ms' }} />
