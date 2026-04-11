@@ -36,17 +36,18 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
   return (
     <div 
       ref={containerRef}
-      className="flex-1 overflow-y-auto scroll-smooth bg-chat-bg"
+      className="flex-1 overflow-y-auto scroll-smooth"
+      style={{ backgroundColor: 'var(--bg)' }}
     >
       <div className="max-w-3xl mx-auto px-4 lg:px-6 py-10 space-y-10">
         {/* Welcome / empty state */}
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-            <div className="w-16 h-16 rounded-3xl bg-chat-accent/10 flex items-center justify-center text-chat-accent mb-2">
+            <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-2" style={{ backgroundColor: 'var(--accent)', opacity: 0.1, color: 'var(--accent)' }}>
               <Bot size={32} />
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-chat-text">Welcome to {appName}</h2>
-            <p className="text-chat-text-secondary max-w-sm">
+            <h2 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>Welcome to {appName}</h2>
+            <p className="max-w-sm" style={{ color: 'var(--text-secondary)' }}>
               Your serene workspace for intelligent thought and creative collaboration.
             </p>
           </div>
@@ -56,33 +57,50 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
         {messages.map((msg, idx) => (
           <div 
             key={idx} 
-            className={`group animate-in fade-in slide-in-from-bottom-2 duration-300`}
+            className="group animate-in fade-in slide-in-from-bottom-2 duration-300"
           >
             <div className={`flex gap-4 lg:gap-6 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               {/* Avatar */}
-              <div className={`w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm ${
-                msg.role === 'user' ? 'bg-chat-text text-chat-bg' : 'bg-chat-accent/10 text-chat-accent'
-              }`}>
+              <div 
+                className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm"
+                style={{ 
+                  backgroundColor: msg.role === 'user' ? 'var(--text)' : 'var(--accent)', 
+                  color: msg.role === 'user' ? 'var(--bg)' : 'var(--accent)' 
+                }}
+              >
                 {msg.role === 'user' ? <User size={18} /> : <Bot size={18} />}
               </div>
 
               {/* Message Content Area */}
               <div className={`flex-1 flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} max-w-[calc(100%-3rem)]`}>
                 <div className="flex items-center gap-2 mb-1.5 px-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-chat-text-muted">
+                  <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
                     {msg.role === 'user' ? 'You' : appName}
                   </span>
                 </div>
                 
                 <div 
-                  className={`relative p-4 lg:p-5 rounded-3xl transition-all ${
-                    msg.role === 'user' 
-                      ? 'bg-chat-accent text-white shadow-lg shadow-chat-accent/20 rounded-tr-md' 
-                      : 'bg-chat-bg-message text-chat-text border border-chat-border shadow-sm rounded-tl-md'
-                  }`}
+                  className="relative p-4 lg:p-5 rounded-3xl transition-all"
+                  style={{ 
+                    backgroundColor: msg.role === 'user' ? 'var(--accent)' : 'var(--bg-message)',
+                    color: msg.role === 'user' ? 'white' : 'var(--text)',
+                    border: msg.role === 'user' ? 'none' : '1px solid var(--border)',
+                    boxShadow: msg.role === 'user' ? '0 10px 15px -3px rgba(0,0,0,0.1)' : '0 1px 2px rgba(0,0,0,0.05)',
+                    borderTopLeftRadius: msg.role === 'user' ? undefined : '0.375rem',
+                    borderTopRightRadius: msg.role === 'user' ? '0.375rem' : undefined,
+                    borderBottomLeftRadius: msg.role === 'user' ? '0.375rem' : undefined,
+                    borderBottomRightRadius: msg.role === 'user' ? undefined : '0.375rem',
+                  }}
                 >
                   <div 
-                    className={`prose prose-sm max-w-none break-words ${msg.role === 'user' ? 'prose-invert' : 'prose-slate'}`}
+                    className="prose prose-sm max-w-none break-words"
+                    style={{ 
+                      '--tw-prose-body': 'var(--text)',
+                      '--tw-prose-headings': 'var(--text)',
+                      '--tw-prose-links': 'var(--accent)',
+                      '--tw-prose-bold': 'var(--text)',
+                      '--tw-prose-code': 'var(--text)',
+                    }}
                     dangerouslySetInnerHTML={{ __html: renderContent(msg.content) }}
                   />
 
@@ -91,10 +109,11 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
                     <div className="absolute top-2 right-2 flex opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         onClick={() => copyToClipboard(msg.content, idx)}
-                        className="p-1.5 rounded-xl bg-chat-bg-secondary hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-all"
+                        className="p-1.5 rounded-xl transition-all"
+                        style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-secondary)' }}
                         title="Copy"
                       >
-                        {copiedIdx === idx ? <Check size={14} className="text-chat-success" /> : <Copy size={14} />}
+                        {copiedIdx === idx ? <Check size={14} style={{ color: 'var(--success)' }} /> : <Copy size={14} />}
                       </button>
                     </div>
                   )}
@@ -107,13 +126,13 @@ export default function ChatArea({ messages, isProcessing, appName = 'narad' }) 
         {/* Typing indicator */}
         {isProcessing && (
           <div className="flex gap-4 lg:gap-6 animate-pulse">
-            <div className="w-9 h-9 rounded-2xl bg-chat-accent/10 flex items-center justify-center text-chat-accent flex-shrink-0">
+            <div className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--accent)', opacity: 0.1, color: 'var(--accent)' }}>
               <Bot size={18} />
             </div>
-            <div className="flex items-center gap-1.5 px-4 py-3 bg-chat-bg-tertiary/50 rounded-2xl">
-              <span className="w-1.5 h-1.5 rounded-full bg-chat-accent/40 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-chat-accent/40 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-chat-accent/40 animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl" style={{ backgroundColor: 'var(--bg-tertiary)', opacity: 0.5 }}>
+              <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'var(--accent)', opacity: 0.4, animationDelay: '0ms' }} />
+              <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'var(--accent)', opacity: 0.4, animationDelay: '150ms' }} />
+              <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'var(--accent)', opacity: 0.4, animationDelay: '300ms' }} />
             </div>
           </div>
         )}
