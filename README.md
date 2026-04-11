@@ -6,12 +6,22 @@
 
 ---
 
-## Features
+## 🧠 Self-Learning Brain (Smriti)
 
-### 🧠 Self-Learning Brain (Smriti)
+Narad learns from conversations and stores knowledge in **Smriti** (also known as NeuBrain), a local-first repository for structured knowledge and project tracking.
 
-Narad learns from conversations and stores knowledge:
+### Repository Goals
+- **Portability**: Standard Markdown content with minimal tool dependence.
+- **Automation**: Scripts for scanning local work and auto-generating summaries.
+- **Privacy**: Local-first by design.
 
+### Structure
+- `/Inbox`: Catch-all for new, unfiled notes and quick captures.
+- `/Knowledge`: Permanent notes and structured knowledge.
+- `/Projects`: Sub-projects with auto-generated indexes.
+- `/Scripts`: Maintenance and enrichment tools.
+
+### Features
 | Feature | Description |
 |---------|-------------|
 | Auto-index | Indexes vault files on first use |
@@ -28,8 +38,11 @@ Narad learns from conversations and stores knowledge:
 
 **Projects in Brain:** narad, vishwakarma, chitragupta, indra, smriti
 
-### 🤖 Multi-Agent System
-8 specialized agents for different tasks:
+---
+
+## 🤖 Multi-Agent System
+
+Narad uses specialized agents for different tasks. You can trigger them using specific syntax:
 
 | Agent | Icon | Use For |
 |-------|------|---------|
@@ -49,119 +62,111 @@ Narad learns from conversations and stores knowledge:
 /chain:dev->writer->reviewer: build feature  # Sequential
 ```
 
-### 🎨 Serene Workspace UI
-- **Modern Aesthetic**: Clean, Claude-inspired "Serene" layout with a focus on whitespace and legibility.
-- **Centered Thread**: Focused chat environment with centered message bubbles.
-- **Glassmorphism**: Backdrop blur and translucency in header and input pill.
-- **Responsive Shell**: Collapsible sidebar drawer with smooth transitions for mobile and desktop.
-- **Syntax Highlighting**: Beautiful code blocks with high contrast.
+---
+
+## 🚀 Key Features
+
+### 1. RAG (Retrieval-Augmented Generation)
+Hybrid search combining vector embeddings + keyword matching for better knowledge retrieval.
+- **Setup**: Ensure `AI` binding is configured in `wrangler.toml`.
+- **Usage**: Use `/api/rag/add` to index and `/api/rag/search` to retrieve.
+
+### 2. Web Search
+Integrated search via Serper (Google) and Firecrawl.
+- **Commands**: `/search <query>`
+- **Research**: `/last30days <topic>` for deep research.
+
+### 3. MCP Connectors
+Connect to external services (GitHub, Notion, Slack, etc.) via the Model Context Protocol.
+
+### 4. Truth Verification
+Verify AI responses against a truth threshold (0.95 by default) before returning to the user.
+
+### 5. Memory System
+Persistent SQLite-style memory for conversations, messages, and long-term memories.
+
+---
+
+## 🎨 Serene Workspace UI
+- **Modern Aesthetic**: Clean, Claude-inspired "Serene" layout.
+- **Centered Thread**: Focused chat environment.
+- **Glassmorphism**: Backdrop blur and translucency.
 - **Dual Themes**: Hand-crafted Light and Dark modes.
-- **Keyboard Shortcuts**: (⌘K - Clear, ⌘T - Theme, Ctrl+C - Stop, / - Commands).
-
-### 🌐 Web Search
-Integrated search via Serper and Firecrawl.
-
----
-
-## Telegram Bot (Hermes Gateway)
-
-Control Narad from Telegram:
-
-| Command | Description |
-|---------|-------------|
-| `/start` | Welcome message |
-| `/ask <prompt>` | Chat with Narad |
-| `/status` | Service status |
-| `/help` | Help |
-
-### Setup
-```bash
-curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
-  -d "url=https://narad-7hc.pages.dev/api/hermes-webhook"
-```
+- **Keyboard Shortcuts**: 
+  - `⌘K`: Clear chat
+  - `⌘T`: Toggle theme
+  - `⌘F`: Search
+  - `/`: Command palette
+  - `Ctrl+C`: Stop processing
 
 ---
 
-## Smart Provider Routing
+## ☁️ Deployment Guide
 
-Auto-selects best AI provider by task:
+### Cloudflare Pages Setup
+1. **Clone & Install**:
+   ```bash
+   git clone https://github.com/sdachary/narad.git
+   cd narad
+   npm install
+   ```
+2. **Deploy**:
+   ```bash
+   npx wrangler pages deploy pages --project-name narad
+   ```
+3. **KV Persistence**: Bind a KV namespace named `NARAD_DATA` to your Pages project.
+4. **AI Workers Binding**: Add an AI binding named `AI` in your Pages settings.
 
-| Task | Provider |
-|------|----------|
-| coding | anthropic |
-| debugging | anthropic |
-| research | gemini |
-| deployment | groq |
-| simple | openrouter |
-
----
-
-## Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/sdachary/narad.git
-cd narad
-
-# Install dependencies
-npm install
-
-# Build the project (React frontend + Hono backend)
-npm run build
-
-# Deploy to Cloudflare Pages
-npm run deploy
-```
-
-*Deployment via GitHub Actions: Pushing to the `main` branch triggers an automatic build and deployment.*
+### GitHub Integration
+Add `SMRITI_SYNC_TOKEN` (GitHub PAT with `repo` scope) to your repository secrets to enable background sync and cloud builder features.
 
 ---
 
-## API Endpoints
+## 🔌 Connectors Setup
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/chat` | POST | Chat with AI |
-| `/api/chat/history/:id` | GET | Chat history |
-| `/api/sessions/:mode` | GET | List sessions |
-| `/api/warehouse` | GET | Agent warehouse |
-| `/api/skills/:name` | GET | Get skill info |
-| `/api/mcp/connectors` | GET | MCP connectors |
-| `/api/rag/search` | POST | Search knowledge |
-| `/api/brain/stats` | GET | Brain status |
-| `/api/brain/search` | GET | Search vault |
-| `/api/brain/insights` | GET | View insights |
-| `/api/hermes-webhook` | POST | Telegram webhook |
+### Telegram Bot (Hermes Gateway)
+1. Create a bot via [@BotFather](https://t.me/botfather).
+2. Set `TELEGRAM_BOT_TOKEN` in Cloudflare secrets.
+3. Configure your numeric ID in `connectors.js` under `allowedUsers`.
+4. Set webhook:
+   ```bash
+   curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
+     -d "url=https://your-app.pages.dev/api/hermes-webhook"
+   ```
+
+### Discord Bot
+1. Create an app in the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Enable **Message Content Intent**.
+3. Set `DISCORD_BOT_TOKEN` in Cloudflare secrets.
+4. Configure `serverMappings` in `connectors.js`.
 
 ---
 
-## Environment Variables
+## 🔑 Environment Variables
 
 | Variable | Required | Description |
 |----------|-----------|-------------|
-| `GROQ_API_KEY` | ✅ | Groq API key |
-| `ANTHROPIC_API_KEY` | Optional | Anthropic |
-| `OPENAI_API_KEY` | Optional | OpenAI |
-| `GEMINI_API_KEY` | Optional | Gemini |
-| `OPENROUTER_API_KEY` | Optional | OpenRouter |
-| `TELEGRAM_BOT_TOKEN` | Optional | Telegram bot |
+| `GROQ_API_KEY` | ✅ | Primary inference (Llama 3) |
+| `ANTHROPIC_API_KEY` | Optional | Claude 3.5 Sonnet |
+| `GEMINI_API_KEY` | Optional | Gemini 1.5 Pro/Flash |
+| `OPENAI_API_KEY` | Optional | GPT-4o / GPT-4o-mini |
+| `OPENROUTER_API_KEY` | Optional | Routing to various models |
+| `SERPER_API_KEY` | Optional | Web Search functionality |
+| `TELEGRAM_BOT_TOKEN` | Optional | Telegram integration |
+| `SMRITI_SYNC_TOKEN` | Optional | Knowledge synchronization |
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack & Security
 
 - **Frontend**: React 18, Tailwind CSS, Lucide Icons, Vite
 - **Backend**: Hono (Cloudflare Workers/Pages Functions)
-- **AI Engine**: Groq (Llama 3), Anthropic (Claude 3.5), OpenAI, Gemini
-- **Storage**: Cloudflare Workers KV (Session storage & RAG index)
-- **Styling**: Modern "Serene" Design System (Light/Dark glassmorphism)
-- **Security**: DOMPurify, CSRF tokens, Rate Limiting
+- **Storage**: Cloudflare Workers KV & SQLite (D1)
+- **Security**: 
+  - XSS Prevention (DOMPurify)
+  - CSRF Protection (Token-based)
+  - Rate Limiting (60 req/min)
+  - Security Headers (CSP, X-Frame-Options, HSTS)
 
 ---
-
-## Security
-
-- XSS Prevention (DOMPurify)
-- CSRF Protection
-- Rate Limiting (60 req/min)
-- Security Headers (CSP, X-Frame-Options)
+*Created and maintained by the Narad Neural Kernel.*
