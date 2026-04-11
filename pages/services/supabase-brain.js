@@ -6,13 +6,20 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
 
 const VAULT_INDEX_KEY = 'vault:brain:index';
 
+const BRAIN_SCHEMA = 'brain';
+
 async function getClient(env) {
   const headers = {
     'Content-Type': 'application/json',
     'apikey': SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_KEY || '',
-    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_KEY || ''}`
+    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_KEY || ''}`,
+    'Accept-Profile': BRAIN_SCHEMA
   };
   return { url: SUPABASE_URL, headers, env };
+}
+
+function getTableUrl(url, table) {
+  return `${url}/rest/v1/${table}`;
 }
 
 export async function initializeVaultBrain(env) {
@@ -193,7 +200,7 @@ export async function queryBrain(env, query, options = {}) {
       contents: vectorQuery
     };
     
-    const rpcResponse = await fetch(`${client.url}/rest/v1/rpc/match_brain_documents`, {
+    const rpcResponse = await fetch(`${client.url}/rest/v1/rpc/brain.match_documents`, {
       method: 'POST',
       headers: { ...client.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody)
