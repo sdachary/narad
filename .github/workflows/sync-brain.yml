@@ -1,0 +1,44 @@
+name: Sync Brain to Supabase
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'smriti/Projects/**'
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Run Brain Sync
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_URL: https://lpyatghqeqnbcnedregw.supabase.co
+        run: |
+          echo "Syncing brain documents to Supabase..."
+          
+          # Install dependencies
+          npm install
+          
+          # Run sync script for each project
+          for project in narad vishwakarma chitragupta indra nisha unnati kanak career-ops social-blueprint-ai; do
+            echo "Syncing $project..."
+            SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
+              node scripts/sync-brain.js --project=$project || true
+          done

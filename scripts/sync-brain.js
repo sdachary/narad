@@ -5,13 +5,16 @@
  */
 
 import { readFile, readdir, stat } from 'fs/promises';
-import { join, extname } from 'path';
+import { join, extname, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://lpyatghqeqnbcnedregw.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
-const PROJECTS_DIR = join(import.meta.dirname, '../smriti/Projects');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const PROJECTS_DIR = join(__dirname, '../smriti/Projects');
 
 const PROJECT_EXTENSIONS = ['.md', '.js', '.ts', '.tsx', '.jsx', '.json', '.yaml', '.yml', '.sql', '.sh'];
 
