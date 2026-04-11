@@ -143,4 +143,4 @@ export default forwardRef(function ChatArea({ messages, isProcessing, appName = 
       </div>
     </div>
   );
-}
+});
