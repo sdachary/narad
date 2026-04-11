@@ -8,7 +8,7 @@
 
 ## 🧠 Self-Learning Brain (Smriti)
 
-Narad learns from conversations and stores knowledge in **Smriti** (also known as NeuBrain), a local-first repository for structured knowledge and project tracking.
+Narad learns from conversations and stores knowledge in **Smriti**, powered by **Supabase** for persistent storage and vector search.
 
 ### Repository Goals
 - **Portability**: Standard Markdown content with minimal tool dependence.
@@ -16,10 +16,9 @@ Narad learns from conversations and stores knowledge in **Smriti** (also known a
 - **Privacy**: Local-first by design.
 
 ### Structure
-- `/Inbox`: Catch-all for new, unfiled notes and quick captures.
-- `/Knowledge`: Permanent notes and structured knowledge.
-- `/Projects`: Sub-projects with auto-generated indexes.
-- `/Scripts`: Maintenance and enrichment tools.
+- `/smriti/Projects`: Sub-projects with auto-generated indexes.
+- `/supabase/migrations`: Database schema for brain storage.
+- `/scripts`: Sync scripts for indexing projects to Supabase.
 
 ### Features
 | Feature | Description |
@@ -28,15 +27,17 @@ Narad learns from conversations and stores knowledge in **Smriti** (also known a
 | Context query | Searches knowledge before responding |
 | Learn from chat | Stores important conversations |
 | Insights | View learned items in modal |
+| Vector Search | Semantic search via pgvector + HNSW |
 
 **Commands (in Chat):**
 ```bash
 /brain              # Show brain status
 /brain search <q>   # Search vault files
 /brain insights     # View learned insights in modal
+/brain learn <cat> <content>  # Add new insight
 ```
 
-**Projects in Brain:** narad, vishwakarma, chitragupta, indra, smriti
+**Projects in Brain:** narad, vishwakarma, chitragupta, indra, nisha, unnati, kanak, career-ops
 
 ---
 
@@ -161,12 +162,21 @@ Add `SMRITI_SYNC_TOKEN` (GitHub PAT with `repo` scope) to your repository secret
 
 - **Frontend**: React 18, Tailwind CSS, Lucide Icons, Vite
 - **Backend**: Hono (Cloudflare Workers/Pages Functions)
-- **Storage**: Cloudflare Workers KV & SQLite (D1)
+- **Storage**: 
+  - Cloudflare Workers KV (session/caching)
+  - **Supabase PostgreSQL** (brain + pgvector)
 - **Security**: 
   - XSS Prevention (DOMPurify)
   - CSRF Protection (Token-based)
   - Rate Limiting (60 req/min)
   - Security Headers (CSP, X-Frame-Options, HSTS)
+
+### Supabase Setup
+
+1. **Create Project**: https://supabase.com
+2. **Run Migrations**: Execute `supabase/migrations/003_add_vectors.sql` in SQL Editor
+3. **Configure**: Add `SUPABASE_SERVICE_KEY` to Cloudflare secrets
+4. **Sync**: Run `scripts/sync-brain.js` to index projects
 
 ---
 *Created and maintained by the Narad Neural Kernel.*
