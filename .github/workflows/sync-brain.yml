@@ -37,7 +37,7 @@ jobs:
           npm install
           
           # Run sync script for each project
-          for project in narad vishwakarma chitragupta indra nisha unnati kanak career-ops "social-blueprint-ai"; do
+          for project in narad vishwakarma chitragupta indra unnati kanak career-ops social-blueprint-ai; do
             echo "Syncing $project..."
             SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
               node scripts/sync-brain.js --project="$project" || true
