@@ -187,7 +187,7 @@ export async function queryBrain(env, query, options = {}) {
       chitragupta: ['tracking', 'analytics', 'metrics'],
       indra: ['keep-alive', 'monitoring'],
       nisha: ['skills', 'orchestration'],
-      smriti: ['knowledge', 'graph', 'memory']
+      brain: ['knowledge', 'graph', 'memory']
     };
     searchQuery = `${query} ${PROJECT_KEYWORDS[project]?.join(' ') || ''}`;
   }
@@ -422,12 +422,12 @@ const PROJECT_KEYWORDS = {
   vishwakarma: ['cloudflare', 'workers', 'deployment'],
   chitragupta: ['tracking', 'analytics', 'metrics'],
   indra: ['keep-alive', 'monitoring'],
-  smriti: ['knowledge', 'graph', 'memory', 'rag']
+  brain: ['knowledge', 'graph', 'memory', 'rag']
 };
 
 const SYSTEM_KNOWLEDGE = `You are Narad - an AI assistant with a knowledge brain.
-Your brain (smriti) contains context from your projects and learns from conversations.
-Projects: Narad (chat UI), Vishwakarma (deployment), Chitragupta (metrics), Indra (monitoring), Smriti (knowledge)
+Your brain (brain) contains context from your projects and learns from conversations.
+Projects: Narad (chat UI), Vishwakarma (deployment), Chitragupta (metrics), Indra (monitoring), Brain (knowledge)
 
 CAPABILITIES:
 - Query brain for relevant project context before responding
