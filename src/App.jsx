@@ -18,6 +18,7 @@ export default function App() {
   const [showCommands, setShowCommands] = useState(false);
   const [showBrain, setShowBrain] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Load sessions from localStorage
   useEffect(() => {
@@ -40,6 +41,16 @@ export default function App() {
     }
   }, [sessions]);
 
+  // Load current session messages
+  useEffect(() => {
+    const session = sessions.find(s => s.id === currentSession);
+    if (session?.messages) {
+      setMessages(session.messages);
+    } else {
+      setMessages([]);
+    }
+  }, [currentSession, sessions]);
+
   const handleToggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
@@ -55,6 +66,7 @@ export default function App() {
     };
     setSessions([...sessions, newSession]);
     setCurrentSession(newSession.id);
+    setSidebarOpen(false);
   };
 
   const handleSelectSession = (id) => {
@@ -103,15 +115,6 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [theme, isProcessing]);
 
-  useEffect(() => {
-    const session = sessions.find(s => s.id === currentSession);
-    if (session?.messages) {
-      setMessages(session.messages);
-    } else {
-      setMessages([]);
-    }
-  }, [currentSession, sessions]);
-
   const handleSendMessage = async (text) => {
     const userMsg = { role: 'user', content: text };
     const newMessages = [...messages, userMsg];
@@ -143,7 +146,7 @@ export default function App() {
   };
 
   return (
-    <div data-theme={theme} className="h-screen flex flex-col">
+    <div data-theme={theme} className="h-screen flex flex-col bg-chat-bg">
       <Header
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -153,6 +156,7 @@ export default function App() {
         onStop={() => {}}
         isConnected={isConnected}
       />
+      
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
           sessions={sessions}
@@ -160,9 +164,21 @@ export default function App() {
           onNewSession={handleNewSession}
           onSelectSession={handleSelectSession}
           onDeleteSession={handleDeleteSession}
+          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          sidebarOpen={sidebarOpen}
         />
-        <ChatArea messages={messages} isProcessing={isProcessing} />
-        <InputArea onSend={handleSendMessage} disabled={isProcessing} />
+        
+        <main className="flex-1 flex flex-col overflow-hidden">
+          <ChatArea 
+            messages={messages} 
+            isProcessing={isProcessing} 
+          />
+          <InputArea 
+            onSend={handleSendMessage} 
+            disabled={isProcessing} 
+          />
+        </main>
+        
         <CommandPalette 
           isOpen={showCommands} 
           onClose={() => setShowCommands(false)}

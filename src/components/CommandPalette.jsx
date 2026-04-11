@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Search, Command, CornerDownLeft } from 'lucide-react';
 
 const COMMANDS = [
   { cmd: '/mode', desc: 'Switch plan/build mode' },
@@ -51,10 +52,15 @@ export default function CommandPalette({ isOpen, onClose, onSelect }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <div className="relative w-full max-w-md glass rounded-lg overflow-hidden">
-        <div className="p-2 border-b border-terminal-border">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+      <div 
+        className="relative w-full max-w-lg bg-chat-bg rounded-2xl shadow-soft-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Search bar */}
+        <div className="flex items-center gap-3 p-4 border-b border-chat-border">
+          <Search size={20} className="text-chat-text-muted" />
           <input
             ref={inputRef}
             type="text"
@@ -62,29 +68,47 @@ export default function CommandPalette({ isOpen, onClose, onSelect }) {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type a command..."
-            className="w-full bg-transparent border-none text-terminal-text font-mono text-sm outline-none"
+            className="flex-1 bg-transparent border-none text-chat-text placeholder-chat-text-muted text-[15px] outline-none"
           />
+          <kbd className="px-2 py-1 rounded-lg bg-chat-bg-tertiary text-chat-text-muted text-xs font-medium">esc</kbd>
         </div>
-        <div className="max-h-60 overflow-y-auto p-2">
+
+        {/* Commands list */}
+        <div className="max-h-72 overflow-y-auto p-2">
           {filtered.map((cmd, idx) => (
             <div
               key={cmd.cmd}
               onClick={() => onSelect(cmd.cmd)}
-              className={`px-3 py-2 rounded cursor-pointer flex justify-between items-center ${
+              className={`flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-colors ${
                 idx === selected 
-                  ? 'bg-terminal-accent text-terminal-bg' 
-                  : 'text-terminal-text hover:bg-terminal-bg-tertiary'
+                  ? 'bg-chat-accent text-white' 
+                  : 'text-chat-text hover:bg-chat-bg-tertiary'
               }`}
             >
-              <span className="font-mono text-sm">{cmd.cmd}</span>
-              <span className="text-xs text-terminal-text-muted">{cmd.desc}</span>
+              <div className="flex items-center gap-3">
+                <Command size={16} className={idx === selected ? 'text-white/80' : 'text-chat-text-muted'} />
+                <span className="font-medium">{cmd.cmd}</span>
+              </div>
+              <span className={`text-sm ${idx === selected ? 'text-white/80' : 'text-chat-text-muted'}`}>
+                {cmd.desc}
+              </span>
             </div>
           ))}
           {filtered.length === 0 && (
-            <div className="p-3 text-center text-terminal-text-muted text-sm">
+            <div className="p-4 text-center text-chat-text-muted">
               No commands found
             </div>
           )}
+        </div>
+
+        {/* Footer tips */}
+        <div className="px-4 pb-3 flex items-center gap-4 text-xs text-chat-text-muted">
+          <span className="flex items-center gap-1">
+            <CornerDownLeft size={12} /> Select
+          </span>
+          <span className="flex items-center gap-1">
+            ↑↓ Navigate
+          </span>
         </div>
       </div>
     </div>
