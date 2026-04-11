@@ -1,4 +1,4 @@
-import { Moon, Search, Trash2, Brain, Square, Sun } from 'lucide-react';
+import { Moon, Sun, Search, Trash2, Brain, Square, Settings, Sparkles } from 'lucide-react';
 
 export default function Header({ 
   theme, 
@@ -7,65 +7,67 @@ export default function Header({
   onClear, 
   onBrainStats,
   onStop,
-  isConnected 
+  isConnected,
+  appName = 'narad'
 }) {
   return (
-    <header className="h-10 glass flex items-center justify-between px-3 flex-shrink-0">
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-terminal-success animate-pulse" />
-        <span className="text-sm font-medium text-terminal-text-secondary">narad</span>
+    <header className="h-14 flex items-center justify-between px-4 lg:px-6 border-b border-chat-border bg-chat-bg/80 backdrop-blur-sm flex-shrink-0">
+      {/* Left - App name */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-chat-accent flex items-center justify-center">
+            <Sparkles size={16} className="text-white" />
+          </div>
+          <span className="text-base font-semibold text-chat-text hidden sm:block">{appName}</span>
+        </div>
       </div>
 
-      {/* Controls */}
+      {/* Right - Controls */}
       <div className="flex items-center gap-1">
         <button
-          onClick={onToggleTheme}
-          className="p-1.5 rounded hover:bg-terminal-bg-tertiary text-terminal-text-muted hover:text-terminal-text transition-colors"
-          title="Toggle Theme (Cmd+T)"
-        >
-          {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
-        </button>
-
-        <button
           onClick={onSearch}
-          className="p-1.5 rounded hover:bg-terminal-bg-tertiary text-terminal-text-muted hover:text-terminal-text transition-colors"
+          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
           title="Search (Cmd+F)"
         >
-          <Search size={16} />
-        </button>
-
-        <button
-          onClick={onClear}
-          className="p-1.5 rounded hover:bg-terminal-bg-tertiary text-terminal-text-muted hover:text-terminal-text transition-colors"
-          title="Clear Chat (Cmd+K)"
-        >
-          <Trash2 size={16} />
+          <Search size={18} />
         </button>
 
         <button
           onClick={onBrainStats}
-          className="p-1.5 rounded hover:bg-terminal-bg-tertiary text-terminal-text-muted hover:text-terminal-text transition-colors"
+          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
           title="Brain Stats"
         >
-          <Brain size={16} />
+          <Brain size={18} />
+        </button>
+
+        <button
+          onClick={onToggleTheme}
+          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
+          title="Toggle Theme (Cmd+T)"
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
+        <button
+          onClick={onClear}
+          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
+          title="Clear Chat (Cmd+K)"
+        >
+          <Trash2 size={18} />
         </button>
 
         <button
           onClick={onStop}
-          className="p-1.5 rounded hover:bg-terminal-bg-tertiary text-terminal-text-muted hover:text-terminal-text transition-colors"
+          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
           title="Stop (Ctrl+C)"
         >
-          <Square size={16} />
+          <Square size={18} />
         </button>
 
-        {/* Status */}
-        <button
-          onClick={() => window.checkApiHealth?.()}
-          className="flex items-center gap-1.5 ml-2"
-        >
-          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-terminal-success' : 'bg-terminal-error'}`} />
-        </button>
+        {/* Status indicator */}
+        <div className="ml-2 flex items-center gap-2">
+          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-chat-success' : 'bg-chat-error'}`} />
+        </div>
       </div>
     </header>
   );
