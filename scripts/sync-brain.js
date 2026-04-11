@@ -22,12 +22,13 @@ const PROJECT_KEYWORDS = {
   narad: ['chat', 'ai', 'assistant', 'telegram', 'bot', 'cloudflare', 'gateway', 'rag'],
   vishwakarma: ['cloudflare', 'workers', 'deployment', 'wrangler'],
   chitragupta: ['tracking', 'analytics', 'metrics', 'dashboards'],
-  indra: ['keep-alive', 'monitoring', 'workflows'],
   'career-ops': ['resume', 'job', 'application', 'interview'],
   'social-blueprint-ai': ['social', 'twitter', 'automation'],
   unnati: ['job', 'hunt', 'career'],
   kanak: ['inventory', 'ledger', 'billing']
 };
+
+const MIN_FILES_THRESHOLD = 10;
 
 function getClient() {
   if (!SUPABASE_SERVICE_KEY) {
@@ -105,6 +106,28 @@ function extractKeywords(text, project) {
     .map(([word]) => word)])];
 }
 
+async function getFileCount(dir) {
+  let count = 0;
+  try {
+    const entries = await readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.name.startsWith('.')) continue;
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        count += await getFileCount(fullPath);
+      } else if (entry.isFile()) {
+        const ext = extname(entry.name).toLowerCase();
+        if (PROJECT_EXTENSIONS.includes(ext)) {
+          count++;
+        }
+      }
+    }
+  } catch (e) {
+    // Ignore errors
+  }
+  return count;
+}
+
 async function indexProject(supabase, project, force = false) {
   const projectDir = join(PROJECTS_DIR, project);
   
@@ -114,8 +137,14 @@ async function indexProject(supabase, project, force = false) {
     console.log(`Project "${project}" not found, skipping...`);
     return { indexed: 0, skipped: 0 };
   }
+
+  const fileCount = await getFileCount(projectDir);
+  if (fileCount < MIN_FILES_THRESHOLD) {
+    console.log(`\n⏭️  Skipping "${project}" — only ${fileCount} files (need ${MIN_FILES_THRESHOLD}+)`);
+    return { indexed: 0, skipped: 0, skippedReason: 'insufficient_files' };
+  }
   
-  console.log(`\n📂 Indexing project: ${project}`);
+  console.log(`\n📂 Indexing project: ${project} (${fileCount} files)`);
   
   const files = await getFiles(projectDir);
   console.log(`   Found ${files.length} files`);
@@ -192,7 +221,7 @@ async function main() {
   
   const projects = project 
     ? [project]
-    : ['narad', 'vishwakarma', 'chitragupta', 'indra', 'unnati', 'kanak', 'career-ops', 'social-blueprint-ai'];
+    : ['narad', 'vishwakarma', 'chitragupta', 'career-ops', 'social-blueprint-ai', 'unnati', 'kanak'];
   
   let totalIndexed = 0;
   let totalSkipped = 0;
