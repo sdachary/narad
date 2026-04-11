@@ -23,8 +23,6 @@ const PROJECT_KEYWORDS = {
   vishwakarma: ['cloudflare', 'workers', 'deployment', 'wrangler'],
   chitragupta: ['tracking', 'analytics', 'metrics', 'dashboards'],
   indra: ['keep-alive', 'monitoring', 'workflows'],
-  nisha: ['skills', 'orchestration', 'agents'],
-  'nisha-saas': ['saas', 'subscription', 'billing'],
   'career-ops': ['resume', 'job', 'application', 'interview'],
   'social-blueprint-ai': ['social', 'twitter', 'automation'],
   unnati: ['job', 'hunt', 'career'],
@@ -194,7 +192,7 @@ async function main() {
   
   const projects = project 
     ? [project]
-    : ['narad', 'vishwakarma', 'chitragupta', 'indra', 'nisha', 'nisha-saas', 'career-ops', 'unnati', 'kanak'];
+    : ['narad', 'vishwakarma', 'chitragupta', 'indra', 'unnati', 'kanak', 'career-ops', 'social-blueprint-ai'];
   
   let totalIndexed = 0;
   let totalSkipped = 0;
