@@ -1,4 +1,4 @@
-const API_BASE = '';
+const API_BASE = '/api';
 
 export async function sendChat(message, sessionId, options = {}) {
   const res = await fetch(`${API_BASE}/chat`, {
