@@ -128,15 +128,22 @@ export default function App() {
         messages: newMessages.slice(-10),
       });
       
-      const assistantMsg = { role: 'assistant', content: response.reply || response.message };
-      setMessages([...newMessages, assistantMsg]);
-      
-      const updatedSessions = sessions.map(s => 
-        s.id === currentSession 
-          ? { ...s, messages: [...newMessages, assistantMsg] }
-          : s
-      );
-      setSessions(updatedSessions);
+      if (response.error) {
+        setMessages([...newMessages, { 
+          role: 'assistant', 
+          content: 'Error: ' + (response.error || 'Unknown error')
+        }]);
+      } else {
+        const assistantMsg = { role: 'assistant', content: response.reply || response.message };
+        setMessages([...newMessages, assistantMsg]);
+        
+        const updatedSessions = sessions.map(s => 
+          s.id === currentSession 
+            ? { ...s, messages: [...newMessages, assistantMsg] }
+            : s
+        );
+        setSessions(updatedSessions);
+      }
     } catch (err) {
       setMessages([...newMessages, { 
         role: 'assistant', 
@@ -234,7 +241,12 @@ export default function App() {
           }}
         />
         <BrainModal isOpen={showBrain} onClose={() => setShowBrain(false)} />
-        <SearchOverlay isOpen={showSearch} onClose={() => setShowSearch(false)} onSearch={(q) => {}} />
+        <SearchOverlay 
+          isOpen={showSearch} 
+          onClose={() => setShowSearch(false)} 
+          onSearch={(q) => console.log('Search:', q)}
+          messages={messages}
+        />
       </div>
     </div>
   );
