@@ -1,4 +1,4 @@
-import { Moon, Sun, Search, Trash2, Brain, Square, Settings, Sparkles } from 'lucide-react';
+import { Moon, Sun, Search, Trash2, Brain, Square, Sparkles } from 'lucide-react';
 
 export default function Header({ 
   theme, 
@@ -11,64 +11,68 @@ export default function Header({
   appName = 'narad'
 }) {
   return (
-    <header className="h-14 flex items-center justify-between px-4 lg:px-6 border-b border-chat-border bg-chat-bg/80 backdrop-blur-sm flex-shrink-0">
+    <div className="h-14 flex items-center justify-between px-4 lg:px-8 border-b border-chat-border bg-chat-bg/80 backdrop-blur-md flex-shrink-0 sticky top-0 z-20 w-full">
       {/* Left - App name */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-chat-accent flex items-center justify-center">
-            <Sparkles size={16} className="text-white" />
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-chat-accent flex items-center justify-center shadow-lg shadow-chat-accent/20">
+            <Sparkles size={18} className="text-white" />
           </div>
-          <span className="text-base font-semibold text-chat-text hidden sm:block">{appName}</span>
+          <span className="text-lg font-bold tracking-tight text-chat-text hidden sm:block">
+            {appName}
+          </span>
         </div>
       </div>
 
       {/* Right - Controls */}
-      <div className="flex items-center gap-1">
-        <button
-          onClick={onSearch}
-          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
-          title="Search (Cmd+F)"
-        >
-          <Search size={18} />
-        </button>
-
-        <button
-          onClick={onBrainStats}
-          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
-          title="Brain Stats"
-        >
-          <Brain size={18} />
-        </button>
-
-        <button
-          onClick={onToggleTheme}
-          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
-          title="Toggle Theme (Cmd+T)"
-        >
-          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
-
-        <button
-          onClick={onClear}
-          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
-          title="Clear Chat (Cmd+K)"
-        >
-          <Trash2 size={18} />
-        </button>
-
-        <button
-          onClick={onStop}
-          className="p-2 rounded-lg hover:bg-chat-bg-tertiary text-chat-text-secondary hover:text-chat-text transition-colors"
-          title="Stop (Ctrl+C)"
-        >
-          <Square size={18} />
-        </button>
+      <div className="flex items-center gap-1.5">
+        <HeaderButton 
+          onClick={onSearch} 
+          icon={<Search size={18} />} 
+          title="Search (Cmd+F)" 
+        />
+        <HeaderButton 
+          onClick={onBrainStats} 
+          icon={<Brain size={18} />} 
+          title="Brain Stats" 
+        />
+        <HeaderButton 
+          onClick={onToggleTheme} 
+          icon={theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />} 
+          title="Toggle Theme (Cmd+T)" 
+        />
+        <div className="w-px h-6 bg-chat-border mx-1 hidden sm:block" />
+        <HeaderButton 
+          onClick={onClear} 
+          icon={<Trash2 size={18} />} 
+          title="Clear Chat (Cmd+K)" 
+        />
+        <HeaderButton 
+          onClick={onStop} 
+          icon={<Square size={18} />} 
+          title="Stop (Ctrl+C)" 
+        />
 
         {/* Status indicator */}
-        <div className="ml-2 flex items-center gap-2">
-          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-chat-success' : 'bg-chat-error'}`} />
+        <div className="ml-3 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-chat-bg-secondary border border-chat-border/50">
+          <span className={`w-2 h-2 rounded-full animate-pulse ${isConnected ? 'bg-chat-success' : 'bg-chat-error'}`} />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-chat-text-muted hidden md:block">
+            {isConnected ? 'Online' : 'Offline'}
+          </span>
         </div>
       </div>
-    </header>
+    </div>
+  );
+}
+
+function HeaderButton({ onClick, icon, title }) {
+  return (
+    <button
+      onClick={onClick}
+      className="p-2 rounded-xl hover:bg-chat-bg-secondary text-chat-text-secondary hover:text-chat-text transition-all active:scale-95"
+      title={title}
+    >
+      {icon}
+    </button>
   );
 }
