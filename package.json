@@ -3,9 +3,9 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "dev": "wrangler pages dev pages",
-    "deploy": "wrangler pages deploy pages",
-    "build": "vite build",
+    "dev": "vite",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "build": "vite build && cp pages/_worker.js dist/ && cp -r pages/config pages/routes pages/services dist/",
     "preview": "vite preview"
   },
   "devDependencies": {
