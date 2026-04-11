@@ -24,9 +24,9 @@ const PROJECT_KEYWORDS = {
   chitragupta: ['tracking', 'analytics', 'metrics', 'dashboards'],
   indra: ['keep-alive', 'monitoring', 'workflows'],
   nisha: ['skills', 'orchestration', 'agents'],
-  nisha-saas: ['saas', 'subscription', 'billing'],
-  career-ops: ['resume', 'job', 'application', 'interview'],
-  social-blueprint: ['social', 'twitter', 'automation'],
+  'nisha-saas': ['saas', 'subscription', 'billing'],
+  'career-ops': ['resume', 'job', 'application', 'interview'],
+  'social-blueprint-ai': ['social', 'twitter', 'automation'],
   unnati: ['job', 'hunt', 'career'],
   kanak: ['inventory', 'ledger', 'billing']
 };
