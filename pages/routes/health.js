@@ -38,7 +38,7 @@ export function setupHealthRoutes(app) {
     }
     
     const clientIP = c.req.header('CF-Connecting-IP') || 'unknown';
-    const rateLimitResult = checkRateLimit(clientIP);
+    const rateLimitResult = await checkRateLimit(c.env, clientIP);
     checks.rateLimit = {
       status: rateLimitResult.allowed ? 'ok' : 'limited',
       remaining: rateLimitResult.remaining || 0
