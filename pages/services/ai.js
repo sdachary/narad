@@ -1,6 +1,37 @@
 import { AI_PROVIDERS, PROVIDER_FALLBACK_ORDER, PROVIDER_ROUTING } from '../config/providers.js';
 import { getCharacter, getCharacterSystemPrompt } from '../config/characters.js';
 
+const MAX_RETRIES = 3;
+const INITIAL_DELAY_MS = 1000;
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function retryWithBackoff(fn, maxRetries = MAX_RETRIES, initialDelay = INITIAL_DELAY_MS) {
+  let lastError;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      const isRetryable = error.message?.includes('429') || 
+                          error.message?.includes('500') || 
+                          error.message?.includes('502') || 
+                          error.message?.includes('503') ||
+                          error.message?.includes('504') ||
+                          error.message?.includes('network') ||
+                          error.message?.includes('timeout');
+      if (!isRetryable || attempt === maxRetries) {
+        throw error;
+      }
+      const delay = initialDelay * Math.pow(2, attempt);
+      await sleep(delay);
+    }
+  }
+  throw lastError;
+}
+
 export function getAvailableProviders(env) {
   return PROVIDER_FALLBACK_ORDER.filter(p => {
     const provider = AI_PROVIDERS[p];
@@ -83,63 +114,68 @@ export async function callAI(messages, providerConfig, options = {}) {
       ...messages
     ];
   }
-  
-  let res;
-  
-  if (isAnthropic) {
-    res = await fetch(providerConfig.endpoint, {
-      method: 'POST',
-      headers: {
-        'x-api-key': providerConfig.apiKey,
-        'anthropic-version': '2023-06-01',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+
+  const makeRequest = async () => {
+    let res;
+    
+    if (isAnthropic) {
+      res = await fetch(providerConfig.endpoint, {
+        method: 'POST',
+        headers: {
+          'x-api-key': providerConfig.apiKey,
+          'anthropic-version': '2023-06-01',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: model || providerConfig.defaultModel,
+          messages: processedMessages,
+          max_tokens
+        })
+      });
+    } else if (isGemini) {
+      const geminiEndpoint = `${providerConfig.endpoint}/${model || providerConfig.defaultModel}:generateContent?key=${providerConfig.apiKey}`;
+      res = await fetch(geminiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: processedMessages.map(m => ({ role: m.role === 'system' ? 'user' : m.role, parts: [{ text: m.content }] })),
+          generationConfig: { temperature, maxOutputTokens: max_tokens }
+        })
+      });
+    } else {
+      const body = {
         model: model || providerConfig.defaultModel,
         messages: processedMessages,
+        temperature,
         max_tokens
-      })
-    });
-  } else if (isGemini) {
-    const geminiEndpoint = `${providerConfig.endpoint}/${model || providerConfig.defaultModel}:generateContent?key=${providerConfig.apiKey}`;
-    res = await fetch(geminiEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: processedMessages.map(m => ({ role: m.role === 'system' ? 'user' : m.role, parts: [{ text: m.content }] })),
-        generationConfig: { temperature, maxOutputTokens: max_tokens }
-      })
-    });
-  } else {
-    const body = {
-      model: model || providerConfig.defaultModel,
-      messages: processedMessages,
-      temperature,
-      max_tokens
-    };
-    
-    const headers = {
-      'Authorization': `Bearer ${providerConfig.apiKey}`,
-      'Content-Type': 'application/json'
-    };
-    
-    if (isOpenRouter) {
-      headers['HTTP-Referer'] = 'https://narad-7hc.pages.dev';
-      headers['X-Title'] = 'Narad AI';
+      };
+      
+      const headers = {
+        'Authorization': `Bearer ${providerConfig.apiKey}`,
+        'Content-Type': 'application/json'
+      };
+      
+      if (isOpenRouter) {
+        headers['HTTP-Referer'] = 'https://narad-7hc.pages.dev';
+        headers['X-Title'] = 'Narad AI';
+      }
+      
+      res = await fetch(providerConfig.endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+      });
     }
     
-    res = await fetch(providerConfig.endpoint, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body)
-    });
-  }
-  
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`AI API error: ${res.status} - ${err.slice(0, 100)}`);
-  }
-  
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`AI API error: ${res.status} - ${err.slice(0, 100)}`);
+    }
+    
+    return res;
+  };
+
+  const res = await retryWithBackoff(makeRequest);
   const data = await res.json();
   
   let reply;

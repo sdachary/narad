@@ -3,21 +3,55 @@
  * Receives Telegram webhooks and forwards to Narad AI service
  */
 
-// Rate limiting: Map to track last request time per user
-const userRateLimits = new Map();
 const COOLDOWN_MS = 1000; // 1 second cooldown
 
-// Worker start time for uptime calculation (CF Workers compatible)
-const WORKER_START_TIME = Date.now();
+const hermesRateLimitStore = new Map();
+
+function getHermesRateLimitStore(env) {
+  if (env && env.NARAD_DATA && typeof env.NARAD_DATA.get === 'function') {
+    return env.NARAD_DATA;
+  }
+  return {
+    async get(key) { return hermesRateLimitStore.get(key) || null; },
+    async put(key, value, ttl) { 
+      hermesRateLimitStore.set(key, value);
+      if (ttl) {
+        setTimeout(() => hermesRateLimitStore.delete(key), ttl);
+      }
+    },
+    async delete(key) { hermesRateLimitStore.delete(key); }
+  };
+}
+
+async function checkHermesRateLimit(env, userId) {
+  const now = Date.now();
+  const key = `hermes:ratelimit:${userId}`;
+  const store = getHermesRateLimitStore(env);
+  
+  let lastRequest = 0;
+  const stored = await store.get(key);
+  if (stored) {
+    try {
+      lastRequest = parseInt(stored, 10);
+    } catch (e) {
+      lastRequest = 0;
+    }
+  }
+  
+  if (now - lastRequest < COOLDOWN_MS) {
+    return false;
+  }
+  
+  await store.put(key, now.toString(), 60000);
+  return true;
+}
 
 // Get or create webhook secret automatically
 async function getWebhookSecret(env) {
-  // If env secret is set, use it
   if (env.TELEGRAM_WEBHOOK_SECRET) {
     return env.TELEGRAM_WEBHOOK_SECRET;
   }
   
-  // Try to get from KV (using NARAD_DATA), generate if not exists
   if (env.NARAD_DATA) {
     let config = await env.NARAD_DATA.get('hermes_webhook_secret');
     if (!config) {
@@ -29,25 +63,6 @@ async function getWebhookSecret(env) {
   }
   
   return null;
-}
-
-function checkRateLimit(userId) {
-  const now = Date.now();
-  const lastRequest = userRateLimits.get(userId) || 0;
-  
-  // Prune old entries if Map is too large to prevent memory leak
-  if (userRateLimits.size > 1000) {
-    const threshold = now - 60000;
-    for (const [k, v] of userRateLimits) {
-      if (v < threshold) userRateLimits.delete(k);
-    }
-  }
-  
-  if (now - lastRequest < COOLDOWN_MS) {
-    return false;
-  }
-  userRateLimits.set(userId, now);
-  return true;
 }
 
 export async function handleHermesWebhook(request, env) {
@@ -108,7 +123,7 @@ async function handleTelegramMessage(message, env) {
   
   // Rate limiting check
   const userId = from?.id?.toString();
-  if (userId && !checkRateLimit(userId)) {
+  if (userId && !(await checkHermesRateLimit(env, userId))) {
     await sendTelegramMessage(chatId, 'Please wait 2 seconds between requests.', env);
     return;
   }
@@ -296,10 +311,12 @@ async function sendToNarad(prompt, env) {
 }
 
 async function sendTelegramMessage(chatId, text, env) {
-  const botToken = env.TELEGRAM_BOT_TOKEN || '8743687341:AAGnxpLZP5Fq3xzwDdrj2tzcHbDIcSXk6o4';
   if (!env.TELEGRAM_BOT_TOKEN) {
-    console.warn('[Hermes] Using hardcoded bot token - set TELEGRAM_BOT_TOKEN secret for production');
+    console.error('[Hermes] TELEGRAM_BOT_TOKEN not configured');
+    return { ok: false, error: 'TELEGRAM_BOT_TOKEN not configured' };
   }
+  
+  const botToken = env.TELEGRAM_BOT_TOKEN;
   
   try {
     const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {

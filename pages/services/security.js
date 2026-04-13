@@ -1,4 +1,5 @@
 import { RATE_LIMIT, CSRF_TRUSTED_ORIGINS } from '../config/index.js';
+import { getStore } from './memory.js';
 
 export class CSRFTokenManager {
   constructor() {
@@ -59,11 +60,41 @@ export function validateCSRF(request) {
 
 const rateLimitStore = new Map();
 
-export function checkRateLimit(identifier) {
+function getRateLimitStore(env) {
+  if (env && env.NARAD_DATA && typeof env.NARAD_DATA.get === 'function') {
+    return env.NARAD_DATA;
+  }
+  return {
+    async get(key) { return rateLimitStore.get(key) || null; },
+    async put(key, value, ttl) { 
+      rateLimitStore.set(key, value);
+      if (ttl) {
+        setTimeout(() => rateLimitStore.delete(key), ttl);
+      }
+    },
+    async delete(key) { rateLimitStore.delete(key); }
+  };
+}
+
+export async function checkRateLimit(env, identifier) {
+  if (!env) {
+    return { allowed: true, remaining: RATE_LIMIT.maxRequests, warning: 'No env, skipping rate limit' };
+  }
+  
   const now = Date.now();
   const key = `ratelimit:${identifier}`;
+  const store = getRateLimitStore(env);
   
-  let record = rateLimitStore.get(key);
+  let record = null;
+  const stored = await store.get(key);
+  if (stored) {
+    try {
+      record = JSON.parse(stored);
+    } catch (e) {
+      record = null;
+    }
+  }
+  
   if (!record || now - record.windowStart > RATE_LIMIT.windowMs) {
     record = { windowStart: now, count: 0, burstCount: 0 };
   }
@@ -80,7 +111,8 @@ export function checkRateLimit(identifier) {
   
   record.count++;
   record.burstCount++;
-  rateLimitStore.set(key, record);
+  
+  await store.put(key, JSON.stringify(record), RATE_LIMIT.windowMs);
   
   return { allowed: true, remaining: RATE_LIMIT.maxRequests - record.count };
 }

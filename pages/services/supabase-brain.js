@@ -61,7 +61,7 @@ export async function indexVaultFile(env, project, path, content, name) {
     const doc = {
       project,
       title: name || path.split('/').pop(),
-      content: content.slice(0, 50000),
+      content: content.slice(0, 100000),
       source: `vault:${project}`,
       keywords,
       metadata: { path, project, type: 'brain' }

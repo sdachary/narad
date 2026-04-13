@@ -107,7 +107,7 @@ export function setupChatRoutes(app) {
   app.post('/api/chat', async (c) => {
     try {
       const clientIP = c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || 'unknown';
-      const rateLimitResult = checkRateLimit(clientIP);
+      const rateLimitResult = await checkRateLimit(c.env, clientIP);
       
       if (!rateLimitResult.allowed) {
         c.res.headers.set('Retry-After', rateLimitResult.retryAfter.toString());
