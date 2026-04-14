@@ -39,9 +39,7 @@ export default function App() {
 
   // Save sessions to localStorage
   useEffect(() => {
-    if (sessions.length > 0) {
-      localStorage.setItem('narad_sessions', JSON.stringify(sessions));
-    }
+    localStorage.setItem('narad_sessions', JSON.stringify(sessions));
   }, [sessions]);
 
   // Load current session messages
@@ -78,10 +76,23 @@ export default function App() {
 
   const handleDeleteSession = (id) => {
     const filtered = sessions.filter(s => s.id !== id);
-    setSessions(filtered);
-    if (currentSession === id) {
-      setCurrentSession(filtered[0]?.id || null);
+    if (filtered.length === 0) {
+      const initial = [{ id: 'default', label: 'New Chat', messages: [] }];
+      setSessions(initial);
+      setCurrentSession('default');
+    } else {
+      setSessions(filtered);
+      if (currentSession === id) {
+        setCurrentSession(filtered[0]?.id);
+      }
     }
+  };
+
+  const handleClearMessages = () => {
+    setMessages([]);
+    setSessions(prev => prev.map(s => 
+      s.id === currentSession ? { ...s, messages: [] } : s
+    ));
   };
 
   // Keyboard shortcuts
@@ -95,7 +106,7 @@ export default function App() {
       // Cmd+K - Clear chat
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        setMessages([]);
+        handleClearMessages();
       }
       // Cmd+F - Search
       if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
@@ -171,7 +182,7 @@ export default function App() {
         theme={theme}
         onToggleTheme={handleToggleTheme}
         onSearch={() => setShowSearch(true)}
-        onClear={() => setMessages([])}
+        onClear={handleClearMessages}
         onBrainStats={() => setShowBrain(true)}
         onStop={() => {}}
         isConnected={isConnected}
