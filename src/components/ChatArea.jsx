@@ -102,7 +102,7 @@ export default function ChatArea({ messages, isProcessing }) {
                <div className="absolute inset-y-0 left-0 bg-bauhaus-yellow animate-[shimmer_2s_infinite] w-1/3" />
             </div>
           </div>
-        </div>
+        )}
 
         <div ref={scrollRef} />
       </div>
