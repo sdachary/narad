@@ -112,7 +112,7 @@ export async function checkRateLimit(env, identifier) {
   record.count++;
   record.burstCount++;
   
-  await store.put(key, JSON.stringify(record), RATE_LIMIT.windowMs);
+    await store.put(key, JSON.stringify(record), { expirationTtl: RATE_LIMIT.windowMs / 1000 });
   
   return { allowed: true, remaining: RATE_LIMIT.maxRequests - record.count };
 }
