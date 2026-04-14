@@ -207,13 +207,13 @@ export default function App() {
         </div>
         
         <main className="flex-1 flex flex-col items-center overflow-hidden">
-          <div className="w-full max-w-4xl flex-1 flex flex-col overflow-hidden relative">
+          <div className="w-full max-w-5xl flex-1 flex flex-col overflow-hidden relative">
             <ChatArea 
               ref={chatAreaRef}
               messages={messages} 
               isProcessing={isProcessing} 
             />
-            <div className="px-8 pb-12 w-full">
+            <div className="w-full">
               <InputArea 
                 onSend={handleSendMessage} 
                 disabled={isProcessing} 
