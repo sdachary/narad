@@ -165,7 +165,8 @@ export default function App() {
   };
 
   return (
-    <div data-theme={theme} className="h-screen flex flex-col selection:bg-chat-accent/20" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
+    <div data-theme={theme} className="h-screen flex flex-col bg-surface-container-lowest text-on-surface selection:bg-accent selection:text-black font-body overflow-hidden">
+      {/* Floating Micro-Header */}
       <Header
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -176,40 +177,19 @@ export default function App() {
         isConnected={isConnected}
         sidebarCollapsed={sidebarCollapsed}
         onToggleSidebar={() => {
-          if (sidebarCollapsed) {
-            setSidebarOpen(true);
-            setSidebarCollapsed(false);
-          } else {
-            setSidebarOpen(false);
-            setSidebarCollapsed(true);
-          }
+          setSidebarCollapsed(!sidebarCollapsed);
         }}
       />
       
       <div className="flex flex-1 overflow-hidden">
-        <aside className={`
-          fixed lg:relative inset-y-0 left-0 z-40
-          w-72 border-r flex flex-col transform transition-all duration-300 ease-in-out
-          ${!sidebarCollapsed ? 'translate-x-0 lg:translate-x-0' : sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:-translate-x-full'}
-        `} style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
-          <div className="p-4 flex items-center justify-between">
-            <button
-              onClick={handleNewSession}
-              className="flex-1 flex items-center justify-center gap-2 p-3 rounded-2xl text-white font-medium hover:opacity-90 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
-              style={{ backgroundColor: 'var(--accent)' }}
-            >
-              <Plus size={18} />
-              New Chat
-            </button>
-            <button
-              onClick={() => { setSidebarOpen(false); setSidebarCollapsed(true); }}
-              className="p-2 ml-2 rounded-lg border hover:bg-red-500/10 transition-all"
-              style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
-              title="Collapse sidebar"
-            >
-              <PanelLeft size={18} className="rotate-180" />
-            </button>
-          </div>
+        {/* Ghost Sidebar Drawer */}
+        <div 
+          className={`
+            fixed inset-y-0 left-0 z-[60] w-72 bg-black transform transition-transform duration-500 ease-editorial
+            ${sidebarCollapsed ? '-translate-x-full' : 'translate-x-0'}
+            shadow-luminous
+          `}
+        >
           <Sidebar
             sessions={sessions}
             currentSession={currentSession}
@@ -217,18 +197,29 @@ export default function App() {
             onSelectSession={handleSelectSession}
             onDeleteSession={handleDeleteSession}
           />
-        </aside>
+          {/* Overlay Close Button for when sidebar is open */}
+          {!sidebarCollapsed && (
+            <div 
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm -z-10"
+              onClick={() => setSidebarCollapsed(true)}
+            />
+          )}
+        </div>
         
-        <main className="flex-1 flex flex-col overflow-hidden">
-          <ChatArea 
-            ref={chatAreaRef}
-            messages={messages} 
-            isProcessing={isProcessing} 
-          />
-          <InputArea 
-            onSend={handleSendMessage} 
-            disabled={isProcessing} 
-          />
+        <main className="flex-1 flex flex-col items-center overflow-hidden">
+          <div className="w-full max-w-4xl flex-1 flex flex-col overflow-hidden relative">
+            <ChatArea 
+              ref={chatAreaRef}
+              messages={messages} 
+              isProcessing={isProcessing} 
+            />
+            <div className="px-8 pb-12 w-full">
+              <InputArea 
+                onSend={handleSendMessage} 
+                disabled={isProcessing} 
+              />
+            </div>
+          </div>
         </main>
         
         <CommandPalette 

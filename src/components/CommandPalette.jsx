@@ -52,62 +52,67 @@ export default function CommandPalette({ isOpen, onClose, onSelect }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-[100] flex items-start justify-center pt-32 p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
       <div 
-        className="relative w-full max-w-lg bg-chat-bg rounded-2xl shadow-soft-lg overflow-hidden"
+        className="relative w-full max-w-xl bg-surface-container-high shadow-luminous overflow-hidden border-none animate-in zoom-in-95 duration-150 steps-4"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="scanline" />
+        
         {/* Search bar */}
-        <div className="flex items-center gap-3 p-4 border-b border-chat-border">
-          <Search size={20} className="text-chat-text-muted" />
+        <div className="flex items-center gap-4 p-5 bg-surface-container-highest">
+          <Search size={20} className="text-secondary" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type a command..."
-            className="flex-1 bg-transparent border-none text-chat-text placeholder-chat-text-muted text-[15px] outline-none"
+            placeholder="ENTER COMMAND..."
+            className="flex-1 bg-transparent border-none text-[#eaffde] placeholder-outline/20 text-lg font-bold uppercase tracking-wider outline-none"
           />
-          <kbd className="px-2 py-1 rounded-lg bg-chat-bg-tertiary text-chat-text-muted text-xs font-medium">esc</kbd>
+          <kbd className="px-2 py-1 bg-black text-outline/40 text-[0.6rem] font-bold uppercase tracking-widest">ESC</kbd>
         </div>
 
         {/* Commands list */}
-        <div className="max-h-72 overflow-y-auto p-2">
+        <div className="max-h-96 overflow-y-auto no-scrollbar p-2 bg-black">
           {filtered.map((cmd, idx) => (
             <div
               key={cmd.cmd}
               onClick={() => onSelect(cmd.cmd)}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-colors ${
+              className={`flex items-center justify-between px-5 py-4 cursor-pointer transition-none ${
                 idx === selected 
-                  ? 'bg-chat-accent text-white' 
-                  : 'text-chat-text hover:bg-chat-bg-tertiary'
+                  ? 'bg-accent text-black font-bold' 
+                  : 'text-outline hover:bg-surface-container-low hover:text-[#eaffde]'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <Command size={16} className={idx === selected ? 'text-white/80' : 'text-chat-text-muted'} />
-                <span className="font-medium">{cmd.cmd}</span>
+              <div className="flex items-center gap-4">
+                <Command size={16} className={idx === selected ? 'text-black' : 'text-outline/40'} />
+                <span className="text-sm tracking-widest uppercase">{cmd.cmd}</span>
               </div>
-              <span className={`text-sm ${idx === selected ? 'text-white/80' : 'text-chat-text-muted'}`}>
+              <span className={`text-[0.6rem] font-bold tracking-widest uppercase ${idx === selected ? 'text-black/60' : 'text-outline/30'}`}>
                 {cmd.desc}
               </span>
             </div>
           ))}
           {filtered.length === 0 && (
-            <div className="p-4 text-center text-chat-text-muted">
-              No commands found
+            <div className="p-12 text-center text-outline/20 text-[0.7rem] font-bold uppercase tracking-[0.3em]">
+              NO_MATCHES_FOUND
             </div>
           )}
         </div>
 
         {/* Footer tips */}
-        <div className="px-4 pb-3 flex items-center gap-4 text-xs text-chat-text-muted">
-          <span className="flex items-center gap-1">
-            <CornerDownLeft size={12} /> Select
+        <div className="px-6 py-4 bg-surface-container-highest flex items-center gap-6 text-[0.55rem] font-bold uppercase tracking-widest text-outline/40">
+          <span className="flex items-center gap-2">
+            <CornerDownLeft size={10} /> SELECT
           </span>
-          <span className="flex items-center gap-1">
-            ↑↓ Navigate
+          <span className="flex items-center gap-2">
+            ↑↓ NAVIGATE
+          </span>
+          <span className="ml-auto text-accent/40 font-mono">
+            COMMAND_PALETTE_v2.0
           </span>
         </div>
       </div>

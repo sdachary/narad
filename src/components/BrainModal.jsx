@@ -1,16 +1,5 @@
 import { useEffect, useState } from 'react';
-import { X, Brain, RefreshCw, Sparkles } from 'lucide-react';
-
-const styles = {
-  modal: { backgroundColor: 'var(--bg)', borderColor: 'var(--border)' },
-  headerText: { color: 'var(--text)' },
-  contentText: { color: 'var(--text-secondary)' },
-  muted: { color: 'var(--text-muted)' },
-  accent: { backgroundColor: 'var(--accent)' },
-  border: { borderColor: 'var(--border)' },
-  tertiary: { backgroundColor: 'var(--bg-tertiary)' },
-  buttonHover: { backgroundColor: 'var(--bg-secondary)' },
-};
+import { X, RefreshCw, Sparkles } from 'lucide-react';
 
 export default function BrainModal({ isOpen, onClose }) {
   const [stats, setStats] = useState(null);
@@ -42,68 +31,79 @@ export default function BrainModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
       <div 
-        className="relative w-full max-w-lg rounded-2xl shadow-lg overflow-hidden"
-        style={styles.modal}
+        className="relative w-full max-w-2xl bg-surface-container shadow-luminous overflow-hidden animate-in fade-in zoom-in-95 duration-200 steps-4"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="scanline" />
+        
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b" style={styles.border}>
-          <h2 className="text-lg font-semibold flex items-center gap-2" style={styles.headerText}>
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={styles.accent}>
-              <Sparkles size={16} className="text-white" />
+        <div className="flex items-center justify-between p-6 bg-surface-container-high border-none">
+          <div className="flex items-center gap-4">
+            <div className="flex gap-1.5">
+              <div className="w-2 h-2 bg-error" />
+              <div className="w-2 h-2 bg-secondary" />
+              <div className="w-2 h-2 bg-accent" />
             </div>
-            <span>Knowledge Brain</span>
-          </h2>
+            <h2 className="text-xl font-bold tracking-tighter uppercase font-headline text-[#eaffde] flex items-center gap-3">
+              KNOWLEDGE_BRAIN_V3.1
+            </h2>
+          </div>
           <button 
             onClick={onClose} 
-            className="p-2 rounded-lg hover:opacity-80 transition-colors"
-            style={styles.contentText}
+            className="text-outline/40 hover:text-accent transition-none"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4 max-h-[60vh] overflow-y-auto">
+        <div className="p-8 max-h-[70vh] overflow-y-auto no-scrollbar bg-black">
           {loading ? (
-            <div className="flex items-center justify-center py-8" style={styles.muted}>
-              <Sparkles size={20} className="animate-pulse mr-2" />
-              Loading...
+            <div className="flex flex-col items-center justify-center py-20 space-y-6">
+              <Sparkles size={32} className="text-accent animate-pulse" />
+              <span className="text-[0.7rem] font-bold tracking-[0.4em] text-accent uppercase animate-pulse">
+                INITIALIZING_NEURAL_MAP...
+              </span>
             </div>
           ) : error ? (
-            <div className="text-center py-8" style={{ color: 'var(--error)' }}>
-              Error: {error}
+            <div className="p-6 bg-error/10 border border-error/20 text-error text-[0.8rem] font-bold uppercase tracking-widest leading-relaxed">
+              [ CRITICAL_FAILURE ]: {error}
             </div>
           ) : stats ? (
-            <pre className="text-sm whitespace-pre-wrap font-mono rounded-xl p-4" style={styles.tertiary}>
-              {JSON.stringify(stats, null, 2)}
-            </pre>
+            <div className="space-y-6">
+              <div className="flex justify-between items-center text-[0.6rem] font-bold tracking-[0.2em] text-accent uppercase">
+                <span>[ RAW_DATA_STREAM ]</span>
+                <span className="text-outline/40">Handshake: Verified</span>
+              </div>
+              <pre className="text-sm whitespace-pre-wrap font-mono p-6 bg-surface-container-lowest text-[#eaffde] opacity-90 leading-relaxed border-none">
+                {JSON.stringify(stats, null, 2)}
+              </pre>
+            </div>
           ) : (
-            <div className="text-center py-8" style={styles.muted}>
-              No brain data available
+            <div className="text-center py-20 text-outline/20 text-[0.7rem] font-bold uppercase tracking-[0.3em]">
+              NO_BRAIN_METRICS_FOUND
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex gap-2 p-4 border-t" style={styles.border}>
+        <div className="flex bg-surface-container-high border-none">
           <button 
             onClick={fetchStats} 
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl transition-colors"
-            style={{ ...styles.tertiary, color: 'var(--text)' }}
+            className="flex-1 flex items-center justify-center gap-3 py-5 text-[0.7rem] font-bold uppercase tracking-widest text-[#eaffde] hover:bg-surface-container transition-none"
           >
-            <RefreshCw size={16} />
-            Refresh
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            RE_SYNC
           </button>
+          <div className="w-px bg-outline/10" />
           <button 
             onClick={() => {}} 
-            className="flex-1 py-2.5 rounded-xl text-white transition-colors"
-            style={styles.accent}
+            className="flex-1 py-5 text-[0.7rem] font-bold uppercase tracking-widest bg-accent text-black hover:bg-white transition-none"
           >
-            View Insights
+            DEEP_INSIGHTS
           </button>
         </div>
       </div>

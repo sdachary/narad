@@ -41,66 +41,80 @@ export default function SearchOverlay({ isOpen, onClose, onNavigate, messages = 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-[120] flex items-start justify-center pt-32 p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
       <div 
-        className="relative w-full max-w-xl rounded-2xl shadow-lg overflow-hidden"
-        style={{ backgroundColor: 'var(--bg)' }}
+        className="relative w-full max-w-xl bg-surface-container-high shadow-luminous overflow-hidden animate-in fade-in zoom-in-95 duration-200 steps-4"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="scanline" />
+        
         {/* Search input */}
-        <div className="flex items-center gap-3 p-4" style={{ borderColor: 'var(--border)', borderBottom: '1px solid' }}>
-          <Search size={20} style={{ color: 'var(--text-muted)' }} />
+        <div className="flex items-center gap-4 p-5 bg-surface-container-highest border-none">
+          <Search size={20} className="text-secondary" />
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search messages..."
+            placeholder="SEARCH_HISTORY..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent border-none text-[15px] outline-none"
-            style={{ color: 'var(--text)' }}
+            className="flex-1 bg-transparent border-none text-[#eaffde] placeholder-outline/20 text-lg font-bold uppercase tracking-wider outline-none"
           />
           <button 
             onClick={onClose} 
-            className="p-1.5 rounded-lg hover:opacity-80 transition-colors"
-            style={{ color: 'var(--text-secondary)' }}
+            className="text-outline/40 hover:text-accent transition-none"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
         {/* Results */}
-        {results.length > 0 && (
-          <div className="max-h-64 overflow-y-auto p-2">
-            {results.map((item) => (
-              <button
-                key={item.idx}
-                onClick={() => {
-                  onNavigate(item.idx);
-                  onClose();
-                }}
-                className="w-full text-left p-3 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
-              >
-                <div className="text-[11px] uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
-                  {item.msg.role === 'user' ? 'You' : 'Assistant'}
-                </div>
-                <div className="text-sm line-clamp-2" style={{ color: 'var(--text)' }}>
-                  {item.msg.content}
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="max-h-80 overflow-y-auto no-scrollbar p-0 bg-black">
+          {results.length > 0 && (
+            <div className="divide-y divide-outline/10">
+              {results.map((item) => (
+                <button
+                  key={item.idx}
+                  onClick={() => {
+                    onNavigate(item.idx);
+                    onClose();
+                  }}
+                  className="w-full text-left p-6 hover:bg-surface-container-low transition-none group"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <span className={`chip ${item.msg.role === 'user' ? 'chip-user' : 'chip-system'} scale-75 origin-left`}>
+                      {item.msg.role === 'user' ? 'USER' : 'SYSTEM'}
+                    </span>
+                    <span className="text-[0.55rem] text-outline/20 font-bold uppercase tracking-widest">MSG_INDEX: {item.idx}</span>
+                  </div>
+                  <div className="text-sm font-light text-on-surface line-clamp-3 leading-relaxed group-hover:text-accent opacity-70 group-hover:opacity-100 transition-none">
+                    {item.msg.content}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
 
-        {query && results.length === 0 && (
-          <div className="p-4 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
-            No messages found
-          </div>
-        )}
+          {query && results.length === 0 && (
+            <div className="p-16 text-center text-outline/20 text-[0.7rem] font-bold uppercase tracking-[0.3em]">
+              NO_MATCHES_FOUND
+            </div>
+          )}
+        </div>
 
-        {/* Tips */}
-        <div className="px-4 pb-3 text-xs" style={{ color: 'var(--text-muted)' }}>
-          Press <kbd className="px-1.5 py-0.5 rounded font-medium" style={{ backgroundColor: 'var(--bg-tertiary)' }}>Enter</kbd> to search · <kbd className="px-1.5 py-0.5 rounded font-medium" style={{ backgroundColor: 'var(--bg-tertiary)' }}>esc</kbd> to close
+        {/* Footer tips */}
+        <div className="px-6 py-4 bg-surface-container-highest flex items-center justify-between">
+          <div className="flex gap-4 text-[0.55rem] font-bold uppercase tracking-widest text-outline/40">
+            <span className="flex items-center gap-2">
+              <kbd className="px-1.5 py-0.5 bg-black">ENTER</kbd> NAVIGATE
+            </span>
+            <span className="flex items-center gap-2">
+              <kbd className="px-1.5 py-0.5 bg-black">ESC</kbd> CLOSE
+            </span>
+          </div>
+          <span className="text-[0.55rem] text-accent/40 font-mono font-bold tracking-widest uppercase">
+            LOG_QUERY_ENGINE
+          </span>
         </div>
       </div>
     </div>
