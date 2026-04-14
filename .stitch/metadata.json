@@ -1,0 +1,19 @@
+{
+  "name": "projects/425840853798761187",
+  "projectId": "425840853798761187",
+  "title": "Narad Sovereign Console",
+  "visibility": "PRIVATE",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "STITCH",
+  "deviceType": "DESKTOP",
+  "screens": {
+    "index": {
+      "id": "4d433c588d304ebab97f30112b5742eb",
+      "sourceScreen": "projects/425840853798761187/screens/4d433c588d304ebab97f30112b5742eb",
+      "x": 0,
+      "y": 0,
+      "width": 2560,
+      "height": 2048
+    }
+  }
+}
