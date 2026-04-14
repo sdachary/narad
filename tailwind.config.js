@@ -5,49 +5,36 @@ export default {
   theme: {
     extend: {
       colors: {
-        'bauhaus-red': '#D02020',
-        'bauhaus-blue': '#1040C0',
-        'bauhaus-yellow': '#F0C020',
-        'bauhaus-white': '#F0F0F0',
-        'bauhaus-black': '#121212',
-        // Functional mappings
-        'background-day': '#F0F0F0',
-        'background-night': '#121212',
-        'foreground-day': '#121212',
-        'foreground-night': '#F0F0F0',
+        chat: {
+          bg: '#ffffff',
+          'bg-secondary': '#f7f9fc',
+          'bg-tertiary': '#edf2f7',
+          'bg-message': '#f0f4f8',
+          border: '#e2e8f0',
+          'border-hover': '#cbd5e1',
+          text: '#1e293b',
+          'text-secondary': '#64748b',
+          'text-muted': '#94a3b8',
+          accent: '#10b981',
+          'accent-hover': '#34d399',
+          success: '#10b981',
+          error: '#ef4444',
+          user: '#10b981',
+        },
       },
       fontFamily: {
-        headline: ['Outfit', 'sans-serif'],
-        body: ['Outfit', 'sans-serif'],
-        sans: ['Outfit', 'sans-serif'],
-      },
-      borderWidth: {
-        '4': '4px',
-        '6': '6px',
-        '8': '8px',
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'sans-serif'],
+        mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', 'monospace'],
       },
       boxShadow: {
-        'bauhaus-sm': '4px 4px 0px 0px #121212',
-        'bauhaus-md': '6px 6px 0px 0px #121212',
-        'bauhaus-lg': '8px 8px 0px 0px #121212',
-        // Night shadows
-        'bauhaus-night-sm': '4px 4px 0px 0px #F0F0F0',
-        'bauhaus-night-md': '6px 6px 0px 0px #F0F0F0',
-        'bauhaus-night-lg': '8px 8px 0px 0px #F0F0F0',
+        'soft': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'soft-lg': '0 4px 16px rgba(0, 0, 0, 0.12)',
       },
-      animation: {
-        'bauhaus-snappy': 'snappy 0.2s ease-out forwards',
-      },
-      keyframes: {
-        snappy: {
-          '0%': { transform: 'scale(1)' },
-          '100%': { transform: 'scale(1.02)' },
-        },
+      borderRadius: {
+        'xl': '0.75rem',
+        '2xl': '1rem',
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/container-queries'),
-  ],
+  plugins: [],
 };

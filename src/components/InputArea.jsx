@@ -1,87 +1,94 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Square } from 'lucide-react';
+import { Send, Sparkles } from 'lucide-react';
 
-export default function InputArea({ onSend, disabled, placeholder = "ENTER_COMMAND_QUERY..." }) {
+const styles = {
+  container: { backgroundColor: 'var(--bg-message)', borderColor: 'var(--border)', boxShadow: 'var(--shadow-lg)' },
+  containerFocus: { borderColor: 'var(--accent)', boxShadow: '0 0 0 3px rgba(79, 70, 229, 0.1)' },
+  text: { color: 'var(--text)' },
+  textMuted: { color: 'var(--text-muted)' },
+  accent: { color: 'var(--accent)' },
+  input: { backgroundColor: 'transparent', color: 'var(--text)' },
+  placeholder: { color: 'var(--text-muted)' },
+  btnDisabled: { backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-muted)', opacity: 0.5 },
+  btnEnabled: { backgroundColor: 'var(--accent)', color: '#FFFFFF', boxShadow: 'var(--shadow-sm)' },
+};
+
+export default function InputArea({ onSend, disabled, placeholder = 'Ask anything...' }) {
   const [input, setInput] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef(null);
-
-  const handleSubmit = () => {
-    if (input.trim() && !disabled) {
-      onSend(input);
-      setInput('');
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit();
-    }
-  };
 
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 200) + 'px';
     }
   }, [input]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input.trim() && !disabled) {
+      onSend(input);
+      setInput('');
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && !e.metaKey && !e.ctrlKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   return (
-    <div className="w-full relative px-8 pb-12">
-      {/* Bauhaus Geometric Composition behind the input */}
-      <div className="absolute -top-12 -left-4 w-24 h-24 rounded-full bg-bauhaus-yellow opacity-10 pointer-events-none" />
-      <div className="absolute top-4 -right-8 w-32 h-32 bg-bauhaus-blue opacity-10 rotate-45 pointer-events-none" />
+    <div className="fixed bottom-0 left-0 right-0 lg:left-72 pointer-events-none pb-6 lg:pb-10">
+      <div className="max-w-3xl mx-auto px-4 lg:px-6 pointer-events-auto">
+        <div 
+          className="input-container backdrop-blur-xl border shadow-2xl shadow-black/5 rounded-[2rem] transition-all"
+          style={{ ...styles.container, ...(isFocused ? styles.containerFocus : {}) }}
+        >
+          
+          {/* Processing indicator */}
+          {disabled && (
+            <div className="flex items-center gap-2 px-6 pt-3 text-[11px] font-bold uppercase tracking-wider animate-pulse" style={styles.accent}>
+              <Sparkles size={12} />
+              <span>Thinking...</span>
+            </div>
+          )}
 
-      {/* Main Command Box */}
-      <div className="relative flex items-stretch bg-white border-4 border-black p-4 shadow-bauhaus-lg transition-all">
-        {/* Terminal Indicator */}
-        <div className="flex flex-col items-center justify-center px-4 border-r-4 border-black bg-bauhaus-yellow">
-          <span className="text-black font-black text-2xl tracking-tighter">&gt;</span>
-        </div>
-        
-        <textarea
-          ref={textareaRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          className="flex-1 bg-transparent border-none focus:ring-0 text-black font-bold placeholder:text-black/20 w-full text-lg uppercase tracking-widest resize-none py-4 px-6 h-[64px] overflow-hidden leading-tight"
-          rows={1}
-          disabled={disabled}
-        />
-
-        {/* Action Buttons */}
-        <div className="flex items-center gap-4 ml-4">
-          <button
-            onClick={handleSubmit}
-            disabled={!input.trim() || disabled}
-            className={`
-              h-full px-12 border-4 border-black text-sm font-black uppercase tracking-[0.2em] transition-all
-              active:translate-x-[4px] active:translate-y-[4px] active:shadow-none
-              ${!input.trim() || disabled 
-                ? 'bg-gray-100 text-black/20 shadow-none' 
-                : 'bg-bauhaus-red text-white shadow-bauhaus-sm hover:bg-black'}
-            `}
-          >
-            {disabled ? 'PROCESS' : 'EXECUTE'}
-          </button>
-        </div>
-      </div>
-
-      {/* Footer Meta labels */}
-      <div className="flex justify-between mt-4 px-1">
-        <div className="flex gap-8">
-          <div className="flex items-center gap-3">
-             <div className="w-3 h-3 bg-bauhaus-red border-2 border-black" />
-             <span className="text-[0.6rem] font-bold uppercase tracking-widest text-black/40">UPLINK: ENCRYPTED</span>
+          {/* Input area */}
+          <div className="flex items-end gap-3 p-3 lg:p-4">
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder={placeholder}
+              className="flex-1 border-none text-[15px] leading-relaxed resize-none outline-none min-h-[24px] max-h-[200px] py-1 pl-2"
+              style={styles.input}
+              rows={1}
+              disabled={disabled}
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || disabled}
+              onClick={handleSubmit}
+              className="p-3 rounded-[1.25rem] transition-all transform active:scale-95"
+              style={!input.trim() || disabled ? styles.btnDisabled : styles.btnEnabled}
+            >
+              <Send size={18} />
+            </button>
           </div>
-          <div className="flex items-center gap-3">
-             <div className="w-3 h-3 rounded-full bg-bauhaus-blue border-2 border-black" />
-             <span className="text-[0.6rem] font-bold uppercase tracking-widest text-black/40">NODE_VERSION: v3.1</span>
+
+          {/* Helper info */}
+          <div className="px-6 pb-2 text-[10px] text-right font-medium" style={{ ...styles.textMuted, opacity: 0.6 }}>
+             Shift + Enter for new line
           </div>
-        </div>
-        <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-black">
-          BAUHAUS_OS // CONSTRUCTIVIST_CORE
         </div>
       </div>
     </div>
