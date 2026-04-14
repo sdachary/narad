@@ -1,4 +1,4 @@
-import { PanelLeft, PanelRight, Circle, Square, Triangle } from 'lucide-react';
+import { Moon, Sun, Search, Trash2, Brain, Square, Sparkles, PanelLeft, PanelRight } from 'lucide-react';
 
 export default function Header({ 
   theme, 
@@ -6,93 +6,86 @@ export default function Header({
   onSearch, 
   onClear, 
   onBrainStats,
+  onStop,
   isConnected,
+  appName = 'narad',
   sidebarCollapsed,
   onToggleSidebar
 }) {
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none">
-      {/* Top Banner - Constructivist Balance */}
-      <div className="flex bg-[var(--bauhaus-bg)] border-b-4 border-black pointer-events-auto h-20">
-        
-        {/* Left Side - The Brand Triad */}
-        <div className="flex items-center gap-8 px-8 border-r-4 border-black">
-          <div className="flex items-center gap-3">
-            <Triangle className="text-bauhaus-red fill-current" size={24} strokeWidth={3} />
-            <Square className="text-bauhaus-blue fill-current" size={24} strokeWidth={3} />
-            <Circle className="text-bauhaus-yellow fill-current" size={24} strokeWidth={3} />
-          </div>
-          <h1 className="text-2xl font-black tracking-tighter hidden md:block">NARAD_BAUHAUS</h1>
-        </div>
-
-        {/* Center - Utility Toggle */}
-        <div className="flex-1 flex items-center px-6">
+    <div className="h-14 flex items-center justify-between px-4 lg:px-8 border-b flex-shrink-0 sticky top-0 z-20 w-full backdrop-blur-md" style={{ backgroundColor: 'var(--bg)', borderColor: 'var(--border)' }}>
+      {/* Left - App name */}
+      <div className="flex items-center gap-3">
+        {sidebarCollapsed !== undefined && (
           <button
             onClick={onToggleSidebar}
-            className="flex items-center gap-3 bg-black text-white px-6 py-2 border-2 border-black hover:bg-bauhaus-red hover:text-white transition-none active:translate-x-[2px] active:translate-y-[2px]"
+            className="p-2 rounded-lg hover:bg-[var(--bg-secondary)] transition-all"
+            style={{ color: 'var(--text-secondary)' }}
+            title={sidebarCollapsed ? "Show sidebar" : "Hide sidebar"}
           >
-            {sidebarCollapsed ? <PanelLeft size={18} /> : <PanelRight size={18} />}
-            <span className="text-[0.6rem] font-bold tracking-widest uppercase hidden lg:block">LOG_ARCHIVE</span>
+            {sidebarCollapsed ? <PanelLeft size={20} /> : <PanelRight size={20} />}
           </button>
-        </div>
-
-        {/* Right Side - System Status */}
-        <div className="flex items-center border-l-4 border-black">
-           <div className={`
-             h-full px-8 flex items-center gap-4 transition-colors duration-300
-             ${theme === 'dark' ? 'bg-bauhaus-blue' : 'bg-bauhaus-yellow'}
-           `}>
-             <div className="flex flex-col items-end">
-               <span className="text-[0.5rem] font-bold tracking-widest text-black/40 uppercase">NODE_UPLINK</span>
-               <span className="text-sm font-black text-black leading-none">
-                 {isConnected ? 'NODE_ACTIVE' : 'OFFLINE'}
-               </span>
-             </div>
-             <div className={`w-3 h-3 rounded-full border-2 border-black ${isConnected ? 'bg-white animate-pulse' : 'bg-bauhaus-red'}`} />
-           </div>
-
-           {/* Theme Toggle - Geometric Inversion */}
-           <button
-             onClick={onToggleTheme}
-             className="h-full px-8 bg-black text-white hover:bg-white hover:text-black border-l-4 border-black transition-none active:bg-bauhaus-red"
-           >
-             <span className="text-[0.65rem] font-black tracking-widest leading-none">
-               {theme === 'dark' ? 'BAUHAUS_DAY' : 'BAUHAUS_NIGHT'}
-             </span>
-           </button>
+        )}
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-lg" style={{ backgroundColor: 'var(--accent)', boxShadow: 'var(--accent) 0 0 20%' }}>
+            <Sparkles size={18} className="text-white" />
+          </div>
+          <span className="text-lg font-bold tracking-tight hidden sm:block" style={{ color: 'var(--text)' }}>
+            {appName}
+          </span>
         </div>
       </div>
 
-      {/* Floating Action Menu - Appears on hover interaction elsewhere or persistent here? 
-          For Zen, let's keep it as secondary floating modules in the corners.
-      */}
-      <div className="p-8 flex justify-end gap-4">
-        <GhostAction onClick={onSearch} color="blue">SEARCH_LOGS</GhostAction>
-        <GhostAction onClick={onBrainStats} color="yellow">NEURAL_NET</GhostAction>
-        <GhostAction onClick={onClear} color="red">PURGE_DATA</GhostAction>
+      {/* Right - Controls */}
+      <div className="flex items-center gap-1.5">
+        <HeaderButton 
+          onClick={onSearch} 
+          icon={<Search size={18} />} 
+          title="Search (Cmd+F)" 
+        />
+        <HeaderButton 
+          onClick={onBrainStats} 
+          icon={<Brain size={18} />} 
+          title="Brain Stats" 
+        />
+        <HeaderButton 
+          onClick={onToggleTheme} 
+          icon={theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />} 
+          title="Toggle Theme (Cmd+T)" 
+        />
+        <div className="w-px h-6 mx-1 hidden sm:block" style={{ backgroundColor: 'var(--border)' }} />
+        <HeaderButton 
+          onClick={onClear} 
+          icon={<Trash2 size={18} />} 
+          title="Clear Chat (Cmd+K)" 
+        />
+        <HeaderButton 
+          onClick={onStop} 
+          icon={<Square size={18} />} 
+          title="Stop (Ctrl+C)" 
+        />
+
+        {/* Status indicator */}
+        <div className="ml-3 flex items-center gap-2 px-2.5 py-1.5 rounded-full border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
+          <span className={`w-2 h-2 rounded-full animate-pulse ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} style={{ backgroundColor: isConnected ? 'var(--success)' : 'var(--error)' }} />
+          <span className="text-[10px] font-bold uppercase tracking-wider hidden md:block" style={{ color: 'var(--text-muted)' }}>
+            {isConnected ? 'Online' : 'Offline'}
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
-function GhostAction({ onClick, children, color }) {
-  const colorMap = {
-    red: 'hover:bg-bauhaus-red',
-    blue: 'hover:bg-bauhaus-blue',
-    yellow: 'hover:bg-bauhaus-yellow',
-  };
-
+function HeaderButton({ onClick, icon, title }) {
   return (
     <button
       onClick={onClick}
-      className={`
-        pointer-events-auto bg-[var(--bauhaus-bg)] border-4 border-black px-6 py-3
-        text-[0.6rem] font-black tracking-widest uppercase shadow-bauhaus-sm
-        transition-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
-        ${colorMap[color]} hover:text-white
-      `}
+      className="p-2 rounded-xl hover:opacity-80 transition-all active:scale-95"
+      style={{ color: 'var(--text-secondary)' }}
+      title={title}
     >
-      [ {children} ]
+      {icon}
     </button>
   );
 }
