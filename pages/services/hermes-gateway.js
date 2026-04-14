@@ -42,7 +42,7 @@ async function checkHermesRateLimit(env, userId) {
     return false;
   }
   
-  await store.put(key, now.toString(), 60000);
+  await store.put(key, now.toString(), { expirationTtl: 60 });
   return true;
 }
 
