@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Plus, PanelLeft } from 'lucide-react';
 import Sidebar from './components/Sidebar';
-import { sendChat } from './lib/api';
+import { sendChat, SKILL_CONTEXTS } from './lib/api';
 import Header from './components/Header';
 import ChatArea from './components/ChatArea';
 import InputArea from './components/InputArea';
@@ -236,8 +236,71 @@ export default function App() {
         <CommandPalette 
           isOpen={showCommands} 
           onClose={() => setShowCommands(false)}
-          onSelect={(cmd) => {
+          onSelect={async (cmd) => {
             setShowCommands(false);
+            
+            // Handle skill commands with context
+            if (SKILL_CONTEXTS[cmd]) {
+              const skillContext = SKILL_CONTEXTS[cmd];
+              setIsProcessing(true);
+              try {
+                const response = await sendChat(`Starting ${cmd} workflow`, currentSession, {
+                  skill_context: skillContext,
+                  messages: messages.slice(-10),
+                });
+                setMessages(prev => [...prev, { role: 'assistant', content: response.reply || response.message }]);
+              } catch (err) {
+                setMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + err.message }]);
+              }
+              setIsProcessing(false);
+              return;
+            }
+            
+            // Handle provider switching commands
+            const providerCommands = ['/cerebras', '/cloudflare', '/groq', '/openrouter', '/github'];
+            if (providerCommands.includes(cmd)) {
+              const provider = cmd.replace('/', '');
+              setIsProcessing(true);
+              try {
+                const response = await sendChat(`Switch to ${provider} provider`, currentSession, {
+                  force_provider: provider,
+                  messages: messages.slice(-10),
+                });
+                setMessages(prev => [...prev, { role: 'assistant', content: response.reply || response.message }]);
+              } catch (err) {
+                setMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + err.message }]);
+              }
+              setIsProcessing(false);
+              return;
+            }
+            
+            // Handle /models command
+            if (cmd === '/models') {
+              setIsProcessing(true);
+              try {
+                const response = await sendChat('List all available models', currentSession, {
+                  messages: [],
+                });
+                setMessages(prev => [...prev, { role: 'assistant', content: response.reply || response.message }]);
+              } catch (err) {
+                setMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + err.message }]);
+              }
+              setIsProcessing(false);
+              return;
+            }
+            
+            // Default: send command as message
+            setMessages(prev => [...prev, { role: 'user', content: cmd + ' ' }]);
+            setIsProcessing(true);
+            try {
+              const response = await sendChat(cmd, currentSession, {
+                messages: messages.slice(-10),
+              });
+              setMessages(prev => [...prev, { role: 'assistant', content: response.reply || response.message }]);
+            } catch (err) {
+              setMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + err.message }]);
+            }
+            setIsProcessing(false);
           }}
         />
         <BrainModal isOpen={showBrain} onClose={() => setShowBrain(false)} />
