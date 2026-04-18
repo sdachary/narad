@@ -103,30 +103,31 @@ function getSystemPrompt(agentType) {
   return null;
 }
 
-export function setupChatRoutes(app) {
-  app.post('/api/chat', async (c) => {
-    try {
-      const clientIP = c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || 'unknown';
-      const rateLimitResult = await checkRateLimit(c.env, clientIP);
-      
-      if (!rateLimitResult.allowed) {
-        c.res.headers.set('Retry-After', rateLimitResult.retryAfter.toString());
-        return c.json({ 
-          error: 'Too many requests. Please try again later.',
-          retryAfter: rateLimitResult.retryAfter
-        }, 429);
-      }
-      
-      c.res.headers.set('X-RateLimit-Limit', '60');
-      c.res.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
-      
-      const csrfResult = validateCSRF(c.req);
-      if (!csrfResult.valid) {
-        return c.json({ error: 'CSRF validation failed' }, 403);
-      }
-      
-      const body = await c.req.json();
-      const { message, history, context, session_id, agent_type, force_provider, skill_context, project } = body;
+export function setupChatRoutes(app, metrics) {
+   app.post('/api/chat', async (c) => {
+     try {
+       const startTime = Date.now();
+       const clientIP = c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || 'unknown';
+       const rateLimitResult = await checkRateLimit(c.env, clientIP);
+       
+       if (!rateLimitResult.allowed) {
+         c.res.headers.set('Retry-After', rateLimitResult.retryAfter.toString());
+         return c.json({ 
+           error: 'Too many requests. Please try again later.',
+           retryAfter: rateLimitResult.retryAfter
+         }, 429);
+       }
+       
+       c.res.headers.set('X-RateLimit-Limit', '60');
+       c.res.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
+       
+       const csrfResult = validateCSRF(c.req);
+       if (!csrfResult.valid) {
+         return c.json({ error: 'CSRF validation failed' }, 403);
+       }
+       
+       const body = await c.req.json();
+       const { message, history, context, session_id, agent_type, force_provider, skill_context, project } = body;
       
       let projectContext = '';
       if (session_id && session_id.startsWith('new_')) {
@@ -439,27 +440,33 @@ export function setupChatRoutes(app) {
           const totalTokens = usage?.total_tokens || 0;
           await addUsage(c.env, agentType, totalTokens);
           
-          const chatHistory = await getChatHistory(c.env, session_id);
-          const newHistory = [
-            ...chatHistory,
-            { role: 'user', text: message, agentType: agentType, queryHash: queryHash },
-            { role: 'assistant', text: reply, agentType: agentType, queryHash: queryHash }
-          ];
-          await saveChatHistory(c.env, session_id, newHistory);
-          
-          await learnFromConversation(c.env, message, reply, { agentType, sessionId: session_id });
-          
-          return c.json({ 
-            reply, 
-            session_id,
-            metadata: {
-              provider: selectedProvider,
-              model: providerConfig.defaultModel,
-              tokens: totalTokens,
-              agentType: agentType,
-              remainingTokens: await getRemaining(c.env, agentType)
-            }
-          });
+           const chatHistory = await getChatHistory(c.env, session_id);
+           const newHistory = [
+             ...chatHistory,
+             { role: 'user', text: message, agentType: agentType, queryHash: queryHash },
+             { role: 'assistant', text: reply, agentType: agentType, queryHash: queryHash }
+           ];
+           await saveChatHistory(c.env, session_id, newHistory);
+           
+           await learnFromConversation(c.env, message, reply, { agentType, sessionId: session_id });
+           
+           // Update metrics
+           metrics.chatRequestsTotal += 1;
+           metrics.providerLatency.push(Date.now() - startTime);
+           metrics.tokenUsageTotal += totalTokens;
+           metrics.activeSessions.add(session_id);
+           
+           return c.json({ 
+             reply, 
+             session_id,
+             metadata: {
+               provider: selectedProvider,
+               model: providerConfig.defaultModel,
+               tokens: totalTokens,
+               agentType: agentType,
+               remainingTokens: await getRemaining(c.env, agentType)
+             }
+           });
         } catch (fetchErr) {
           lastErr = fetchErr.message;
         }
