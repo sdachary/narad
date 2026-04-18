@@ -23,6 +23,15 @@ import { handleHermesWebhook } from './services/hermes-gateway.js';
 
 const app = new Hono();
 
+// Metrics collection
+const metrics = {
+  chatRequestsTotal: 0,
+  providerLatency: [],
+  tokenUsageTotal: 0,
+  activeSessions: new Set(),
+  startTime: Date.now()
+};
+
 const CORS_CONFIG = {
   origin: (origin) => {
     if (!origin) return '*';
@@ -59,7 +68,7 @@ app.use('*', async (c, next) => {
 });
 
 setupHealthRoutes(app);
-setupChatRoutes(app);
+setupChatRoutes(app, metrics);
 setupBrainRoutes(app);
 setupErrorRoutes(app);
 
@@ -584,16 +593,63 @@ app.post('/api/memory/sql', async (c) => {
   return c.json(result);
 });
 
-app.post('/api/memory/save', async (c) => {
-  const { key, content, type, importance } = await c.req.json();
-  
-  if (!key || !content) {
-    return c.json({ error: 'key and content are required' }, 400);
-  }
-  
-  const memory = await saveMemory(c.env, key, content, type, importance);
-  return c.json({ success: true, memory });
-});
+  app.post('/api/memory/save', async (c) => {
+    const { key, content, type, importance } = await c.req.json();
+   
+    if (!key || !content) {
+      return c.json({ error: 'key and content are required' }, 400);
+    }
+   
+    const memory = await saveMemory(c.env, key, content, type, importance);
+    return c.json({ success: true, memory });
+  });
+
+  // Metrics endpoint
+  app.get('/api/metrics', async (c) => {
+    const uptime = Date.now() - metrics.startTime;
+    const avgLatency = metrics.providerLatency.length > 0 
+      ? (metrics.providerLatency.reduce((a, b) => a + b, 0) / metrics.providerLatency.length) 
+      : 0;
+    
+    // Create histogram buckets for latency (in seconds)
+    const latencyBuckets = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10];
+    const latencyCounts = latencyBuckets.map(le => 
+      metrics.providerLatency.filter(d => d <= le).length
+    );
+    
+    const metricsText = `# HELP narad_chat_requests_total Total number of chat requests
+# TYPE narad_chat_requests_total counter
+narad_chat_requests_total ${metrics.chatRequestsTotal}
+
+# HELP narad_provider_latency_seconds Latency of AI provider responses in seconds
+# TYPE narad_provider_latency_seconds histogram
+narad_provider_latency_seconds_count ${metrics.providerLatency.length}
+narad_provider_latency_seconds_sum ${(metrics.providerLatency.reduce((a, b) => a + b, 0) / 1000).toFixed(3)}
+${latencyBuckets.map((le, i) => `narad_provider_latency_seconds_bucket{le="${le}"} ${latencyCounts[i]}`).join('\n')}
+narad_provider_latency_seconds_bucket{le="+Inf"} ${metrics.providerLatency.length}
+
+# HELP narad_token_usage_total Total number of tokens used
+# TYPE narad_token_usage_total counter
+narad_token_usage_total ${metrics.tokenUsageTotal}
+
+# HELP narad_active_sessions Number of active chat sessions
+# TYPE narad_active_sessions gauge
+narad_active_sessions ${metrics.activeSessions.size}
+
+# HELP narad_uptime_seconds Worker uptime in seconds
+# TYPE narad_uptime_seconds counter
+narad_uptime_seconds ${Math.floor(uptime / 1000)}
+
+# EOF
+`;
+   
+    return new Response(metricsText, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain; version=0.0.4',
+      }
+    });
+  });
 
 app.post('/api/memory/search', async (c) => {
   const { query, type, limit } = await c.req.json();
