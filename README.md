@@ -2,7 +2,7 @@
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-Narad is a serverless AI workspace deployed on Cloudflare Pages with a Supabase-powered learning brain.
+Narad is a serverless AI workspace deployed on Cloudflare Pages with a Supabase-powered learning brain, featuring platform-wide observability and enhanced connectivity.
 
 ---
 
@@ -12,15 +12,24 @@ Narad is a serverless AI workspace deployed on Cloudflare Pages with a Supabase-
 - **Platform**: Cloudflare Pages (serverless)
 - **Frontend**: React 18 + Tailwind CSS
 - **Backend**: Hono (CF Workers/Pages Functions)
+- **Observability**: Prometheus metrics endpoint at `/api/metrics`
+- **Connectivity**: Unified platform adapter system (Telegram, WhatsApp, Slack, Teams)
 
 ---
 
 ## 🧠 Brain (Supabase)
 
-Narad learns from conversations and stores knowledge in **brain**, powered by **Supabase PostgreSQL** with pgvector for semantic search.
+Narad learns from conversations and stores knowledge in **brain**, powered by **Supabase PostgreSQL** with pgvector for semantic search and Neo4j knowledge graph for relationship mapping.
 
 ### Projects in Brain
 narad, unnati, kanak, career-ops, chitragupta, vishwakarma, social-blueprint-ai
+
+### Knowledge Graph Features
+- Entity extraction from conversations (Person, Project, Concept, Tool)
+- Relationship inference and storage
+- Graph-powered recommendations and related content
+- Path finding and similarity search
+- Integration with existing RAG system
 
 ---
 
@@ -72,6 +81,9 @@ narad, unnati, kanak, career-ops, chitragupta, vishwakarma, social-blueprint-ai
 - **MCP**: Model Context Protocol connectors
 - **Verification**: AI response truth verification
 - **Hermes Gateway**: Telegram bot integration
+- **Platform Adapters**: Unified messaging system (Telegram, WhatsApp, Slack, Teams)
+- **Metrics**: Prometheus endpoint at `/api/metrics` for observability
+- **Logging**: Structured JSON logs forwarded to Loki aggregation system
 
 ---
 
@@ -104,6 +116,18 @@ npm run deploy
 | `SUPABASE_SERVICE_KEY` | ✅ | Brain storage |
 | `SERPER_API_KEY` | Optional | Web Search |
 | `TELEGRAM_BOT_TOKEN` | Optional | Telegram connector |
+| `WHATSAPP_PHONE_NUMBER_ID` | Optional | WhatsApp Business |
+| `WHATSAPP_ACCESS_TOKEN` | Optional | WhatsApp Business |
+| `SLACK_BOT_TOKEN` | Optional | Slack adapter |
+| `SLACK_SIGNING_SECRET` | Optional | Slack adapter |
+| `TEAMS_BOT_ID` | Optional | Teams adapter |
+| `TEAMS_BOT_PASSWORD` | Optional | Teams adapter |
+| `TEAMS_TENANT_ID` | Optional | Teams adapter |
+| `PROMETHEUS_URL` | Optional | External Prometheus for federation |
+| `LOKI_URL` | Optional | External Loki for log forwarding |
+| `NEO4J_URI` | Optional | Neo4j connection URI |
+| `NEO4J_USER` | Optional | Neo4j username |
+| `NEO4J_PASSWORD` | Optional | Neo4j password |
 
 ---
 
@@ -111,5 +135,9 @@ npm run deploy
 
 - Frontend: React 18, Tailwind CSS, Vite
 - Backend: Hono (Cloudflare Pages)
-- Storage: Supabase PostgreSQL + pgvector
+- Storage: Supabase PostgreSQL + pgvector, Neo4j
+- Observability: Prometheus metrics endpoint
+- Logging: Structured JSON logs to Loki
+- Messaging: Unified platform adapter system
 - Security: Rate limiting, CSRF protection, security headers
+- Knowledge Graph: Entity extraction and relationship mapping
