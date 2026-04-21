@@ -6,7 +6,7 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
 
 const VAULT_INDEX_KEY = 'vault:brain:index';
 
-const BRAIN_SCHEMA = 'brain';
+const BRAIN_SCHEMA = 'narad';
 
 async function getClient(env) {
   const headers = {
