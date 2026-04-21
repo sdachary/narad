@@ -1,6 +1,6 @@
 import { getStore } from './memory.js';
 
-const SUPABASE_URL = 'https://lpyatghqeqnbcnedregw.supabase.co';
+const SUPABASE_URL = 'https://facurlopyzmmrjnllsnd.supabase.co';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
 
