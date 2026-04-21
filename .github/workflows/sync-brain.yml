@@ -29,7 +29,7 @@ jobs:
       - name: Run Brain Sync
         env:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          SUPABASE_URL: https://lpyatghqeqnbcnedregw.supabase.co
+          SUPABASE_URL: https://facurlopyzmmrjnllsnd.supabase.co
         run: |
           echo "Syncing brain documents to Supabase..."
           

@@ -9,7 +9,7 @@ import { join, extname, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://lpyatghqeqnbcnedregw.supabase.co';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://facurlopyzmmrjnllsnd.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
 const __filename = fileURLToPath(import.meta.url);
