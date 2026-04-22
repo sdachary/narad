@@ -829,15 +829,14 @@ export default {
       
       return new Response(JSON.stringify({
         timestamp: new Date().toISOString(),
-        services: results.length,
-        down: down.length,
-        services: down
+        totalServices: results.length,
+        downCount: down.length,
+        downServices: down
       }), {
         headers: { 'Content-Type': 'application/json' }
       });
     }
     
-    env._services = { csrfManager };
     env._services = { csrfManager };
     
     const url = new URL(request.url);
