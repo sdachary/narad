@@ -1,14 +1,22 @@
 // narad/src/components/ChatWindow.jsx
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Clock, Send, ChevronLeft } from 'lucide-react';
+import { X, Clock, Send, ChevronLeft, Trash2, Plus, MessageSquare } from 'lucide-react';
 
-export default function ChatWindow({ onClose, messages = [], onSend, sessions = [], onSelectSession }) {
+export default function ChatWindow({ 
+  onClose, 
+  messages = [], 
+  onSend, 
+  sessions = [], 
+  currentSessionId,
+  onSelectSession,
+  onNewChat,
+  onDeleteSession 
+}) {
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const messagesRef = useRef(null);
 
-  // Scroll to bottom on new messages
   useEffect(() => {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
@@ -33,7 +41,7 @@ export default function ChatWindow({ onClose, messages = [], onSend, sessions = 
 
   return (
     <div 
-      className="fixed bottom-6 right-6 w-[400px] h-[500px] rounded-[var(--radius-xl)] flex flex-col overflow-hidden z-[100]"
+      className="fixed bottom-6 right-6 w-[400px] h-[600px] rounded-[var(--radius-xl)] flex flex-col overflow-hidden z-[100] animate-in slide-in-from-bottom-4 duration-300"
       style={{ 
         backgroundColor: 'var(--bg-surface)',
         boxShadow: 'var(--shadow-floating)',
@@ -41,111 +49,101 @@ export default function ChatWindow({ onClose, messages = [], onSend, sessions = 
       }}
     >
       {showHistory ? (
-        // History Panel
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
+        <div className="flex flex-col h-full bg-[var(--bg-canvas)]">
+          <div className="flex items-center justify-between p-4 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]">
             <button onClick={() => setShowHistory(false)} className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] transition-colors">
-              <ChevronLeft className="w-4 h-4 text-[var(--text-secondary)]" />
+              <ChevronLeft className="w-5 h-5 text-[var(--text-secondary)]" />
             </button>
-            <span className="font-semibold text-[var(--text-primary)]">History</span>
-            <div className="w-8" />
+            <span className="font-bold text-[var(--text-primary)]">Chat History</span>
+            <button 
+              onClick={() => { onNewChat(); setShowHistory(false); }}
+              className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] text-[var(--accent)] transition-colors"
+              title="New Chat"
+            >
+              <Plus className="w-5 h-5" />
+            </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-2 space-y-2">
-            {(sessions || []).map((session, i) => (
-              <button
-                key={session.id || i}
-                onClick={() => {
-                  onSelectSession?.(session.id);
-                  setShowHistory(false);
-                }}
-                className="w-full p-3 text-left rounded-lg hover:bg-[var(--bg-elevated)] transition-colors group"
+          <div className="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
+            {sessions.map((session) => (
+              <div 
+                key={session.id}
+                className={`group flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer ${
+                  session.id === currentSessionId ? 'bg-[var(--accent)]/10 border border-[var(--accent)]/20' : 'hover:bg-[var(--bg-elevated)]'
+                }`}
+                onClick={() => { onSelectSession(session.id); setShowHistory(false); }}
               >
-                <div className="text-sm text-[var(--text-primary)] truncate group-hover:text-[var(--accent)] transition-colors">
-                  {session.label || 'Untitled Session'}
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <MessageSquare className={`w-4 h-4 shrink-0 ${session.id === currentSessionId ? 'text-[var(--accent)]' : 'text-[var(--text-secondary)]'}`} />
+                  <div className="overflow-hidden">
+                    <div className={`text-sm font-semibold truncate ${session.id === currentSessionId ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'}`}>
+                      {session.label || 'Untitled Session'}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs text-[var(--text-secondary)] mt-1">
-                  {session.date || 'Recently'}
-                </div>
-              </button>
-            ))}
-            {(!sessions || sessions.length === 0) && (
-              <div className="text-center text-[var(--text-secondary)] py-8 text-sm">
-                No recent sessions
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onDeleteSession(session.id); }}
+                  className="p-2 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-red-500/10 text-red-500 transition-all"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
-            )}
+            ))}
           </div>
         </div>
       ) : (
-        // Chat View
         <>
-          {/* Header */}
-          <div 
-            className="flex items-center justify-between p-4 border-b"
-            style={{ borderColor: 'var(--border-subtle)' }}
-          >
-            <div className="flex items-center gap-2">
-              <div 
-                className="w-3 h-3 rounded-full animate-pulse"
-                style={{ backgroundColor: 'var(--accent-alt)' }}
-              />
-              <span className="font-semibold text-[var(--text-primary)]">Assistant</span>
+          <div className="flex items-center justify-between p-4 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]">
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)] animate-pulse" />
+              <span className="font-bold text-[var(--text-primary)]">Narad Assistant</span>
             </div>
-            <div className="flex items-center gap-2">
-              <button 
-                onClick={() => setShowHistory(true)} 
-                className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] transition-colors"
-                title="History"
-              >
-                <Clock className="w-4 h-4 text-[var(--text-secondary)]" />
+            <div className="flex items-center gap-1">
+              <button onClick={() => setShowHistory(true)} className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] transition-colors text-[var(--text-secondary)]">
+                <Clock className="w-5 h-5" />
               </button>
-              <button 
-                onClick={onClose} 
-                className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] transition-colors"
-                title="Close"
-              >
-                <X className="w-4 h-4 text-[var(--text-secondary)]" />
+              <button onClick={onClose} className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] transition-colors text-[var(--text-secondary)]">
+                <X className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* Messages */}
-          <div 
-            ref={messagesRef}
-            className="flex-1 overflow-y-auto p-4 space-y-4"
-          >
+          <div ref={messagesRef} className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-[var(--bg-canvas)]/50">
             {messages.length === 0 && (
-              <div className="text-center text-[var(--text-secondary)] py-8 text-sm">
-                Ask me anything...
+              <div className="flex flex-col items-center justify-center h-full text-[var(--text-secondary)] opacity-50 space-y-2">
+                <MessageSquare size={32} />
+                <p className="text-sm font-medium">How can I help you today?</p>
               </div>
             )}
             {messages.map((msg, i) => (
               <div 
                 key={i}
-                className={`p-3 rounded-2xl ${
-                  msg.role === 'user' 
-                    ? 'ml-auto bg-[var(--accent)] text-white rounded-tr-sm' 
-                    : 'bg-[var(--bg-elevated)] text-[var(--text-primary)] rounded-tl-sm'
-                } max-w-[85%] shadow-sm`}
+                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                <div className="text-sm leading-relaxed">{msg.content}</div>
+                <div 
+                  className={`p-3.5 rounded-2xl max-w-[85%] shadow-sm ${
+                    msg.role === 'user' 
+                      ? 'bg-[var(--accent)] text-white rounded-tr-none' 
+                      : 'bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-tl-none'
+                  }`}
+                >
+                  <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
+                </div>
               </div>
             ))}
             {isProcessing && (
-              <div className="bg-[var(--bg-elevated)] text-[var(--text-primary)] p-3 rounded-2xl rounded-tl-sm max-w-[85%] shadow-sm">
-                <div className="flex gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-secondary)] animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-secondary)] animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-secondary)] animate-bounce" style={{ animationDelay: '300ms' }} />
+              <div className="flex justify-start">
+                <div className="bg-[var(--bg-elevated)] border border-[var(--border-subtle)] p-4 rounded-2xl rounded-tl-none">
+                  <div className="flex gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Input */}
-          <div 
-            className="p-4 border-t"
-            style={{ borderColor: 'var(--border-subtle)' }}
-          >
+          <div className="p-4 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -153,19 +151,14 @@ export default function ChatWindow({ onClose, messages = [], onSend, sessions = 
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type a message..."
-                className="flex-1 px-4 py-2 rounded-xl text-sm outline-none transition-all border border-transparent focus:border-[var(--accent)]"
-                style={{ 
-                  backgroundColor: 'var(--bg-elevated)',
-                  color: 'var(--text-primary)',
-                }}
+                className="flex-1 px-4 py-3 rounded-xl text-sm outline-none transition-all bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-transparent focus:border-[var(--accent)]/50"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isProcessing}
-                className="p-2.5 rounded-xl transition-all disabled:opacity-50 active:scale-95 flex items-center justify-center"
-                style={{ backgroundColor: 'var(--accent)' }}
+                className="p-3 rounded-xl bg-[var(--accent)] text-white disabled:opacity-50 hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[var(--accent)]/20"
               >
-                <Send className="w-4 h-4 text-white" />
+                <Send className="w-5 h-5" />
               </button>
             </div>
           </div>
