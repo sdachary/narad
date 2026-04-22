@@ -9,6 +9,16 @@ export default function FloatingChat({ sessions = [], onSelectSession }) {
   const [messages, setMessages] = useState([]);
   const [unread, setUnread] = useState(0);
 
+  React.useEffect(() => {
+    const handleExternalChat = (e) => {
+      const { text, open = true } = e.detail;
+      if (open) setIsOpen(true);
+      if (text) handleSend(text);
+    };
+    window.addEventListener('narad:send-chat', handleExternalChat);
+    return () => window.removeEventListener('narad:send-chat', handleExternalChat);
+  }, [messages]);
+
   const handleSend = async (text) => {
     const userMsg = { role: 'user', content: text };
     setMessages(prev => [...prev, userMsg]);

@@ -22,6 +22,7 @@ import { pollAllServices, checkServiceDown, SERVICES } from './services/observer
 import { generateDailySummary, generateWeeklyRd, checkAlerts } from './services/reporter.js';
 import { setupDashboardRoutes } from './routes/dashboard.js';
 import { setupCommandCenterRoutes } from './routes/command-center.js';
+import { setupManagementRoutes } from './routes/management.js';
 import { fetchSkill } from './services/skills.js';
 import { handleHermesWebhook } from './services/hermes-gateway.js';
 import { getKnowledgeGraph, searchSmriti, getFileContent } from './services/smriti-graph.js';
@@ -75,6 +76,7 @@ app.use('*', async (c, next) => {
 setupHealthRoutes(app);
 setupDashboardRoutes(app);
 setupCommandCenterRoutes(app);
+setupManagementRoutes(app);
 
 // Smriti Graph API
 app.get('/api/smriti/graph', async (c) => {

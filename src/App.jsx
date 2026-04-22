@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Plus, PanelLeft, LayoutDashboard, MessageSquare } from 'lucide-react';
-import Sidebar from './components/Sidebar';
+
 import { sendChat, SKILL_CONTEXTS } from './lib/api';
 import Header from './components/Header';
 import ChatArea from './components/ChatArea';
@@ -23,8 +23,7 @@ export default function App() {
   const [showCommands, setShowCommands] = useState(false);
   const [showBrain, setShowBrain] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+
   const chatAreaRef = useRef(null);
 
   // Load sessions from localStorage
@@ -187,44 +186,12 @@ export default function App() {
         onBrainStats={() => setShowBrain(true)}
         onStop={() => {}}
         isConnected={isConnected}
-        sidebarCollapsed={sidebarCollapsed}
-        onToggleSidebar={() => {
-          setSidebarCollapsed(!sidebarCollapsed);
-        }}
         onViewDashboard={() => setView('dashboard')}
         onViewChat={() => setView('chat')}
         currentView={view}
       />
       
       <div className="flex flex-1 overflow-hidden">
-        {/* Ghost Sidebar Drawer */}
-        <div 
-          className={`
-            fixed inset-y-0 left-0 z-[60] w-72 bg-black transform transition-transform duration-500 ease-editorial
-            ${sidebarCollapsed ? '-translate-x-full' : 'translate-x-0'}
-            shadow-luminous
-          `}
-        >
-          <Sidebar
-            sessions={sessions}
-            currentSession={currentSession}
-            onNewSession={handleNewSession}
-            onSelectSession={(id) => {
-              handleSelectSession(id);
-              setView('chat');
-              setSidebarCollapsed(true);
-            }}
-            onDeleteSession={handleDeleteSession}
-          />
-          {/* Overlay Close Button for when sidebar is open */}
-          {!sidebarCollapsed && (
-            <div 
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm -z-10"
-              onClick={() => setSidebarCollapsed(true)}
-            />
-          )}
-        </div>
-        
         <main className="flex-1 flex flex-col items-center overflow-hidden">
           {view === 'dashboard' ? (
             <div className="w-full h-full overflow-y-auto relative">
