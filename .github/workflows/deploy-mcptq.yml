@@ -1,0 +1,36 @@
+name: Deploy MCP Task Queue
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mcptq/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config mcptq/wrangler.toml
+
+      - name: Show URL
+        run: |
+          echo "✅ MCP Task Queue deployed"
+          echo "URL: https://mcptq.${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.workers.dev"

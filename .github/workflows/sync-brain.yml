@@ -21,24 +21,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Supabase CLI
-        uses: supabase/setup-cli@v1
-        with:
-          version: latest
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Run Brain Sync
+      - name: Sync Brain
         env:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_URL: https://facurlopyzmmrjnllsnd.supabase.co
         run: |
           echo "Syncing brain documents to Supabase..."
-          
-          # Install dependencies
-          npm install
-          
-          # Run sync script for each project
+
+          # Sync SUMMARY files only (lean sync)
           for project in narad vishwakarma chitragupta indra unnati kanak career-ops social-blueprint-ai; do
-            echo "Syncing $project..."
+            echo "Syncing $project SUMMARY..."
             SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
-              node scripts/sync-brain.js --project="$project" || true
+              node scripts/sync-brain.js --project="$project" --summary-only || true
           done

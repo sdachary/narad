@@ -21,8 +21,10 @@ import { runLast30DaysResearch } from './services/research.js';
 import { pollAllServices, checkServiceDown, SERVICES } from './services/observer.js';
 import { generateDailySummary, generateWeeklyRd, checkAlerts } from './services/reporter.js';
 import { setupDashboardRoutes } from './routes/dashboard.js';
+import { setupCommandCenterRoutes } from './routes/command-center.js';
 import { fetchSkill } from './services/skills.js';
 import { handleHermesWebhook } from './services/hermes-gateway.js';
+import { getKnowledgeGraph, searchSmriti, getFileContent } from './services/smriti-graph.js';
 
 const app = new Hono();
 
@@ -72,6 +74,26 @@ app.use('*', async (c, next) => {
 
 setupHealthRoutes(app);
 setupDashboardRoutes(app);
+setupCommandCenterRoutes(app);
+
+// Smriti Graph API
+app.get('/api/smriti/graph', async (c) => {
+  const force = c.req.query('refresh') === 'true';
+  const graph = await getKnowledgeGraph(force);
+  return c.json(graph);
+});
+
+app.get('/api/smriti/search', async (c) => {
+  const query = c.req.query('q') || '';
+  const results = await searchSmriti(query);
+  return c.json({ results });
+});
+
+app.get('/api/smriti/file/*', async (c) => {
+  const path = c.req.param('*');
+  const result = await getFileContent(path);
+  return c.json(result);
+});
 
 // Observer routes for service monitoring
 app.get('/api/observer/services', async (c) => {
