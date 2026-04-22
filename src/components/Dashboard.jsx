@@ -6,12 +6,11 @@ import FinanceTile from './FinanceTile';
 import { useServices } from '../hooks/useServices';
 
 const SERVICES = [
-  { id: 'narad', name: 'Narad AI', url: 'https://narad.pages.dev' },
   { id: 'vishwakarma', name: 'Vishwakarma', url: 'https://vishwakarma.pages.dev' },
   { id: 'chitragupta', name: 'Chitragupta', url: 'https://chitragupta.pages.dev' },
-  { id: 'karma', name: 'Karma', url: 'https://karma.compute' },
-  { id: 'kanak', name: 'Kanak', url: 'https://kanak.pages.dev' },
-  { id: 'unnati', name: 'Unnati', url: 'https://unnati.pages.dev' },
+  { id: 'karma', name: 'Karma', url: null, comingSoon: true },
+  { id: 'kanak', name: 'Kanak', url: 'https://kanak-dj5.pages.dev' },
+  { id: 'unnati', name: 'Unnati', url: 'https://unnati-70z.pages.dev' },
 ];
 
 export default function Dashboard() {

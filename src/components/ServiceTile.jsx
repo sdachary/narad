@@ -8,10 +8,13 @@ const statusColors = {
 };
 
 export default function ServiceTile({ service, status = 'online', metric, lastChecked, onClick }) {
+  const isComingSoon = service.comingSoon;
+  const currentStatus = isComingSoon ? 'offline' : status;
+
   return (
     <div 
-      onClick={onClick}
-      className="p-5 rounded-[var(--radius-lg)] cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+      onClick={isComingSoon ? null : onClick}
+      className={`p-5 rounded-[var(--radius-lg)] transition-all duration-300 ${isComingSoon ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-[1.02]'}`}
       style={{ 
         backgroundColor: 'var(--bg-surface)',
         boxShadow: 'var(--shadow-tile)',
@@ -22,14 +25,14 @@ export default function ServiceTile({ service, status = 'online', metric, lastCh
         <span className="font-semibold text-[var(--text-primary)]">{service.name}</span>
         <div 
           className="w-2.5 h-2.5 rounded-full"
-          style={{ backgroundColor: statusColors[status] || statusColors.online }}
+          style={{ backgroundColor: statusColors[currentStatus] || statusColors.online }}
         />
       </div>
       <div className="text-sm text-[var(--text-secondary)]">
-        {metric || 'Active'}
+        {isComingSoon ? 'Coming Soon' : (metric || 'Active')}
       </div>
       <div className="text-xs text-[var(--text-secondary)] mt-2 opacity-60">
-        {lastChecked || 'Just now'}
+        {isComingSoon ? 'In development' : (lastChecked || 'Just now')}
       </div>
     </div>
   );
