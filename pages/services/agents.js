@@ -28,10 +28,10 @@ export async function routeAgent(c, message, context = {}) {
     name: 'Commander', 
     systemPrompt: 'You are the main orchestrating agent. Route requests to specialized agents based on user intent.' 
   };
-...
+
   // Add agent context to prompt
   const systemPrompt = agent.systemPrompt;
-...
+
   // Call AI with agent context
   const client = getApiClient(c.env);
   const response = await client.chat.completions.create({
