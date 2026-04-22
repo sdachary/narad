@@ -19,16 +19,6 @@ export default function Header({
     <div className="h-14 flex items-center justify-between px-4 lg:px-8 border-b flex-shrink-0 sticky top-0 z-20 w-full backdrop-blur-md" style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-subtle)' }}>
       {/* Left - App name */}
       <div className="flex items-center gap-3">
-        {sidebarCollapsed !== undefined && (
-          <button
-            onClick={onToggleSidebar}
-            className="p-2 rounded-lg hover:bg-[var(--bg-elevated)] transition-all"
-            style={{ color: 'var(--text-secondary)' }}
-            title={sidebarCollapsed ? "Show sidebar" : "Hide sidebar"}
-          >
-            {sidebarCollapsed ? <PanelLeft size={20} /> : <PanelRight size={20} />}
-          </button>
-        )}
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-lg" style={{ backgroundColor: 'var(--accent)' }}>
             <Sparkles size={18} className="text-white" />

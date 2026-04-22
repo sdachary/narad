@@ -1,6 +1,4 @@
-// narad/src/components/FinanceTile.jsx
-import React from 'react';
-import { Landmark } from 'lucide-react';
+import { CircleUser } from 'lucide-react';
 import { useFinance } from '../hooks/useFinance';
 
 export default function FinanceTile({ onClick }) {
@@ -26,14 +24,14 @@ export default function FinanceTile({ onClick }) {
       }}
     >
       <div className="flex items-center gap-2 mb-3">
-        <Landmark className="w-5 h-5 text-[var(--accent-alt)]" />
-        <span className="font-semibold text-[var(--text-primary)]">Finance</span>
+        <CircleUser className="w-5 h-5 text-[var(--accent-alt)]" />
+        <span className="font-semibold text-[var(--text-primary)]">Finance Adviser</span>
       </div>
       <div className="text-2xl font-bold text-[var(--text-primary)]">
         ₹{netWorth.toLocaleString()}
       </div>
       <div className="text-sm text-[var(--text-secondary)] mt-1">
-        Net Worth
+        Personal Consultant
       </div>
     </div>
   );
