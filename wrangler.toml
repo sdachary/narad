@@ -13,6 +13,10 @@ id = "ca98881c7005404c8a0d00330759b80e"
 binding = "OBSERVER_KV"
 id = "ca98881c7005404c8a0d00330759b80e"
 
+[[kv_namespaces]]
+binding = "TASK_QUEUE"
+id = "cbc8f3af4085410fb4fb08e4b6d10d33"
+
 # Hermes Gateway uses existing KV for config storage
 # binding = "HERMES_CONFIG" - using NARAD_DATA instead
 
