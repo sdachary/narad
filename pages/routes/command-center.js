@@ -2,6 +2,10 @@ import { pollAllServices, checkServiceDown } from '../services/observer.js';
 import { checkAlerts } from '../services/reporter.js';
 
 export function setupCommandCenterRoutes(app) {
+  app.get('/', async (c) => {
+    return c.html(getCommandCenterHTML());
+  });
+  
   app.get('/command-center', async (c) => {
     return c.html(getCommandCenterHTML());
   });
