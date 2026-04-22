@@ -135,7 +135,7 @@ npm run deploy
 
 - Frontend: React 18, Tailwind CSS, Vite
 - Backend: Hono (Cloudflare Pages)
-- Storage: Supabase PostgreSQL + pgvector, Neo4j
+- Storage: Supabase PostgreSQL + pgvector (single project), Neo4j (optional)
 - Observability: Prometheus metrics endpoint
 - Logging: Structured JSON logs to Loki
 - Messaging: Unified platform adapter system
