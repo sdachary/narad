@@ -5,7 +5,7 @@ export function setupCommandCenterRoutes(app) {
   app.get('/', async (c) => {
     return c.html(getCommandCenterHTML());
   });
-  
+
   app.get('/command-center', async (c) => {
     return c.html(getCommandCenterHTML());
   });
@@ -772,5 +772,5 @@ function getCommandCenterHTML() {
     }
   </script>
 </body>
-</html>\`;
+</html>`;
 }
