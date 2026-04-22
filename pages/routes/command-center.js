@@ -492,7 +492,7 @@ function getCommandCenterHTML() {
 
     function getServiceTileHTML(services) {
       return services.map(s => {
-        const errorDiv = s.error ? `<div style="color: var(--red); margin-top: 8px;">${escapeHtml(s.error)}</div>` : '';
+        const errorDiv = s.error ? '<div style="color: var(--red); margin-top: 8px;">' + escapeHtml(s.error) + '</div>' : '';
         const statusColor = s.status === 'healthy' ? 'green' : (s.status === 'unhealthy' ? 'amber' : 'red');
         return '<div class="service-tile glass">' +
           '<div class="tile-header">' +
@@ -634,22 +634,6 @@ function getCommandCenterHTML() {
         } else {
           appendMessage('ai', "I'm processing your request. Use /status, /alerts, or /report for quick updates.");
         }
-      }, 500);
-    }
-
-    chatInput.onkeypress = (e) => {
-      if (e.key === 'Enter') {
-        handleChatSubmit(chatInput.value);
-      }
-    };
-
-    function appendMessage(role, text) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'message ' + role;
-      msgDiv.innerText = text;
-      chatMessages.appendChild(msgDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
       }, 500);
     }
 
