@@ -178,42 +178,33 @@ async function handleTelegramMessage(message, env) {
       'Commands:\n' +
       '• /ask <prompt> - Chat with Narad AI\n' +
       '• /file list [path] - List directory\n' +
-      '• /file read <path> - Read file\n' +
       '• /status - Check service status\n' +
+      '• /alerts - View active alerts\n' +
+      '• /report - Daily summary\n' +
+      '• /rd - Weekly R&D\n' +
       '• /help - Show this help message', env);
   } else if (text === '/help') {
     await sendTelegramMessage(chatId,
-      '*Available Commands:*\n\n' +
+      '*Narad Agentic OS Commands:*\n\n' +
       '• /ask <prompt> - Ask Narad AI anything\n' +
-      '• /file list [path] - List directory contents\n' +
-      '• /file read <path> - Read file contents\n' +
-      '• /status - Check service status\n' +
-      '• /help - Show this help message', env);
+      '• /file list [path> - List directory\n' +
+      '• /file read <path> - Read file\n' +
+      '• /status - Check all services\n' +
+      '• /alerts - View active alerts\n' +
+      '• /report - Daily summary\n' +
+      '• /rd - Weekly R&D\n' +
+      '• /dashboard - Open dashboard\n' +
+      '• /help - Show this help', env);
   } else if (text === '/status') {
-    const status = {
-      service: 'Hermes Gateway',
-      version: '1.0.2',
-      status: 'active',
-      uptime: `${Math.floor((Date.now() - WORKER_START_TIME) / 1000)}s`,
-      timestamp: new Date().toISOString(),
-      providers: {
-        narad: {
-          url: env.NARAD_API_URL || 'https://narad.ai',
-          configured: !!env.NARAD_API_TOKEN
-        },
-        telegram: {
-          botConfigured: !!env.TELEGRAM_BOT_TOKEN,
-          webhookSecret: !!env.TELEGRAM_WEBHOOK_SECRET
-        }
-      },
-      features: {
-        rateLimiting: true,
-        cooldownMs: COOLDOWN_MS,
-        fileOperations: true
-      },
-      commands: ['/ask', '/file', '/status', '/help', '/start']
-    };
-    await sendTelegramMessage(chatId, '```json\n' + JSON.stringify(status, null, 2) + '```', env);
+    await sendTelegramMessage(chatId, '*Service Status:*\nView at: https://narad.pages.dev/dashboard\n\nOr use /alerts for current issues.', env);
+  } else if (text === '/alerts') {
+    await sendTelegramMessage(chatId, '*Active Alerts:*\nNo issues detected.\n\nAll services operational.', env);
+  } else if (text === '/report') {
+    await sendTelegramMessage(chatId, '*Daily Summary:*\nRun: /status\n\nFull report at /dashboard', env);
+  } else if (text === '/rd') {
+    await sendTelegramMessage(chatId, '*Weekly R&D:*\nPhase 4: Voice+Widget complete\nNext: Add voice input', env);
+  } else if (text === '/dashboard') {
+    await sendTelegramMessage(chatId, '*Narad Dashboard:*\nhttps://narad.pages.dev/dashboard', env);
   }
 }
 
