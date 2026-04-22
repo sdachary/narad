@@ -1,5 +1,24 @@
 export default {
   async fetch(request, env) {
+    // GET request - show status
+    if (request.method === 'GET') {
+      return new Response(JSON.stringify({
+        status: 'ok',
+        service: 'mcptq',
+        version: '1.0.0',
+        endpoints: [
+          'POST task_create',
+          'POST task_get_status', 
+          'POST task_update_progress',
+          'POST task_complete',
+          'POST task_list'
+        ]
+      }, null, 2), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // POST request - handle MCP tools
     if (request.method !== 'POST') {
       return new Response('Method Not Allowed', { status: 405 });
     }
