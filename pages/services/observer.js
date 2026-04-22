@@ -1,6 +1,6 @@
 export const SERVICES = {
   narad: { 
-    url: 'https://narad.pages.dev/api/health', 
+    url: 'https://narad-7hc.pages.dev/api/health', 
     name: 'Narad AI',
     expectedStatus: 'ok'
   },
