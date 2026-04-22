@@ -18,6 +18,9 @@ import { addDocument, searchDocuments, listDocuments, getContextForQuery } from 
 import { syncSessions, getSessions, saveSessionHistory, getSessionHistory, deleteSessionCloud } from './services/sessionSync.js';
 import { triggerGitHubDispatch, analyzeGitHubRepo } from './services/github.js';
 import { runLast30DaysResearch } from './services/research.js';
+import { pollAllServices, checkServiceDown, SERVICES } from './services/observer.js';
+import { generateDailySummary, generateWeeklyRd, checkAlerts } from './services/reporter.js';
+import { setupDashboardRoutes } from './routes/dashboard.js';
 import { fetchSkill } from './services/skills.js';
 import { handleHermesWebhook } from './services/hermes-gateway.js';
 
@@ -68,6 +71,72 @@ app.use('*', async (c, next) => {
 });
 
 setupHealthRoutes(app);
+setupDashboardRoutes(app);
+
+// Observer routes for service monitoring
+app.get('/api/observer/services', async (c) => {
+  const results = await pollAllServices(c.env);
+  const down = await checkServiceDown(c.env);
+  return c.json({
+    services: results,
+    summary: {
+      total: results.length,
+      healthy: results.filter(s => s.status === 'healthy').length,
+      unhealthy: results.filter(s => s.status === 'unhealthy').length,
+      error: results.filter(s => s.status === 'error').length
+    },
+    alerts: down.map(s => ({
+      service: s.service,
+      name: s.name,
+      status: s.status,
+      timestamp: s.lastCheck
+    }))
+  });
+});
+
+app.get('/api/observer/services/:service', async (c) => {
+  const serviceKey = c.req.param('service');
+  const results = await pollAllServices(c.env);
+  const service = results.find(s => s.service === serviceKey);
+  
+  if (!service) {
+    return c.json({ error: 'Service not found' }, 404);
+  }
+  
+  return c.json(service);
+});
+
+// Reporter routes for proactive reporting
+app.get('/api/reporter/daily-summary', async (c) => {
+  const summary = await generateDailySummary(c.env);
+  return c.json(summary);
+});
+
+app.get('/api/reporter/weekly-rd', async (c) => {
+  const rd = await generateWeeklyRd(c.env);
+  return c.json(rd);
+});
+
+app.get('/api/reporter/alerts', async (c) => {
+  const alerts = await checkAlerts(c.env);
+  return c.json({ alerts, count: alerts.length });
+});
+
+app.get('/api/reporter/status', async (c) => {
+  const services = await pollAllServices(c.env);
+  const alerts = await checkAlerts(c.env);
+  const summary = await generateDailySummary(c.env);
+  const rd = await generateWeeklyRd(c.env);
+  
+  return c.json({
+    services: services.length,
+    healthy: services.filter(s => s.status === 'healthy').length,
+    alerts: alerts.length,
+    lastSummary: summary,
+    weeklyRd: rd
+  });
+});
+
 setupChatRoutes(app, metrics);
 setupBrainRoutes(app);
 setupErrorRoutes(app);
@@ -749,6 +818,26 @@ app.get('/api/memory/stats', async (c) => {
 
 export default {
   async fetch(request, env, ctx) {
+    // Cron handler for scheduled observer polls
+    if (request.method === 'GET' && request.url.includes('/api/cron/observer')) {
+      const results = await pollAllServices(env);
+      const down = await checkServiceDown(env);
+      
+      if (down.length > 0) {
+        console.log('[Observer] Services down:', down.map(s => s.service).join(', '));
+      }
+      
+      return new Response(JSON.stringify({
+        timestamp: new Date().toISOString(),
+        services: results.length,
+        down: down.length,
+        services: down
+      }), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+    env._services = { csrfManager };
     env._services = { csrfManager };
     
     const url = new URL(request.url);
