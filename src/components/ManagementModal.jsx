@@ -10,6 +10,10 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
 
   if (!isOpen) return null;
 
+  const safeInvestments = Array.isArray(investments) ? investments : [];
+  const safeAccounts = Array.isArray(accounts) ? accounts : [];
+  const safeExpenses = Array.isArray(expenses) ? expenses : [];
+
   const handleEdit = (item) => {
     setEditingItem({ ...item });
   };
@@ -19,9 +23,9 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
     try {
       if (tab === 'portfolio') {
         await saveInvestment(editingItem);
-      } else if (editingItem._table === 'expenses') {
+      } else if (editingItem?._table === 'expenses') {
         await saveExpense(editingItem);
-      } else {
+      } else if (editingItem?._table) {
         await saveAccount(editingItem._table, editingItem);
       }
       setEditingItem(null);
@@ -101,6 +105,7 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
   };
 
   const renderPortfolio = () => {
+    const totalVal = safeInvestments.reduce((sum, i) => sum + (parseFloat(i.current_value) || 0), 0);
     return (
       <div className="space-y-4 animate-in fade-in duration-500">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -110,12 +115,12 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
               <span className="text-xs font-bold uppercase tracking-wider">Total Value</span>
             </div>
             <div className="text-3xl font-black text-[var(--text-primary)]">
-              ₹{investments.reduce((sum, i) => sum + (parseFloat(i.current_value) || 0), 0).toLocaleString()}
+              ₹{totalVal.toLocaleString()}
             </div>
           </div>
           <div className="p-5 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex flex-col justify-center">
             <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Active Assets</div>
-            <div className="text-2xl font-bold text-[var(--text-primary)]">{investments.length}</div>
+            <div className="text-2xl font-bold text-[var(--text-primary)]">{safeInvestments.length}</div>
           </div>
         </div>
 
@@ -130,7 +135,7 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
         </div>
 
         <div className="grid grid-cols-1 gap-3">
-          {investments.map(item => (
+          {safeInvestments.map(item => (
             <div key={item.id} className="group p-4 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] hover:border-[var(--accent)]/30 transition-all flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-[var(--bg-surface)] flex items-center justify-center border border-[var(--border-subtle)] group-hover:border-[var(--accent)]/20 transition-all">
@@ -164,9 +169,10 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
 
   const renderFinance = () => {
     const items = [
-      ...accounts.map(a => ({ ...a, icon: a._table === 'credit_cards' ? <CreditCard size={18} /> : a._table === 'loans' ? <Landmark size={18} /> : <Wallet size={18} /> })),
-      ...expenses.map(e => ({ ...e, _table: 'expenses', icon: <Receipt size={18} /> }))
+      ...safeAccounts.map(a => ({ ...a, icon: a._table === 'credit_cards' ? <CreditCard size={18} /> : a._table === 'loans' ? <Landmark size={18} /> : <Wallet size={18} /> })),
+      ...safeExpenses.map(e => ({ ...e, _table: 'expenses', icon: <Receipt size={18} /> }))
     ];
+    const totalPortfolio = safeInvestments.reduce((sum, i) => sum + (parseFloat(i.current_value) || 0), 0);
 
     return (
       <div className="space-y-6 animate-in fade-in duration-500">
@@ -195,7 +201,7 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
             </div>
             <div className="text-right">
               <div className="text-sm font-mono font-bold text-[var(--accent)]">
-                ₹{investments.reduce((sum, i) => sum + (parseFloat(i.current_value) || 0), 0).toLocaleString()}
+                ₹{totalPortfolio.toLocaleString()}
               </div>
               <div className="text-[9px] text-[var(--text-secondary)]">Live from Portfolio</div>
             </div>

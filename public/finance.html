@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Command | Narad</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #020617;
+      --bg-surface: #0f172a;
+      --bg-elevated: #1e293b;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.5);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --status-success: #10b981;
+      --status-error: #ef4444;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-canvas); color: var(--text-primary); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+    .brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .back-btn { padding: 10px; border-radius: 12px; background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-subtle); cursor: pointer; }
+    h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+
+    .net-worth-card {
+      padding: 40px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      margin-bottom: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .net-worth-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .nw-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 12px; }
+    .nw-value { font-size: 48px; font-weight: 900; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.04em; }
+    
+    .advisory-btn {
+      margin-top: 24px;
+      background: var(--accent);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 16px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .advisory-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+    .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    @media (max-width: 768px) { .section-grid { grid-template-columns: 1fr; } }
+
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .section-title { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); }
+
+    .btn-small {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .item-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    .item-card:hover { border-color: var(--accent); background: var(--bg-elevated); }
+
+    .item-info { display: flex; align-items: center; gap: 12px; }
+    .item-icon { 
+      width: 40px; height: 40px; border-radius: 10px; 
+      background: var(--bg-canvas); display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary);
+    }
+    .item-card:hover .item-icon { color: var(--accent); }
+
+    .item-name { font-weight: 700; font-size: 14px; }
+    .item-meta { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; }
+
+    .item-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: right; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+      z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal { width: 100%; max-width: 500px; background: var(--bg-surface); border-radius: var(--radius-xl); border: 1px solid var(--border-subtle); }
+    .modal-header { padding: 24px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 24px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group.full { grid-column: span 2; }
+    label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-secondary); }
+    input, select { 
+      background: var(--bg-elevated); border: 1px solid var(--border-subtle); 
+      padding: 12px 16px; border-radius: 12px; color: var(--text-primary); width: 100%;
+    }
+    .modal-footer { padding: 24px; display: flex; gap: 12px; border-top: 1px solid var(--border-subtle); }
+    .btn-save { flex: 1; background: var(--accent); color: white; padding: 14px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; }
+    
+    .loading-overlay { position: fixed; inset: 0; background: var(--bg-canvas); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+    .loader { width: 40px; height: 40px; border: 3px solid var(--bg-elevated); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div id="loading" class="loading-overlay"><div class="loader"></div></div>
+
+  <div class="container">
+    <header>
+      <div class="brand" onclick="window.location.href='/'">
+        <button class="back-btn"><i data-lucide="arrow-left"></i></button>
+        <div>
+          <h1>Finance Command</h1>
+          <div class="item-meta">Narad Financial Control</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="net-worth-card">
+      <div class="nw-label">Estimated Net Worth</div>
+      <div class="nw-value" id="net-worth">₹0</div>
+      <button class="advisory-btn" onclick="getAdvisory()">
+        <i data-lucide="sparkles"></i> Get Financial Advisory Insights
+      </button>
+    </div>
+
+    <div class="section-grid">
+      <!-- Accounts Section -->
+      <div>
+        <div class="section-header">
+          <h2 class="section-title">Accounts & Assets</h2>
+          <button class="btn-small" onclick="openModal('account')"><i data-lucide="plus"></i> Add</button>
+        </div>
+        <div id="account-list"></div>
+      </div>
+
+      <!-- Expenses Section -->
+      <div>
+        <div class="section-header">
+          <h2 class="section-title">Recurring Expenses</h2>
+          <button class="btn-small" onclick="openModal('expense')"><i data-lucide="plus"></i> Add</button>
+        </div>
+        <div id="expense-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Entry</h3>
+        <button class="btn-small" onclick="closeModal()"><i data-lucide="x"></i></button>
+      </div>
+      <form id="entry-form" onsubmit="handleSave(event)">
+        <input type="hidden" id="entry-id">
+        <input type="hidden" id="entry-type">
+        <div class="modal-body">
+          <div id="table-selector" class="form-group full" style="margin-bottom: 16px;">
+            <label>Category</label>
+            <select id="table-select" onchange="updateFormFields()">
+              <option value="bank_accounts">Bank Account</option>
+              <option value="credit_cards">Credit Card</option>
+              <option value="loans">Loan</option>
+              <option value="wallets">Wallet</option>
+              <option value="expenses">Expense</option>
+            </select>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Name</label>
+              <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+              <label id="value-label">Balance</label>
+              <input type="number" id="value" step="any" required>
+            </div>
+            <div class="form-group">
+              <label id="meta-label">Type</label>
+              <input type="text" id="meta">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-small" style="flex:1" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-save">Save Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let accounts = [];
+    let expenses = [];
+    let investments = [];
+
+    async function fetchData() {
+      try {
+        const [aRes, eRes, iRes] = await Promise.all([
+          fetch('/api/management/accounts'),
+          fetch('/api/management/expenses'),
+          fetch('/api/management/investments')
+        ]);
+        accounts = await aRes.json();
+        expenses = await eRes.json();
+        investments = await iRes.json();
+        render();
+      } catch (err) {
+        console.error(err);
+      } finally {
+        document.getElementById('loading').style.opacity = '0';
+        setTimeout(() => document.getElementById('loading').classList.add('hidden'), 500);
+      }
+    }
+
+    function render() {
+      const accList = document.getElementById('account-list');
+      const expList = document.getElementById('expense-list');
+      accList.innerHTML = '';
+      expList.innerHTML = '';
+
+      let totalWealth = 0;
+      investments.forEach(i => totalWealth += parseFloat(i.current_value || 0));
+      
+      accounts.forEach(a => {
+        const val = parseFloat(a.balance || 0);
+        if (a._table === 'loans' || a._table === 'credit_cards') totalWealth -= val;
+        else totalWealth += val;
+
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+          <div class="item-info">
+            <div class="item-icon"><i data-lucide="${a._table === 'credit_cards' ? 'credit-card' : a._table === 'loans' ? 'landmark' : 'wallet'}"></i></div>
+            <div>
+              <div class="item-name">${a.name}</div>
+              <div class="item-meta">${a._table.replace('_', ' ')} · ${a.type || 'Standard'}</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px">
+            <div class="item-value">₹${val.toLocaleString()}</div>
+            <button class="btn-small" onclick="deleteEntry('${a._table}', '${a.id}')"><i data-lucide="trash-2" style="width:14px"></i></button>
+          </div>
+        `;
+        accList.appendChild(card);
+      });
+
+      expenses.forEach(e => {
+        const val = parseFloat(e.amount || 0);
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+          <div class="item-info">
+            <div class="item-icon"><i data-lucide="receipt"></i></div>
+            <div>
+              <div class="item-name">${e.name}</div>
+              <div class="item-meta">Expense · ${e.category || 'Monthly'}</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px">
+            <div class="item-value">₹${val.toLocaleString()}</div>
+            <button class="btn-small" onclick="deleteEntry('expenses', '${e.id}')"><i data-lucide="trash-2" style="width:14px"></i></button>
+          </div>
+        `;
+        expList.appendChild(card);
+      });
+
+      document.getElementById('net-worth').textContent = `₹${totalWealth.toLocaleString()}`;
+      lucide.createIcons();
+    }
+
+    function openModal(type) {
+      const modal = document.getElementById('modal');
+      const form = document.getElementById('entry-form');
+      form.reset();
+      document.getElementById('entry-id').value = '';
+      document.getElementById('table-select').value = type === 'expense' ? 'expenses' : 'bank_accounts';
+      updateFormFields();
+      modal.style.display = 'flex';
+    }
+
+    function updateFormFields() {
+      const table = document.getElementById('table-select').value;
+      document.getElementById('value-label').textContent = table === 'expenses' ? 'Amount' : 'Balance';
+      document.getElementById('meta-label').textContent = table === 'expenses' ? 'Category' : 'Type';
+    }
+
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+    async function handleSave(e) {
+      e.preventDefault();
+      const table = document.getElementById('table-select').value;
+      const data = {
+        name: document.getElementById('name').value,
+        [table === 'expenses' ? 'amount' : 'balance']: parseFloat(document.getElementById('value').value),
+        [table === 'expenses' ? 'category' : 'type']: document.getElementById('meta').value,
+      };
+
+      try {
+        const url = table === 'expenses' ? '/api/management/expenses' : `/api/management/accounts/${table}`;
+        await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        closeModal();
+        fetchData();
+      } catch (err) { alert('Save failed'); }
+    }
+
+    async function deleteEntry(table, id) {
+      if (!confirm('Delete this entry?')) return;
+      try {
+        const url = table === 'expenses' ? `/api/management/expenses/${id}` : `/api/management/accounts/${table}/${id}`;
+        await fetch(url, { method: 'DELETE' });
+        fetchData();
+      } catch (err) { alert('Delete failed'); }
+    }
+
+    function getAdvisory() {
+      const prompt = 'Act as my personal financial adviser. Provide an overview of my finances and suggest improvements based on my current net worth.';
+      window.location.href = `/?chat=${encodeURIComponent(prompt)}`;
+    }
+
+    window.onload = () => {
+      fetchData();
+      lucide.createIcons();
+    };
+  </script>
+</body>
+</html>

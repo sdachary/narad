@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ServiceTile from './ServiceTile';
 import PortfolioTile from './PortfolioTile';
 import FinanceTile from './FinanceTile';
 import { useServices } from '../hooks/useServices';
-import { usePortfolio } from '../hooks/usePortfolio';
-import { useFinance } from '../hooks/useFinance';
 import { X, ExternalLink, ArrowRight } from 'lucide-react';
-
-import ManagementModal from './ManagementModal';
 
 const SERVICES = [
   { id: 'vishwakarma', name: 'Vishwakarma', url: 'https://vishwakarma.pages.dev' },
@@ -19,33 +15,35 @@ const SERVICES = [
 
 export default function Dashboard() {
   const { services } = useServices();
-  const [showManagement, setShowManagement] = useState(false);
-  const [managementTab, setManagementTab] = useState('portfolio');
+
+  useEffect(() => {
+    // Handle auto-chat from redirects
+    const params = new URLSearchParams(window.location.search);
+    const chatPrompt = params.get('chat');
+    if (chatPrompt) {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('narad:send-chat', { 
+          detail: { text: decodeURIComponent(chatPrompt) } 
+        }));
+        // Clean up URL without reload
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }, 1000);
+    }
+  }, []);
 
   const handleTileClick = (tab) => {
-    setManagementTab(tab);
-    setShowManagement(true);
+    window.location.href = `/${tab}.html`;
   };
 
   return (
     <div 
-      className="p-6 max-w-[1400px] mx-auto min-h-screen relative"
+      className="p-6 max-w-[1400px] mx-auto h-full relative overflow-hidden"
       style={{ backgroundColor: 'var(--bg-canvas)' }}
     >
-      <ManagementModal 
-        isOpen={showManagement} 
-        onClose={() => setShowManagement(false)} 
-        initialTab={managementTab} 
-      />
-
-      <h1 className="text-2xl font-semibold mb-6 text-[var(--text-primary)]">
-        Command Center
-      </h1>
-      
       {/* Services Row */}
-      <div className="mb-8">
-        <h2 className="text-sm font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-wider">Services</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="mb-6">
+        <h2 className="text-[10px] font-black text-[var(--text-secondary)] mb-3 uppercase tracking-[0.2em]">Platform Services</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {SERVICES.map(service => {
             const serviceStatus = services?.[service.id] || { status: 'online', metric: 'Active' };
             return (
@@ -63,8 +61,8 @@ export default function Dashboard() {
 
       {/* Features Row */}
       <div>
-        <h2 className="text-sm font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-wider">Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="text-[10px] font-black text-[var(--text-secondary)] mb-3 uppercase tracking-[0.2em]">Financial Management</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <PortfolioTile onClick={() => handleTileClick('portfolio')} />
           <FinanceTile onClick={() => handleTileClick('finance')} />
         </div>
