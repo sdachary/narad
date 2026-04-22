@@ -487,38 +487,38 @@ function getCommandCenterHTML() {
     }
 
     function renderServices() {
-      serviceGrid.innerHTML = services.map(s => \`
+      serviceGrid.innerHTML = services.map(s => `
         <div class="service-tile glass">
           <div class="tile-header">
-            <div class="tile-name">\${s.name}</div>
+            <div class="tile-name">${s.name}</div>
             <div class="status-indicator">
-              <div class="dot \${s.status}"></div>
-              <span style="color: var(--\${s.status === 'healthy' ? 'green' : (s.status === 'unhealthy' ? 'amber' : 'red')})">
-                \${s.status}
+              <div class="dot ${s.status}"></div>
+              <span style="color: var(--${s.status === 'healthy' ? 'green' : (s.status === 'unhealthy' ? 'amber' : 'red')})">
+                ${s.status}
               </span>
             </div>
           </div>
           <div class="tile-body">
-            <div>Status Code: \${s.statusCode}</div>
-            \${s.error ? \\\`<div style="color: var(--red); margin-top: 8px;">\\\\\\\${s.error}</div>\\\` : ''}
+            <div>Status Code: ${s.statusCode}</div>
+            ${s.error ? `<div style="color: var(--red); margin-top: 8px;">\\${s.error}</div>` : ''}
           </div>
           <div class="tile-footer">
-            Last checked: \\\${new Date(s.lastCheck).toLocaleTimeString()}
+            Last checked: ${new Date(s.lastCheck).toLocaleTimeString()}
           </div>
         </div>
-      \`).join('');
+      `).join('');
     }
 
     function renderAlerts() {
       if (alerts.length > 0) {
         notifBadge.innerText = alerts.length;
         notifBadge.style.display = 'flex';
-        notifList.innerHTML = alerts.map((a, i) => \`
-          <div class="notif-item" onclick="showDetail(\\\${i})">
-            <div class="notif-title">\\\${a.severity === 'critical' ? '🔴' : '🟡'} \\\${a.service} is \\\${a.status}</div>
-            <div class="notif-time">\\\${new Date(a.timestamp).toLocaleTimeString()}</div>
+        notifList.innerHTML = alerts.map((a, i) => `
+          <div class="notif-item" onclick="showDetail(${i})">
+            <div class="notif-title">${a.severity === 'critical' ? '🔴' : '🟡'} ${a.service} is ${a.status}</div>
+            <div class="notif-time">${new Date(a.timestamp).toLocaleTimeString()}</div>
           </div>
-        \`).join('');
+        `).join('');
       } else {
         notifBadge.style.display = 'none';
         notifList.innerHTML = '<div class="notif-item">No active alerts</div>';
@@ -541,13 +541,13 @@ function getCommandCenterHTML() {
 
     function showDetail(index) {
       const alert = alerts[index];
-      document.getElementById('modal-title').innerText = \\\`Alert: \\\${alert.service}\\\`;
-      document.getElementById('modal-body').innerHTML = \\\`
-        <p><strong>Status:</strong> \\\${alert.status}</p>
-        <p><strong>Severity:</strong> \\\${alert.severity}</p>
-        <p><strong>Timestamp:</strong> \\\${new Date(alert.timestamp).toLocaleString()}</p>
-        <p style="margin-top: 16px;">The service \\\${alert.service} is currently reporting \\\${alert.status}. Please investigate the logs for more details.</p>
-      \\\`;
+      document.getElementById('modal-title').innerText = `Alert: ${alert.service}`;
+      document.getElementById('modal-body').innerHTML = `
+        <p><strong>Status:</strong> ${alert.status}</p>
+        <p><strong>Severity:</strong> ${alert.severity}</p>
+        <p><strong>Timestamp:</strong> ${new Date(alert.timestamp).toLocaleString()}</p>
+        <p style="margin-top: 16px;">The service ${alert.service} is currently reporting ${alert.status}. Please investigate the logs for more details.</p>
+      `;
       alertModal.style.display = 'flex';
     }
 
