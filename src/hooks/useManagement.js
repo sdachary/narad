@@ -13,9 +13,11 @@ export function useManagement() {
     try {
       const res = await fetch('/api/management/investments');
       const data = await res.json();
-      setInvestments(data);
+      setInvestments(Array.isArray(data) ? data : []);
     } catch (err) {
+      console.error('Fetch investments failed:', err);
       setError(err.message);
+      setInvestments([]);
     } finally {
       setLoading(false);
     }
@@ -26,9 +28,11 @@ export function useManagement() {
     try {
       const res = await fetch('/api/management/accounts');
       const data = await res.json();
-      setAccounts(data);
+      setAccounts(Array.isArray(data) ? data : []);
     } catch (err) {
+      console.error('Fetch accounts failed:', err);
       setError(err.message);
+      setAccounts([]);
     } finally {
       setLoading(false);
     }
@@ -39,9 +43,11 @@ export function useManagement() {
     try {
       const res = await fetch('/api/management/expenses');
       const data = await res.json();
-      setExpenses(data);
+      setExpenses(Array.isArray(data) ? data : []);
     } catch (err) {
+      console.error('Fetch expenses failed:', err);
       setError(err.message);
+      setExpenses([]);
     } finally {
       setLoading(false);
     }
@@ -111,9 +117,9 @@ export function useManagement() {
   }, []);
 
   return {
-    investments,
-    accounts,
-    expenses,
+    investments: Array.isArray(investments) ? investments : [],
+    accounts: Array.isArray(accounts) ? accounts : [],
+    expenses: Array.isArray(expenses) ? expenses : [],
     loading,
     error,
     saveInvestment,
