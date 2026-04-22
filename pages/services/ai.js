@@ -198,3 +198,31 @@ export async function callAI(messages, providerConfig, options = {}) {
   
   return { reply, usage };
 }
+
+export function getApiClient(env) {
+  return {
+    chat: {
+      completions: {
+        create: async ({ model, messages, ...options }) => {
+          const available = getAvailableProviders(env);
+          const provider = available.includes('groq') ? 'groq' : available[0];
+          const config = getProviderConfig(env, provider);
+          if (!config) {
+            throw new Error('No AI provider configured');
+          }
+          const result = await callAI(messages, config, { ...options, model });
+          return {
+            choices: [
+              {
+                message: {
+                  content: result.reply
+                }
+              }
+            ],
+            usage: result.usage
+          };
+        }
+      }
+    }
+  };
+}
