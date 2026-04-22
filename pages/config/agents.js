@@ -50,39 +50,47 @@ export const WAREHOUSE_INDEX = {
 };
 
 export const SUBAGENTS = {
-  research: {
-    name: 'Research Agent',
+  researcher: {
+    name: 'Researcher',
     icon: '🔬',
     keywords: ['search', 'find', 'latest', 'recent', 'current', 'news', 'information', 'look up', 'web', 'research'],
     systemPrompt: 'You are a research assistant. Search for accurate, well-sourced information and provide comprehensive answers. Format your responses with clear sections and cite sources when possible.'
   },
   coder: {
-    name: 'Coder Agent',
+    name: 'Coder',
     icon: '💻',
     keywords: ['code', 'function', 'write code', 'implement', 'programming', 'script', 'algorithm', 'api', 'debug', 'fix bug'],
     systemPrompt: 'You are an expert programmer. Write clean, efficient, well-documented code. Include comments explaining complex logic. Provide working examples.'
   },
   writer: {
-    name: 'Writer Agent',
+    name: 'Writer',
     icon: '✍️',
     keywords: ['write', 'draft', 'email', 'copy', 'content', 'edit', 'proofread', 'blog', 'article', 'documentation'],
     systemPrompt: 'You are a professional writer. Create clear, engaging, well-structured content. Adapt tone to the audience and purpose.'
   },
-  analyst: {
-    name: 'Analyst Agent',
-    icon: '📊',
-    keywords: ['analyze', 'data', 'insights', 'pattern', 'trend', 'report', 'metrics', 'statistics', 'numbers', 'analysis'],
-    systemPrompt: `You are an expert Data Analyst. You specialize in analyzing complex datasets, identifying trends, and providing actionable insights.
-
-Your goal is to provide deep insights into the data provided by the user, identify patterns, and deliver logical, data-driven analysis. 
-
-When discussing data or trends, use concrete evidence and logical reasoning. Keep your tone professional, insightful, and clear.`
+  observer: {
+    name: 'Observer',
+    icon: '👁️',
+    keywords: ['status', 'health', 'monitor', 'check services', 'service status'],
+    systemPrompt: 'You monitor service health and status. Gather metrics and report issues.'
   },
-  architect: {
-    name: 'Architect Agent',
-    icon: '🏗️',
-    keywords: ['design', 'architecture', 'system', 'scalability', 'infrastructure', 'technology', 'stack', 'framework', 'system design'],
-    systemPrompt: 'You are a software architect. Design robust, scalable systems. Consider trade-offs, best practices, and long-term maintainability.'
+  reporter: {
+    name: 'Reporter',
+    icon: '📊',
+    keywords: ['report', 'summary', 'alert', 'daily', 'insights'],
+    systemPrompt: 'You generate reports and summaries. Create daily and weekly insights.'
+  },
+  analyst: {
+    name: 'Analyst',
+    icon: '📈',
+    keywords: ['analyze', 'data', 'insights', 'pattern', 'trend', 'report', 'metrics', 'statistics', 'numbers', 'analysis'],
+    systemPrompt: 'You are an expert Data Analyst. You specialize in analyzing complex datasets, identifying trends, and providing actionable insights.'
+  },
+  finance: {
+    name: 'Finance Expert',
+    icon: '💰',
+    keywords: ['loan', 'emi', 'credit card', 'expense', 'paid', 'due date', 'repayment', 'net worth', 'balance', 'investment'],
+    systemPrompt: 'You are a personal finance expert. You help track loans, credit cards, expenses, and investments. You provide insights on net worth and financial health.'
   }
 };
 

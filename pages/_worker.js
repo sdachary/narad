@@ -159,6 +159,18 @@ app.get('/api/reporter/status', async (c) => {
   });
 });
 
+app.get('/api/finance/insights', async (c) => {
+  const { getFinanceInsights } = await import('./services/finance.js');
+  const insights = await getFinanceInsights(c.env);
+  return c.json(insights);
+});
+
+app.get('/api/portfolio/summary', async (c) => {
+  const { getPortfolioSummary } = await import('./services/portfolio.js');
+  const summary = await getPortfolioSummary(c.env);
+  return c.json(summary);
+});
+
 setupChatRoutes(app, metrics);
 setupBrainRoutes(app);
 setupErrorRoutes(app);
