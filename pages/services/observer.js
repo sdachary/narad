@@ -111,6 +111,4 @@ export async function saveHealthCheck(env, results) {
   }
 }
 
-}
-
 export default { SERVICES, pollAllServices, getServiceStatus, checkServiceDown };
