@@ -129,6 +129,26 @@ export function setupChatRoutes(app, metrics) {
        const body = await c.req.json();
        const { message, history, context, session_id, agent_type, force_provider, skill_context, project } = body;
       
+      // Use Multi-Agent Router
+      const { routeAgent } = await import('../services/agents.js');
+      const agentResult = await routeAgent(c, message, { messages: history });
+      if (agentResult && agentResult.reply) {
+        // Log history and return
+        const chatHistory = await getChatHistory(c.env, session_id);
+        const newHistory = [
+          ...chatHistory,
+          { role: 'user', text: message },
+          { role: 'assistant', text: agentResult.reply, agent: agentResult.agent }
+        ];
+        await saveChatHistory(c.env, session_id, newHistory);
+        
+        return c.json({ 
+          reply: agentResult.reply, 
+          session_id,
+          metadata: { agent: agentResult.agent }
+        });
+      }
+      
       let projectContext = '';
       if (session_id && session_id.startsWith('new_')) {
         const loaded = await getProjectContext(c.env, project || 'narad');

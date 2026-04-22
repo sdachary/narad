@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, PanelLeft } from 'lucide-react';
+import { Plus, PanelLeft, LayoutDashboard, MessageSquare } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import { sendChat, SKILL_CONTEXTS } from './lib/api';
 import Header from './components/Header';
@@ -8,9 +8,15 @@ import InputArea from './components/InputArea';
 import CommandPalette from './components/CommandPalette';
 import BrainModal from './components/BrainModal';
 import SearchOverlay from './components/SearchOverlay';
+import Dashboard from './components/Dashboard';
+import FloatingChat from './components/FloatingChat';
+import { useTheme } from './hooks/useTheme';
 
 export default function App() {
-  const [theme, setTheme] = useState('dark');
+  const { theme, toggleTheme } = useTheme();
+  const [view, setView] = useState(() => {
+    return typeof window !== 'undefined' && window.location.pathname === '/dashboard' ? 'dashboard' : 'chat';
+  });
   const [sessions, setSessions] = useState([]);
   const [currentSession, setCurrentSession] = useState(null);
   const [isConnected, setIsConnected] = useState(true);
@@ -53,10 +59,7 @@ export default function App() {
   }, [currentSession, sessions]);
 
   const handleToggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('narad_theme', newTheme);
+    toggleTheme();
   };
 
   const handleNewSession = () => {
@@ -190,6 +193,9 @@ export default function App() {
         onToggleSidebar={() => {
           setSidebarCollapsed(!sidebarCollapsed);
         }}
+        onViewDashboard={() => setView('dashboard')}
+        onViewChat={() => setView('chat')}
+        currentView={view}
       />
       
       <div className="flex flex-1 overflow-hidden">
@@ -205,7 +211,11 @@ export default function App() {
             sessions={sessions}
             currentSession={currentSession}
             onNewSession={handleNewSession}
-            onSelectSession={handleSelectSession}
+            onSelectSession={(id) => {
+              handleSelectSession(id);
+              setView('chat');
+              setSidebarCollapsed(true);
+            }}
             onDeleteSession={handleDeleteSession}
           />
           {/* Overlay Close Button for when sidebar is open */}
@@ -218,19 +228,32 @@ export default function App() {
         </div>
         
         <main className="flex-1 flex flex-col items-center overflow-hidden">
-          <div className="w-full max-w-5xl flex-1 flex flex-col overflow-hidden relative">
-            <ChatArea 
-              ref={chatAreaRef}
-              messages={messages} 
-              isProcessing={isProcessing} 
-            />
-            <div className="w-full">
-              <InputArea 
-                onSend={handleSendMessage} 
-                disabled={isProcessing} 
+          {view === 'dashboard' ? (
+            <div className="w-full h-full overflow-y-auto relative">
+              <Dashboard />
+              <FloatingChat 
+                sessions={sessions} 
+                onSelectSession={(id) => {
+                  handleSelectSession(id);
+                  setView('chat');
+                }} 
               />
             </div>
-          </div>
+          ) : (
+            <div className="w-full max-w-5xl flex-1 flex flex-col overflow-hidden relative">
+              <ChatArea 
+                ref={chatAreaRef}
+                messages={messages} 
+                isProcessing={isProcessing} 
+              />
+              <div className="w-full">
+                <InputArea 
+                  onSend={handleSendMessage} 
+                  disabled={isProcessing} 
+                />
+              </div>
+            </div>
+          )}
         </main>
         
         <CommandPalette 
