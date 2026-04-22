@@ -1,4 +1,4 @@
-import { Moon, Sun, Search, Trash2, Brain, Square, Sparkles, PanelLeft, PanelRight } from 'lucide-react';
+import { Moon, Sun, Search, Trash2, Brain, Square, Sparkles, PanelLeft, PanelRight, Activity } from 'lucide-react';
 
 export default function Header({ 
   theme, 
@@ -48,6 +48,15 @@ export default function Header({
           icon={<Brain size={18} />} 
           title="Brain Stats" 
         />
+        <a 
+          href="/dashboard" 
+          className="p-2 rounded-lg hover:bg-[var(--bg-secondary)] transition-all"
+          style={{ color: 'var(--text-secondary)' }}
+          title="Services Dashboard"
+          target="_blank"
+        >
+          <Activity size={18} />
+        </a>
         <HeaderButton 
           onClick={onToggleTheme} 
           icon={theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />} 
