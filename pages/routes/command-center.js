@@ -487,42 +487,54 @@ function getCommandCenterHTML() {
     }
 
     function renderServices() {
-      serviceGrid.innerHTML = services.map(s => `
-        <div class="service-tile glass">
-          <div class="tile-header">
-            <div class="tile-name">${s.name}</div>
-            <div class="status-indicator">
-              <div class="dot ${s.status}"></div>
-              <span style="color: var(--${s.status === 'healthy' ? 'green' : (s.status === 'unhealthy' ? 'amber' : 'red')})">
-                ${s.status}
-              </span>
-            </div>
-          </div>
-          <div class="tile-body">
-            <div>Status Code: ${s.statusCode}</div>
-            ${s.error ? `<div style="color: var(--red); margin-top: 8px;">\\${s.error}</div>` : ''}
-          </div>
-          <div class="tile-footer">
-            Last checked: ${new Date(s.lastCheck).toLocaleTimeString()}
-          </div>
-        </div>
-      `).join('');
+      serviceGrid.innerHTML = getServiceTileHTML(services).join('');
+    }
+
+    function getServiceTileHTML(services) {
+      return services.map(s => {
+        const errorDiv = s.error ? `<div style="color: var(--red); margin-top: 8px;">${escapeHtml(s.error)}</div>` : '';
+        const statusColor = s.status === 'healthy' ? 'green' : (s.status === 'unhealthy' ? 'amber' : 'red');
+        return '<div class="service-tile glass">' +
+          '<div class="tile-header">' +
+            '<div class="tile-name">' + s.name + '</div>' +
+            '<div class="status-indicator">' +
+              '<div class="dot ' + s.status + '"></div>' +
+              '<span style="color: var(--' + statusColor + ')">' + s.status + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="tile-body">' +
+            '<div>Status Code: ' + s.statusCode + '</div>' + errorDiv +
+          '</div>' +
+          '<div class="tile-footer">' +
+            'Last checked: ' + new Date(s.lastCheck).toLocaleTimeString() +
+          '</div>' +
+        '</div>';
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     function renderAlerts() {
       if (alerts.length > 0) {
         notifBadge.innerText = alerts.length;
         notifBadge.style.display = 'flex';
-        notifList.innerHTML = alerts.map((a, i) => `
-          <div class="notif-item" onclick="showDetail(${i})">
-            <div class="notif-title">${a.severity === 'critical' ? '🔴' : '🟡'} ${a.service} is ${a.status}</div>
-            <div class="notif-time">${new Date(a.timestamp).toLocaleTimeString()}</div>
-          </div>
-        `).join('');
+        notifList.innerHTML = getAlertsHTML(alerts).join('');
       } else {
         notifBadge.style.display = 'none';
         notifList.innerHTML = '<div class="notif-item">No active alerts</div>';
       }
+    }
+
+    function getAlertsHTML(alerts) {
+      return alerts.map((a, i) => {
+        const icon = a.severity === 'critical' ? '🔴' : '🟡';
+        return '<div class="notif-item" onclick="showDetail(' + i + ')">' +
+          '<div class="notif-title">' + icon + ' ' + a.service + ' is ' + a.status + '</div>' +
+          '<div class="notif-time">' + new Date(a.timestamp).toLocaleTimeString() + '</div>' +
+        '</div>';
+      });
     }
 
     // Interactions
@@ -541,13 +553,12 @@ function getCommandCenterHTML() {
 
     function showDetail(index) {
       const alert = alerts[index];
-      document.getElementById('modal-title').innerText = `Alert: ${alert.service}`;
-      document.getElementById('modal-body').innerHTML = `
-        <p><strong>Status:</strong> ${alert.status}</p>
-        <p><strong>Severity:</strong> ${alert.severity}</p>
-        <p><strong>Timestamp:</strong> ${new Date(alert.timestamp).toLocaleString()}</p>
-        <p style="margin-top: 16px;">The service ${alert.service} is currently reporting ${alert.status}. Please investigate the logs for more details.</p>
-      `;
+      const alertDetail = '<p><strong>Status:</strong> ' + alert.status + '</p>' +
+        '<p><strong>Severity:</strong> ' + alert.severity + '</p>' +
+        '<p><strong>Timestamp:</strong> ' + new Date(alert.timestamp).toLocaleString() + '</p>' +
+        '<p style="margin-top: 16px;">The service ' + alert.service + ' is currently reporting ' + alert.status + '. Please investigate the logs for more details.</p>';
+      document.getElementById('modal-title').innerText = 'Alert: ' + alert.service;
+      document.getElementById('modal-body').innerHTML = alertDetail;
       alertModal.style.display = 'flex';
     }
 
@@ -615,9 +626,9 @@ function getCommandCenterHTML() {
       setTimeout(() => {
         if (msg.startsWith('/status')) {
           const healthy = services.filter(s => s.status === 'healthy').length;
-          appendMessage('ai', \`I've checked the systems. \${healthy} out of \${services.length} services are healthy.\`);
-        } else if (msg.startsWith('/alerts')) {
-          appendMessage('ai', alerts.length > 0 ? \`There are \${alerts.length} active alerts. Check the notification bell for details.\` : 'All systems are clear. No active alerts.');
+          appendMessage('ai', 'I\'ve checked the systems. ' + healthy + ' out of ' + services.length + ' services are healthy.');
+} else if (msg.startsWith('/alerts')) {
+          appendMessage('ai', alerts.length > 0 ? 'There are ' + alerts.length + ' active alerts. Check the notification bell for details.' : 'All systems are clear. No active alerts.');
         } else if (msg.startsWith('/report')) {
            appendMessage('ai', "Generating system report... All systems nominal. Latency is within acceptable parameters.");
         } else {
@@ -634,7 +645,23 @@ function getCommandCenterHTML() {
 
     function appendMessage(role, text) {
       const msgDiv = document.createElement('div');
-      msgDiv.className = \\\`message \\\${role}\\\`;
+      msgDiv.className = 'message ' + role;
+      msgDiv.innerText = text;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+      }, 500);
+    }
+
+    chatInput.onkeypress = (e) => {
+      if (e.key === 'Enter') {
+        handleChatSubmit(chatInput.value);
+      }
+    };
+
+    function appendMessage(role, text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message ' + role;
       msgDiv.innerText = text;
       chatMessages.appendChild(msgDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
