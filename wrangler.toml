@@ -9,6 +9,10 @@ pages_build_output_dir = "dist"
 binding = "NARAD_DATA"
 id = "ca98881c7005404c8a0d00330759b80e"
 
+[[kv_namespaces]]
+binding = "OBSERVER_KV"
+id = "ca98881c7005404c8a0d00330759b80e"
+
 # Hermes Gateway uses existing KV for config storage
 # binding = "HERMES_CONFIG" - using NARAD_DATA instead
 
@@ -19,6 +23,10 @@ binding = "AI"
 ENVIRONMENT = "production"
 PRIMARY_MODEL = "llama-3.3-70b-versatile"
 SKILLS_REPO = "sdachary/narad"
+
+# Observer Cron - polls every 5 minutes
+[triggers]
+crons = ["*/5 * * * *"]
 
 # Hermes Gateway Configuration
 [secrets]
