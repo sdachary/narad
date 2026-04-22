@@ -56,6 +56,8 @@ export default function App() {
     }
   };
 
+  const [isConnected, setIsConnected] = useState(true);
+
   return (
     <div className="flex h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent)] selection:text-white">
       {/* Background Ambient Glows */}
@@ -68,6 +70,7 @@ export default function App() {
         <Header 
           theme={theme} 
           onToggleTheme={toggleTheme} 
+          isConnected={isConnected}
         />
 
         <main className="flex-1 overflow-y-auto custom-scrollbar">
