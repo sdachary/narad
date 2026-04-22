@@ -14,9 +14,7 @@ import { useTheme } from './hooks/useTheme';
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
-  const [view, setView] = useState(() => {
-    return typeof window !== 'undefined' && window.location.pathname === '/dashboard' ? 'dashboard' : 'chat';
-  });
+  const [view, setView] = useState('dashboard');
   const [sessions, setSessions] = useState([]);
   const [currentSession, setCurrentSession] = useState(null);
   const [isConnected, setIsConnected] = useState(true);

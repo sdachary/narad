@@ -39,24 +39,6 @@ export default function Header({
         </div>
 
         <div className="h-8 w-px mx-2 hidden md:block" style={{ backgroundColor: 'var(--border-subtle)' }} />
-
-        {/* Navigation */}
-        <div className="hidden md:flex items-center gap-1 bg-[var(--bg-elevated)] p-1 rounded-xl border border-[var(--border-subtle)]">
-          <button
-            onClick={onViewDashboard}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${currentView === 'dashboard' ? 'bg-[var(--bg-surface)] text-[var(--accent)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}
-          >
-            <LayoutDashboard size={16} />
-            Dashboard
-          </button>
-          <button
-            onClick={onViewChat}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${currentView === 'chat' ? 'bg-[var(--bg-surface)] text-[var(--accent)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}
-          >
-            <MessageSquare size={16} />
-            Chat
-          </button>
-        </div>
       </div>
 
       {/* Right - Controls */}
