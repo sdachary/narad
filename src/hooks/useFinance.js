@@ -1,27 +1,29 @@
 // narad/src/hooks/useFinance.js
 import { useState, useEffect } from 'react';
 
+const API_BASE = '/api/finance';
+
 export function useFinance() {
   const [loans, setLoans] = useState([]);
   const [cards, setCards] = useState([]);
   const [bankAccounts, setBankAccounts] = useState([]);
   const [wallets, setWallets] = useState([]);
   const [investments, setInvestments] = useState([]);
-  const [expenses, setExpenses] = useState([]);
+  const [savings, setSavings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchFinance = async () => {
     try {
-      const res = await fetch('/api/finance/insights');
-      if (!res.ok) throw new Error('Failed to fetch finance insights');
+      const res = await fetch(API_BASE);
+      if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
       setLoans(data.loans || []);
       setCards(data.cards || []);
       setBankAccounts(data.bankAccounts || []);
       setWallets(data.wallets || []);
       setInvestments(data.investments || []);
-      setExpenses(data.expenses || []);
+      setSavings(data.savings || []);
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -35,58 +37,193 @@ export function useFinance() {
     return () => clearInterval(interval);
   }, []);
 
-  const addBankAccount = async (account) => {
-    const res = await fetch('/api/finance/bank-account', {
+  // Bank Accounts
+  const addBankAccount = async (item) => {
+    const res = await fetch(`${API_BASE}/bank-account`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(account)
+      body: JSON.stringify({ ...item, is_active: true })
     });
     if (res.ok) fetchFinance();
     return res.ok;
   };
 
-  const addWallet = async (wallet) => {
-    const res = await fetch('/api/finance/wallet', {
-      method: 'POST',
+  const updateBankAccount = async (id, data) => {
+    const res = await fetch(`${API_BASE}/bank-account/${id}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(wallet)
+      body: JSON.stringify(data)
     });
     if (res.ok) fetchFinance();
     return res.ok;
   };
 
-  const addLoan = async (loan) => {
-    const res = await fetch('/api/finance/loan', {
+  const deleteBankAccount = async (id) => {
+    const res = await fetch(`${API_BASE}/bank-account/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  // Wallets
+  const addWallet = async (item) => {
+    const res = await fetch(`${API_BASE}/wallet`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(loan)
+      body: JSON.stringify({ ...item, is_active: true })
     });
     if (res.ok) fetchFinance();
     return res.ok;
   };
 
-  const addCreditCard = async (card) => {
-    const res = await fetch('/api/finance/credit-card', {
-      method: 'POST',
+  const updateWallet = async (id, data) => {
+    const res = await fetch(`${API_BASE}/wallet/${id}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(card)
+      body: JSON.stringify(data)
     });
     if (res.ok) fetchFinance();
     return res.ok;
   };
 
-  const totalAssets = [...bankAccounts, ...wallets, ...investments]
-    .reduce((sum, item) => sum + parseFloat(item.balance || item.current_value || 0), 0);
+  const deleteWallet = async (id) => {
+    const res = await fetch(`${API_BASE}/wallet/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
 
-  const totalLiabilities = [...loans, ...cards]
-    .reduce((sum, item) => sum + parseFloat(item.principal_amount || item.current_balance || 0), 0);
+  // Investments
+  const addInvestment = async (item) => {
+    const res = await fetch(`${API_BASE}/investment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...item, is_active: true })
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
 
-  const netWorth = totalAssets - totalLiabilities;
+  const updateInvestment = async (id, data) => {
+    const res = await fetch(`${API_BASE}/investment/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const deleteInvestment = async (id) => {
+    const res = await fetch(`${API_BASE}/investment/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  // Loans
+  const addLoan = async (item) => {
+    const res = await fetch(`${API_BASE}/loan`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...item, status: 'active' })
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const updateLoan = async (id, data) => {
+    const res = await fetch(`${API_BASE}/loan/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const deleteLoan = async (id) => {
+    const res = await fetch(`${API_BASE}/loan/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  // Credit Cards
+  const addCreditCard = async (item) => {
+    const res = await fetch(`${API_BASE}/credit-card`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...item, status: 'active' })
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const updateCreditCard = async (id, data) => {
+    const res = await fetch(`${API_BASE}/credit-card/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const deleteCreditCard = async (id) => {
+    const res = await fetch(`${API_BASE}/credit-card/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  // Planned Savings
+  const addSavings = async (item) => {
+    const res = await fetch(`${API_BASE}/savings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...item, is_active: true })
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const updateSavings = async (id, data) => {
+    const res = await fetch(`${API_BASE}/savings/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const deleteSavings = async (id) => {
+    const res = await fetch(`${API_BASE}/savings/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchFinance();
+    return res.ok;
+  };
+
+  const balances = [...(bankAccounts || []), ...(wallets || [])];
+
+  const totalBalances = balances.reduce((s, r) => s + parseFloat(r.balance || 0), 0);
+  const totalInvestments = investments.reduce((s, r) => s + parseFloat(r.current_value || 0), 0);
+  const totalLoans = loans.reduce((s, r) => s + parseFloat(r.principal_amount || 0), 0);
+  const totalCards = cards.reduce((s, r) => s + parseFloat(r.current_balance || 0), 0);
+  const totalPlanned = savings.reduce((s, r) => s + parseFloat(r.planned_saving || 0), 0);
+  const totalActual = savings.reduce((s, r) => s + parseFloat(r.actual_saving || 0), 0);
+  const totalPending = savings.reduce((s, r) => s + parseFloat(r.pending || 0), 0);
+
+  const netWorth = totalBalances + totalInvestments - totalLoans - totalCards;
 
   return {
-    loans, cards, bankAccounts, wallets, investments, expenses,
-    loading, error, netWorth, totalAssets, totalLiabilities,
+    loans, cards, bankAccounts, wallets, investments, savings,
+    loading, error, netWorth,
+    totalBalances, totalInvestments, totalLoans, totalCards,
+    totalPlanned, totalActual, totalPending,
     refresh: fetchFinance,
-    addBankAccount, addWallet, addLoan, addCreditCard
+    addBankAccount, updateBankAccount, deleteBankAccount,
+    addWallet, updateWallet, deleteWallet,
+    addInvestment, updateInvestment, deleteInvestment,
+    addLoan, updateLoan, deleteLoan,
+    addCreditCard, updateCreditCard, deleteCreditCard,
+    addSavings, updateSavings, deleteSavings,
+    balances, totalAssets: totalBalances + totalInvestments,
+    totalLiabilities: totalLoans + totalCards
   };
 }
