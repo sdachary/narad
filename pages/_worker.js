@@ -149,11 +149,6 @@ app.get('/api/portfolio/summary', async (c) => {
   return c.json(summary);
 });
 
-app.get('/api/mcp/skills', async (c) => {
-  const { onGet } = await import('./api/mcp/skills.js');
-  return onGet();
-});
-
 setupChatRoutes(app, metrics);
 setupBrainRoutes(app);
 setupErrorRoutes(app);
