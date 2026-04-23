@@ -1,39 +1,33 @@
 export const onGet = async () => {
-  const DEVENDRAPATH = '/home/deepak/Work/devendra';
-  
-  const skills = [];
-  const skillsPath = `${DEVENDRAPATH}/skills`;
-  
   try {
-    const fs = await import('fs');
-    const entries = fs.readdirSync(skillsPath, { withFileTypes: true });
-    
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        const skillPath = `${skillsPath}/${entry.name}/SKILL.md`;
-        let description = '';
-        
-        if (fs.existsSync(skillPath)) {
-          const content = fs.readFileSync(skillPath, 'utf-8');
-          const match = content.match(/description:\s*["']([^"']+)["']/);
-          if (match) description = match[1];
-        }
-        
-        skills.push({
-          name: entry.name,
-          description: description || 'No description',
-          path: `/devendra/skills/${entry.name}`
-        });
+    const response = await fetch('https://api.github.com/repos/sdachary/devendra/contents/skills', {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'narad-mcp'
       }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`);
     }
+    
+    const items = await response.json();
+    const skills = items
+      .filter(item => item.type === 'dir')
+      .map(item => ({
+        name: item.name,
+        description: 'See https://github.com/sdachary/devendra/tree/main/skills/' + item.name,
+        path: item.path
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    
+    return Response.json({
+      hub: 'devendra',
+      repo: 'https://github.com/sdachary/devendra',
+      totalSkills: skills.length,
+      skills
+    });
   } catch (e) {
-    return Response.json({ error: 'Failed to load skills', details: e.message }, { status: 500 });
+    return Response.json({ error: e.message }, { status: 500 });
   }
-  
-  return Response.json({
-    hub: 'devendra',
-    repo: 'https://github.com/sdachary/devendra',
-    totalSkills: skills.length,
-    skills: skills.sort((a, b) => a.name.localeCompare(b.name))
-  });
 };
