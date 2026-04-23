@@ -143,6 +143,34 @@ app.get('/api/finance/insights', async (c) => {
   return c.json(insights);
 });
 
+app.post('/api/finance/bank-account', async (c) => {
+  const { supabaseInsert } = await import('./services/supabase-client.js');
+  const body = await c.req.json();
+  const result = await supabaseInsert(c.env, 'finance.bank_accounts', body);
+  return c.json(result);
+});
+
+app.post('/api/finance/wallet', async (c) => {
+  const { supabaseInsert } = await import('./services/supabase-client.js');
+  const body = await c.req.json();
+  const result = await supabaseInsert(c.env, 'finance.wallets', body);
+  return c.json(result);
+});
+
+app.post('/api/finance/loan', async (c) => {
+  const { supabaseInsert } = await import('./services/supabase-client.js');
+  const body = await c.req.json();
+  const result = await supabaseInsert(c.env, 'finance.loans', body);
+  return c.json(result);
+});
+
+app.post('/api/finance/credit-card', async (c) => {
+  const { supabaseInsert } = await import('./services/supabase-client.js');
+  const body = await c.req.json();
+  const result = await supabaseInsert(c.env, 'finance.credit_cards', body);
+  return c.json(result);
+});
+
 app.get('/api/portfolio/summary', async (c) => {
   const { getPortfolioSummary } = await import('./services/portfolio.js');
   const summary = await getPortfolioSummary(c.env);

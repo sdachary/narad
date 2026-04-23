@@ -24,18 +24,22 @@ export async function getFinanceInsights(env) {
 
   const netWorth = totalAssets - totalLiabilities;
 
-  return {
+return {
     netWorth,
     totalAssets,
     totalLiabilities,
     loans: loans.filter(l => l.status === 'active'),
     cards: cards.filter(c => c.status === 'active'),
     expenses: expenses.filter(e => e.is_active),
+    bankAccounts: bankAccounts.filter(a => a.is_active),
+    wallets: wallets.filter(w => w.is_active),
     investments: investments.filter(i => i.is_active && i.current_value > 0),
     summary: {
       loanCount: loans.length,
       cardCount: cards.length,
-      upcomingDues: 0 // Logic for upcoming dues would go here
+      bankAccountCount: bankAccounts.length,
+      walletCount: wallets.length,
+      upcomingDues: 0
     }
   };
 }
