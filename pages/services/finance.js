@@ -3,12 +3,12 @@ import { supabaseQuery, supabaseInsert, supabaseUpdate } from './supabase-client
 
 export async function getFinanceInsights(env) {
   const [loans, cards, expenses, bankAccounts, wallets, investments] = await Promise.all([
-    supabaseQuery(env, 'loans'),
-    supabaseQuery(env, 'credit_cards'),
-    supabaseQuery(env, 'expenses'),
-    supabaseQuery(env, 'bank_accounts'),
-    supabaseQuery(env, 'wallets'),
-    supabaseQuery(env, 'investments')
+    supabaseQuery(env, 'finance.loans'),
+    supabaseQuery(env, 'finance.credit_cards'),
+    supabaseQuery(env, 'finance.expenses'),
+    supabaseQuery(env, 'finance.bank_accounts'),
+    supabaseQuery(env, 'finance.wallets'),
+    supabaseQuery(env, 'finance.investments')
   ]);
 
   const totalAssets = [
@@ -45,11 +45,11 @@ export async function handleFinanceCommand(env, message) {
   
   if (lower.includes('paid emi')) {
     // Simple regex to find which loan
-    const loans = await supabaseQuery(env, 'loans', '?status=eq.active');
+    const loans = await supabaseQuery(env, 'finance.loans', '?status=eq.active');
     const loan = loans.find(l => lower.includes(l.name.toLowerCase()));
     
     if (loan) {
-      const updated = await supabaseUpdate(env, 'loans', loan.id, {
+      const updated = await supabaseUpdate(env, 'finance.loans', loan.id, {
         paid_emis: loan.paid_emis + 1,
         updated_at: new Date().toISOString()
       });
