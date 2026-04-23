@@ -1,0 +1,11 @@
+symbol,quantity,avg_buy_price,sector
+RELIANCE.NS,10,2400,Energy
+TCS.NS,5,3500,Technology
+HDFCBANK.NS,20,1600,Finance
+INFY.NS,15,1400,Technology
+ITC.NS,100,430,FMCG
+WIPRO.NS,30,480,Technology
+ASIANPAINT.NS,8,3200,Consumer
+NESTLEIND.NS,3,22000,FMCG
+BAJFINANCE.NS,4,6800,Finance
+TITAN.NS,12,3100,Consumer

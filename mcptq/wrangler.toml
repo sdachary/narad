@@ -1,7 +1,0 @@
-name = "mcptq"
-main = "index.js"
-compatibility_date = "2024-01-01"
-
-[[kv_namespaces]]
-binding = "TASKS"
-id = "cbc8f3af4085410fb4fb08e4b6d10d33"
