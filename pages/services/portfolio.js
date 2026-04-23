@@ -2,7 +2,7 @@
 import { supabaseQuery } from './supabase-client.js';
 
 export async function getPortfolioSummary(env) {
-  const investments = await supabaseQuery(env, 'investments', '?is_active=eq.true');
+  const investments = await supabaseQuery(env, 'finance.investments', '?is_active=eq.true');
   
   const totalValue = investments.reduce((sum, inv) => sum + parseFloat(inv.current_value || 0), 0);
   

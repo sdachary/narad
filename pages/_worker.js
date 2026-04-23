@@ -21,6 +21,10 @@ import { addDocument, searchDocuments, listDocuments, getContextForQuery } from 
 import { syncSessions, getSessions, saveSessionHistory, getSessionHistory, deleteSessionCloud } from './services/sessionSync.js';
 import { triggerGitHubDispatch, analyzeGitHubRepo } from './services/github.js';
 import { runLast30DaysResearch } from './services/research.js';
+import { pollAllServices, checkServiceDown } from './services/observer.js';
+import { generateDailySummary, generateWeeklyRd, checkAlerts } from './services/reporter.js';
+import { handleHermesWebhook } from './services/hermes-gateway.js';
+import { fetchSkill } from './services/skills.js';
 
 const app = new Hono();
 
@@ -291,9 +295,9 @@ app.delete('/api/finance/savings/:id', async (c) => {
 app.get('/api/portfolio', async (c) => {
   const { supabaseQuery } = await import('./services/supabase-client.js');
   const [stocks, dividends, summary] = await Promise.all([
-    supabaseQuery(c.env, 'portfolio_stocks'),
-    supabaseQuery(c.env, 'portfolio_dividends'),
-    supabaseQuery(c.env, 'portfolio_summary')
+    supabaseQuery(c.env, 'finance.portfolio_stocks'),
+    supabaseQuery(c.env, 'finance.portfolio_dividends'),
+    supabaseQuery(c.env, 'finance.portfolio_summary')
   ]);
   return c.json({ stocks, dividends, summary });
 });
@@ -301,7 +305,7 @@ app.get('/api/portfolio', async (c) => {
 app.post('/api/portfolio/stock', async (c) => {
   const { supabaseInsert } = await import('./services/supabase-client.js');
   const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'portfolio_stocks', body);
+  const result = await supabaseInsert(c.env, 'finance.portfolio_stocks', body);
   return c.json(result);
 });
 
@@ -309,21 +313,21 @@ app.put('/api/portfolio/stock/:id', async (c) => {
   const { supabaseUpdate } = await import('./services/supabase-client.js');
   const id = c.req.param('id');
   const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'portfolio_stocks', id, body);
+  const result = await supabaseUpdate(c.env, 'finance.portfolio_stocks', id, body);
   return c.json(result);
 });
 
 app.delete('/api/portfolio/stock/:id', async (c) => {
   const { supabaseDelete } = await import('./services/supabase-client.js');
   const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'portfolio_stocks', id);
+  const result = await supabaseDelete(c.env, 'finance.portfolio_stocks', id);
   return c.json(result);
 });
 
 app.post('/api/portfolio/dividend', async (c) => {
   const { supabaseInsert } = await import('./services/supabase-client.js');
   const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'portfolio_dividends', body);
+  const result = await supabaseInsert(c.env, 'finance.portfolio_dividends', body);
   return c.json(result);
 });
 
@@ -331,14 +335,14 @@ app.put('/api/portfolio/dividend/:id', async (c) => {
   const { supabaseUpdate } = await import('./services/supabase-client.js');
   const id = c.req.param('id');
   const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'portfolio_dividends', id, body);
+  const result = await supabaseUpdate(c.env, 'finance.portfolio_dividends', id, body);
   return c.json(result);
 });
 
 app.delete('/api/portfolio/dividend/:id', async (c) => {
   const { supabaseDelete } = await import('./services/supabase-client.js');
   const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'portfolio_dividends', id);
+  const result = await supabaseDelete(c.env, 'finance.portfolio_dividends', id);
   return c.json(result);
 });
 

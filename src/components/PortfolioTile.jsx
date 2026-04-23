@@ -39,10 +39,10 @@ export default function PortfolioTile({ onClick }) {
         )}
       </div>
       <div className="text-2xl font-bold text-[var(--text-primary)]">
-        ₹{totalValue.toLocaleString()}
+        ₹{(totalValue || 0).toLocaleString()}
       </div>
       <div className={`text-sm mt-1 ${isPositive ? 'text-[var(--status-online)]' : 'text-[var(--status-error)]'}`}>
-        {isPositive ? '+' : ''}{change.toLocaleString()} ({changePercent}%)
+        {isPositive ? '+' : ''}{(change || 0).toLocaleString()} ({(changePercent || 0)}%)
       </div>
     </div>
   );

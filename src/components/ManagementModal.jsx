@@ -115,7 +115,7 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
               <span className="text-xs font-bold uppercase tracking-wider">Total Value</span>
             </div>
             <div className="text-3xl font-black text-[var(--text-primary)]">
-              ₹{totalVal.toLocaleString()}
+              ₹{(totalVal || 0).toLocaleString()}
             </div>
           </div>
           <div className="p-5 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex flex-col justify-center">
@@ -201,7 +201,7 @@ export default function ManagementModal({ isOpen, onClose, initialTab = 'portfol
             </div>
             <div className="text-right">
               <div className="text-sm font-mono font-bold text-[var(--accent)]">
-                ₹{totalPortfolio.toLocaleString()}
+                ₹{(totalPortfolio || 0).toLocaleString()}
               </div>
               <div className="text-[9px] text-[var(--text-secondary)]">Live from Portfolio</div>
             </div>
