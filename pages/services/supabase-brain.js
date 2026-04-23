@@ -1,18 +1,15 @@
 import { getStore } from './memory.js';
 
 const SUPABASE_URL = 'https://facurlopyzmmrjnllsnd.supabase.co';
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
-
+const BRAIN_SCHEMA = 'narad';
 const VAULT_INDEX_KEY = 'vault:brain:index';
 
-const BRAIN_SCHEMA = 'narad';
-
 async function getClient(env) {
+  const serviceKey = env?.SUPABASE_SERVICE_KEY || '';
   const headers = {
     'Content-Type': 'application/json',
-    'apikey': SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_KEY || '',
-    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_KEY || ''}`,
+    'apikey': serviceKey,
+    'Authorization': `Bearer ${serviceKey}`,
     'Accept-Profile': BRAIN_SCHEMA
   };
   return { url: SUPABASE_URL, headers, env };
@@ -200,7 +197,7 @@ export async function queryBrain(env, query, options = {}) {
       contents: vectorQuery
     };
     
-    const rpcResponse = await fetch(`${client.url}/rest/v1/rpc/brain.match_documents`, {
+    const rpcResponse = await fetch(`${client.url}/rest/v1/rpc/narad.match_documents`, {
       method: 'POST',
       headers: { ...client.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody)

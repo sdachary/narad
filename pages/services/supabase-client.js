@@ -1,6 +1,9 @@
-// narad/pages/services/supabase-client.js
+const DEFAULT_SUPABASE_URL = 'https://facurlopyzmmrjnllsnd.supabase.co';
 
-const SUPABASE_URL = env.SUPABASE_URL || 'https://facurlopyzmmrjnllsnd.supabase.co';
+function getUrl(env, table, queryParams = '') {
+  const baseUrl = env?.SUPABASE_URL || DEFAULT_SUPABASE_URL;
+  return `${baseUrl}/rest/v1/${table}${queryParams}`;
+}
 
 export async function getSupabaseHeaders(env) {
   const key = env.SUPABASE_SERVICE_KEY || '';
@@ -13,7 +16,7 @@ export async function getSupabaseHeaders(env) {
 
 export async function supabaseQuery(env, table, queryParams = '') {
   const headers = await getSupabaseHeaders(env);
-  const url = `${SUPABASE_URL}/rest/v1/${table}${queryParams}`;
+  const url = getUrl(env, table, queryParams);
   
   const response = await fetch(url, { headers });
   if (!response.ok) {
@@ -25,7 +28,7 @@ export async function supabaseQuery(env, table, queryParams = '') {
 
 export async function supabaseInsert(env, table, data) {
   const headers = await getSupabaseHeaders(env);
-  const url = `${SUPABASE_URL}/rest/v1/${table}`;
+  const url = getUrl(env, table);
   
   const response = await fetch(url, {
     method: 'POST',
@@ -42,7 +45,7 @@ export async function supabaseInsert(env, table, data) {
 
 export async function supabaseUpdate(env, table, id, data) {
   const headers = await getSupabaseHeaders(env);
-  const url = `${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`;
+  const url = getUrl(env, table, `?id=eq.${id}`);
   
   const response = await fetch(url, {
     method: 'PATCH',
@@ -59,7 +62,7 @@ export async function supabaseUpdate(env, table, id, data) {
 
 export async function supabaseDelete(env, table, id) {
   const headers = await getSupabaseHeaders(env);
-  const url = `${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`;
+  const url = getUrl(env, table, `?id=eq.${id}`);
   
   const response = await fetch(url, {
     method: 'DELETE',
