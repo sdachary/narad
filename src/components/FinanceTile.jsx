@@ -28,7 +28,7 @@ export default function FinanceTile({ onClick }) {
         <span className="font-semibold text-[var(--text-primary)]">Finance Adviser</span>
       </div>
       <div className="text-2xl font-bold text-[var(--text-primary)]">
-        ₹{netWorth.toLocaleString()}
+        ₹{(netWorth || 0).toLocaleString()}
       </div>
       <div className="text-sm text-[var(--text-secondary)] mt-1">
         Personal Consultant

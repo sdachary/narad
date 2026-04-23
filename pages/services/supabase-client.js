@@ -1,21 +1,38 @@
 const DEFAULT_SUPABASE_URL = 'https://facurlopyzmmrjnllsnd.supabase.co';
 
-function getUrl(env, table, queryParams = '') {
-  const baseUrl = env?.SUPABASE_URL || DEFAULT_SUPABASE_URL;
-  return `${baseUrl}/rest/v1/${table}${queryParams}`;
+function parseTableName(table) {
+  if (table.includes('.')) {
+    const [schema, tableName] = table.split('.');
+    return { schema, table: tableName };
+  }
+  return { schema: 'public', table };
 }
 
-export async function getSupabaseHeaders(env) {
+function getUrl(env, table, queryParams = '') {
+  const baseUrl = env?.SUPABASE_URL || DEFAULT_SUPABASE_URL;
+  const { table: tableName } = parseTableName(table);
+  return `${baseUrl}/rest/v1/${tableName}${queryParams}`;
+}
+
+export async function getSupabaseHeaders(env, schema = 'public') {
   const key = env.SUPABASE_SERVICE_KEY || '';
-  return {
+  const headers = {
     'Content-Type': 'application/json',
     'apikey': key,
     'Authorization': `Bearer ${key}`,
   };
+  
+  if (schema && schema !== 'public') {
+    headers['Accept-Profile'] = schema;
+    headers['Content-Profile'] = schema;
+  }
+  
+  return headers;
 }
 
 export async function supabaseQuery(env, table, queryParams = '') {
-  const headers = await getSupabaseHeaders(env);
+  const { schema, table: tableName } = parseTableName(table);
+  const headers = await getSupabaseHeaders(env, schema);
   const url = getUrl(env, table, queryParams);
   
   const response = await fetch(url, { headers });
@@ -27,7 +44,8 @@ export async function supabaseQuery(env, table, queryParams = '') {
 }
 
 export async function supabaseInsert(env, table, data) {
-  const headers = await getSupabaseHeaders(env);
+  const { schema, table: tableName } = parseTableName(table);
+  const headers = await getSupabaseHeaders(env, schema);
   const url = getUrl(env, table);
   
   const response = await fetch(url, {
@@ -44,7 +62,8 @@ export async function supabaseInsert(env, table, data) {
 }
 
 export async function supabaseUpdate(env, table, id, data) {
-  const headers = await getSupabaseHeaders(env);
+  const { schema, table: tableName } = parseTableName(table);
+  const headers = await getSupabaseHeaders(env, schema);
   const url = getUrl(env, table, `?id=eq.${id}`);
   
   const response = await fetch(url, {
@@ -61,7 +80,8 @@ export async function supabaseUpdate(env, table, id, data) {
 }
 
 export async function supabaseDelete(env, table, id) {
-  const headers = await getSupabaseHeaders(env);
+  const { schema, table: tableName } = parseTableName(table);
+  const headers = await getSupabaseHeaders(env, schema);
   const url = getUrl(env, table, `?id=eq.${id}`);
   
   const response = await fetch(url, {
@@ -75,3 +95,4 @@ export async function supabaseDelete(env, table, id) {
   }
   return true;
 }
+
