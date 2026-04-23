@@ -1,6 +1,6 @@
 // narad/pages/services/supabase-client.js
 
-const SUPABASE_URL = 'https://facurlopyzmmrjnllsnd.supabase.co';
+const SUPABASE_URL = env.SUPABASE_URL || 'https://facurlopyzmmrjnllsnd.supabase.co';
 
 export async function getSupabaseHeaders(env) {
   const key = env.SUPABASE_SERVICE_KEY || '';
