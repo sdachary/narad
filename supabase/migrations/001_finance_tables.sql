@@ -1,26 +1,11 @@
 -- =============================================================================
--- FINANCE SCHEMA FOR NARAD
+-- FINANCE TABLES FOR NARAD
 -- =============================================================================
 -- Personal finance tracking: loans, credit cards, expenses, investments
 -- =============================================================================
 
--- Create dedicated schema
-DO $$ 
-BEGIN
-    IF NOT EXISTS (SELECT FROM information_schema.schemata WHERE schema_name = 'finance') THEN
-        CREATE SCHEMA finance;
-    END IF;
-END $$;
-
--- Set schema path for convenience
-SET search_path TO finance, public;
-
--- =============================================================================
--- TABLES
--- =============================================================================
-
 -- Loans (home, car, personal, education, etc.)
-CREATE TABLE IF NOT EXISTS finance.loans (
+CREATE TABLE IF NOT EXISTS loans (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     loan_type TEXT NOT NULL,  -- 'home', 'car', 'personal', 'education', 'gold', 'other'
@@ -40,7 +25,7 @@ CREATE TABLE IF NOT EXISTS finance.loans (
 );
 
 -- Credit Cards
-CREATE TABLE IF NOT EXISTS finance.credit_cards (
+CREATE TABLE IF NOT EXISTS credit_cards (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     bank TEXT NOT NULL,
@@ -61,7 +46,7 @@ CREATE TABLE IF NOT EXISTS finance.credit_cards (
 );
 
 -- Bank Accounts
-CREATE TABLE IF NOT EXISTS finance.bank_accounts (
+CREATE TABLE IF NOT EXISTS bank_accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     account_name TEXT NOT NULL,
     bank_name TEXT NOT NULL,
@@ -77,7 +62,7 @@ CREATE TABLE IF NOT EXISTS finance.bank_accounts (
 );
 
 -- Wallets (UPI, Paytm, Amazon Pay, etc.)
-CREATE TABLE IF NOT EXISTS finance.wallets (
+CREATE TABLE IF NOT EXISTS wallets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     provider TEXT NOT NULL,  -- 'paytm', 'amazon', 'phonepe', 'gpay', 'other'
@@ -89,7 +74,7 @@ CREATE TABLE IF NOT EXISTS finance.wallets (
 );
 
 -- Investments (mutual funds, stocks, PPF, NPS, etc.)
-CREATE TABLE IF NOT EXISTS finance.investments (
+CREATE TABLE IF NOT EXISTS investments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     investment_type TEXT NOT NULL,  -- 'mutual_fund', 'stock', 'ppf', 'nps', 'fd', 'bonds', 'crypto', 'other'
@@ -107,7 +92,7 @@ CREATE TABLE IF NOT EXISTS finance.investments (
 );
 
 -- Expenses (recurring and one-time)
-CREATE TABLE IF NOT EXISTS finance.expenses (
+CREATE TABLE IF NOT EXISTS expenses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     category TEXT NOT NULL,  -- 'rent', 'utilities', 'insurance', 'subscription', 'groceries', 'transport', 'other'
@@ -122,61 +107,25 @@ CREATE TABLE IF NOT EXISTS finance.expenses (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- =============================================================================
 -- INDEXES
--- =============================================================================
+CREATE INDEX IF NOT EXISTS idx_loans_status ON loans(status);
+CREATE INDEX IF NOT EXISTS idx_credit_cards_status ON credit_cards(status);
+CREATE INDEX IF NOT EXISTS idx_investments_type ON investments(investment_type);
+CREATE INDEX IF NOT EXISTS idx_expenses_category ON expenses(category);
+CREATE INDEX IF NOT EXISTS idx_expenses_is_active ON expenses(is_active);
 
-CREATE INDEX IF NOT EXISTS idx_finance_loans_status ON finance.loans(status);
-CREATE INDEX IF NOT EXISTS idx_finance_credit_cards_status ON finance.credit_cards(status);
-CREATE INDEX IF NOT EXISTS idx_finance_investments_type ON finance.investments(investment_type);
-CREATE INDEX IF NOT EXISTS idx_finance_expenses_category ON finance.expenses(category);
-CREATE INDEX IF NOT EXISTS idx_finance_expenses_is_active ON finance.expenses(is_active);
+-- RLS (Row Level Security)
+ALTER TABLE loans ENABLE ROW LEVEL SECURITY;
+ALTER TABLE credit_cards ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bank_accounts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wallets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE investments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE expenses ENABLE ROW LEVEL SECURITY;
 
--- =============================================================================
--- ROW LEVEL SECURITY (RLS)
--- =============================================================================
-
--- Enable RLS on all tables
-ALTER TABLE finance.loans ENABLE ROW LEVEL SECURITY;
-ALTER TABLE finance.credit_cards ENABLE ROW LEVEL SECURITY;
-ALTER TABLE finance.bank_accounts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE finance.wallets ENABLE ROW LEVEL SECURITY;
-ALTER TABLE finance.investments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE finance.expenses ENABLE ROW LEVEL SECURITY;
-
--- Create policies (allow access to authenticated users)
--- For personal use, allow all authenticated access
-CREATE POLICY "Allow all access to loans" ON finance.loans
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
-CREATE POLICY "Allow all access to credit_cards" ON finance.credit_cards
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
-CREATE POLICY "Allow all access to bank_accounts" ON finance.bank_accounts
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
-CREATE POLICY "Allow all access to wallets" ON finance.wallets
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
-CREATE POLICY "Allow all access to investments" ON finance.investments
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
-CREATE POLICY "Allow all access to expenses" ON finance.expenses
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
--- Grant table permissions to service role
-GRANT ALL ON SCHEMA finance TO service_role;
-GRANT ALL ON ALL TABLES IN SCHEMA finance TO service_role;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA finance TO service_role;
-
--- =============================================================================
--- USAGE NOTES
--- =============================================================================
--- 
--- Query examples:
---   SELECT * FROM finance.loans;
---   SELECT * FROM finance.credit_cards;
---   INSERT INTO finance.loans (name, loan_type, principal_amount, interest_rate, tenure_months, emi_amount, start_date, total_emis)
---   VALUES ('Home Loan', 'home', 5000000, 8.5, 240, 43439, '2024-01-01', 240);
---
--- =============================================================================
+-- Policies
+CREATE POLICY "Allow all access to loans" ON loans FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to credit_cards" ON credit_cards FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to bank_accounts" ON bank_accounts FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to wallets" ON wallets FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to investments" ON investments FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to expenses" ON expenses FOR ALL TO authenticated USING (true) WITH CHECK (true);
