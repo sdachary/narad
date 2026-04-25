@@ -11,3 +11,23 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </AgentProvider>
   </React.StrictMode>
 );
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('SW registered: ', registration);
+        
+        // Register for Background Sync if supported
+        if ('sync' in registration) {
+          registration.sync.register('narad-sync').catch(err => {
+            console.warn('Sync registration failed:', err);
+          });
+        }
+      })
+      .catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}

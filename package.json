@@ -6,9 +6,11 @@
     "dev": "vite",
     "deploy": "npm run build && wrangler pages deploy dist",
     "build": "vite build && cp pages/_worker.js dist/ && cp -r pages/config pages/routes pages/services dist/",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "devDependencies": {
+    "vitest": "^1.6.0",
     "wrangler": "^4.80.0",
     "vite": "^5.4.0",
     "@vitejs/plugin-react": "^4.3.0",
@@ -26,6 +28,7 @@
     "hono": "^4.6.0",
     "marked": "^17.0.5",
     "xlsx": "^0.18.5",
-    "lucide-react": "^0.400.0"
+    "lucide-react": "^0.400.0",
+    "@tanstack/react-query": "^5.0.0"
   }
 }
