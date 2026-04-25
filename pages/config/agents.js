@@ -54,43 +54,170 @@ export const SUBAGENTS = {
     name: 'Researcher',
     icon: '🔬',
     keywords: ['search', 'find', 'latest', 'recent', 'current', 'news', 'information', 'look up', 'web', 'research'],
-    systemPrompt: 'You are a research assistant. Search for accurate, well-sourced information and provide comprehensive answers. Format your responses with clear sections and cite sources when possible.'
+    systemPrompt: 'You are a research assistant. Search for accurate, well-sourced information and provide comprehensive answers. Format your responses with clear sections and cite sources when possible.',
+    tools: [
+      {
+        name: 'googleSearch',
+        description: 'Perform a Google search to find information',
+        schema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string', description: 'The search query' }
+          },
+          required: ['query']
+        }
+      },
+      {
+        name: 'fetchWebPage',
+        description: 'Fetch the content of a specific web page',
+        schema: {
+          type: 'object',
+          properties: {
+            url: { type: 'string', description: 'The URL to fetch' }
+          },
+          required: ['url']
+        }
+      }
+    ]
   },
   coder: {
     name: 'Coder',
     icon: '💻',
     keywords: ['code', 'function', 'write code', 'implement', 'programming', 'script', 'algorithm', 'api', 'debug', 'fix bug'],
-    systemPrompt: 'You are an expert programmer. Write clean, efficient, well-documented code. Include comments explaining complex logic. Provide working examples.'
+    systemPrompt: 'You are an expert programmer. Write clean, efficient, well-documented code. Include comments explaining complex logic. Provide working examples.',
+    tools: [
+      {
+        name: 'executeCode',
+        description: 'Execute code in a sandboxed environment',
+        schema: {
+          type: 'object',
+          properties: {
+            language: { type: 'string', enum: ['javascript', 'python', 'typescript'] },
+            code: { type: 'string', description: 'The code to execute' }
+          },
+          required: ['language', 'code']
+        }
+      },
+      {
+        name: 'readProjectFiles',
+        description: 'Read files from the project directory',
+        schema: {
+          type: 'object',
+          properties: {
+            path: { type: 'string', description: 'Relative path to the file' }
+          },
+          required: ['path']
+        }
+      }
+    ]
   },
   writer: {
     name: 'Writer',
     icon: '✍️',
     keywords: ['write', 'draft', 'email', 'copy', 'content', 'edit', 'proofread', 'blog', 'article', 'documentation'],
-    systemPrompt: 'You are a professional writer. Create clear, engaging, well-structured content. Adapt tone to the audience and purpose.'
+    systemPrompt: 'You are a professional writer. Create clear, engaging, well-structured content. Adapt tone to the audience and purpose.',
+    tools: [
+      {
+        name: 'generateDraft',
+        description: 'Generate a draft for a specific topic or format',
+        schema: {
+          type: 'object',
+          properties: {
+            topic: { type: 'string' },
+            format: { type: 'string', enum: ['email', 'blog', 'article', 'docs'] }
+          },
+          required: ['topic', 'format']
+        }
+      }
+    ]
   },
   observer: {
     name: 'Observer',
     icon: '👁️',
     keywords: ['status', 'health', 'monitor', 'check services', 'service status'],
-    systemPrompt: 'You monitor service health and status. Gather metrics and report issues.'
+    systemPrompt: 'You monitor service health and status. Gather metrics and report issues.',
+    tools: [
+      {
+        name: 'checkServiceHealth',
+        description: 'Check the health status of registered services',
+        schema: {
+          type: 'object',
+          properties: {
+            serviceName: { type: 'string', description: 'Name of the service to check' }
+          }
+        }
+      }
+    ]
   },
   reporter: {
     name: 'Reporter',
     icon: '📊',
     keywords: ['report', 'summary', 'alert', 'daily', 'insights'],
-    systemPrompt: 'You generate reports and summaries. Create daily and weekly insights.'
+    systemPrompt: 'You generate reports and summaries. Create daily and weekly insights.',
+    tools: [
+      {
+        name: 'generateSummary',
+        description: 'Generate a summary report of activities',
+        schema: {
+          type: 'object',
+          properties: {
+            timeRange: { type: 'string', enum: ['daily', 'weekly', 'monthly'] }
+          },
+          required: ['timeRange']
+        }
+      }
+    ]
   },
   analyst: {
     name: 'Analyst',
     icon: '📈',
     keywords: ['analyze', 'data', 'insights', 'pattern', 'trend', 'report', 'metrics', 'statistics', 'numbers', 'analysis'],
-    systemPrompt: 'You are an expert Data Analyst. You specialize in analyzing complex datasets, identifying trends, and providing actionable insights.'
+    systemPrompt: 'You are an expert Data Analyst. You specialize in analyzing complex datasets, identifying trends, and providing actionable insights.',
+    tools: [
+      {
+        name: 'analyzeTrends',
+        description: 'Analyze data to identify trends and patterns',
+        schema: {
+          type: 'object',
+          properties: {
+            dataSource: { type: 'string' },
+            metric: { type: 'string' }
+          },
+          required: ['dataSource', 'metric']
+        }
+      }
+    ]
   },
   finance: {
     name: 'Finance Expert',
     icon: '💰',
     keywords: ['loan', 'emi', 'credit card', 'expense', 'paid', 'due date', 'repayment', 'net worth', 'balance', 'investment'],
-    systemPrompt: 'You are a personal finance expert. You help track loans, credit cards, expenses, and investments. You provide insights on net worth and financial health.'
+    systemPrompt: 'You are a personal finance expert. You help track loans, credit cards, expenses, and investments. You provide insights on net worth and financial health.',
+    tools: [
+      {
+        name: 'getFinanceInsights',
+        description: 'Get complete finance overview',
+        schema: {
+          type: 'object',
+          properties: {
+            period: { type: 'string', description: 'Time period for insights' }
+          }
+        }
+      },
+      {
+        name: 'calculateEMI',
+        description: 'Calculate EMI for a loan',
+        schema: {
+          type: 'object',
+          properties: {
+            principal: { type: 'number' },
+            rate: { type: 'number', description: 'Annual interest rate' },
+            tenure: { type: 'number', description: 'Tenure in months' }
+          },
+          required: ['principal', 'rate', 'tenure']
+        }
+      }
+    ]
   }
 };
 
