@@ -158,13 +158,18 @@
       </div>
     </header>
 
-    <div class="net-worth-card">
-      <div class="nw-label">Estimated Net Worth</div>
-      <div class="nw-value" id="net-worth">₹0</div>
-      <button class="advisory-btn" onclick="getAdvisory()">
-        <i data-lucide="sparkles"></i> Get Financial Advisory Insights
-      </button>
-    </div>
+<div class="net-worth-card">
+        <div class="nw-label">Estimated Net Worth</div>
+        <div class="nw-value" id="net-worth">₹0</div>
+        <div class="summary" id="summary"></div>
+        <div class="details" style="margin-top:12px; font-size:14px; color:var(--text-secondary);">
+          <span id="total-assets">Assets: ₹0</span> | 
+          <span id="total-liabilities">Liabilities: ₹0</span>
+        </div>
+        <button class="advisory-btn" onclick="getAdvisory()">
+          <i data-lucide="sparkles"></i> Get Financial Advisory Insights
+        </button>
+      </div>
 
     <div class="section-grid">
       <!-- Accounts Section -->
@@ -236,24 +241,32 @@
     let expenses = [];
     let investments = [];
 
-    async function fetchData() {
-      try {
-        const [aRes, eRes, iRes] = await Promise.all([
-          fetch('/api/management/accounts'),
-          fetch('/api/management/expenses'),
-          fetch('/api/management/investments')
-        ]);
-        accounts = await aRes.json();
-        expenses = await eRes.json();
-        investments = await iRes.json();
-        render();
-      } catch (err) {
-        console.error(err);
-      } finally {
-        document.getElementById('loading').style.opacity = '0';
-        setTimeout(() => document.getElementById('loading').classList.add('hidden'), 500);
+async function fetchData() {
+        try {
+          const [aRes, eRes, iRes, insightsRes] = await Promise.all([
+            fetch('/api/management/accounts'),
+            fetch('/api/management/expenses'),
+            fetch('/api/management/investments'),
+            fetch('/api/finance/insights')
+          ]);
+          accounts = await aRes.json();
+          expenses = await eRes.json();
+          investments = await iRes.json();
+          const insights = await insightsRes.json();
+          // Populate finance insights UI
+          document.getElementById('net-worth').textContent = `₹${insights.netWorth.toLocaleString()}`;
+          document.getElementById('total-assets').textContent = `Assets: ₹${insights.totalAssets.toLocaleString()}`;
+          document.getElementById('total-liabilities').textContent = `Liabilities: ₹${insights.totalLiabilities.toLocaleString()}`;
+          const summaryText = `Loans: ${insights.summary.loanCount}, Cards: ${insights.summary.cardCount}, Bank Accounts: ${insights.summary.bankAccountCount}, Wallets: ${insights.summary.walletCount}`;
+          document.getElementById('summary').textContent = summaryText;
+          render();
+        } catch (err) {
+          console.error(err);
+        } finally {
+          document.getElementById('loading').style.opacity = '0';
+          setTimeout(() => document.getElementById('loading').classList.add('hidden'), 500);
+        }
       }
-    }
 
     function render() {
       const accList = document.getElementById('account-list');
@@ -307,7 +320,7 @@
         expList.appendChild(card);
       });
 
-      document.getElementById('net-worth').textContent = `₹${totalWealth.toLocaleString()}`;
+      // document.getElementById('net-worth').textContent = `₹${totalWealth.toLocaleString()}`;
       lucide.createIcons();
     }
 
