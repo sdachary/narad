@@ -2,22 +2,23 @@
 import { supabaseQuery } from './supabase-client.js';
 
 export async function getPortfolioSummary(env) {
-  const investments = await supabaseQuery(env, 'finance.investments', '?is_active=eq.true');
-  
-  const totalValue = investments.reduce((sum, inv) => sum + parseFloat(inv.current_value || 0), 0);
-  
-  // Mocking change data for now
-  const change = totalValue * 0.015; // +1.5% mock
-  const changePercent = 1.5;
-
+  const [stocks, dividends, summary] = await Promise.all([
+    supabaseQuery(env, 'finance.portfolio_stocks'),
+    supabaseQuery(env, 'finance.portfolio_dividends'),
+    supabaseQuery(env, 'finance.portfolio_summary')
+  ]);
+  // For now we ignore dividends in the UI, but they are fetched for completeness
   return {
-    totalValue,
-    change,
-    changePercent,
-    assets: investments.map(inv => ({
-      name: inv.name,
-      value: inv.current_value,
-      type: inv.type
+    totalValue: summary.totalValue,
+    change: summary.change,
+    changePercent: summary.changePercent,
+    assets: stocks.map(s => ({
+      name: s.name,
+      current_value: s.current_value,
+      type: s.type,
+      sector: s.sector,
+      quantity: s.quantity,
+      symbol: s.symbol
     }))
   };
 }
