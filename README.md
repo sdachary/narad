@@ -89,6 +89,12 @@ narad, unnati, kanak, career-ops, chitragupta, vishwakarma, social-blueprint-ai
 
 ## Deployment
 
+### New API Endpoints
+- `GET /api/finance/insights` – Returns net‑worth, assets, liabilities and summary.
+- `GET /api/portfolio/summary` – Returns portfolio total value, change, changePercent and asset list.
+
+## Deployment
+
 ### Cloudflare Pages
 ```bash
 git clone https://github.com/sdachary/narad.git

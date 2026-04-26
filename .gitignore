@@ -15,6 +15,9 @@ pages/node_modules/
 .wrangler/
 
 # Narad Knowledge Graph (large files - generated on deploy)
+
+# Narad Knowledge (smriti) – not needed in repo
+smriti/
 pages/brain_graph.*
 
 # Logs
