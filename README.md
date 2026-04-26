@@ -1,3 +1,11 @@
+---
+project: narad
+type: 
+status: active
+priority: medium
+tags: [project/narad]
+---
+
 # Narad
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*

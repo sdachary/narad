@@ -1,6 +1,10 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/indra/render.yaml"
 project: "indra"
+type: 
+status: active
+priority: medium
+tags: [code, config, project/indra, yaml]
+source: "/home/runner/work/narad/narad/sync_temp/indra/render.yaml"
 role: config
 language: yaml
 frameworks: []
@@ -8,7 +12,6 @@ lines: 53
 size: 1582 bytes
 last_modified: "2026-04-10 16:04"
 scanned: "2026-04-10 16:04"
-tags: [code, config, project/indra, yaml]
 ---
 
 # render.yaml

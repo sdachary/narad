@@ -1,6 +1,10 @@
 ---
-source: "/home/deepak/Work/n8n/render.yaml"
 project: "n8n"
+type: 
+status: active
+priority: medium
+tags: [code, config, project/n8n, yaml]
+source: "/home/deepak/Work/n8n/render.yaml"
 role: config
 language: yaml
 frameworks: []
@@ -8,7 +12,6 @@ lines: 50
 size: 1519 bytes
 last_modified: "2026-03-10 12:06"
 scanned: "2026-04-07 10:16"
-tags: [code, config, project/n8n, yaml]
 ---
 
 # render.yaml

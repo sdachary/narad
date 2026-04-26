@@ -1,6 +1,10 @@
 ---
-created: 2026-04-06
+project: narad
+type: 
+status: active
+priority: medium
 tags: [index, projects]
+created: 2026-04-06
 ---
 
 # 🗂️ Projects

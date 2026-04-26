@@ -1,12 +1,14 @@
 ---
-type: project-index
 project: "nisha-saas"
+type: project-index
+status: active
+priority: medium
+tags: [project/nisha-saas, index, parent/nisha]
 parent: "nisha"
 source: "/home/deepak/Work/nisha/services/saas"
 scanned: "2026-04-06 21:37"
 total_files: 23
 total_lines: 3844
-tags: [project/nisha-saas, index, parent/nisha]
 ---
 
 # 🗂️ nisha-saas

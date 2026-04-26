@@ -1,11 +1,13 @@
 ---
-type: project-index
 project: "nisha"
+type: project-index
+status: active
+priority: medium
+tags: [project/nisha, index]
 source: "/home/deepak/Work/nisha"
 scanned: "2026-04-06 21:37"
 total_files: 21
 total_lines: 3662
-tags: [project/nisha, index]
 ---
 
 # 🗂️ nisha

@@ -1,9 +1,11 @@
 ---
-type: parent-index
 project: "nisha"
+type: parent-index
+status: active
+priority: medium
+tags: [parent/nisha, index]
 children: [nisha-chitragupta, nisha-n8n, nisha-saas, nisha-vishwakarma]
 scanned: "2026-04-06 21:37"
-tags: [parent/nisha, index]
 ---
 
 # 🏗️ nisha (Ecosystem)

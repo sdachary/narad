@@ -1,11 +1,13 @@
 ---
-type: project-index
 project: "social-blueprint-ai"
+type: project-index
+status: active
+priority: medium
+tags: [project/social-blueprint-ai, index]
 source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai"
 scanned: "2026-04-10 16:04"
 total_files: 37
 total_lines: 3480
-tags: [project/social-blueprint-ai, index]
 ---
 
 # 🗂️ social-blueprint-ai

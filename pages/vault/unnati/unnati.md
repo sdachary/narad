@@ -1,11 +1,13 @@
 ---
-type: project-index
 project: "unnati"
+type: project-index
+status: active
+priority: medium
+tags: [project/unnati, index]
 source: "/home/runner/work/narad/narad/sync_temp/unnati"
 scanned: "2026-04-10 16:04"
 total_files: 124
 total_lines: 16861
-tags: [project/unnati, index]
 ---
 
 # 🗂️ unnati

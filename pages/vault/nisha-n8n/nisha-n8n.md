@@ -1,12 +1,14 @@
 ---
-type: project-index
 project: "nisha-n8n"
+type: project-index
+status: active
+priority: medium
+tags: [project/nisha-n8n, index, parent/nisha]
 parent: "nisha"
 source: "/home/deepak/Work/nisha/services/n8n"
 scanned: "2026-04-06 21:37"
 total_files: 3
 total_lines: 74
-tags: [project/nisha-n8n, index, parent/nisha]
 ---
 
 # 🗂️ nisha-n8n
