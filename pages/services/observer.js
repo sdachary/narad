@@ -1,6 +1,6 @@
 export const SERVICES = {
   narad: { 
-    url: 'https://narad-7hc.pages.dev/api/health', 
+    url: 'https://narad.pages.dev/api/health', 
     name: 'Narad AI',
     expectedStatus: 'ok'
   },
@@ -27,6 +27,21 @@ export const SERVICES = {
   unnati: { 
     url: 'https://unnati.pages.dev/api/health', 
     name: 'Unnati',
+    expectedStatus: 'ok'
+  },
+  indra: {
+    url: 'https://indra.onrender.com/health',
+    name: 'Indra',
+    expectedStatus: 'ok'
+  },
+  'social-blueprint-ai': {
+    url: 'https://social-blueprint-ai.pages.dev/api/health',
+    name: 'Social Blueprint AI',
+    expectedStatus: 'ok'
+  },
+  'mcp-hub': {
+    url: 'http://localhost:3000',
+    name: 'MCP Hub',
     expectedStatus: 'ok'
   }
 };

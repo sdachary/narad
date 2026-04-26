@@ -7,9 +7,6 @@ const STATIC_ASSETS = [
   '/src/main.jsx',
   '/src/index.css',
   '/src/styles/design-tokens.css',
-  '/finance.html',
-  '/portfolio-manager.html',
-  '/portfolio.html',
   '/narad_logo.png'
 ];
 

@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ServiceTile from './ServiceTile';
-import PortfolioTile from './PortfolioTile';
-import FinanceTile from './FinanceTile';
 import { useServices } from '../hooks/useServices';
-import { X, ExternalLink, ArrowRight } from 'lucide-react';
+import { X, ExternalLink, ArrowRight, MessageSquare } from 'lucide-react';
 
 const SERVICES = [
-  { id: 'vishwakarma', name: 'Vishwakarma', url: 'https://vishwakarma.pages.dev' },
-  { id: 'chitragupta', name: 'Chitragupta', url: 'https://chitragupta.pages.dev' },
-  { id: 'karma', name: 'Karma', url: null, comingSoon: true },
-  { id: 'kanak', name: 'Kanak', url: 'https://kanak-dj5.pages.dev' },
-  { id: 'unnati', name: 'Unnati', url: 'https://unnati-70z.pages.dev' },
+  { id: 'vishwakarma', name: 'Vishwakarma', url: 'https://vishwakarma.pages.dev', icon: '🚀', desc: 'Cloud Provisioning' },
+  { id: 'chitragupta', name: 'Chitragupta', url: 'https://chitragupta.pages.dev', icon: '📊', desc: 'Financial Settlement' },
+  { id: 'mcp-hub', name: 'MCP Hub', url: null, local: true, port: 3000, icon: '🔗', desc: 'AI Orchestration' },
+  { id: 'kanak', name: 'Kanak', url: 'https://kanak-dj5.pages.dev', icon: '📈', desc: 'BI Dashboard' },
+  { id: 'unnati', name: 'Unnati', url: 'https://unnati-70z.pages.dev', icon: '💼', desc: 'Career Assistant' },
 ];
 
 export default function Dashboard() {
   const { services } = useServices();
 
   useEffect(() => {
-    // Handle auto-chat from redirects
     const params = new URLSearchParams(window.location.search);
     const chatPrompt = params.get('chat');
     if (chatPrompt) {
@@ -25,23 +22,18 @@ export default function Dashboard() {
         window.dispatchEvent(new CustomEvent('narad:send-chat', { 
           detail: { text: decodeURIComponent(chatPrompt) } 
         }));
-        // Clean up URL without reload
         window.history.replaceState({}, document.title, window.location.pathname);
       }, 1000);
     }
   }, []);
-
-  const handleTileClick = (tab) => {
-    window.location.href = `/${tab}.html`;
-  };
 
   return (
     <div 
       className="p-6 max-w-[1400px] mx-auto h-full relative overflow-hidden"
       style={{ backgroundColor: 'var(--bg-canvas)' }}
     >
-      {/* Services Row */}
-      <div className="mb-6">
+      {/* Services Grid */}
+      <div>
         <h2 className="text-[10px] font-black text-[var(--text-secondary)] mb-3 uppercase tracking-[0.2em]">Platform Services</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {SERVICES.map(service => {
@@ -52,19 +44,47 @@ export default function Dashboard() {
                 service={service}
                 status={serviceStatus.status}
                 metric={serviceStatus.metric}
-                onClick={() => service.url && window.open(service.url, '_blank')}
+                onClick={() => {
+                  if (service.url) {
+                    window.open(service.url, '_blank');
+                  } else if (service.local) {
+                    window.open(`http://localhost:${service.port}`, '_blank');
+                  }
+                }}
               />
             );
           })}
         </div>
       </div>
 
-      {/* Features Row */}
-      <div>
-        <h2 className="text-[10px] font-black text-[var(--text-secondary)] mb-3 uppercase tracking-[0.2em]">Financial Management</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <PortfolioTile onClick={() => handleTileClick('portfolio')} />
-          <FinanceTile onClick={() => handleTileClick('finance')} />
+      {/* Quick Actions */}
+      <div className="mt-6">
+        <h2 className="text-[10px] font-black text-[var(--text-secondary)] mb-3 uppercase tracking-[0.2em]">Quick Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('narad:switch-view', { detail: { view: 'chat' } }))}
+            className="flex items-center gap-3 p-4 rounded-lg bg-[var(--bg-elevated)] hover:bg-[var(--bg-hover)] transition-colors"
+          >
+            <MessageSquare className="w-5 h-5 text-[var(--accent)]" />
+            <span className="text-sm">Open Chat</span>
+            <ArrowRight className="w-4 h-4 ml-auto opacity-50" />
+          </button>
+          <button 
+            onClick={() => window.open('http://localhost:3000/api/health', '_blank')}
+            className="flex items-center gap-3 p-4 rounded-lg bg-[var(--bg-elevated)] hover:bg-[var(--bg-hover)] transition-colors"
+          >
+            <span className="text-xl">🔗</span>
+            <span className="text-sm">MCP Hub Status</span>
+            <ArrowRight className="w-4 h-4 ml-auto opacity-50" />
+          </button>
+          <button 
+            onClick={() => window.open('/api/dashboard/services', '_blank')}
+            className="flex items-center gap-3 p-4 rounded-lg bg-[var(--bg-elevated)] hover:bg-[var(--bg-hover)] transition-colors"
+          >
+            <span className="text-xl">📊</span>
+            <span className="text-sm">All Services API</span>
+            <ArrowRight className="w-4 h-4 ml-auto opacity-50" />
+          </button>
         </div>
       </div>
     </div>

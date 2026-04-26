@@ -52,13 +52,31 @@ export const SERVICES_REGISTRY = {
     type: 'nextjs-cloudflare',
     owner: 'sdachary',
     description: 'Job search assistant'
+  },
+  indra: {
+    name: 'Indra',
+    url: 'https://indra.onrender.com',
+    healthEndpoint: '/health',
+    metricsEndpoint: '/metrics',
+    type: 'render-service',
+    owner: 'sdachary',
+    description: 'Workflow orchestration'
+  },
+  'social-blueprint-ai': {
+    name: 'Social Blueprint AI',
+    url: 'https://social-blueprint-ai.pages.dev',
+    healthEndpoint: '/api/health',
+    metricsEndpoint: '/api/metrics',
+    type: 'cloudflare-worker',
+    owner: 'sdachary',
+    description: 'Social media strategy AI'
   }
 };
 
 export const SERVICE_GROUPS = {
-  production: ['narad', 'vishwakarma', 'chitragupta', 'karma', 'kanak', 'unnati'],
-  frontend: ['narad', 'vishwakarma', 'chitragupta', 'kanak', 'unnati'],
-  backend: ['karma', 'chitragupta']
+  production: ['narad', 'vishwakarma', 'chitragupta', 'karma', 'kanak', 'unnati', 'indra', 'social-blueprint-ai'],
+  frontend: ['narad', 'vishwakarma', 'chitragupta', 'kanak', 'unnati', 'social-blueprint-ai'],
+  backend: ['karma', 'chitragupta', 'indra']
 };
 
 export const ALERT_RULES = {

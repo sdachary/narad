@@ -3,11 +3,9 @@ import { cors } from 'hono/cors';
 import { ALLOWED_ORIGINS } from './config/index.js';
 import { setupHealthRoutes } from './routes/health.js';
 import { setupChatRoutes } from './routes/chat.js';
-import { setupBrainRoutes } from './routes/brain.js';
 import { setupErrorRoutes } from './routes/errors.js';
 import { setupDashboardRoutes } from './routes/dashboard.js';
 import { setupCommandCenterRoutes } from './routes/command-center.js';
-import { setupManagementRoutes } from './routes/management.js';
 import { csrfManager } from './services/security.js';
 import { getStore, getUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, clearSemanticMemory, getEmbeddingBudget, generateEmbedding, storeSemanticMemory, searchSemanticMemory } from './services/memory.js';
 import { initializeRAGIndex, addDocumentToRAG, searchRAG, deleteDocumentFromRAG, getRAGStats } from './services/rag.js';
@@ -75,7 +73,6 @@ app.use('*', async (c, next) => {
 setupHealthRoutes(app);
 setupDashboardRoutes(app);
 setupCommandCenterRoutes(app);
-setupManagementRoutes(app);
 
 // Observer routes for service monitoring
 app.get('/api/observer/services', async (c) => {
@@ -141,219 +138,7 @@ app.get('/api/reporter/status', async (c) => {
   });
 });
 
-app.get('/api/finance/insights', async (c) => {
-  const { getFinanceInsights } = await import('./services/finance.js');
-  const insights = await getFinanceInsights(c.env);
-  return c.json(insights);
-});
-
-app.get('/api/finance', async (c) => {
-  const { supabaseQuery } = await import('./services/supabase-client.js');
-  const [bankAccounts, wallets, investments, loans, cards, savings] = await Promise.all([
-    supabaseQuery(c.env, 'finance.bank_accounts'),
-    supabaseQuery(c.env, 'finance.wallets'),
-    supabaseQuery(c.env, 'finance.investments'),
-    supabaseQuery(c.env, 'finance.loans'),
-    supabaseQuery(c.env, 'finance.credit_cards'),
-    supabaseQuery(c.env, 'finance.planned_savings')
-  ]);
-  return c.json({ bankAccounts, wallets, investments, loans, cards, savings });
-});
-
-app.post('/api/finance/bank-account', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.bank_accounts', body);
-  return c.json(result);
-});
-
-app.post('/api/finance/wallet', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.wallets', body);
-  return c.json(result);
-});
-
-app.post('/api/finance/loan', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.loans', body);
-  return c.json(result);
-});
-
-app.post('/api/finance/credit-card', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.credit_cards', body);
-  return c.json(result);
-});
-
-app.put('/api/finance/bank-account/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.bank_accounts', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/finance/bank-account/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.bank_accounts', id);
-  return c.json(result);
-});
-
-app.put('/api/finance/wallet/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.wallets', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/finance/wallet/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.wallets', id);
-  return c.json(result);
-});
-
-app.post('/api/finance/investment', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.investments', body);
-  return c.json(result);
-});
-
-app.put('/api/finance/investment/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.investments', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/finance/investment/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.investments', id);
-  return c.json(result);
-});
-
-app.put('/api/finance/loan/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.loans', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/finance/loan/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.loans', id);
-  return c.json(result);
-});
-
-app.put('/api/finance/credit-card/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.credit_cards', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/finance/credit-card/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.credit_cards', id);
-  return c.json(result);
-});
-
-app.post('/api/finance/savings', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.planned_savings', body);
-  return c.json(result);
-});
-
-app.put('/api/finance/savings/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.planned_savings', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/finance/savings/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.planned_savings', id);
-  return c.json(result);
-});
-
-app.get('/api/portfolio', async (c) => {
-  const { supabaseQuery } = await import('./services/supabase-client.js');
-  const [stocks, dividends, summary] = await Promise.all([
-    supabaseQuery(c.env, 'finance.portfolio_stocks'),
-    supabaseQuery(c.env, 'finance.portfolio_dividends'),
-    supabaseQuery(c.env, 'finance.portfolio_summary')
-  ]);
-  return c.json({ stocks, dividends, summary });
-});
-
-app.post('/api/portfolio/stock', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.portfolio_stocks', body);
-  return c.json(result);
-});
-
-app.put('/api/portfolio/stock/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.portfolio_stocks', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/portfolio/stock/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.portfolio_stocks', id);
-  return c.json(result);
-});
-
-app.post('/api/portfolio/dividend', async (c) => {
-  const { supabaseInsert } = await import('./services/supabase-client.js');
-  const body = await c.req.json();
-  const result = await supabaseInsert(c.env, 'finance.portfolio_dividends', body);
-  return c.json(result);
-});
-
-app.put('/api/portfolio/dividend/:id', async (c) => {
-  const { supabaseUpdate } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const body = await c.req.json();
-  const result = await supabaseUpdate(c.env, 'finance.portfolio_dividends', id, body);
-  return c.json(result);
-});
-
-app.delete('/api/portfolio/dividend/:id', async (c) => {
-  const { supabaseDelete } = await import('./services/supabase-client.js');
-  const id = c.req.param('id');
-  const result = await supabaseDelete(c.env, 'finance.portfolio_dividends', id);
-  return c.json(result);
-});
-
-app.get('/api/portfolio/summary', async (c) => {
-  const { getPortfolioSummary } = await import('./services/portfolio.js');
-  const summary = await getPortfolioSummary(c.env);
-  return c.json(summary);
-});
-
 setupChatRoutes(app, metrics);
-setupBrainRoutes(app);
 setupErrorRoutes(app);
 
 app.all('/api/hermes-webhook', async (c) => {
