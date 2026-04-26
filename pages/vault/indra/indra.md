@@ -1,11 +1,13 @@
 ---
-type: project-index
 project: "indra"
+type: project-index
+status: active
+priority: medium
+tags: [project/indra, index]
 source: "/home/runner/work/narad/narad/sync_temp/indra"
 scanned: "2026-04-10 16:04"
 total_files: 4
 total_lines: 148
-tags: [project/indra, index]
 ---
 
 # 🗂️ indra

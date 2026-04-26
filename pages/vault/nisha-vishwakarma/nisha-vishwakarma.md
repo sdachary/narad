@@ -1,12 +1,14 @@
 ---
-type: project-index
 project: "nisha-vishwakarma"
+type: project-index
+status: active
+priority: medium
+tags: [project/nisha-vishwakarma, index, parent/nisha]
 parent: "nisha"
 source: "/home/deepak/Work/nisha/services/vishwakarma"
 scanned: "2026-04-06 21:37"
 total_files: 41
 total_lines: 5788
-tags: [project/nisha-vishwakarma, index, parent/nisha]
 ---
 
 # 🗂️ nisha-vishwakarma

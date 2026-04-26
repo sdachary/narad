@@ -1,11 +1,13 @@
 ---
-type: project-index
 project: "vishwakarma"
+type: project-index
+status: active
+priority: medium
+tags: [project/vishwakarma, index]
 source: "/home/runner/work/narad/narad/sync_temp/vishwakarma"
 scanned: "2026-04-10 16:04"
 total_files: 33
 total_lines: 7454
-tags: [project/vishwakarma, index]
 ---
 
 # 🗂️ vishwakarma

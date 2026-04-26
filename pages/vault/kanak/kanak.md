@@ -1,11 +1,13 @@
 ---
-type: project-index
 project: "kanak"
+type: project-index
+status: active
+priority: medium
+tags: [project/kanak, index]
 source: "/home/runner/work/narad/narad/sync_temp/kanak"
 scanned: "2026-04-10 16:04"
 total_files: 23
 total_lines: 3962
-tags: [project/kanak, index]
 ---
 
 # 🗂️ kanak

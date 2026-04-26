@@ -1,6 +1,10 @@
 ---
-source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai/public/robots.txt"
 project: "social-blueprint-ai"
+type: 
+status: active
+priority: medium
+tags: [documentation, other, project/social-blueprint-ai, text]
+source: "/home/runner/work/narad/narad/sync_temp/social-blueprint-ai/public/robots.txt"
 role: other
 language: text
 frameworks: []
@@ -8,7 +12,6 @@ lines: 6
 size: 117 bytes
 last_modified: "2026-04-10 16:04"
 scanned: "2026-04-10 16:04"
-tags: [documentation, other, project/social-blueprint-ai, text]
 ---
 
 # robots.txt

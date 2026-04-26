@@ -1,12 +1,14 @@
 ---
-type: project-index
 project: "nisha-chitragupta"
+type: project-index
+status: active
+priority: medium
+tags: [project/nisha-chitragupta, index, parent/nisha]
 parent: "nisha"
 source: "/home/deepak/Work/nisha/services/chitragupta"
 scanned: "2026-04-06 21:37"
 total_files: 26
 total_lines: 4918
-tags: [project/nisha-chitragupta, index, parent/nisha]
 ---
 
 # 🗂️ nisha-chitragupta
