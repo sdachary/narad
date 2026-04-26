@@ -2,34 +2,19 @@
 
 > *In Hindu mythology, Narad was the omniscient messenger — always watching, always knowing, always connecting the right information to the right moment.*
 
-Narad is a serverless AI workspace deployed on Cloudflare Pages with a Supabase-powered learning brain, featuring platform-wide observability and enhanced connectivity.
+Narad is a serverless Chat API and platform adapter gateway deployed on Cloudflare Pages, featuring platform-wide observability and unified connectivity across messaging platforms.
 
 ---
 
 ## What Is Narad
 
-- **Type**: AI workspace + cognitive assistant
+- **Type**: Chat API + Platform Adapter Gateway
 - **Platform**: Cloudflare Pages (serverless)
 - **Frontend**: React 18 + Tailwind CSS
 - **Backend**: Hono (CF Workers/Pages Functions)
+- **API**: Chat completion endpoint at `/api/chat`
 - **Observability**: Prometheus metrics endpoint at `/api/metrics`
 - **Connectivity**: Unified platform adapter system (Telegram, WhatsApp, Slack, Teams)
-
----
-
-## 🧠 Brain (Supabase)
-
-Narad learns from conversations and stores knowledge in **brain**, powered by **Supabase PostgreSQL** with pgvector for semantic search and Neo4j knowledge graph for relationship mapping.
-
-### Projects in Brain
-narad, unnati, kanak, career-ops, chitragupta, vishwakarma, social-blueprint-ai
-
-### Knowledge Graph Features
-- Entity extraction from conversations (Person, Project, Concept, Tool)
-- Relationship inference and storage
-- Graph-powered recommendations and related content
-- Path finding and similarity search
-- Integration with existing RAG system
 
 ---
 
@@ -49,37 +34,7 @@ narad, unnati, kanak, career-ops, chitragupta, vishwakarma, social-blueprint-ai
 | Anthropic | ✅ | claude-3-haiku, claude-3-sonnet, claude-3-opus |
 | Gemini | ✅ | gemini-1.5-flash, gemini-1.5-pro |
 
-### Commands
-| Command | Description |
-|---------|-------------|
-| `/spec` | Create specification (Spec Driven Development) |
-| `/plan` | Create plan (Task Breakdown) |
-| `/build` | Build code (Incremental Implementation) |
-| `/test` | Run tests (Test Driven Development) |
-| `/review` | Review code (Code Review & Quality) |
-| `/code-simplify` | Simplify code (Reduce Complexity) |
-| `/ship` | Ship to production (Shipping & Launch) |
-| `/cerebras` | Switch to Cerebras provider |
-| `/cloudflare` | Switch to Cloudflare Workers AI |
-| `/groq` | Switch to Groq provider |
-| `/openrouter` | Switch to OpenRouter provider |
-| `/github` | Switch to GitHub Models |
-| `/models` | List available models |
-| `/brain` | Show brain status |
-| `/brain search <q>` | Search vault files |
-| `/brain insights` | View learned insights |
-| `/search <query>` | Web search |
-| `/last30days <topic>` | Deep research |
-
 ### Backend Services
-- **Memory**: KV-based conversation memory with semantic search
-- **RAG**: Hybrid vector + keyword retrieval system
-- **Session Sync**: Cross-session memory persistence
-- **Research**: Deep research with 30-day lookback
-- **GitHub Integration**: Repository analysis and dispatch triggers
-- **Skills**: MCP-compatible skill system
-- **MCP**: Model Context Protocol connectors
-- **Verification**: AI response truth verification
 - **Hermes Gateway**: Telegram bot integration
 - **Platform Adapters**: Unified messaging system (Telegram, WhatsApp, Slack, Teams)
 - **Metrics**: Prometheus endpoint at `/api/metrics` for observability
@@ -87,11 +42,21 @@ narad, unnati, kanak, career-ops, chitragupta, vishwakarma, social-blueprint-ai
 
 ---
 
-## Deployment
+## API Usage
 
-### New API Endpoints
-- `GET /api/finance/insights` – Returns net‑worth, assets, liabilities and summary.
-- `GET /api/portfolio/summary` – Returns portfolio total value, change, changePercent and asset list.
+### Chat API
+Access the Chat API directly:
+
+```bash
+curl -s https://narad.pages.dev/api/chat -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"hello"}]}'
+```
+
+### Metrics
+Prometheus metrics are available at `/api/metrics`.
+
+---
 
 ## Deployment
 
@@ -119,8 +84,6 @@ npm run deploy
 | `ANTHROPIC_API_KEY` | Optional | Anthropic |
 | `GEMINI_API_KEY` | Optional | Gemini |
 | `OPENROUTER_API_KEY` | Optional | OpenRouter |
-| `SUPABASE_SERVICE_KEY` | ✅ | Brain storage |
-| `SERPER_API_KEY` | Optional | Web Search |
 | `TELEGRAM_BOT_TOKEN` | Optional | Telegram connector |
 | `WHATSAPP_PHONE_NUMBER_ID` | Optional | WhatsApp Business |
 | `WHATSAPP_ACCESS_TOKEN` | Optional | WhatsApp Business |
@@ -131,9 +94,6 @@ npm run deploy
 | `TEAMS_TENANT_ID` | Optional | Teams adapter |
 | `PROMETHEUS_URL` | Optional | External Prometheus for federation |
 | `LOKI_URL` | Optional | External Loki for log forwarding |
-| `NEO4J_URI` | Optional | Neo4j connection URI |
-| `NEO4J_USER` | Optional | Neo4j username |
-| `NEO4J_PASSWORD` | Optional | Neo4j password |
 
 ---
 
@@ -141,9 +101,7 @@ npm run deploy
 
 - Frontend: React 18, Tailwind CSS, Vite
 - Backend: Hono (Cloudflare Pages)
-- Storage: Supabase PostgreSQL + pgvector (single project), Neo4j (optional)
 - Observability: Prometheus metrics endpoint
 - Logging: Structured JSON logs to Loki
-- Messaging: Unified platform adapter system
+- Messaging: Unified platform adapter system (Telegram, WhatsApp, Slack, Teams)
 - Security: Rate limiting, CSRF protection, security headers
-- Knowledge Graph: Entity extraction and relationship mapping
