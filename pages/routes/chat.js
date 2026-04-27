@@ -1,10 +1,8 @@
 import { checkRateLimit, validateCSRF, ValidationSchemas } from '../services/security.js';
 import { getStore, getUsage, addUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, getLastAssistantMessage } from '../services/memory.js';
 import { getAvailableProviders, getProviderConfig, selectProviderAndModel } from '../services/ai.js';
-import { getProjectContext, queryBrain, getBrainStats, getBrainSystemPrompt, formatBrainStatus, searchVaultFiles, getAllInsights, learnFromConversation } from '../services/vault-brain.js';
 import { AI_PROVIDERS } from '../config/providers.js';
 import { DAILY_LIMITS } from '../config/index.js';
-import { ALL_AGENTS, WAREHOUSE_INDEX, WAREHOUSE_AGENTS, SUBAGENTS } from '../config/agents.js';
 import { fetchWebSearch, fetchStockData } from '../services/external.js';
 import { ErrorTracker } from './errors.js';
 
@@ -66,40 +64,13 @@ function getToday() {
 }
 
 function detectAgentType(message) {
-  const lowerMessage = message.toLowerCase();
-  
-  const allAgentIds = [...Object.keys(WAREHOUSE_INDEX), ...Object.keys(SUBAGENTS)].join('|');
-  const prefixMatch = lowerMessage.match(new RegExp(`^\/(${allAgentIds})\s+`));
-  if (prefixMatch) {
-    return prefixMatch[1];
-  }
-  
-  let bestAgent = 'general';
-  let bestScore = 0;
-  
-  for (const [agentType, config] of Object.entries(ALL_AGENTS)) {
-    let score = 0;
-    for (const keyword of config.keywords) {
-      if (lowerMessage.includes(keyword)) {
-        score++;
-      }
-    }
-    if (score > bestScore) {
-      bestScore = score;
-      bestAgent = agentType;
-    }
-  }
-  
-  return bestScore >= 2 ? bestAgent : 'general';
+  const lower = message.toLowerCase();
+  if (lower.startsWith('/dev ') || lower.startsWith('git ') || lower.startsWith('code ') || lower.startsWith('build ') || lower.startsWith('debug ')) return 'dev';
+  if (lower.startsWith('/review ') || lower.startsWith('security ') || lower.startsWith('audit ')) return 'reviewer';
+  return 'general';
 }
 
 function getSystemPrompt(agentType) {
-  if (WAREHOUSE_AGENTS[agentType]) {
-    return WAREHOUSE_AGENTS[agentType].systemPrompt;
-  }
-  if (SUBAGENTS[agentType]) {
-    return SUBAGENTS[agentType].systemPrompt;
-  }
   return null;
 }
 
@@ -150,12 +121,6 @@ export function setupChatRoutes(app, metrics) {
       }
       
       let projectContext = '';
-      if (session_id && session_id.startsWith('new_')) {
-        const loaded = await getProjectContext(c.env, project || 'narad');
-        if (loaded.context) {
-          projectContext = loaded.context;
-        }
-      }
       
       const messageValidation = ValidationSchemas.message.validate(message);
       if (!messageValidation.valid) {
@@ -297,28 +262,11 @@ export function setupChatRoutes(app, metrics) {
       const shouldSearch = lowerMessage.startsWith('/search') || 
                          (searchTriggers.some(t => lowerMessage.includes(t)) && !lowerMessage.includes('price') && !lowerMessage.includes('share'));
       
-      if (lowerMessage.startsWith('/brain')) {
-        const brainArgs = lowerMessage.replace(/^\/brain\s*/, '').split(' ');
-        if (brainArgs[0] === '' || brainArgs[0] === 'status') {
-          const stats = await getBrainStats(c.env);
-          return c.json({ reply: await formatBrainStatus(stats), session_id, metadata: { command: 'brain' } });
-        } else if (brainArgs[0] === 'search' || brainArgs[0] === 'find') {
-          const query = brainArgs.slice(1).join(' ');
-          const results = await searchVaultFiles(c.env, query);
-          const reply = results.results.length === 0 
-            ? `No results for "${query}"`
-            : results.results.map(r => `• ${r.title}\n  ${r.excerpt}\n  Score: ${r.score.toFixed(2)}`).join('\n\n');
-          return c.json({ reply, session_id, metadata: { command: 'brain-search', query } });
-        } else if (brainArgs[0] === 'insights') {
-          const insights = await getAllInsights(c.env, { limit: 10 });
-          const reply = insights.insights.length === 0
-            ? 'No insights learned yet.'
-            : insights.insights.map(i => `• ${i.title}\n  Category: ${i.category}`).join('\n\n');
-          return c.json({ reply, session_id, metadata: { command: 'brain-insights' } });
-        }
-      }
-      
-      if (shouldSearch) {
+if (lowerMessage.startsWith('/brain')) {
+         return c.json({ reply: 'Brain service unavailable. Use MCP Hub skills at localhost:3000', session_id, metadata: { command: 'brain' } });
+       }
+       
+       if (shouldSearch) {
         const searchQuery = lowerMessage.replace(/^\/search\s*/, '');
         const searchResults = await fetchWebSearch(searchQuery, c.env);
         if (searchResults && searchResults.length > 0) {
@@ -334,19 +282,6 @@ export function setupChatRoutes(app, metrics) {
         systemPromptParts.push('');
         systemPromptParts.push('BEHAVIORAL PROTOCOL (CRITICAL):');
         systemPromptParts.push(skill_context);
-      }
-      
-      const brainContext = await queryBrain(c.env, message, { topK: 2 });
-      if (brainContext.results && brainContext.results.length > 0) {
-        systemPromptParts.push('\nRELEVANT KNOWLEDGE FROM BRAIN:');
-        brainContext.results.forEach(r => {
-          systemPromptParts.push(`- ${r.title}: ${r.content.slice(0, 300)}...`);
-        });
-      }
-      
-      if (projectContext) {
-        systemPromptParts.push('\nPROJECT STARTUP CONTEXT:');
-        systemPromptParts.push(projectContext.slice(0, 500));
       }
       
       const systemPrompt = systemPromptParts.join('\n');
@@ -466,11 +401,9 @@ export function setupChatRoutes(app, metrics) {
              { role: 'user', text: message, agentType: agentType, queryHash: queryHash },
              { role: 'assistant', text: reply, agentType: agentType, queryHash: queryHash }
            ];
-           await saveChatHistory(c.env, session_id, newHistory);
-           
-           await learnFromConversation(c.env, message, reply, { agentType, sessionId: session_id });
-           
-           // Update metrics
+await saveChatHistory(c.env, session_id, newHistory);
+            
+            // Update metrics
            metrics.chatRequestsTotal += 1;
            metrics.providerLatency.push(Date.now() - startTime);
            metrics.tokenUsageTotal += totalTokens;
