@@ -20,12 +20,12 @@ export const SERVICES = {
     expectedStatus: 'healthy'
   },
   kanak: { 
-    url: 'https://kanak.pages.dev/health', 
+    url: 'https://kanak-dj5.pages.dev/health', 
     name: 'Kanak',
     expectedStatus: 'ok'
   },
   unnati: { 
-    url: 'https://unnati.pages.dev/api/health', 
+    url: 'https://unnati-70z.pages.dev/api/health', 
     name: 'Unnati',
     expectedStatus: 'ok'
   },
