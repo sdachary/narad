@@ -11,7 +11,7 @@ id = "ca98881c7005404c8a0d00330759b80e"
 
 [[kv_namespaces]]
 binding = "OBSERVER_KV"
-id = "ca98881c7005404c8a0d00330759b80e"
+id = "d4d5e6789012345678abcdef01234567"
 
 [[kv_namespaces]]
 binding = "TASK_QUEUE"

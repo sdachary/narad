@@ -1,4 +1,4 @@
-import { pollAllServices, checkServiceDown } from '../../services/observer.js';
+import { pollAllServices, checkServiceDown } from '../services/observer.js';
 import { getAppShell } from './app-shell.js';
 
 export function setupDashboardRoutes(app) {

@@ -1,4 +1,4 @@
-import { NEO4J_CONFIG } from '../../config/knowledge-graph.js';
+import { NEO4J_CONFIG } from '../config/knowledge-graph.js';
 
 // Import neo4j driver
 import { v1 as neo4j } from 'neo4j-driver';

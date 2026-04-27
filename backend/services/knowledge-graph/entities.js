@@ -1,6 +1,6 @@
 import { executeQuery } from './client.js';
 import { classifyTask, selectProviderAndModel, callAI } from '../ai.js';
-import { getEnvVar } from '../../config/index.js';
+import { getEnvVar } from '../config/index.js';
 
 /**
  * Entity extraction service for knowledge graph
