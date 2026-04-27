@@ -14,7 +14,7 @@ export const ErrorTracker = {
     };
     
     try {
-      const { getStore } = await import('../services/memory.js');
+      const { getStore } = await import('../../services/memory.js');
       const store = getStore(env);
       await store.put(errorKey, JSON.stringify(errorData), { expirationTtl: 86400 });
     } catch (e) {
@@ -26,7 +26,7 @@ export const ErrorTracker = {
   
   async getRecentErrors(env, limit = 10) {
     const errors = [];
-    const { getStore } = await import('../services/memory.js');
+    const { getStore } = await import('../../services/memory.js');
     const store = getStore(env);
     const list = await store.list({ prefix: 'error:', limit: 50 });
     

@@ -1,9 +1,9 @@
-import { checkRateLimit, validateCSRF, ValidationSchemas } from '../services/security.js';
-import { getStore, getUsage, addUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, getLastAssistantMessage } from '../services/memory.js';
-import { getAvailableProviders, getProviderConfig, selectProviderAndModel } from '../services/ai.js';
-import { AI_PROVIDERS } from '../config/providers.js';
-import { DAILY_LIMITS } from '../config/index.js';
-import { fetchWebSearch, fetchStockData } from '../services/external.js';
+import { checkRateLimit, validateCSRF, ValidationSchemas } from '../../services/security.js';
+import { getStore, getUsage, addUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, getLastAssistantMessage } from '../../services/memory.js';
+import { getAvailableProviders, getProviderConfig, selectProviderAndModel } from '../../services/ai.js';
+import { AI_PROVIDERS } from '../../config/providers.js';
+import { DAILY_LIMITS } from '../../config/index.js';
+import { fetchWebSearch, fetchStockData } from '../../services/external.js';
 import { ErrorTracker } from './errors.js';
 
 function simpleHash(str) {
@@ -101,7 +101,7 @@ export function setupChatRoutes(app, metrics) {
        const { message, history, context, session_id, agent_type, force_provider, skill_context, project } = body;
       
       // Use Multi-Agent Router
-      const { routeAgent } = await import('../services/agents.js');
+      const { routeAgent } = await import('../../services/agents.js');
       const agentResult = await routeAgent(c, message, { messages: history });
       if (agentResult && agentResult.reply) {
         // Log history and return
@@ -204,7 +204,7 @@ export function setupChatRoutes(app, metrics) {
 
       // Inject Brain (Global Knowledge Base) Context dynamically
       try {
-        const { searchSemanticMemory } = await import('../services/memory.js');
+        const { searchSemanticMemory } = await import('../../services/memory.js');
         const memoryResults = await searchSemanticMemory(c.env, cleaned || message, 3, 0.65);
         if (memoryResults && memoryResults.length > 0) {
           systemPromptParts.push(

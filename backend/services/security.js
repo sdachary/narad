@@ -1,4 +1,4 @@
-import { RATE_LIMIT, CSRF_TRUSTED_ORIGINS } from '../config/index.js';
+import { RATE_LIMIT, CSRF_TRUSTED_ORIGINS } from '../../config/index.js';
 import { getStore } from './memory.js';
 
 export class CSRFTokenManager {

@@ -1,4 +1,4 @@
-import { AI_BUDGET_CONFIG, SEMANTIC_MEMORY_CONFIG, EMBEDDING_MODEL } from '../config/index.js';
+import { AI_BUDGET_CONFIG, SEMANTIC_MEMORY_CONFIG, EMBEDDING_MODEL } from '../../config/index.js';
 
 const embeddingCache = new Map();
 const embeddingBudget = { used: 0, resetAt: getTomorrowMidnight() };
