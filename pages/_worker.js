@@ -164,31 +164,6 @@ app.get('/api/warehouse', async (c) => {
   });
 });
 
-app.get('/api/warehouse/:agentId', async (c) => {
-  const agentId = c.req.param('agentId');
-  
-  const WAREHOUSE_AGENTS = (await import('./config/agents.js')).WAREHOUSE_AGENTS;
-  
-  if (WAREHOUSE_AGENTS[agentId]) {
-    return c.json({
-      id: agentId,
-      ...WAREHOUSE_INDEX[agentId],
-      systemPrompt: WAREHOUSE_AGENTS[agentId].systemPrompt
-    });
-  }
-  
-  if (SUBAGENTS[agentId]) {
-    return c.json({
-      id: agentId,
-      name: SUBAGENTS[agentId].name,
-      icon: SUBAGENTS[agentId].icon,
-      systemPrompt: SUBAGENTS[agentId].systemPrompt
-    });
-  }
-  
-  return c.json({ error: 'Agent not found' }, 404);
-});
-
 app.post('/api/feedback', async (c) => {
   const { validateCSRF, ValidationSchemas } = await import('./services/security.js');
   
