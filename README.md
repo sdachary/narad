@@ -68,11 +68,31 @@ Prometheus metrics are available at `/api/metrics`.
 
 ## Deployment
 
-### Cloudflare Pages
+### New Folder Structure
+```
+narad/
+├── frontend/      # React app (Vite)
+├── backend/       # Cloudflare Workers (Hono)
+│   ├── routes/   # API endpoints
+│   ├── services/ # Business logic
+│   └── config/  # Configuration
+├── content/      # Static markdown
+├── pages/        # _worker.js entry
+└── dist/        # Build output
+```
+
+### Deploy to Cloudflare
+
 ```bash
+# 1. Clone and install
 git clone https://github.com/sdachary/narad.git
 cd narad
 npm install
+
+# 2. Build
+npm run build
+
+# 3. Deploy (builds + deploys)
 npm run deploy
 ```
 
