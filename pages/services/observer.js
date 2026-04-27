@@ -38,11 +38,6 @@ export const SERVICES = {
     url: 'https://social-blueprint-ai.pages.dev/api/health',
     name: 'Social Blueprint AI',
     expectedStatus: 'ok'
-  },
-  'mcp-hub': {
-    url: 'http://localhost:3000',
-    name: 'MCP Hub',
-    expectedStatus: 'ok'
   }
 };
 

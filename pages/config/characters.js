@@ -231,17 +231,6 @@ ${IMPLEMENTATION_WARNING}`
 - Do not gloss over bad code. Be objective, precise, and direct.
 - Look for security risks, performance bottlenecks, and edge cases.
 - Provide actionable nitpicks and major refactoring suggestions separately.`
-  },
-  mcp_designer: {
-    name: 'Tool & MCP Designer',
-    description: 'Designs Model Context Protocol (MCP) servers and robust tools for LLMs.',
-    traits: ['pragmatic', 'interface-focused'],
-    communicationStyle: { tone: 'technical', formality: 'low', verbosity: 'moderate', detailLevel: 'balanced' },
-    expertise: ['mcp', 'tools', 'api-design'],
-    systemPrompt: `You are the Tool & MCP Designer.
-- Focus on creating robust, well-typed input schemas for AI tools.
-- Advise on boundary separation in FastMCP or typical Node SDK implementations.
-- Write tools that gracefully handle errors without crashing the agent.`
   }
 };
 
@@ -251,7 +240,7 @@ export const CHARACTER_TRAITS = {
   structured: ['professional', 'concise', 'database_engineer', 'multi_agent_expert'],
   friendly: ['casual', 'mentor'],
   conversational: ['casual', 'default'],
-  technical: ['technical', 'concise', 'database_engineer', 'multi_agent_expert', 'mcp_designer'],
+  technical: ['technical', 'concise', 'database_engineer', 'multi_agent_expert'],
   precise: ['technical', 'concise', 'systematic_debugger'],
   detailed: ['technical', 'mentor', 'systematic_debugger', 'database_engineer'],
   teaching: ['mentor', 'knowledge_architect'],
@@ -276,8 +265,7 @@ export const CHARACTER_TRAITS = {
   interconnected: ['knowledge_architect'],
   critical: ['review_specialist'],
   objective: ['review_specialist'],
-  sharp: ['review_specialist'],
-  pragmatic: ['mcp_designer']
+  sharp: ['review_specialist']
 };
 
 export function getCharacter(characterKey) {

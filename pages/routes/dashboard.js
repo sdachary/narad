@@ -35,39 +35,9 @@ export function setupDashboardRoutes(app) {
       },
       lastUpdate: new Date().toISOString()
     });
+});
   });
-  
-  // GET /api/dashboard/mcp - MCP Hub health check
-  app.get('/api/dashboard/mcp', async (c) => {
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000);
-      
-      const start = Date.now();
-      const response = await fetch('http://localhost:3000', {
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-      
-      const duration = Date.now() - start;
-      
-      return c.json({
-        service: 'mcp-hub',
-        status: response.ok ? 'ok' : 'error',
-        statusCode: response.status,
-        responseTimeMs: duration,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      return c.json({
-        service: 'mcp-hub',
-        status: 'offline',
-        error: error.message,
-        timestamp: new Date().toISOString()
-      }, 503);
-    }
-  });
-  
+
   // GET /api/dashboard/quick-actions - Common actions
   app.get('/api/dashboard/quick-actions', async (c) => {
     return c.json({
@@ -75,8 +45,7 @@ export function setupDashboardRoutes(app) {
         { id: 'flush-cache', name: 'Flush Semantic Cache', icon: 'zap', endpoint: '/api/memory/clear', method: 'DELETE' },
         { id: 'sync-sessions', name: 'Sync Cloud Sessions', icon: 'refresh', endpoint: '/api/sessions/sync', method: 'POST' },
         { id: 'run-observer', name: 'Trigger Health Check', icon: 'activity', endpoint: '/api/cron/observer', method: 'GET' },
-        { id: 'daily-summary', name: 'Generate Daily Summary', icon: 'file-text', endpoint: '/api/reporter/daily-summary', method: 'GET' },
-        { id: 'mcp-connect', name: 'Reconnect MCP Hub', icon: 'link', endpoint: '/api/mcp/connect', method: 'POST' }
+        { id: 'daily-summary', name: 'Generate Daily Summary', icon: 'file-text', endpoint: '/api/reporter/daily-summary', method: 'GET' }
       ],
       timestamp: new Date().toISOString()
     });
