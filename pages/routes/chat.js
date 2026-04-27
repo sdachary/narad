@@ -263,7 +263,7 @@ export function setupChatRoutes(app, metrics) {
                          (searchTriggers.some(t => lowerMessage.includes(t)) && !lowerMessage.includes('price') && !lowerMessage.includes('share'));
       
 if (lowerMessage.startsWith('/brain')) {
-         return c.json({ reply: 'Brain service unavailable. Use MCP Hub skills at localhost:3000', session_id, metadata: { command: 'brain' } });
+         return c.json({ reply: 'Brain service unavailable. Use skill at /api/skills instead', session_id, metadata: { command: 'brain' } });
        }
        
        if (shouldSearch) {

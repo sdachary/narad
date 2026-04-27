@@ -10,7 +10,6 @@ import { csrfManager } from './services/security.js';
 import { getStore, getUsage, getRemaining, isWithinLimit, getChatHistory, saveChatHistory, clearSemanticMemory, getEmbeddingBudget, generateEmbedding, storeSemanticMemory, searchSemanticMemory } from './services/memory.js';
 import { initializeRAGIndex, addDocumentToRAG, searchRAG, deleteDocumentFromRAG, getRAGStats } from './services/rag.js';
 import { webSearch, scrapeUrl, multiProviderSearch } from './services/search.js';
-import { mcpConnect, mcpQuery, mcpDisconnect, listAvailableConnectors } from './services/mcp.js';
 import { initializeMemoryDB, saveMemory, searchMemories, getMemoryStats } from './services/sqlite-memory.js';
 import { saveVerification, getVerificationStats, verifyTruth } from './services/verification.js';
 import { CHARACTERS, getCharacter, listCharacters, getCharacterByTrait, getCharacterSystemPrompt } from './config/characters.js';
@@ -563,44 +562,6 @@ app.post('/api/search/multi', async (c) => {
   
   const results = await multiProviderSearch(query, { providers, limit, apiKeys });
   return c.json(results);
-});
-
-app.post('/api/mcp/connect', async (c) => {
-  const { connectorType, config } = await c.req.json();
-  
-  if (!connectorType) {
-    return c.json({ error: 'connectorType is required' }, 400);
-  }
-  
-  const result = await mcpConnect(c.env, connectorType, config || {});
-  return c.json(result);
-});
-
-app.post('/api/mcp/query', async (c) => {
-  const { connectorId, query } = await c.req.json();
-  
-  if (!connectorId || !query) {
-    return c.json({ error: 'connectorId and query are required' }, 400);
-  }
-  
-  const result = await mcpQuery(c.env, connectorId, query);
-  return c.json(result);
-});
-
-app.post('/api/mcp/disconnect', async (c) => {
-  const { connectorId } = await c.req.json();
-  
-  if (!connectorId) {
-    return c.json({ error: 'connectorId is required' }, 400);
-  }
-  
-  const result = await mcpDisconnect(connectorId);
-  return c.json(result);
-});
-
-app.get('/api/mcp/connectors', async (c) => {
-  const result = listAvailableConnectors();
-  return c.json({ connectors: result });
 });
 
 app.post('/api/verification/verify', async (c) => {
