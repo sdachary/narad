@@ -1,5 +1,5 @@
-import { AI_PROVIDERS, PROVIDER_FALLBACK_ORDER, PROVIDER_ROUTING } from '../config/providers.js';
-import { getCharacter, getCharacterSystemPrompt } from '../config/characters.js';
+import { AI_PROVIDERS, PROVIDER_FALLBACK_ORDER, PROVIDER_ROUTING } from '../../config/providers.js';
+import { getCharacter, getCharacterSystemPrompt } from '../../config/characters.js';
 
 const MAX_RETRIES = 3;
 const INITIAL_DELAY_MS = 1000;
