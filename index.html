@@ -1,17 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>narad</title>
-    <meta name="description" content="OpenCode-inspired terminal AI chat">
-    <meta name="theme-color" content="#1a1a1a">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narad — tools</title>
+<style>
+  :root{
+    --bg: #0b0f14;
+    --panel: #121922;
+    --panel-2: #17202b;
+    --line: #23303d;
+    --text: #e7ecf1;
+    --muted: #7c8894;
+    --amber: #e8a33d;
+    --teal: #2fa39a;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; min-height:100%;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(47,163,154,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(232,163,61,0.06), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+  }
+  .wrap{
+    min-height:100%; display:flex; flex-direction:column; align-items:center;
+    padding:48px 16px 64px;
+  }
+  header{ text-align:center; margin-bottom:36px; }
+  .brand{ font-family:var(--mono); font-weight:600; font-size:18px; letter-spacing:0.06em; }
+  .brand span{ color:var(--amber); }
+  .sub{ font-size:12px; color:var(--muted); font-family:var(--mono); margin-top:4px; }
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:14px; width:100%; max-width:700px;
+  }
+  .card{
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    border:1px solid var(--line); border-radius:14px;
+    padding:22px 20px; position:relative; overflow:hidden;
+    text-decoration:none; color:var(--text);
+    transition:border-color .2s, transform .15s;
+  }
+  .card:hover{ border-color:var(--teal); transform:translateY(-2px); }
+  .card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--line); transition:background .3s;
+  }
+  .card:hover::before{ background:var(--teal); }
+  .tool-name{ font-family:var(--mono); font-weight:600; font-size:15px; letter-spacing:0.04em; }
+  .tool-name span{ color:var(--amber); }
+  .tool-desc{ font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:6px; }
+  footer{ max-width:560px; text-align:center; color:var(--muted); font-family:var(--mono); font-size:10.5px; margin-top:32px; line-height:1.6; }
+</style>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="module" src="/frontend/main.jsx"></script>
+<div class="wrap">
+  <header>
+    <div class="brand">NARAD<span>//</span>TOOLS</div>
+    <div class="sub">standalone browser utilities</div>
+  </header>
+  <div class="grid">
+    <a class="card" href="sandesh/">
+      <div class="tool-name">SANDESH</div>
+      <div class="tool-desc">Local network file transfer via WebRTC. Pair two devices with a 6-digit code and send files directly browser-to-browser.</div>
+    </a>
+    <a class="card" href="drishti/">
+      <div class="tool-name">DRISHTI</div>
+      <div class="tool-desc">Read-only file scanner. Point it at a folder and it reports which files fail to open — nothing is modified.</div>
+    </a>
+    <a class="card" href="shuddhi/">
+      <div class="tool-name">SHUDDHI</div>
+      <div class="tool-desc">Clean a compromised Windows PC. Step-by-step guide with a built-in scanner script — no tech knowledge needed.</div>
+    </a>
+  </div>
+  <footer>All tools run entirely in your browser. Nothing is uploaded or stored remotely.</footer>
+</div>
 </body>
 </html>

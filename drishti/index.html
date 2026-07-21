@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drishti — Unreadable File Scanner</title>
+<style>
+  :root{
+    --bg: #0b0f14;
+    --panel: #121922;
+    --panel-2: #17202b;
+    --line: #23303d;
+    --text: #e7ecf1;
+    --muted: #7c8894;
+    --amber: #e8a33d;
+    --teal: #2fa39a;
+    --red: #d9534f;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(47,163,154,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(232,163,61,0.06), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+  }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  .wrap{ min-height:100%; display:flex; flex-direction:column; align-items:center; padding:32px 16px 64px; }
+  header{ width:100%; max-width:560px; display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; }
+  .brand{ font-family:var(--mono); font-weight:600; font-size:15px; letter-spacing:0.06em; }
+  .brand span{ color:var(--amber); }
+  .tagline{ font-size:11px; color:var(--muted); font-family:var(--mono); letter-spacing:0.03em; }
+
+  .card{
+    width:100%; max-width:560px;
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    border:1px solid var(--line); border-radius:14px;
+    padding:26px 24px; margin-bottom:16px;
+    position:relative; overflow:hidden;
+  }
+  .card::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--line); transition:background .4s ease; }
+  .card.ok::before{ background:var(--teal); }
+  .card.warn::before{ background:var(--amber); }
+  .card.bad::before{ background:var(--red); }
+
+  .eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .notice{
+    background:rgba(47,163,154,0.08); border:1px solid rgba(47,163,154,0.35);
+    border-radius:10px; padding:12px 14px; font-size:12.5px; line-height:1.6; color:var(--text);
+    margin-bottom:18px;
+  }
+  .notice b{ color:var(--teal); }
+  .warn-notice{
+    background:rgba(217,83,79,0.08); border:1px solid rgba(217,83,79,0.35);
+    border-radius:10px; padding:12px 14px; font-size:12.5px; line-height:1.6; color:var(--text);
+    margin-bottom:18px;
+  }
+  .warn-notice b{ color:var(--red); }
+
+  .mode-row{ display:flex; gap:10px; margin-bottom:18px; }
+  .mode-opt{
+    flex:1; border:1px solid var(--line); border-radius:10px; padding:12px 14px; cursor:pointer;
+    transition:border-color .2s, background .2s;
+  }
+  .mode-opt.selected{ border-color:var(--teal); background:rgba(47,163,154,0.08); }
+  .mode-opt .m-title{ font-family:var(--mono); font-size:13px; font-weight:600; margin-bottom:3px; }
+  .mode-opt .m-desc{ font-size:11.5px; color:var(--muted); line-height:1.4; }
+
+  .big-btn{
+    width:100%; background:var(--teal); color:#04211d; border:none; border-radius:10px;
+    font-family:var(--mono); font-weight:600; font-size:14px; letter-spacing:0.03em;
+    padding:14px; cursor:pointer; transition:filter .15s;
+  }
+  .big-btn:hover{ filter:brightness(1.08); }
+  .big-btn:disabled{ background:#2b3944; color:var(--muted); cursor:not-allowed; }
+  .ghost-btn{
+    background:none; border:1px solid var(--line); color:var(--text);
+    font-family:var(--mono); font-size:12px; padding:9px 16px; border-radius:8px; cursor:pointer;
+  }
+  .ghost-btn:hover{ border-color:var(--red); color:var(--red); }
+
+  .stat-row{ display:flex; gap:14px; margin:16px 0 10px; }
+  .stat{ flex:1; text-align:center; }
+  .stat .n{ font-family:var(--mono); font-weight:700; font-size:24px; }
+  .stat .l{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin-top:2px; }
+  .stat.n-teal .n{ color:var(--teal); }
+  .stat.n-red .n{ color:var(--red); }
+
+  .current-path{
+    font-family:var(--mono); font-size:11.5px; color:var(--muted);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:9px 12px; margin-top:10px;
+  }
+
+  .results{ max-height:340px; overflow-y:auto; margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+  .result-item{
+    background:var(--bg); border:1px solid rgba(217,83,79,0.3); border-radius:8px; padding:10px 12px;
+  }
+  .r-path{ font-family:var(--mono); font-size:12px; color:var(--text); word-break:break-all; }
+  .r-meta{ font-family:var(--mono); font-size:10.5px; color:var(--muted); margin-top:4px; }
+  .r-err{ font-family:var(--mono); font-size:10.5px; color:var(--red); margin-top:2px; }
+
+  .empty-note{ font-size:12.5px; color:var(--muted); text-align:center; padding:20px 0; }
+  .action-row{ display:flex; gap:10px; margin-top:16px; }
+  .action-row .ghost-btn{ flex:1; text-align:center; }
+
+  .hidden{ display:none !important; }
+  footer{ max-width:560px; text-align:center; color:var(--muted); font-family:var(--mono); font-size:10.5px; margin-top:8px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">DRISHTI<span>//</span>NARAD</div>
+    <div class="tagline">read-only unreadable file scanner</div>
+  </header>
+
+  <div class="notice">
+    <b>What this does:</b> scans a folder you choose and reports which files fail to open or read — nothing is deleted, moved, or modified. Review the list yourself and decide what to do with each file.
+  </div>
+
+  <div class="warn-notice" id="unsupportedNotice" style="display:none;">
+    <b>Not supported in this browser.</b> This tool needs the File System Access API, currently available in Chrome, Edge, and other Chromium-based browsers on desktop. Firefox and Safari can't grant folder access to a web page yet.
+  </div>
+
+  <div class="card" id="setupCard">
+    <div class="eyebrow">Scan mode</div>
+    <div class="mode-row">
+      <div class="mode-opt selected" data-mode="quick" id="modeQuick">
+        <div class="m-title">Quick check</div>
+        <div class="m-desc">Tries opening each file and reading a small sample. Fast — good first pass.</div>
+      </div>
+      <div class="mode-opt" data-mode="thorough" id="modeThorough">
+        <div class="m-title">Thorough scan</div>
+        <div class="m-desc">Reads every file fully, start to end. Slower, catches errors mid-file.</div>
+      </div>
+    </div>
+    <button class="big-btn" id="pickFolderBtn">Select folder to scan</button>
+  </div>
+
+  <div class="card hidden" id="progressCard">
+    <div class="eyebrow">Scanning</div>
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="scannedCount">0</div><div class="l">scanned</div></div>
+      <div class="stat n-red"><div class="n" id="failedCount">0</div><div class="l">unreadable</div></div>
+      <div class="stat"><div class="n" id="elapsedTime">0s</div><div class="l">elapsed</div></div>
+    </div>
+    <div class="current-path" id="currentPath">starting…</div>
+    <div class="action-row">
+      <button class="ghost-btn" id="cancelBtn">stop scan</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="resultsCard">
+    <div class="eyebrow">Results</div>
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="finalScanned">0</div><div class="l">files scanned</div></div>
+      <div class="stat n-red"><div class="n" id="finalFailed">0</div><div class="l">unreadable</div></div>
+      <div class="stat n-teal"><div class="n" id="finalTime">0s</div><div class="l">total time</div></div>
+    </div>
+    <div class="results" id="resultsList"></div>
+    <div class="empty-note hidden" id="emptyNote">No unreadable files found. Everything opened cleanly.</div>
+    <div class="action-row">
+      <button class="ghost-btn" id="downloadBtn">download report (.txt)</button>
+      <button class="ghost-btn" id="rescanBtn">scan another folder</button>
+    </div>
+  </div>
+
+  <footer>
+    Runs entirely in your browser. No file contents or paths are sent anywhere.
+  </footer>
+</div>
+
+<script>
+(function(){
+  const el = id => document.getElementById(id);
+  const setupCard = el('setupCard');
+  const progressCard = el('progressCard');
+  const resultsCard = el('resultsCard');
+  const pickFolderBtn = el('pickFolderBtn');
+  const cancelBtn = el('cancelBtn');
+  const rescanBtn = el('rescanBtn');
+  const downloadBtn = el('downloadBtn');
+  const modeQuick = el('modeQuick');
+  const modeThorough = el('modeThorough');
+  const scannedCountEl = el('scannedCount');
+  const failedCountEl = el('failedCount');
+  const elapsedTimeEl = el('elapsedTime');
+  const currentPathEl = el('currentPath');
+  const finalScanned = el('finalScanned');
+  const finalFailed = el('finalFailed');
+  const finalTime = el('finalTime');
+  const resultsList = el('resultsList');
+  const emptyNote = el('emptyNote');
+
+  let mode = 'quick';
+  let cancelled = false;
+  let scanned = 0;
+  let failed = [];
+  let startTime = 0;
+  let timerHandle = null;
+
+  if(!('showDirectoryPicker' in window)){
+    el('unsupportedNotice').style.display = 'block';
+    pickFolderBtn.disabled = true;
+    pickFolderBtn.textContent = 'Not available in this browser';
+  }
+
+  modeQuick.addEventListener('click', () => setMode('quick'));
+  modeThorough.addEventListener('click', () => setMode('thorough'));
+  function setMode(m){
+    mode = m;
+    modeQuick.classList.toggle('selected', m === 'quick');
+    modeThorough.classList.toggle('selected', m === 'thorough');
+  }
+
+  function fmtBytes(b){
+    if(b < 1024) return b + ' B';
+    if(b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+    if(b < 1024*1024*1024) return (b/(1024*1024)).toFixed(1) + ' MB';
+    return (b/(1024*1024*1024)).toFixed(2) + ' GB';
+  }
+  function fmtElapsed(ms){
+    const s = Math.floor(ms/1000);
+    if(s < 60) return s + 's';
+    const m = Math.floor(s/60);
+    return m + 'm ' + (s%60) + 's';
+  }
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  async function tryReadFile(fileHandle, path){
+    let file;
+    try{
+      file = await fileHandle.getFile();
+    }catch(e){
+      return { ok:false, size:0, error: 'Could not access file: ' + e.message };
+    }
+    try{
+      if(mode === 'quick'){
+        const slice = file.slice(0, Math.min(65536, file.size));
+        await slice.arrayBuffer();
+      } else {
+        const stream = file.stream();
+        const reader = stream.getReader();
+        while(true){
+          const { done } = await reader.read();
+          if(done) break;
+        }
+      }
+      return { ok:true, size:file.size };
+    }catch(e){
+      return { ok:false, size:file.size, error: e.message || 'Read failed' };
+    }
+  }
+
+  async function* walk(dirHandle, prefix){
+    for await (const [name, handle] of dirHandle.entries()){
+      if(cancelled) return;
+      const path = prefix ? prefix + '/' + name : name;
+      if(handle.kind === 'directory'){
+        yield* walk(handle, path);
+      } else {
+        yield { handle, path };
+      }
+    }
+  }
+
+  function addFailure(path, size, error){
+    failed.push({ path, size, error });
+    const item = document.createElement('div');
+    item.className = 'result-item';
+    item.innerHTML = `
+      <div class="r-path">${escapeHtml(path)}</div>
+      <div class="r-meta">${fmtBytes(size)}</div>
+      <div class="r-err">${escapeHtml(error)}</div>
+    `;
+    resultsList.appendChild(item);
+  }
+
+  function updateProgress(currentPath){
+    scannedCountEl.textContent = scanned;
+    failedCountEl.textContent = failed.length;
+    currentPathEl.textContent = currentPath;
+    elapsedTimeEl.textContent = fmtElapsed(Date.now() - startTime);
+  }
+
+  pickFolderBtn.addEventListener('click', async () => {
+    let dirHandle;
+    try{
+      dirHandle = await window.showDirectoryPicker();
+    }catch(e){
+      return;
+    }
+
+    setupCard.classList.add('hidden');
+    resultsCard.classList.add('hidden');
+    progressCard.classList.remove('hidden');
+    resultsList.innerHTML = '';
+    failed = [];
+    scanned = 0;
+    cancelled = false;
+    startTime = Date.now();
+    timerHandle = setInterval(() => {
+      elapsedTimeEl.textContent = fmtElapsed(Date.now() - startTime);
+    }, 1000);
+
+    for await (const { handle, path } of walk(dirHandle, dirHandle.name)){
+      if(cancelled) break;
+      currentPathEl.textContent = path;
+      const result = await tryReadFile(handle, path);
+      scanned++;
+      if(!result.ok){
+        addFailure(path, result.size, result.error);
+      }
+      if(scanned % 5 === 0){
+        updateProgress(path);
+        await new Promise(r => setTimeout(r, 0));
+      }
+    }
+
+    clearInterval(timerHandle);
+    finishScan();
+  });
+
+  function finishScan(){
+    progressCard.classList.add('hidden');
+    resultsCard.classList.remove('hidden');
+    finalScanned.textContent = scanned;
+    finalFailed.textContent = failed.length;
+    finalTime.textContent = fmtElapsed(Date.now() - startTime);
+    emptyNote.classList.toggle('hidden', failed.length > 0);
+  }
+
+  cancelBtn.addEventListener('click', () => {
+    cancelled = true;
+    clearInterval(timerHandle);
+    finishScan();
+  });
+
+  rescanBtn.addEventListener('click', () => {
+    resultsCard.classList.add('hidden');
+    setupCard.classList.remove('hidden');
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const lines = [
+      `Drishti scan report`,
+      `Generated: ${new Date().toString()}`,
+      `Mode: ${mode}`,
+      `Files scanned: ${scanned}`,
+      `Unreadable files: ${failed.length}`,
+      ``,
+      ...failed.map(f => `${f.path}  [${fmtBytes(f.size)}]  ${f.error}`)
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'drishti-scan-report.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+</body>
+</html>

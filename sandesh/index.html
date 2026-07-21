@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sandesh — Local File Drop</title>
+<style>
+  :root{
+    --bg: #0b0f14;
+    --panel: #121922;
+    --panel-2: #17202b;
+    --line: #23303d;
+    --text: #e7ecf1;
+    --muted: #7c8894;
+    --amber: #e8a33d;
+    --teal: #2fa39a;
+    --red: #d9534f;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(47,163,154,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(232,163,61,0.06), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+  }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  .wrap{
+    min-height:100%;
+    display:flex; flex-direction:column; align-items:center;
+    padding:32px 16px 64px;
+  }
+  header{
+    width:100%; max-width:480px;
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:28px;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:600; font-size:15px; letter-spacing:0.06em;
+    color:var(--text);
+  }
+  .brand span{color:var(--amber);}
+  .tagline{font-size:11px; color:var(--muted); font-family:var(--mono); letter-spacing:0.03em;}
+
+  .card{
+    width:100%; max-width:480px;
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 24px;
+    margin-bottom:16px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--dial-color, var(--line));
+    transition:background .4s ease;
+  }
+  .card.active::before{ background:var(--teal); }
+  .card.searching::before{ background:var(--amber); }
+
+  .label-row{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .status-dot{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:11px; color:var(--muted);
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--muted);
+  }
+  .dot.searching{ background:var(--amber); animation:pulse 1.4s ease-in-out infinite; }
+  .dot.live{ background:var(--teal); box-shadow:0 0 0 0 rgba(47,163,154,0.5); animation:none; }
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:.35; transform:scale(.8);}
+  }
+
+  .freq{
+    font-family:var(--mono); font-weight:700; font-size:44px; letter-spacing:0.05em;
+    color:var(--text);
+    display:flex; align-items:baseline; gap:10px;
+    margin:6px 0 4px;
+  }
+  .freq small{ font-size:15px; color:var(--muted); font-weight:400; }
+  .freq .hz{ font-size:15px; color:var(--amber); font-weight:500; }
+
+  .hint{ font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:8px; }
+
+  .copy-btn{
+    margin-top:14px;
+    background:none; border:1px solid var(--line); color:var(--text);
+    font-family:var(--mono); font-size:12px; padding:8px 14px; border-radius:8px;
+    cursor:pointer; letter-spacing:0.03em;
+    transition:border-color .2s, background .2s;
+  }
+  .copy-btn:hover{ border-color:var(--teal); background:rgba(47,163,154,0.08); }
+
+  .tune-row{
+    display:flex; gap:8px; margin-top:6px;
+  }
+  input.code-input{
+    flex:1; background:var(--bg); border:1px solid var(--line); color:var(--text);
+    font-family:var(--mono); font-size:20px; letter-spacing:0.15em; text-align:center;
+    padding:12px 10px; border-radius:8px; outline:none;
+  }
+  input.code-input:focus{ border-color:var(--teal); }
+  button.connect-btn{
+    background:var(--teal); color:#04211d; border:none; border-radius:8px;
+    font-family:var(--mono); font-weight:600; font-size:13px; letter-spacing:0.04em;
+    padding:0 20px; cursor:pointer;
+  }
+  button.connect-btn:disabled{ background:#2b3944; color:var(--muted); cursor:not-allowed; }
+  button.connect-btn:hover:not(:disabled){ filter:brightness(1.08); }
+
+  .waveform{
+    display:flex; align-items:flex-end; gap:3px; height:28px; margin-top:16px;
+  }
+  .waveform span{
+    width:3px; background:var(--line); border-radius:2px;
+    transition:background .3s;
+  }
+  .waveform.searching span{ background:var(--amber); animation:bar 1s ease-in-out infinite; }
+  .waveform.live span{ background:var(--teal); }
+  .waveform span:nth-child(1){height:40%; animation-delay:.0s;}
+  .waveform span:nth-child(2){height:70%; animation-delay:.1s;}
+  .waveform span:nth-child(3){height:100%; animation-delay:.2s;}
+  .waveform span:nth-child(4){height:55%; animation-delay:.3s;}
+  .waveform span:nth-child(5){height:85%; animation-delay:.4s;}
+  .waveform span:nth-child(6){height:35%; animation-delay:.5s;}
+  .waveform span:nth-child(7){height:65%; animation-delay:.6s;}
+  .waveform span:nth-child(8){height:45%; animation-delay:.7s;}
+  @keyframes bar{
+    0%,100%{ transform:scaleY(0.5); opacity:.6; }
+    50%{ transform:scaleY(1); opacity:1; }
+  }
+
+  .dropzone{
+    border:1.5px dashed var(--line); border-radius:12px;
+    padding:28px 18px; text-align:center; cursor:pointer;
+    transition:border-color .2s, background .2s;
+    font-family:var(--mono); font-size:13px; color:var(--muted);
+  }
+  .dropzone.enabled{ border-color:var(--teal); color:var(--text); cursor:pointer; }
+  .dropzone.enabled:hover{ background:rgba(47,163,154,0.06); }
+  .dropzone.drag{ background:rgba(47,163,154,0.12); border-color:var(--teal); }
+  .dropzone .big{ font-size:14px; margin-bottom:4px; color:var(--text); }
+
+  .transfer-list{ display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+  .transfer{
+    background:var(--bg); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px;
+  }
+  .t-top{ display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:8px; }
+  .t-name{ font-family:var(--mono); color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:260px; }
+  .t-meta{ color:var(--muted); font-family:var(--mono); font-size:11px; }
+  .bar-track{ height:5px; background:var(--panel-2); border-radius:4px; overflow:hidden; }
+  .bar-fill{ height:100%; background:var(--teal); width:0%; transition:width .15s ease; }
+  .bar-fill.err{ background:var(--red); }
+  .t-actions{ margin-top:8px; }
+  .t-actions a{
+    font-family:var(--mono); font-size:11.5px; color:var(--amber); text-decoration:none;
+    border-bottom:1px solid rgba(232,163,61,0.4);
+  }
+
+  footer{
+    max-width:480px; text-align:center; color:var(--muted); font-family:var(--mono);
+    font-size:10.5px; margin-top:8px; line-height:1.6;
+  }
+  .hidden{ display:none !important; }
+  input[type=file]{ display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">SANDESH<span>//</span>NARAD</div>
+    <div class="tagline">local network file transfer</div>
+  </header>
+
+  <div class="card searching" id="sessionCard">
+    <div class="label-row">
+      <div class="eyebrow">Your channel</div>
+      <div class="status-dot"><span class="dot searching" id="statusDot"></span><span id="statusText">opening…</span></div>
+    </div>
+    <div class="freq">
+      <span class="hz">#</span><span id="myCode">------</span>
+    </div>
+    <div class="hint">Open this same page on the other device (same Wi-Fi network works best) and enter this code to connect.</div>
+    <button class="copy-btn" id="copyBtn">copy code</button>
+    <div class="waveform searching" id="waveform">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="card" id="connectCard">
+    <div class="label-row">
+      <div class="eyebrow">Tune to a channel</div>
+    </div>
+    <div class="tune-row">
+      <input type="text" class="code-input" id="peerCodeInput" placeholder="000000" maxlength="6" inputmode="numeric">
+      <button class="connect-btn" id="connectBtn">connect</button>
+    </div>
+    <div class="hint" id="connectHint">Enter the code shown on the other device.</div>
+  </div>
+
+  <div class="card" id="fileCard">
+    <div class="label-row">
+      <div class="eyebrow">Send a file</div>
+    </div>
+    <div class="dropzone" id="dropzone">
+      <div class="big">drag a file here, or click to browse</div>
+      <div>connect to a peer first</div>
+    </div>
+    <input type="file" id="fileInput">
+    <div class="transfer-list" id="transferList"></div>
+  </div>
+
+  <footer>
+    Files transfer directly between browsers over WebRTC.<br>
+    A public broker is used only to introduce the two devices — no file data passes through it.
+  </footer>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+(function(){
+  const PREFIX = "freqdrop-";
+  const CHUNK_SIZE = 64 * 1024;
+  const BUFFERED_AMOUNT_LOW = 1 * 1024 * 1024;
+
+  const el = (id) => document.getElementById(id);
+  const myCodeEl = el('myCode');
+  const statusDot = el('statusDot');
+  const statusText = el('statusText');
+  const sessionCard = el('sessionCard');
+  const waveform = el('waveform');
+  const connectCard = el('connectCard');
+  const connectBtn = el('connectBtn');
+  const peerCodeInput = el('peerCodeInput');
+  const connectHint = el('connectHint');
+  const dropzone = el('dropzone');
+  const fileInput = el('fileInput');
+  const transferList = el('transferList');
+  const copyBtn = el('copyBtn');
+
+  let peer = null;
+  let conn = null;
+  let myCode = null;
+  let incoming = null;
+
+  function genCode(){
+    return String(Math.floor(100000 + Math.random() * 900000));
+  }
+
+  function setStatus(state, text){
+    statusText.textContent = text;
+    statusDot.className = 'dot ' + state;
+    waveform.className = 'waveform ' + state;
+    sessionCard.className = 'card ' + state;
+  }
+
+  function setConnected(isConnected){
+    if(isConnected){
+      dropzone.classList.add('enabled');
+      const subline = dropzone.querySelectorAll('div')[1];
+      if(subline) subline.textContent = 'ready to send';
+      connectCard.classList.add('hidden');
+    } else {
+      dropzone.classList.remove('enabled');
+    }
+  }
+
+  function initPeer(){
+    myCode = genCode();
+    myCodeEl.textContent = myCode;
+    peer = new Peer(PREFIX + myCode, { debug: 0 });
+
+    peer.on('open', () => {
+      setStatus('searching', 'waiting for peer…');
+    });
+
+    peer.on('connection', (c) => {
+      bindConnection(c);
+    });
+
+    peer.on('error', (err) => {
+      console.error('peer error', err);
+      if(err.type === 'unavailable-id'){
+        initPeer();
+      } else if (err.type === 'peer-unavailable') {
+        connectHint.textContent = 'No device found with that code. Check it and try again.';
+        connectHint.style.color = 'var(--red)';
+        connectBtn.disabled = false;
+        connectBtn.textContent = 'connect';
+      } else {
+        setStatus('searching', 'connection error — reload to retry');
+      }
+    });
+  }
+
+  function bindConnection(c){
+    conn = c;
+    conn.on('open', () => {
+      setStatus('live', 'connected');
+      setConnected(true);
+    });
+    conn.on('data', handleIncomingData);
+    conn.on('close', () => {
+      setStatus('searching', 'peer disconnected');
+      setConnected(false);
+      conn = null;
+    });
+    conn.on('error', (e) => console.error('conn error', e));
+  }
+
+  connectBtn.addEventListener('click', () => {
+    const code = peerCodeInput.value.trim();
+    if(!/^\d{6}$/.test(code)){
+      connectHint.textContent = 'Enter the 6-digit code exactly as shown.';
+      connectHint.style.color = 'var(--red)';
+      return;
+    }
+    connectHint.style.color = 'var(--muted)';
+    connectHint.textContent = 'Connecting…';
+    connectBtn.disabled = true;
+    connectBtn.textContent = 'connecting…';
+    const c = peer.connect(PREFIX + code, { reliable: true });
+    bindConnection(c);
+  });
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(myCode).then(() => {
+      copyBtn.textContent = 'copied ✓';
+      setTimeout(() => copyBtn.textContent = 'copy code', 1500);
+    });
+  });
+
+  dropzone.addEventListener('click', () => { if(conn) fileInput.click(); });
+  fileInput.addEventListener('change', (e) => {
+    if(e.target.files[0]) sendFile(e.target.files[0]);
+  });
+  ['dragover','dragenter'].forEach(evt => dropzone.addEventListener(evt, (e) => {
+    e.preventDefault();
+    if(conn) dropzone.classList.add('drag');
+  }));
+  ['dragleave','drop'].forEach(evt => dropzone.addEventListener(evt, (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('drag');
+  }));
+  dropzone.addEventListener('drop', (e) => {
+    if(!conn) return;
+    const f = e.dataTransfer.files[0];
+    if(f) sendFile(f);
+  });
+
+  function makeTransferRow(name, size, direction){
+    const row = document.createElement('div');
+    row.className = 'transfer';
+    row.innerHTML = `
+      <div class="t-top">
+        <span class="t-name">${direction === 'up' ? '\u2191 ' : '\u2193 '}${escapeHtml(name)}</span>
+        <span class="t-meta">${formatBytes(size)}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill"></div></div>
+      <div class="t-actions"></div>
+    `;
+    transferList.prepend(row);
+    return {
+      row,
+      setProgress(pct){ row.querySelector('.bar-fill').style.width = pct + '%'; },
+      setError(){ row.querySelector('.bar-fill').classList.add('err'); },
+      setDownload(url, fname){
+        const a = document.createElement('a');
+        a.href = url; a.download = fname; a.textContent = 'save file';
+        row.querySelector('.t-actions').appendChild(a);
+      }
+    };
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function formatBytes(b){
+    if(b < 1024) return b + ' B';
+    if(b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+    return (b/(1024*1024)).toFixed(1) + ' MB';
+  }
+
+  async function sendFile(file){
+    if(!conn || conn.open === false) return;
+    const ui = makeTransferRow(file.name, file.size, 'up');
+
+    conn.send({ type: 'meta', name: file.name, size: file.size, mime: file.type });
+
+    const dc = conn.dataChannel;
+    let offset = 0;
+
+    async function sendNextChunk(){
+      if(offset >= file.size){
+        conn.send({ type: 'done' });
+        ui.setProgress(100);
+        return;
+      }
+      if(dc && dc.bufferedAmount > BUFFERED_AMOUNT_LOW){
+        dc.onbufferedamountlow = () => {
+          dc.onbufferedamountlow = null;
+          sendNextChunk();
+        };
+        return;
+      }
+      const slice = file.slice(offset, offset + CHUNK_SIZE);
+      const buf = await slice.arrayBuffer();
+      conn.send({ type: 'chunk', data: buf });
+      offset += buf.byteLength;
+      ui.setProgress(Math.min(100, Math.round((offset / file.size) * 100)));
+      setTimeout(sendNextChunk, 0);
+    }
+    sendNextChunk();
+  }
+
+  function handleIncomingData(msg){
+    if(msg.type === 'meta'){
+      incoming = {
+        name: msg.name, size: msg.size, mime: msg.mime || 'application/octet-stream',
+        chunks: [], received: 0,
+        ui: makeTransferRow(msg.name, msg.size, 'down')
+      };
+    } else if(msg.type === 'chunk' && incoming){
+      incoming.chunks.push(msg.data);
+      incoming.received += msg.data.byteLength;
+      incoming.ui.setProgress(Math.min(100, Math.round((incoming.received / incoming.size) * 100)));
+    } else if(msg.type === 'done' && incoming){
+      const blob = new Blob(incoming.chunks, { type: incoming.mime });
+      const url = URL.createObjectURL(blob);
+      incoming.ui.setProgress(100);
+      incoming.ui.setDownload(url, incoming.name);
+      incoming = null;
+    }
+  }
+
+  initPeer();
+})();
+</script>
+</body>
+</html>
