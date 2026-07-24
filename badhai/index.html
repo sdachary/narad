@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badhai - Video Audio Extraction</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script async src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px 0;
+      border-bottom: 2px solid rgba(88, 214, 141, 0.3);
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #58d68d, #7dd999);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+
+    .card {
+      background: #262635;
+      border: 1px solid #3a3a4a;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: #58d68d;
+      box-shadow: 0 0 20px rgba(88, 214, 141, 0.1);
+    }
+
+    .card h2 {
+      color: #58d68d;
+      margin-bottom: 20px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #58d68d;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .dropzone {
+      border: 2px dashed #58d68d;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(88, 214, 141, 0.05);
+    }
+
+    .dropzone:hover {
+      background: rgba(88, 214, 141, 0.1);
+      border-color: #7dd999;
+    }
+
+    .dropzone.dragover {
+      background: rgba(88, 214, 141, 0.2);
+      border-color: #7dd999;
+      transform: scale(1.02);
+    }
+
+    .dropzone i {
+      font-size: 48px;
+      color: #58d68d;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .dropzone p {
+      color: #a0a0a0;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .dropzone-hint {
+      color: #707080;
+      font-size: 12px;
+    }
+
+    #videoFile {
+      display: none;
+    }
+
+    .file-info {
+      background: rgba(88, 214, 141, 0.1);
+      border-left: 4px solid #58d68d;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .file-info.show {
+      display: block;
+    }
+
+    .file-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .detail-item {
+      background: rgba(38, 38, 53, 0.5);
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .detail-label {
+      color: #707080;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .detail-value {
+      color: #e0e0e0;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #e0e0e0;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .format-btn {
+      padding: 10px;
+      border: 2px solid #3a3a4a;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .format-btn:hover {
+      border-color: #58d68d;
+      color: #58d68d;
+    }
+
+    .format-btn.active {
+      background: #58d68d;
+      border-color: #58d68d;
+      color: #1a1a2e;
+    }
+
+    .extraction-mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .mode-btn {
+      padding: 15px;
+      border: 2px solid #3a3a4a;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .mode-btn:hover {
+      border-color: #58d68d;
+    }
+
+    .mode-btn.active {
+      background: #58d68d;
+      border-color: #58d68d;
+      color: #1a1a2e;
+    }
+
+    .time-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .time-inputs.show {
+      display: grid;
+    }
+
+    .time-input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #e0e0e0;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .time-input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #3a3a4a;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    .time-input-group input:focus {
+      outline: none;
+      border-color: #58d68d;
+      box-shadow: 0 0 10px rgba(88, 214, 141, 0.2);
+    }
+
+    .time-preview {
+      background: rgba(88, 214, 141, 0.1);
+      border-left: 4px solid #58d68d;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 13px;
+    }
+
+    .time-preview.show {
+      display: block;
+    }
+
+    .preview-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .preview-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .preview-label {
+      color: #707080;
+    }
+
+    .preview-value {
+      color: #58d68d;
+      font-weight: 600;
+    }
+
+    .extract-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #58d68d, #7dd999);
+      border: none;
+      color: #1a1a2e;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .extract-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(88, 214, 141, 0.3);
+    }
+
+    .extract-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .progress-section {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .progress-section.show {
+      display: block;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #3a3a4a;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #58d68d, #7dd999);
+      width: 0%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px rgba(88, 214, 141, 0.5);
+    }
+
+    .status-message {
+      text-align: center;
+      color: #a0a0a0;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .status-message.success {
+      color: #58d68d;
+    }
+
+    .status-message.error {
+      color: #ff6b6b;
+    }
+
+    .video-preview {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .video-preview.show {
+      display: block;
+    }
+
+    video {
+      width: 100%;
+      max-height: 300px;
+      background: #1a1a2e;
+      border-radius: 6px;
+      border: 1px solid #3a3a4a;
+    }
+
+    .info-box {
+      background: rgba(88, 214, 141, 0.1);
+      border-left: 4px solid #58d68d;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    .warning-box {
+      background: rgba(255, 193, 7, 0.1);
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #ffc107;
+    }
+
+    .reset-btn {
+      padding: 10px 20px;
+      background: #3a3a4a;
+      border: 1px solid #3a3a4a;
+      color: #e0e0e0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .reset-btn:hover {
+      border-color: #58d68d;
+      color: #58d68d;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(88, 214, 141, 0.3);
+      border-radius: 50%;
+      border-top-color: #58d68d;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .format-info {
+      font-size: 12px;
+      color: #707080;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 600px) {
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .extraction-mode {
+        grid-template-columns: 1fr;
+      }
+
+      .time-inputs {
+        grid-template-columns: 1fr;
+      }
+
+      .format-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .file-details {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-music"></i> Badhai</h1>
+      <p>Extract audio from video files • Local processing • No uploads</p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="card">
+      <h2><i class="fas fa-cloud-upload-alt"></i> Step 1: Upload Video</h2>
+      
+      <div class="dropzone" id="dropzone">
+        <i class="fas fa-video"></i>
+        <p><strong>Drag & drop your video here</strong></p>
+        <p class="dropzone-hint">or click to browse (MP4, MKV, AVI, WebM, MOV, etc.)</p>
+      </div>
+
+      <input type="file" id="videoFile" accept="video/*">
+
+      <div class="file-info" id="fileInfo">
+        <div style="margin-bottom: 10px;">
+          <strong id="fileName"></strong>
+        </div>
+        <div class="file-details">
+          <div class="detail-item">
+            <div class="detail-label">File Size</div>
+            <div class="detail-value" id="fileSize">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Duration</div>
+            <div class="detail-value" id="fileDuration">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-preview" id="videoPreview">
+        <video id="videoElement" controls></video>
+      </div>
+
+      <div class="info-box">
+        <i class="fas fa-info-circle"></i> <strong>Privacy:</strong> All processing happens on your computer. No files are uploaded to any server.
+      </div>
+    </div>
+
+    <!-- Format Card -->
+    <div class="card">
+      <h2><i class="fas fa-cog"></i> Step 2: Choose Output Format</h2>
+      
+      <div class="form-group">
+        <label>Audio Format:</label>
+        <div class="format-grid">
+          <button class="format-btn active" data-format="mp3">
+            <i class="fas fa-music"></i> MP3
+            <div class="format-info">Best compatibility</div>
+          </button>
+          <button class="format-btn" data-format="wav">
+            <i class="fas fa-wave-square"></i> WAV
+            <div class="format-info">Lossless</div>
+          </button>
+          <button class="format-btn" data-format="aac">
+            <i class="fas fa-music"></i> AAC
+            <div class="format-info">Good quality</div>
+          </button>
+          <button class="format-btn" data-format="ogg">
+            <i class="fas fa-music"></i> OGG
+            <div class="format-info">Open format</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extraction Mode Card -->
+    <div class="card">
+      <h2><i class="fas fa-cut"></i> Step 3: Extraction Mode</h2>
+
+      <div class="extraction-mode">
+        <button class="mode-btn active" data-mode="full">
+          <i class="fas fa-arrows-alt-h"></i> Extract Full Audio
+        </button>
+        <button class="mode-btn" data-mode="segment">
+          <i class="fas fa-sliders-h"></i> Extract Segment
+        </button>
+      </div>
+
+      <!-- Time Selection for Segment Mode -->
+      <div class="time-inputs" id="timeInputs">
+        <div class="time-input-group">
+          <label for="startTime">Start Time (HH:MM:SS)</label>
+          <input type="text" id="startTime" placeholder="00:00:00" value="00:00:00">
+        </div>
+        <div class="time-input-group">
+          <label for="endTime">End Time (HH:MM:SS)</label>
+          <input type="text" id="endTime" placeholder="00:01:00" value="00:01:00">
+        </div>
+      </div>
+
+      <div class="time-preview" id="timePreview">
+        <div class="preview-row">
+          <span class="preview-label">Start Time:</span>
+          <span class="preview-value" id="previewStart">00:00:00</span>
+        </div>
+        <div class="preview-row">
+          <span class="preview-label">End Time:</span>
+          <span class="preview-value" id="previewEnd">00:01:00</span>
+        </div>
+        <div class="preview-row">
+          <span class="preview-label">Segment Duration:</span>
+          <span class="preview-value" id="previewDuration">1m 0s</span>
+        </div>
+      </div>
+
+      <div class="warning-box" id="warningBox">
+        <i class="fas fa-exclamation-triangle"></i> First time? FFmpeg will download (~30MB). This is cached for future use.
+      </div>
+    </div>
+
+    <!-- Extract Button -->
+    <div class="card">
+      <button class="extract-btn" id="extractBtn" disabled>
+        <i class="fas fa-download"></i> Extract Audio
+      </button>
+
+      <div class="progress-section" id="progressSection">
+        <div class="progress-label">
+          <span>Processing...</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="status-message" id="statusMessage">Preparing to extract...</div>
+      </div>
+
+      <button class="reset-btn" id="resetBtn" style="display: none;">
+        <i class="fas fa-redo"></i> Process Another File
+      </button>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js"></script>
+  <script>
+    const { FFmpeg, fetchFile } = FFmpeg;
+    let ffmpeg = null;
+    let videoFile = null;
+    let videoDuration = 0;
+    let selectedFormat = 'mp3';
+    let extractionMode = 'full';
+
+    // Initialize FFmpeg
+    async function initFFmpeg() {
+      if (ffmpeg?.isLoaded()) return;
+      
+      ffmpeg = new FFmpeg.FFmpeg();
+      
+      ffmpeg.on('log', ({ message }) => {
+        console.log('[FFmpeg]', message);
+      });
+
+      ffmpeg.on('progress', ({ progress }) => {
+        const percent = Math.round(progress * 100);
+        document.getElementById('progressPercent').textContent = percent + '%';
+        document.getElementById('progressFill').style.width = percent + '%';
+        
+        if (progress < 0.3) {
+          document.getElementById('statusMessage').textContent = 'Loading video...';
+        } else if (progress < 0.7) {
+          document.getElementById('statusMessage').textContent = 'Extracting audio...';
+        } else {
+          document.getElementById('statusMessage').textContent = 'Finalizing...';
+        }
+      });
+
+      try {
+        document.getElementById('statusMessage').textContent = 'Loading FFmpeg...';
+        await ffmpeg.load();
+        console.log('FFmpeg loaded successfully');
+      } catch (error) {
+        console.error('Failed to load FFmpeg:', error);
+        showError('Failed to load FFmpeg. Please try again.');
+      }
+    }
+
+    // DOM Elements
+    const dropzone = document.getElementById('dropzone');
+    const videoFileInput = document.getElementById('videoFile');
+    const extractBtn = document.getElementById('extractBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const timeInputs = document.getElementById('timeInputs');
+    const timePreview = document.getElementById('timePreview');
+    const progressSection = document.getElementById('progressSection');
+
+    // Format buttons
+    document.querySelectorAll('.format-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedFormat = btn.dataset.format;
+      });
+    });
+
+    // Mode buttons
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        extractionMode = btn.dataset.mode;
+        
+        if (extractionMode === 'segment') {
+          timeInputs.classList.add('show');
+          timePreview.classList.add('show');
+          updateTimePreview();
+        } else {
+          timeInputs.classList.remove('show');
+          timePreview.classList.remove('show');
+        }
+      });
+    });
+
+    // Time input listeners
+    document.getElementById('startTime').addEventListener('change', updateTimePreview);
+    document.getElementById('endTime').addEventListener('change', updateTimePreview);
+
+    function updateTimePreview() {
+      const startTime = document.getElementById('startTime').value;
+      const endTime = document.getElementById('endTime').value;
+
+      document.getElementById('previewStart').textContent = startTime;
+      document.getElementById('previewEnd').textContent = endTime;
+
+      const startSeconds = timeToSeconds(startTime);
+      const endSeconds = timeToSeconds(endTime);
+      const duration = endSeconds - startSeconds;
+
+      if (duration > 0) {
+        const mins = Math.floor(duration / 60);
+        const secs = Math.round(duration % 60);
+        document.getElementById('previewDuration').textContent = `${mins}m ${secs}s`;
+      }
+    }
+
+    // Dropzone handlers
+    dropzone.addEventListener('click', () => videoFileInput.click());
+    
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleVideoFile(files[0]);
+      }
+    });
+
+    videoFileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleVideoFile(e.target.files[0]);
+      }
+    });
+
+    async function handleVideoFile(file) {
+      videoFile = file;
+      
+      // Show file info
+      const fileInfo = document.getElementById('fileInfo');
+      document.getElementById('fileName').textContent = `📄 ${file.name}`;
+      document.getElementById('fileSize').textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+      fileInfo.classList.add('show');
+
+      // Create video element to get duration
+      const video = document.getElementById('videoElement');
+      const url = URL.createObjectURL(file);
+      video.src = url;
+
+      video.addEventListener('loadedmetadata', () => {
+        videoDuration = video.duration;
+        const mins = Math.floor(videoDuration / 60);
+        const secs = Math.round(videoDuration % 60);
+        document.getElementById('fileDuration').textContent = `${mins}m ${secs}s`;
+        
+        // Update end time
+        const endTimeStr = secondsToTime(videoDuration);
+        document.getElementById('endTime').value = endTimeStr;
+        updateTimePreview();
+      });
+
+      document.getElementById('videoPreview').classList.add('show');
+      extractBtn.disabled = false;
+
+      // Initialize FFmpeg
+      await initFFmpeg();
+    }
+
+    async function extractAudio() {
+      if (!videoFile || !ffmpeg) return;
+
+      progressSection.classList.add('show');
+      document.getElementById('statusMessage').classList.remove('error');
+      extractBtn.disabled = true;
+
+      try {
+        const inputName = 'input_video';
+        const outputName = `output.${selectedFormat}`;
+
+        // Clear previous files
+        try {
+          await ffmpeg.deleteFile(inputName);
+          await ffmpeg.deleteFile(outputName);
+        } catch (e) {}
+
+        // Write input file
+        document.getElementById('statusMessage').textContent = 'Reading video file...';
+        await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
+
+        // Build FFmpeg command
+        let command = ['-i', inputName];
+
+        if (extractionMode === 'segment') {
+          const startTime = document.getElementById('startTime').value;
+          const endTime = document.getElementById('endTime').value;
+          
+          command.push('-ss', startTime);
+          command.push('-to', endTime);
+        }
+
+        // Add format-specific options
+        if (selectedFormat === 'mp3') {
+          command.push('-q:a', '5', '-acodec', 'libmp3lame');
+        } else if (selectedFormat === 'wav') {
+          command.push('-acodec', 'pcm_s16le');
+        } else if (selectedFormat === 'aac') {
+          command.push('-acodec', 'aac', '-b:a', '128k');
+        } else if (selectedFormat === 'ogg') {
+          command.push('-acodec', 'libvorbis', '-q:a', '5');
+        }
+
+        command.push('-vn', outputName);
+
+        // Extract audio
+        document.getElementById('statusMessage').textContent = 'Extracting audio...';
+        await ffmpeg.exec(command);
+
+        // Download file
+        document.getElementById('statusMessage').textContent = 'Preparing download...';
+        const data = await ffmpeg.readFile(outputName);
+        const blob = new Blob([data.buffer], { type: `audio/${selectedFormat}` });
+        
+        // Generate filename
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+        const filename = `audio-${timestamp}.${selectedFormat}`;
+        
+        // Trigger download
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        document.getElementById('statusMessage').classList.add('success');
+        document.getElementById('statusMessage').textContent = `✓ Audio extracted successfully! Downloaded: ${filename}`;
+        
+        resetBtn.style.display = 'block';
+
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('statusMessage').classList.add('error');
+        document.getElementById('statusMessage').textContent = `✗ Error: ${error.message}`;
+      } finally {
+        extractBtn.disabled = false;
+      }
+    }
+
+    extractBtn.addEventListener('click', extractAudio);
+
+    resetBtn.addEventListener('click', () => {
+      location.reload();
+    });
+
+    function timeToSeconds(timeStr) {
+      const parts = timeStr.split(':');
+      if (parts.length !== 3) return 0;
+      
+      const hours = parseInt(parts[0]) || 0;
+      const minutes = parseInt(parts[1]) || 0;
+      const seconds = parseInt(parts[2]) || 0;
+      
+      return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    function secondsToTime(seconds) {
+      seconds = Math.floor(seconds);
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function showError(message) {
+      const statusMessage = document.getElementById('statusMessage');
+      statusMessage.classList.add('error');
+      statusMessage.textContent = `✗ ${message}`;
+      progressSection.classList.add('show');
+    }
+
+    // Initial time preview
+    updateTimePreview();
+  </script>
+</body>
+</html>
